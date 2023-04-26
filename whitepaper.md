@@ -36,11 +36,15 @@ The Socialcap protocol allows communities to set their own claim types, credenti
 
 Here are some potential use cases for our protocol:
 
-1. Professional certifications - Socialcap can be used to issue professional certifications for a wide range of industries, such as IT, finance, healthcare, and more. By utilizing the protocol's community-based validation process, these certifications can be more trustworthy and credible.
-2. Academic degrees - Socialcap can also be used to issue academic degrees and diplomas, ensuring that the qualifications are legitimate and earned through a transparent process.
-3. Volunteer and community work - The protocol can be used to issue credentials for volunteer work, community service, and other forms of social impact. This can incentivize people to get more involved in their local communities and recognize their contributions.
-4. Project collaboration - Socialcap can be used to validate and reward individuals who have made significant contributions to a project, such as open-source software development or scientific research.
-5. Peer recognition - The protocol can be used to recognize peer accomplishments and achievements within a community, promoting a sense of camaraderie and collaboration.
+1. Volunteer and community work - The protocol can be used to issue credentials for volunteer work, community service, and other forms of social impact. This can incentivize people to get more involved in their local communities and recognize their contributions.
+
+2. Project collaboration - Socialcap can be used to validate and reward individuals who have made significant contributions to a project, such as open-source software development or scientific research.
+
+3. Peer recognition - The protocol can be used to recognize peer accomplishments and achievements within a community, promoting a sense of camaraderie and collaboration.
+
+4. Professional certifications - Socialcap can be used to issue professional certifications for a wide range of industries, such as IT, finance, healthcare, and more. By utilizing the protocol's community-based validation process, these certifications can be more trustworthy and credible.
+
+5. Academic degrees - Socialcap can also be used to issue academic degrees and diplomas, ensuring that the qualifications are legitimate and earned through a transparent process.
 
 These are just a few examples, but the Socialcap protocol's flexibility allows it to be applied to a wide range of use cases where trust, transparency, and community participation are valued.
 
