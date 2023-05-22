@@ -2,7 +2,7 @@
 
 This contains different zkApps and other examples used for testing a feature or learning.
 
-**IMORTANT**
+**IMPORTANT**
 
 DO NOT INCLUDE ANY GIT REPOS IN THIS FOLDERS OR IN THE ANY OF THE EXAMPLES FOLDER.
 
