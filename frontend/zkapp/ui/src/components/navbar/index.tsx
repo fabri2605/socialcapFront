@@ -15,6 +15,7 @@ import {
   useBreakpointValue,
   useDisclosure,
   HStack,
+  Image
 } from "@chakra-ui/react";
 import {
   HamburgerIcon,
@@ -44,14 +45,8 @@ export default function WithSubnavigation() {
           align={"center"}
           justify={{ base: "flex-start", md: "space-between" }}
         >
-          <Text
-            textAlign={useBreakpointValue({ base: "center", md: "left" })}
-            fontFamily={"heading"}
-            color={useColorModeValue("gray.800", "white")}
-          >
-            Logo
-          </Text>
-
+         
+          <Image alt={"logo"} src={"/assets/logo.svg"}></Image>
           <Flex
             display={{ base: "none", md: "flex" }}
             mx={10}
@@ -78,10 +73,10 @@ export default function WithSubnavigation() {
           fontSize={"sm"}
           fontWeight={600}
           color={"white"}
-          bg={"blue.600"}
+          bg={"#081638"}
           href={"#"}
           _hover={{
-            bg: "blue.300",
+            bg: "#0E2865",
           }}
         >
           Request access
@@ -196,10 +191,10 @@ const MobileNav = () => {
           fontSize={"sm"}
           fontWeight={600}
           color={"white"}
-          bg={"blue.600"}
+          bg={"#081638"}
           href={"#"}
           _hover={{
-            bg: "blue.300",
+            bg: "#0E2865",
           }}
         >
           Request access
