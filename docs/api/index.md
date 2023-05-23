@@ -61,6 +61,7 @@ class QueryResponse {
 	error: {
 		code: number, // HTTP error codes
 		message: string,
+    text: string, // descr
     data: Map<string,string> // // Extra, customizable, meta data
 	}
 }
