@@ -22,7 +22,7 @@ async function queryRoutes(
     const query = (request.query as any);
     let params = {}; 
     try { 
-      params = JSON.parse(query.params || '{}'); }
+      params = JSON.parse(query.params); }
     catch (err) { 
       params = {}; 
     }

@@ -19,9 +19,10 @@ async function mutationRoutes(
     const method = (request.params as any).method;
     
     // extract call "params" from POST payload
+    const body = (request.body as any);
     let params = {}; 
     try { 
-      params = (request.body as any);
+      params = JSON.parse(body.params);
     }
     catch (err) { 
       params = {}; 
@@ -42,13 +43,16 @@ async function mutationRoutes(
     }
 
     // call the registered 'method' with given 'params'
+    // $TODO: BEGIN Transaction here
     try {
       const callFn = handler['fn'];
-      return await callFn(params);
+      const reponse = await callFn(params);
+      // $TODO: COMMIT TRANSACTION or AUTOCOMMIT ? 
     }
     catch (err) {
       const msg = `Unknown error in ${method} params=${JSON.stringify(params)}`;
       fastify.log.error(msg);
+      // $TODO: ROLLBACK TRANSACTION
       return formatError(StatusCode.UNKNOWN_ERROR, msg);
     }
   })
