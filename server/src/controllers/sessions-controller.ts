@@ -91,7 +91,8 @@ export async function login(params: {session_key: string, otp: string}) {
     return Errors.UnauthorizedError(_.session_person_not_found(session.email));
 
   // 6. Check person status just in case has been suspended, etc  
-  if (!PersonState.isAvailable(person))
+  const state = new PersonState(person);
+  if (state.isInactive())
     return Errors.UnauthorizedError(_.session_person_not_active(session.email));
 
   // 7. Generate the `authorization` JWT using the `persona uid` and extras

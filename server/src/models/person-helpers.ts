@@ -1,24 +1,30 @@
-import { pseudoRandomBytes } from "crypto";
-import { prisma } from "~/global";
 import { Person } from '@prisma/client'
 
-const ALL_STATES = [
-  'PENDING', 'ACTIVE', 'VERIFIED', 'SUSPENDED', 'DELETED'    
-];
+const 
+  ALL_STATES = ['PENDING', 'ACTIVE', 'VERIFIED', 'SUSPENDED', 'DELETED'],
+  INACTIVE_STATES = ['SUSPENDED', 'DELETED'];
 
-const INACTIVE_STATES = [
-  'SUSPENDED', 'DELETED'    
-];
+class PersonState {
+  private me: Person;
 
-const PersonState = {
+  constructor(person: Person) {
+    this.me = person;
+  };
 
-  isValid(state: string) {
+  updateState(state: string): any {
+    if (! this.isValid(state)) 
+      return null;
+    this.me.state = state.toUpperCase();
+    return this.me;
+  };
+
+  isValid(state: string): boolean {
     return ALL_STATES.includes(state.toUpperCase()); 
-  },
+  };
 
-  isAvailable(person: Person) {
-    return !INACTIVE_STATES.includes(person.state.toUpperCase());
-  }  
+  isInactive(): boolean {
+    return INACTIVE_STATES.includes(this.me.state.toUpperCase());
+  };  
 }
 
 export {
