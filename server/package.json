@@ -13,11 +13,12 @@
   },
   "prisma": {
     "seed": "ts-node prisma/seed.ts"
-  },  
+  },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "@fastify/jwt": "^7.0.0",
     "@fastify/routes": "^5.1.0",
     "@prisma/client": "^4.14.1",
     "fastify": "^4.17.0",
