@@ -16,7 +16,7 @@ create table Sessions(
 
 **Server Methods**
 
-### /mutation/request_otp
+### mutation/request_otp
 
 When the user has logged out and it's AUTHORIZATION token has been erased from the LocalStorage, the user must request a new OTP (One Time Password) to login again.
 
@@ -54,7 +54,7 @@ data: {
 - `BAD_REQUEST`: Incomplete or malformed body. Must fullfill required params.
 - `NOT_FOUND`:  User not registered. Must go to `sign_up`.
 
-### /mutation/login
+### mutation/login
 
 When the user has completed the signup or recovery phases he needs to enter the received OTP passcode, and so we can establish an authenticated and authorized connection with the server.
 
