@@ -1,11 +1,12 @@
 import { randomInt, randomUUID } from "crypto";
-import { prisma } from "~/global";
+import { fastify, prisma } from "~/global";
 import { i18n as _ } from "~/i18n/messages";
-
 import { Errors } from "~/routes/errors";
 import { formatMutationResult } from "~/routes/results";
+import { isAvailable } from "~/remodels/persons";
 
 /**
+ * requestOTP
  * @param params Object: { email }
  * @returns MutationResult
  */
@@ -56,3 +57,62 @@ export async function requestOtp(params: Object) {
   });
 }
 
+
+/**
+ * login
+ * @param params Object: { session_key, otp }
+ * @returns MutationResult
+ */
+export async function login(params: {session_key: string, otp: string}) { 
+  const sessionKey = params.session_key;
+  const otp = params.otp;
+
+  // 1. If no `session_key` or `otp` => Error BAD_REQUEST (incomplete params)
+  if (!sessionKey || !otp) 
+    return Errors.MissingParams(_.missing_param('session_key, OTP', 'login'));
+  
+  // 2. If received `session_key` NOT matchs existent in `session` table => Error BAD_REQUEST 
+  const session = await prisma.session.findUnique({
+    where: { uid: sessionKey }
+  }); 
+  if (!session) 
+    return Errors.NotFound(_.session_key_not_found());
+
+  // 3. If received `otp` NOT matchs existent in `session` table => Error UNAUTHORIZED (bad OTP)
+  if (otp.toString() !== session.otp.toString()) 
+    return Errors.UnauthorizedError(_.session_invalid_otp())
+
+  // 4. Get `email` from `sessions where session_key` 
+  // 5. Find one from `persons where email` => `person`
+  const person = await prisma.person.findUnique({
+    where: { email: session.email }
+  });
+  if (!person) 
+    return Errors.UnauthorizedError(_.session_person_not_found(session.email));
+
+  // 6. Check person status just in case has been suspended, etc  
+  if (!isAvailable(person))
+    return Errors.UnauthorizedError(_.session_person_not_active(session.email));
+
+  // 7. Generate the `authorization` JWT using the `persona uid` and extras
+  const jwt = fastify.jwt.sign({
+    uid: person.uid, 
+    session_key: sessionKey,
+    created_utc: (new Date()), 
+    expires_utc: null // no expiration for now ...
+  })
+  console.log("JWT signed=", jwt, (new Date()));
+
+  return formatMutationResult({
+    authorization: jwt,
+    profile: {
+      account_id: person.accountId,
+      full_name: person.fullName,
+      avatar: person.avatar,
+      state: person.state,
+      preferences: person.preferences || {},
+      created_utc: person.createdUtc,
+      updated_utc: person.updatedUtc
+    }
+  });
+}
