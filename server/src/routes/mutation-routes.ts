@@ -56,7 +56,7 @@ async function mutationRoutes(
     catch (err) {
       // $TODO: ROLLBACK TRANSACTION
       reply.code(UNKNOWN_ERROR).send(Errors.Unknown(
-        _.unknown_error(method, `params=${JSON.stringify(params)}`)
+        _.unknown_error(method, `params=${JSON.stringify(params)} error=${err}`)
       ));
     }
   })

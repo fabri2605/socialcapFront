@@ -1,23 +1,24 @@
-import { Person } from '@prisma/client'
+import { prisma } from "~/global";
+import { Person } from "@prisma/client";
 
 const 
   ALL_STATES = ['PENDING', 'ACTIVE', 'VERIFIED', 'SUSPENDED', 'DELETED'],
   INACTIVE_STATES = ['SUSPENDED', 'DELETED'];
 
 class PersonState {
+  static PENDING = 'PENDING';
+  static ACTIVE = 'ACTIVE';
+  static VERIFIED = 'VERIFIED';
+  static SUSPENDED = 'SUSPENDED';
+  static DELETED = 'DELETED';
+
   private me: Person;
 
   constructor(person: Person) {
     this.me = person;
   };
 
-  updateState(state: string): any {
-    if (! this.isValid(state)) 
-      return null;
-    this.me.state = state.toUpperCase();
-    return this.me;
-  };
-
+  static 
   isValid(state: string): boolean {
     return ALL_STATES.includes(state.toUpperCase()); 
   };

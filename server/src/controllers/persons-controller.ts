@@ -7,52 +7,57 @@ import { PersonState } from "~/models/person-helpers";
 
 /**
  * signUp
+ * Starts the onboarding process for a new user.
  * @param params Object: { email, ... }
  * @returns MutationResult
  */
-export async function signUp(params: Object) { 
-  const remail: string = (params as any).email;
-
-  // If no email => Error BAD_REQUEST (incomplete params)
-  if (!remail) return Errors.MissingParams(
-    _.missing_param('email', 'requestOTP')
+export async function signUp(params: {
+  full_name: string,
+  email: string,
+  phone?: string,
+  telegram?: string
+}) { 
+  // 1. If no email/full_name/account_id => Error BAD_REQUEST (incomplete params)
+  const missing = !(params.email && params.full_name);
+  if (missing) return Errors.MissingParams(
+    _.missing_param('email/full_name', 'sign_up')
   );
 
-  //If received email NOT exists in table personas => Error NOT_FOUND (does not exists)
-  const hasPerson = await prisma.person.findUnique({where: { email: remail }}); 
-  if (!hasPerson) return Errors.NotFound(
-    _.session_no_email_must_signup(remail)
+  // 2. If received email exists in `persons` table => Error CONFLICT (already exists)
+  const noPerson = await prisma.person.findUnique({
+    where: { email: params.email }
+  }); 
+  if (noPerson !== null) return Errors.Conflict(
+    _.persons_already_registered(params.email)
   );
 
-  // Generate OTP with random int up to 6 digits, 
-  // and left pad it with a random digit if less than 6 digits
-  // ej: original otp= "126", filler= "4" = > otp= "444126" 
-  let otp = randomInt(999999).toString();
-  const filler = randomInt(9).toString();
-  otp = otp.padStart(6, filler);
+  // 3. Create default values for fields 'avatar' and 'preferences'
+  const defaultAvatar = "DataURI";
+  const defaultPrefs = {};
 
-  // Create the sessionKey using a random UUID but without the dashes
-  const sessionKey = randomUUID().replace(/-/g, '');
-
-  console.log(`request_otp email=${remail} otp=${otp} sessionKey=${sessionKey}`)
-
-  // If email exists in table sessions => remove it
-  const removed = await prisma.session.deleteMany({
-    where: { email: remail }
-  });
-
-  // Now => insert into sessions(email,key,otp)
-  const hasSession = await prisma.session.create({
-    data: { email: remail, otp: otp, uid: sessionKey }
+  // 4. Insert into `personas(email, state:PENDING, ...params)` 
+  const hasPerson = await prisma.person.create({ 
+    data: { 
+      uid: randomUUID(),
+      accountId: "",
+      state: PersonState.PENDING,
+      fullName: params.full_name, 
+      email: params.email, 
+      phone: params.phone || "",
+      telegram: params.telegram || "",
+      avatar: defaultAvatar,
+      preferences: defaultPrefs,
+    }
   })
-  if (!hasSession) return Errors.DatabaseEngine(
-    _.database_error("insert into table Session")
-  );
-
-  //Send email with otp to user
-  console.log(`request_otp email=${remail} otp=${otp} sessionKey=${sessionKey}`)
-
+  if (! hasPerson) return Errors.DatabaseEngine(
+    _.database_error("insert into table Persons")
+  );  
+  
+  console.log(`sign_up params=`, params);
+  console.log(`sign_up result=`, hasPerson);
+  
+  // 5. Return the fully created Person data
   return formatMutationResult({
-    session_key: sessionKey
+    profile: hasPerson
   });
 }
