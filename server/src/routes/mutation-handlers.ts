@@ -1,5 +1,5 @@
-import { noActions } from "./no-actions";
-import { requestOtp } from "./sessions-controller";
+import { noActions } from "~/controllers/no-actions";
+import { requestOtp } from "~/controllers/sessions-controller";
 
 const mutationHandlers = {
   'no_actions': { fn: noActions, authorize: false },

@@ -4,7 +4,7 @@
 import { FastifyInstance } from "fastify";
 import { Errors, UNKNOWN_ERROR } from './errors';
 import { i18n as _ } from "~/i18n/messages";
-import mutationHandlers from '~/controllers/mutation-handlers';
+import mutationHandlers from './mutation-handlers';
 
 /**
  * A plugin that provide encapsulated routes 

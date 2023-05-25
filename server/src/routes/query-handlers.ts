@@ -1,4 +1,4 @@
-import { queryEmptySet } from "./empty-set"
+import { queryEmptySet } from "~/controllers/empty-set"
 
 const queryHandlers = {
   'get_empty_set': { fn: queryEmptySet, authorize: false }
