@@ -154,15 +154,15 @@ An the  error `code`will be in one of this categories:
 ### Sessions
 
 Methods:
-- request_OTP({email}): {result,error}
-- login({otp,session_key}): {result,error}
+- request_otp(email): {{session_key},error}
+- login(otp,session_key): {{authorization,profile},error}
 
 Details in [api-sessions.md](./api-sessions.md): 
 
 ### Persons
 
 Methods:
-- sign_up({email, ...})
+- sign_up({email, ...}): {{authorization,profile},error}
 - register_as_validator(my, communityId)
 - request_membership(my, communityId)
 - update_profile(my, {...})
