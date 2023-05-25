@@ -18,25 +18,24 @@ export async function signUp(params: {
   telegram?: string
 }) { 
   // 1. If no email/full_name/account_id => Error BAD_REQUEST (incomplete params)
-  const missing = !(params.email && params.full_name);
-  if (missing) return Errors.MissingParams(
-    _.missing_param('email/full_name', 'sign_up')
-  );
+  if (!params.email) 
+    return Errors.MissingParams(_.missing_param('email', 'sign_up'));
+  if (!params.full_name) 
+    return Errors.MissingParams(_.missing_param('full_name', 'sign_up'));
 
   // 2. If received email exists in `persons` table => Error CONFLICT (already exists)
   const noPerson = await prisma.person.findUnique({
     where: { email: params.email }
   }); 
-  if (noPerson !== null) return Errors.Conflict(
-    _.persons_already_registered(params.email)
-  );
+  if (noPerson !== null) 
+    return Errors.Conflict(_.persons_already_registered(params.email));
 
   // 3. Create default values for fields 'avatar' and 'preferences'
   const defaultAvatar = "DataURI";
   const defaultPrefs = {};
 
   // 4. Insert into `personas(email, state:PENDING, ...params)` 
-  const hasPerson = await prisma.person.create({ 
+  const person = await prisma.person.create({ 
     data: { 
       uid: randomUUID(),
       accountId: "",
@@ -49,15 +48,26 @@ export async function signUp(params: {
       preferences: defaultPrefs,
     }
   })
-  if (! hasPerson) return Errors.DatabaseEngine(
-    _.database_error("insert into table Persons")
-  );  
+  if (! person) 
+    return Errors.DatabaseEngine(_.database_error("insert into table Persons"));  
   
   console.log(`sign_up params=`, params);
-  console.log(`sign_up result=`, hasPerson);
+  console.log(`sign_up result=`, person);
   
   // 5. Return the fully created Person data
   return formatMutationResult({
-    profile: hasPerson
+    profile: {
+      uid: person.uid,
+      state: person.state,
+      email: person.email,
+      full_name: person.fullName,
+      phone: person.phone,
+      telegram: person.telegram,
+      account_id: person.accountId,
+      avatar: person.avatar,
+      preferences: person.preferences,
+      created_utc: person.createdUtc,
+      updated_utc: person.updatedUtc
+    }
   });
 }
