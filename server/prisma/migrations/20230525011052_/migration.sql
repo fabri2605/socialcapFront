@@ -52,9 +52,6 @@ CREATE TABLE "merkle_leaves" (
 CREATE UNIQUE INDEX "sessions_uid_key" ON "sessions"("uid");
 
 -- CreateIndex
-CREATE UNIQUE INDEX "sessions_email_key" ON "sessions"("email");
-
--- CreateIndex
 CREATE UNIQUE INDEX "persons_uid_key" ON "persons"("uid");
 
 -- CreateIndex
