@@ -26,7 +26,7 @@ model Session {
 
 model Person {
   uid         String   @id @unique @default(uuid())
-  accountId   String   @unique @map("account_id") @db.VarChar(36)
+  accountId   String   @map("account_id") @db.VarChar(36)
   fullName    String   @map("full_name") @db.VarChar(128)
   state       String   @db.VarChar(12) // P-Pending A-Active V-Verified S-Suspended X-Deleted  
   email       String   @unique @db.VarChar(64)
