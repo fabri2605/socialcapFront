@@ -23,10 +23,17 @@ export async function requestOtp(params: Object) {
     _.session_no_email_must_signup(remail)
   );
 
-  //Generate otp and key
-  const otp = randomInt(999999).toString().padStart(6, '1');
-  const sessionKey = randomUUID();
-  console.log(`send_session_otp otp=${otp} sessionKey=${sessionKey}`)
+  // Generate OTP with random int up to 6 digits, 
+  // and left pad it with a random digit if less than 6 digits
+  // ej: original otp= "126", filler= "4" = > otp= "444126" 
+  let otp = randomInt(999999).toString();
+  const filler = randomInt(9).toString();
+  otp = otp.padStart(6, filler);
+
+  // Create the sessionKey using a random UUID but without the dashes
+  const sessionKey = randomUUID().replace(/-/g, '');
+
+  console.log(`request_otp email=${remail} otp=${otp} sessionKey=${sessionKey}`)
 
   // If email exists in table sessions => remove it
   const removed = await prisma.session.deleteMany({
@@ -42,7 +49,7 @@ export async function requestOtp(params: Object) {
   );
 
   //Send email with otp to user
-  console.log(`send_session_otp email=${remail} otp=${otp} sessionKey=${sessionKey}`)
+  console.log(`request_otp email=${remail} otp=${otp} sessionKey=${sessionKey}`)
 
   return formatMutationResult({
     session_key: sessionKey
