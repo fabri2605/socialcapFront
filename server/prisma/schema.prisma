@@ -10,7 +10,11 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-model Sessions {
+
+//
+// Entities
+// 
+model Session {
   uid        String   @id @unique @default(uuid())
   otp        String   @db.VarChar(16)
   email      String   @db.VarChar(64)
@@ -34,4 +38,34 @@ model Person {
   updatedUtc  DateTime @updatedAt @map("updated_utc")
 
   @@map("persons")
+}
+
+
+//
+// Merkle Trees schema
+//
+model MerkleTree {
+  uid   String @id @unique @default(uuid())
+  name  String @unique
+  root  String @db.VarChar(128)
+  nodes Json   @db.Json
+  size  Int
+
+  @@map("merkle_trees")
+}
+
+model MerkleLeaf {
+  uid          String @id @unique @default(uuid())
+  merkleTreeUid String @map("merkle_tree_uid")
+  index        BigInt
+  // witness      Json   @db.Json // is this necessary ???
+
+  // stringified data which has used to build the hashed, this may not be 
+  // the full data stored in the Database for some entity but just the
+  // data needed to verify existence in the MerkleTree
+  // example: '{\"accountId\":\"0xB234...5678\"}'
+  hash String @db.VarChar(128)
+  data String @default("{}") @db.Text
+
+  @@map("merkle_leaves")
 }
