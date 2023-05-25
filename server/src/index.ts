@@ -1,12 +1,10 @@
-import Fastify from 'fastify';
+import 'module-alias/register';
+// import Fastify from 'fastify';
+import { fastify, logger } from "./global";
 import fastifyRoutes from '@fastify/routes';
 import helperRoutes from './routes/helper-routes copy';
 import queryRoutes from './routes/query-routes';
 import mutationRoutes from './routes/mutation-routes';
-
-const fastify = Fastify({
-  logger: true
-})
 
 // show all routes on server startup (just for debug)
 fastify.register(fastifyRoutes);
@@ -21,7 +19,7 @@ fastify
  */
 fastify.listen({ port: 3080 }, (err, address) => {
   if (err) {
-    fastify.log.error(err)
+    logger.error(err)
     process.exit(1)
   }
   console.log(`Server listening at ${address}`);

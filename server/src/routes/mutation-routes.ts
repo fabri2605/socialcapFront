@@ -2,8 +2,9 @@
  * Implement Mutation router
  */
 import { FastifyInstance } from "fastify";
-import { StatusCode, formatError } from './errors'
-import mutationHandlers from '../controllers/mutation-handlers';
+import { Errors, UNKNOWN_ERROR } from './errors';
+import { i18n as _ } from "~/i18n/messages";
+import mutationHandlers from '~/controllers/mutation-handlers';
 
 /**
  * A plugin that provide encapsulated routes 
@@ -14,7 +15,7 @@ async function mutationRoutes(
   fastify: FastifyInstance, 
   options: Object
 ) {
-   fastify.post('/api/query/:mutation', async (request, reply) => {
+   fastify.post('/api/mutation/:method', async (request, reply) => {
     // get the RPC method from the Url path
     const method = (request.params as any).method;
     
@@ -22,7 +23,7 @@ async function mutationRoutes(
     const body = (request.body as any);
     let params = {}; 
     try { 
-      params = JSON.parse(body.params);
+      params = body.params;
     }
     catch (err) { 
       params = {}; 
@@ -31,9 +32,9 @@ async function mutationRoutes(
     // check if requested 'method' is valid
     const handler = (mutationHandlers as any)[method];
     if (!handler) {
-      const msg = `Cannot recognize mutation procedure '${method}'`;
-      fastify.log.error(msg);
-      return formatError(StatusCode.METHOD_NOT_SUPPORTED, msg);
+      return Errors.MethodNotSupported(
+        _.method_not_supported(method)
+      );
     }
 
     // check if we need to be authorized for callling this procedure
@@ -46,14 +47,17 @@ async function mutationRoutes(
     // $TODO: BEGIN Transaction here
     try {
       const callFn = handler['fn'];
-      const reponse = await callFn(params);
+      const response = await callFn(params, fastify);
+      (response.error) 
+        ? reply.code(response.error.code).send(response)
+        : reply.send(response)
       // $TODO: COMMIT TRANSACTION or AUTOCOMMIT ? 
     }
     catch (err) {
-      const msg = `Unknown error in ${method} params=${JSON.stringify(params)}`;
-      fastify.log.error(msg);
       // $TODO: ROLLBACK TRANSACTION
-      return formatError(StatusCode.UNKNOWN_ERROR, msg);
+      reply.code(UNKNOWN_ERROR).send(Errors.Unknown(
+        _.unknown_error(method, `params=${JSON.stringify(params)}`)
+      ));
     }
   })
 }

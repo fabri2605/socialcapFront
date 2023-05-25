@@ -2,8 +2,9 @@
  * Implement Query router
  */
 import { FastifyInstance } from "fastify";
-import { StatusCode, formatError } from './errors'
-import queryHandlers from "../controllers/query-handlers";
+import { Errors, UNKNOWN_ERROR } from './errors';
+import { i18n as _ } from "~/i18n/messages";
+import queryHandlers from "~/controllers/query-handlers";
 
 /**
  * A plugin that provide encapsulated routes
@@ -30,9 +31,9 @@ async function queryRoutes(
     // check if requested 'method' is valid
     const handler = (queryHandlers as any)[method];
     if (!handler) {
-      const msg = `Cannot recognize query procedure '${method}'`;
-      fastify.log.error(msg);
-      return formatError(StatusCode.METHOD_NOT_SUPPORTED, msg);
+      return Errors.MethodNotSupported(
+        _.method_not_supported(method)
+      );
     }
 
     // check if we need to be authorized for callling this procedure
@@ -47,9 +48,9 @@ async function queryRoutes(
       return await callFn(params);
     }
     catch (err) {
-      const msg = `Unknown error in ${method} params=${JSON.stringify(params)}`;
-      fastify.log.error(msg);
-      return formatError(StatusCode.UNKNOWN_ERROR, msg);
+      reply.code(UNKNOWN_ERROR).send(Errors.Unknown(
+        _.unknown_error(method, `params=${JSON.stringify(params)}`)
+      ));
     }
   })
 }
