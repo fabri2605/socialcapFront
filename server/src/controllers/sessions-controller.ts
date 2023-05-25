@@ -3,7 +3,7 @@ import { fastify, prisma } from "~/global";
 import { i18n as _ } from "~/i18n/messages";
 import { Errors } from "~/routes/errors";
 import { formatMutationResult } from "~/routes/results";
-import { isAvailable } from "~/remodels/persons";
+import { PersonState } from "~/models/person-helpers";
 
 /**
  * requestOTP
@@ -91,7 +91,7 @@ export async function login(params: {session_key: string, otp: string}) {
     return Errors.UnauthorizedError(_.session_person_not_found(session.email));
 
   // 6. Check person status just in case has been suspended, etc  
-  if (!isAvailable(person))
+  if (!PersonState.isAvailable(person))
     return Errors.UnauthorizedError(_.session_person_not_active(session.email));
 
   // 7. Generate the `authorization` JWT using the `persona uid` and extras
