@@ -16,7 +16,6 @@ import {
   useDisclosure,
   HStack,
   Image,
-  ButtonGroup,
 } from "@chakra-ui/react";
 import {
   HamburgerIcon,
@@ -37,7 +36,7 @@ export enum Section {
 
 export default function WithSubnavigation() {
   const { isOpen, onToggle } = useDisclosure();
-
+  
   return (
     <header>
       <Flex
@@ -54,9 +53,9 @@ export default function WithSubnavigation() {
           justify={{ base: "flex-start", md: "space-between" }}
         >
           <Image alt={"logo"} src={"/assets/logo.svg"} />
-          {/* <Flex display={{ base: "none", md: "flex" }} mx={10} align={"end"}>
+          <Flex display={{ base: "none", md: "flex" }} mx={10} align={"end"}>
             <DesktopNav />
-          </Flex> */}
+          </Flex>
         </Flex>
         <Flex align={"flex-end"} display={{ base: "flex", md: "none" }}>
           <IconButton
@@ -68,44 +67,29 @@ export default function WithSubnavigation() {
             aria-label={"Toggle Navigation"}
           />
         </Flex>
-        <ButtonGroup>
-          <Button
-            as={"a"}
-            display={{ base: "none", md: "inline-flex" }}
-            fontSize={"xl"}
-            lineHeight={"20px"}
-            fontWeight={400}
-            color={colors.brandBlack}
-            bg={colors.brandGrey}
-            borderRadius={"16px"}
-            padding={"22px 32px"}
-            href={"#"}
-          >
-            Sign In
-          </Button>
-          <Button
-            as={"a"}
-            display={{ base: "none", md: "inline-flex" }}
-            fontSize={"xl"}
-            lineHeight={"20px"}
-            fontWeight={400}
-            color={"white"}
-            bg={colors.brandBlue}
-            borderRadius={"16px"}
-            padding={"22px 32px"}
-            href={"#"}
-            _hover={{
-              bg: "#0E2865",
-            }}
-          >
-            Create Account
-          </Button>
-        </ButtonGroup>
+
+        <Button
+          as={"a"}
+          display={{ base: "none", md: "inline-flex" }}
+          fontSize={"xl"}
+          lineHeight={"20px"}
+          fontWeight={400}
+          color={"white"}
+          bg={colors.brandBlue}
+          borderRadius={"16px"}
+          padding={"22px 32px"}
+          href={"#waitlist"}
+          _hover={{
+            bg: "#0E2865",
+          }}
+        >
+          Request access
+        </Button>
       </Flex>
-      {/* 
+
       <Collapse in={isOpen} animateOpacity>
         <MobileNav />
-      </Collapse> */}
+      </Collapse>
     </header>
   );
 }

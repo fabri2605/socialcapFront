@@ -29,9 +29,9 @@ function Footer() {
         <Stack  mt={"30px"} >
           <SocialBar />
         </Stack>
-        {/* <Stack direction={["column", "row"]} spacing={6} pt="3rem">
+        <Stack direction={["column", "row"]} spacing={6} pt="3rem">
           <ShortNavs />
-        </Stack> */}
+        </Stack>
       </Container>
     </Flex>
   );
