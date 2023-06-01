@@ -1,4 +1,4 @@
-import { formatQueryResult } from "../routes/results";
+import { formatQueryResult } from "~/routes/results";
 
 /**
  * Gets an empty set, just for testing purposes.

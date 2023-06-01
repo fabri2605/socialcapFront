@@ -1,4 +1,4 @@
-import { formatMutationResult } from "../routes/results";
+import { formatMutationResult } from "~/routes/results";
 
 /**
  * Call with no actions, just for testing purposes.
