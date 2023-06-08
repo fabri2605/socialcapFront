@@ -21,7 +21,7 @@ await OffchainMerkleStorage.startup();
 /**
  * Run the server!
  */
-fastify.listen({ port: 3080 }, (err, address) => {
+fastify.listen({ port: 3081 }, (err, address) => {
   if (err) {
     logger.error(err)
     process.exit(1)
