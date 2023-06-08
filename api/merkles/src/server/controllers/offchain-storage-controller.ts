@@ -10,10 +10,12 @@ export async function createMerkleMap(params: {
   const map = await prisma.merkleMap.findFirst({
     where: { name: name}
   })
-  if (map) return hasError.BadRequest(`MerkleMap ${name} already exists`);
+  if (map) 
+    return hasError.BadRequest(`MerkleMap ${name} already exists`);
 
   const rs = await OffchainMerkleStorage.createNewMerkleMap(name);
-  if (rs.error) return rs;
+  if (rs.error) 
+    return rs;
 
   return hasResult({
     id: rs.data.id,
@@ -28,7 +30,8 @@ export async function getMerkleMap(params: {
   id: number
 }): Promise<ResultOrError> { 
   const rs = await OffchainMerkleStorage.getMerkleMap(params.id);
-  if (rs.error) return rs;
+  if (rs.error) 
+    return rs;
 
   return hasResult({
     id: rs.data.id,
@@ -44,7 +47,8 @@ export async function getMerkleMapLeaf(params: {
   uid: string
 }): Promise<ResultOrError> { 
   const rsm = await OffchainMerkleStorage.getMerkleMap(params.mapId);
-  if (rsm.error) return rsm;
+  if (rsm.error) 
+    return rsm;
 
   const merkleMap = rsm.data;
   const rsl = await merkleMap.get(params.uid);
@@ -57,7 +61,8 @@ export async function getMerkleMapWitness(params: {
   uid: string
 }): Promise<ResultOrError> { 
   const rsm = await OffchainMerkleStorage.getMerkleMap(params.mapId);
-  if (rsm.error) return rsm;
+  if (rsm.error) 
+    return rsm;
 
   const merkleMap = rsm.data;
   const rsl = await merkleMap.getWitness(params.uid);
@@ -71,7 +76,8 @@ export async function setMerkleMapLeaf(params: {
   data: any
 }): Promise<ResultOrError> { 
   const rsm = await OffchainMerkleStorage.getMerkleMap(params.mapId);
-  if (rsm.error) return rsm;
+  if (rsm.error) 
+    return rsm;
 
   const merkleMap = rsm.data;
   const rsl = await merkleMap.set(params.uid, params.data);

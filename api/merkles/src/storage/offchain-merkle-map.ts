@@ -6,7 +6,7 @@
  */
 import { Field, MerkleMap, MerkleMapWitness } from "snarkyjs"
 import { logger, prisma } from "../core/global.js";
-import { hashJsonToBigint, uuidToBigint, toHexa } from "./helpers.js";
+import { hashString, uuidToField } from "./helpers.js";
 import { ResultOrError, hasError, hasResult } from "../core/responses.js";
 
 export { OffchainMerkleMap, MerkleMapUpdate, LeafInstance };
@@ -19,6 +19,7 @@ export { OffchainMerkleMap, MerkleMapUpdate, LeafInstance };
  * the 'set(key,data)' method when we update the MerkleMap.
  */
 type LeafInstance = {
+  root: Field, // the root of the map  (may be redundant but useful) 
   key: Field, // the key of this Leaf (may be redundant but useful)
   hash: Field, // the hashed(data) value as 
   data: any // the leaf real data content, as a JSON object 
@@ -40,11 +41,9 @@ type MerkleMapUpdate = {
   mapId: number, 
 
   // root and leaf value BEFORE we applied the update
-  beforeRoot: Field, 
   beforeLeaf: LeafInstance,
-
+  
   // root and leaf value AFTERr we applied this update
-  afterRoot: Field, 
   afterLeaf: LeafInstance 
 }
 
@@ -104,56 +103,59 @@ class OffchainMerkleMap {
     uid: string, 
     data: any
   ): Promise<ResultOrError> {
-    if (!uid) return hasError.BadRequest(`Missing param 'uid'`);
+    if (!uid) 
+      return hasError.BadRequest(`Missing param 'uid'`);
 
     const currentRoot = this.memmap.getRoot();
     
+    // check if the key already exists, or Null
     const storedLeaf = await prisma.merkleMapLeaf.findUnique({
       where: { uid: uid }
     })
     
     // serialize the received data and create Hash for it
-    const key = uuidToBigint(uid);
+    const key = uuidToField(uid);
     let stringified = "";
     try { stringified = JSON.stringify(data); }
     catch { stringified = "{}"; }
-    const hashed = hashJsonToBigint(stringified);
-    const index = this.count;
+    const hashed = hashString(stringified);
+    const index = storedLeaf ? storedLeaf.index : this.count;
+
+    // update the current Merkle Map
+    this.memmap.set(key, hashed);
+    this.count = storedLeaf ? this.count : this.count +1;
 
     // update or insert the leaf
     const updatedLeaf = await prisma.merkleMapLeaf.upsert({
       where: { uid: uid },
       update: { 
-        hash: toHexa(hashed), //hashed.toString(), 
+        hash: hashed.toString(), 
         data: stringified 
       },
       create: { 
-        uid: uid, mapId: this.id, index: index, key: toHexa(key), 
-        hash: toHexa(hashed), 
+        uid: uid, mapId: this.id, index: index, 
+        key: key.toString(), 
+        hash: hashed.toString(), 
         data: stringified 
       },
     })
     if (! updatedLeaf) 
       return hasError.DatabaseEngine(`Could not set MerkleMapLeaf with uid='${uid}'`)
 
-    // update the current Merkle Map
-    this.memmap.set(Field(key), Field(hashed));
-    this.count++;
-
     // prepare the Update instance we will return
     const merkleUpdate: MerkleMapUpdate = {
       mapId: this.id,
       txId: Field(0),
-      beforeRoot: currentRoot,
       beforeLeaf: { 
-        key:  Field(storedLeaf?.key || 0) || Field(0),
-        hash:  Field(storedLeaf?.hash || 0) || Field(0),
+        root: currentRoot,
+        key:  Field(storedLeaf?.key || "0"),
+        hash:  Field(storedLeaf?.hash || "0"),
         data: JSON.parse(storedLeaf?.data || "{}")
       },
-      afterRoot: this.memmap.getRoot(),
       afterLeaf: {
-        key: Field(key),
-        hash: Field(hashed),
+        root: this.memmap.getRoot(),
+        key: key,
+        hash: hashed,
         data: JSON.parse(stringified)
       }
     }
@@ -161,18 +163,22 @@ class OffchainMerkleMap {
     return hasResult(merkleUpdate);
   }
 
-  /** Get the root of the memoized Merkle map
-   * @returns - the MerkleMap root */
+  /**
+   * Get the root of the memoized Merkle map
+   * @returns - the MerkleMap root 
+   */
   getRoot(): Field {
     return this.memmap.getRoot() || null;
   }
 
-  /** Get a Witness of the memoized Merkle map, using its uid
+  /** 
+   * Get a Witness of the memoized Merkle map, using its uid
    * @param uid: string - the uid of the leaf to witness
-   * @returns - the MerkleMapWitness or null */
+   * @returns - the MerkleMapWitness or null 
+   */
   getWitness(uid: string): MerkleMapWitness | null {
-    const key = uuidToBigint(uid);
-    return this.memmap.getWitness(Field(key)) || null;
+    const key = uuidToField(uid);
+    return this.memmap.getWitness(key) || null;
   }
 
   /** Get the the amount of leaf nodes. */
