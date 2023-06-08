@@ -26,13 +26,15 @@ class OffchainMerkleStorage {
   ): Promise<ResultOrError> {
     // first chech if we already have it in the cache
     let cached = OffchainMerkleStorage.cache.get(id); 
-    if (cached) return hasResult(cached);
+    if (cached) 
+      return hasResult(cached);
 
     // not in cache, get from Db
     const map = await prisma.merkleMap.findUnique({
       where: { id: id }
     }); 
-    if (!map) hasError.NotFound(`Not Found MerkleMap with id=${id}`);
+    if (!map) 
+      return hasError.NotFound(`Not Found MerkleMap with id=${id}`);
 
     // rebuild this instance using the leafs, MAY be slow ? 
     const instance = new OffchainMerkleMap(id, map?.name);
@@ -42,9 +44,9 @@ class OffchainMerkleStorage {
       orderBy: { index: 'asc' }
     })
     for (let j=0; j < leafs.length; j++) {
-      const key = BigInt(leafs[j].key);
-      const hashed = BigInt(leafs[j].hash);
-      instance.memmap.set(Field(key), Field(hashed))
+      const key = Field(leafs[j].key);
+      const hashed = Field(leafs[j].hash);
+      instance.memmap.set(key, hashed)
     }
     instance.count = leafs.length;
 
