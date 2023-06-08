@@ -1,0 +1,41 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model MerkleMap {
+  id         Int      @id @default(autoincrement())
+  name       String
+  root       BigInt
+  size       Int
+  height     Int
+  createdUtc DateTime @default(now()) @map("created_utc")
+  updatedUtc DateTime @updatedAt @map("updated_utc")
+
+  leafs MerkleMapLeaf[] @relation(name: "map_leafs")
+
+  @@map("merkle_map")
+}
+
+model MerkleMapLeaf {
+  uid        String   @id @default(uuid())
+  mapId      Int      @map("merkle_map_id")
+  index      BigInt // a Bigint
+  key        String // a Bigint
+  hash       String // a Bigint
+  data       String // JSON stringified
+  createdUtc DateTime @default(now()) @map("created_utc")
+  updatedUtc DateTime @updatedAt @map("updated_utc")
+
+  // Many to one relation: MarkleMapLeaf belongs to MerkleMap
+  map MerkleMap @relation(name: "map_leafs", fields: [mapId], references: [id])
+
+  @@map("merkle_map_leaf")
+}
