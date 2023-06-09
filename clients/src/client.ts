@@ -1,6 +1,6 @@
 
 import { Field, MerkleMapWitness, Undefined } from "snarkyjs";
-import { IsError, hasError, isError } from "./errors.js";
+import { IsError, hasError, isError } from "./core/errors.js";
 import { LeafInstance, MerkleMapUpdate } from "../storage/index.js";
 
 class MerkleMapProxy {
