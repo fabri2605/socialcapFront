@@ -27,7 +27,7 @@ async function helperRoutes() {
       version: '0.1',
       db: {
         engine: 'None',
-        connected: false
+        connected: true
       }
     }
   })
