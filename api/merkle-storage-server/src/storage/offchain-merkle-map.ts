@@ -98,11 +98,13 @@ class OffchainMerkleMap {
    * Sets (inserts or updates) a given 'uid' key with its data
    * @param uid: string - the leaf key to update or insert 
    * @param data: any - the leaf data pack to insert/upload
+   * @param hash?: Field - optional hash of the leaf data, we will use this one if received
    * @returns MerkleMapUpdate in result or error 
    */
   async set(
     uid: string, 
-    data: any
+    data: any,
+    hash?: Field
   ): Promise<ResultOrError> {
     if (!uid) 
       return hasError.BadRequest(`Missing param 'uid'`);
@@ -119,12 +121,20 @@ class OffchainMerkleMap {
     let stringified = "";
     try { stringified = JSON.stringify(data); }
     catch { stringified = "{}"; }
-    const hashed = hashString(stringified);
+    const hashed = hash || hashString(stringified);
     const index = storedLeaf ? storedLeaf.index : this.count;
+    const isNewLeaf = !storedLeaf;
 
     // update the current Merkle Map
-    this.memmap.set(key, hashed);
-    this.count = storedLeaf ? this.count : this.count +1;
+    try {
+      this.memmap.set(key, hashed);
+      this.count = storedLeaf ? this.count : this.count +1;
+    } 
+    catch (err: any) {
+      return hasError.InternalServer(
+        `Could not set MerkleMapLeaf with uid='${uid}' err=`+err.toString()
+      )
+    }
 
     // update or insert the leaf
     const updatedLeaf = await prisma.merkleMapLeaf.upsert({
@@ -140,8 +150,15 @@ class OffchainMerkleMap {
         data: stringified 
       },
     })
-    if (! updatedLeaf) 
-      return hasError.DatabaseEngine(`Could not set MerkleMapLeaf with uid='${uid}'`)
+
+    // check if leaf upsert operation succeeded, on failure we must revert 
+    // the Map operation because the key,hash was already updated in the Map 
+    if (! updatedLeaf) {
+      this.memmap.set(key, Field(0)); // rollback the key
+      return hasError.DatabaseEngine(
+        `Could not set MerkleMapLeaf with uid='${uid}'`
+      )
+    }
 
     // prepare the Update instance we will return
     const merkleUpdate: MerkleMapUpdate = {
