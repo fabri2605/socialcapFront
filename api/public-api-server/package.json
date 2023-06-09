@@ -1,11 +1,11 @@
 {
-  "name": "server",
+  "name": "public-api-server",
   "version": "1.0.0",
   "description": "",
-  "main": "src/index.js",
+  "main": "src/main.js",
   "scripts": {
     "build": "tsc -p tsconfig.json",
-    "start": "nodemon --exec ts-node src/index.ts",
+    "start": "nodemon --exec ts-node src/main.ts",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "_moduleAliases": {
@@ -20,7 +20,7 @@
   "dependencies": {
     "@fastify/jwt": "^7.0.0",
     "@fastify/routes": "^5.1.0",
-    "@prisma/client": "^4.14.1",
+    "@prisma/client": "^4.15.0",
     "fastify": "^4.17.0",
     "module-alias": "^2.2.2",
     "python-format-js": "^1.4.1"
@@ -29,7 +29,7 @@
     "@tsconfig/node19": "^2.0.1",
     "@types/node": "^20.2.3",
     "nodemon": "^2.0.22",
-    "prisma": "^4.14.1",
+    "prisma": "^4.15.0",
     "ts-node": "^10.9.1",
     "typescript": "^5.0.4"
   }
