@@ -14,17 +14,6 @@ async function main() {
     },
   })
   console.log({ maz })
-
-  const scap1 = await prisma.community.upsert({
-    where: { email: 'mazito.v2@gmail.com' },
-    update: {},
-    create: {
-      accountId: "0",
-      fullName: 'Socialcap Team',
-      state: 'PENDING'
-    },
-  })
-  console.log({ maz })
 }
 
 main()

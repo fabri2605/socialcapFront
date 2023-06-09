@@ -2,7 +2,8 @@
 // learn more about it in the docs: https://pris.ly/d/prisma-schema
 
 generator client {
-  provider = "prisma-client-js"
+  provider        = "prisma-client-js"
+  previewFeatures = ["metrics"]
 }
 
 datasource db {
@@ -24,43 +25,44 @@ model Session {
 }
 
 model Person {
-  uid         String   @id @unique @default(uuid())
-  accountId   String?  @map("account_id")
-  fullName    String   @map("full_name")
+  uid         String    @id @unique @default(uuid())
+  accountId   String?   @map("account_id")
+  fullName    String    @map("full_name")
   state       String // P-Pending A-Active V-Verified S-Suspended X-Deleted  
-  email       String   @unique
+  email       String    @unique
   phone       String?
   telegram    String?
   avatar      String? // a DataURI
   preferences String?
-  tags         String       @default("[]")
-  createdUtc  DateTime @default(now()) @map("created_utc")
-  updatedUtc  DateTime @updatedAt @map("updated_utc")
+  tags        String    @default("[]")
+  createdUtc  DateTime  @default(now()) @map("created_utc")
+  updatedUtc  DateTime  @updatedAt @map("updated_utc")
+  approvedUtc DateTime? @map("approved_utc")
 
   // roles in Communities related to this Person
-  Members      Members[]
-  Admins       Admins[]
-  Validators   Validators[]
-  Auditors     Auditors[]
+  Members    Members[]
+  Admins     Admins[]
+  Validators Validators[]
+  Auditors   Auditors[]
 
   @@map("persons")
 }
 
 model Community {
-  uid         String       @id @unique @default(uuid())
-  accountId   String?      @map("account_id")
-  fullName    String       @map("full_name")
+  uid         String   @id @unique @default(uuid())
+  accountId   String?  @map("account_id")
+  fullName    String   @map("full_name")
   state       String // P-Pending A-Active V-Verified S-Suspended X-Deleted  
   logo        String? // a DataURI
-  createdUtc  DateTime     @default(now()) @map("created_utc")
-  updatedUtc  DateTime     @updatedAt @map("updated_utc")
-  approvedUtc DateTime     @map("approved_utc")
+  createdUtc  DateTime @default(now()) @map("created_utc")
+  updatedUtc  DateTime @updatedAt @map("updated_utc")
+  approvedUtc DateTime @map("approved_utc")
 
   // Persons related to this Community
-  Members     Members[]
-  Admins      Admins[]
-  Validators  Validators[]
-  Auditors    Auditors[]
+  Members    Members[]
+  Admins     Admins[]
+  Validators Validators[]
+  Auditors   Auditors[]
 
   @@map("communities")
 }
@@ -116,9 +118,6 @@ model Auditors {
   @@id([communityUid, personUid])
   @@map("auditors")
 }
-
-
-
 
 //
 // Merkle Trees schema

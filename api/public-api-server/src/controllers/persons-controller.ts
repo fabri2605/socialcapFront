@@ -33,7 +33,7 @@ export async function signUp(params: {
     return Errors.Conflict(_.persons_already_registered(params.email));
 
   // 3. Create default values for fields 'avatar' and 'preferences'
-  const defaultPrefs = {};
+  const defaultPrefs = "{}";
 
   // 4. Insert into `personas(email, state:PENDING, ...params)` 
   const person = await prisma.person.create({ 
