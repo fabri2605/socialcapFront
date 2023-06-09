@@ -25,9 +25,10 @@ async function helperRoutes() {
     let isConnected = false;
     let version = null;
     let metrics = null;
+    const wantMetrics = 'metrics' in (request.query as any);
     try {
       const pg: any = await prisma.$queryRaw`SELECT version() as version`;
-      metrics = await prisma.$metrics.json()
+      metrics = await prisma.$metrics.json();
       isConnected = !!pg;
       version = pg[0].version;
     }
@@ -41,9 +42,9 @@ async function helperRoutes() {
       db: {
         connected: isConnected,
         engine: version || 'NO_ENGINE',
-        metrics: metrics || 'NO_METRICS'
+        metrics: (wantMetrics && metrics) ? metrics : 'NO_METRICS'
       }
-    }
+    };
   })
 }
 

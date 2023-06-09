@@ -48,11 +48,12 @@ function setAuthorization(jwttoken: string) {
 /**
  * Get the API server and Db status
  */
-async function status(): Promise<any | IsError> {
+async function status(params?: {metrics: boolean}): Promise<any | IsError> {
   try {
     const url = `${API.baseUrl}/status`;
-    const response: AxiosResponse = await axios.get(url);
-    return response.data.result;
+    const query = params?.metrics ? `?metrics` : "";
+    const response: AxiosResponse = await axios.get(url+query);
+    return response.data;
   } catch (error: any) {
     return hasError.Unknown(error.message);
   }
