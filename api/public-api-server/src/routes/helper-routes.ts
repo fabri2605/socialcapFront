@@ -22,12 +22,26 @@ async function helperRoutes() {
   })
   
   fastify.get('/api/status', async (request, reply) => {
+    let isConnected = false;
+    let version = null;
+    let metrics = null;
+    try {
+      const pg: any = await prisma.$queryRaw`SELECT version() as version`;
+      metrics = await prisma.$metrics.json()
+      isConnected = !!pg;
+      version = pg[0].version;
+    }
+    catch (err) {
+      isConnected = false;
+    }
+
     return { 
       health: 'running',
       version: '0.1',
       db: {
-        engine: 'None',
-        connected: true
+        connected: isConnected,
+        engine: version || 'NO_ENGINE',
+        metrics: metrics || 'NO_METRICS'
       }
     }
   })

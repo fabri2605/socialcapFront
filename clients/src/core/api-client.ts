@@ -13,6 +13,7 @@ let API = {
 
 const apiClient = {
   connect: connect,
+  status: status,
   query: query,
   mutate: mutate,
   authorize: setAuthorization
@@ -41,6 +42,20 @@ async function connect(host: string, port: number, apiKey?: string) {
  */
 function setAuthorization(jwttoken: string) {
   API.authorization = jwttoken;
+}
+
+
+/**
+ * Get the API server and Db status
+ */
+async function status(): Promise<any | IsError> {
+  try {
+    const url = `${API.baseUrl}/status`;
+    const response: AxiosResponse = await axios.get(url);
+    return response.data.result;
+  } catch (error: any) {
+    return hasError.Unknown(error.message);
+  }
 }
 
 
