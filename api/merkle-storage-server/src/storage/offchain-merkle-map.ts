@@ -19,7 +19,6 @@ export { OffchainMerkleMap, MerkleMapUpdate, LeafInstance };
  * the 'set(key,data)' method when we update the MerkleMap.
  */
 type LeafInstance = {
-  root: Field, // the root of the map  (may be redundant but useful) 
   key: Field, // the key of this Leaf (may be redundant but useful)
   hash: Field, // the hashed(data) value as 
   data: any // the leaf real data content, as a JSON object 
@@ -41,9 +40,11 @@ type MerkleMapUpdate = {
   mapId: number, 
 
   // root and leaf value BEFORE we applied the update
+  beforeRoot: Field, 
   beforeLeaf: LeafInstance,
   
   // root and leaf value AFTERr we applied this update
+  afterRoot: Field, 
   afterLeaf: LeafInstance 
 }
 
@@ -146,14 +147,14 @@ class OffchainMerkleMap {
     const merkleUpdate: MerkleMapUpdate = {
       mapId: this.id,
       txId: Field(0),
+      beforeRoot: currentRoot,
       beforeLeaf: { 
-        root: currentRoot,
         key:  Field(storedLeaf?.key || "0"),
         hash:  Field(storedLeaf?.hash || "0"),
         data: JSON.parse(storedLeaf?.data || "{}")
       },
+      afterRoot: this.memmap.getRoot(),
       afterLeaf: {
-        root: this.memmap.getRoot(),
         key: key,
         hash: hashed,
         data: JSON.parse(stringified)

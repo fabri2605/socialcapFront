@@ -33,7 +33,7 @@ type IsError = {
 }
 
 interface ResultOrError {
-  data: any | null,
+  result: any | null,
   error: any | null 
 }
 
@@ -41,7 +41,7 @@ function hasResult(
   data: any,
 ): ResultOrError {
   return {
-    data: data,
+    result: data,
     error: null
   }
 }
@@ -53,7 +53,7 @@ function formatError(
   // All errors are logged to the Fastify.logger
   logger.error(`Error ${code}: ${message}`);
   return {
-    data: null,
+    result: null,
     error: {
       code: code, 
       message: (message || '').toString()

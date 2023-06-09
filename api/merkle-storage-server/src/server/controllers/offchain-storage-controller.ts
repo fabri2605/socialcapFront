@@ -18,10 +18,10 @@ export async function createMerkleMap(params: {
     return rs;
 
   return hasResult({
-    id: rs.data.id,
-    name: rs.data.name, 
-    root: rs.data.getRoot().toString(),
-    size: rs.data.size(),
+    id: rs.result.id,
+    name: rs.result.name, 
+    root: rs.result.getRoot().toString(),
+    count: rs.result.size(),
   });
 }
 
@@ -34,10 +34,10 @@ export async function getMerkleMap(params: {
     return rs;
 
   return hasResult({
-    id: rs.data.id,
-    name: rs.data.name, 
-    root: rs.data.getRoot().toString(),
-    size: rs.data.size(),
+    id: rs.result.id,
+    name: rs.result.name, 
+    root: rs.result.getRoot().toString(),
+    count: rs.result.size(),
   });
 }
 
@@ -50,7 +50,7 @@ export async function getMerkleMapLeaf(params: {
   if (rsm.error) 
     return rsm;
 
-  const merkleMap = rsm.data;
+  const merkleMap = rsm.result;
   const rsl = await merkleMap.get(params.uid);
   return rsl; 
 }
@@ -64,7 +64,7 @@ export async function getMerkleMapWitness(params: {
   if (rsm.error) 
     return rsm;
 
-  const merkleMap = rsm.data;
+  const merkleMap = rsm.result;
   const rsl = await merkleMap.getWitness(params.uid);
   return rsl; 
 }
@@ -79,7 +79,7 @@ export async function setMerkleMapLeaf(params: {
   if (rsm.error) 
     return rsm;
 
-  const merkleMap = rsm.data;
+  const merkleMap = rsm.result;
   const rsl = await merkleMap.set(params.uid, params.data);
   return rsl; 
 }
