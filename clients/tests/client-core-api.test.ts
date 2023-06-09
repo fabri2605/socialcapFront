@@ -1,4 +1,4 @@
-import { apiClient } from '../src/core/api-client.js';
+import { CoreApiClient } from '../src/core/api-client.js';
 
 describe('Public API status', () => {
   it('should get the status of API+Db server successfully', async () => {
@@ -13,6 +13,7 @@ describe('Public API status', () => {
     }
 
     // Public API port is 3080
+    const apiClient = new CoreApiClient();
     await apiClient.connect("localhost", 3080);
 
     const result = await apiClient.status();
@@ -34,6 +35,7 @@ describe('Public API status', () => {
     }
 
     // Public API port is 3080
+    const apiClient = new CoreApiClient();
     await apiClient.connect("localhost", 3080);
 
     const result = await apiClient.status({metrics: true});
@@ -43,4 +45,3 @@ describe('Public API status', () => {
     expect(result.db.metrics).not.toEqual("NO_METRICS");
   });
 });
-
