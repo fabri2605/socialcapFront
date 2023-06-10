@@ -57,18 +57,16 @@ export async function signUp(params: {
   
   // 5. Return the fully created Person data
   return formatMutationResult({
-    profile: {
-      uid: person.uid,
-      state: person.state,
-      email: person.email,
-      full_name: person.fullName,
-      phone: person.phone,
-      telegram: person.telegram,
-      account_id: person.accountId,
-      avatar: person.avatar,
-      preferences: person.preferences,
-      created_utc: person.createdUtc,
-      updated_utc: person.updatedUtc
-    }
+    uid: person.uid,
+    state: person.state,
+    email: person.email,
+    full_name: person.fullName,
+    phone: person.phone,
+    telegram: person.telegram,
+    account_id: person.accountId,
+    avatar: person.avatar,
+    preferences: person.preferences,
+    created_utc: person.createdUtc,
+    updated_utc: person.updatedUtc
   });
 }
