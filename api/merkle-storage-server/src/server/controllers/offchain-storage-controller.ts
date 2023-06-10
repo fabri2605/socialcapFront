@@ -27,9 +27,23 @@ export async function createMerkleMap(params: {
 
 /** @returns - a MerkleMap header or an IsError  */
 export async function getMerkleMap(params: {
-  id: number
+  id?: number, // can use id, if present it has priority
+  name?: string // can also use name, but not both
 }): Promise<ResultOrError> { 
-  const rs = await OffchainMerkleStorage.getMerkleMap(params.id);
+  let id: number = params.id || -1;
+
+  // if name given find by name
+  if (!!params.name || !params.id) {
+    const name = (params.name || '').replace(/ /g, '_'); // cleanup whitespace
+    const map: any = await prisma.merkleMap.findFirst({
+      where: { name: name}
+    })
+    if (map) 
+      return hasError.NotFound(`Not Found MerkleMap with name='${name}'`);
+    id = map.id;
+  }
+
+  const rs = await OffchainMerkleStorage.getMerkleMap(id);
   if (rs.error) 
     return rs;
 
