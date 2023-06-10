@@ -45,3 +45,26 @@ describe('Public API status', () => {
     expect(result.db.metrics).not.toEqual("NO_METRICS");
   });
 });
+
+describe('Public API mutation', () => {
+  it('should insert a Signup successfully', async () => {
+
+    // Public API port is 3080
+    const apiClient = new CoreApiClient();
+    await apiClient.connect("localhost", 3080);
+
+    const result = await apiClient.mutate("sign_up", {
+      full_name: "Teresita Graciosa",
+      email: "tg07@algo.com",
+      phone: "54-11-1234-5678",
+      telegram: "@TG01234"
+    });
+    console.log(result.data);
+
+    expect(result).not.toEqual(null);
+    expect(result.data.state).toEqual('PENDING');
+  });
+
+});
+
+

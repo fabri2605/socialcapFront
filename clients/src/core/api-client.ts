@@ -24,7 +24,7 @@ class CoreApiClient {
     this.API.port = port || 3081;
     this.API.apiKey = apiKey || "NULL";
     this.API.baseUrl = `http://${host}:${port}/api`;
-    if (apiKey) setAuthorization(apiKey);
+    if (apiKey) this.authorize(apiKey);
   }
 
   /**
