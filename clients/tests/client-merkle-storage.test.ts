@@ -15,7 +15,7 @@ describe('get_merkle_map', () => {
     const apiClient = new CoreApiClient();
     await apiClient.connect("localhost", 3081);
 
-    const result = await apiClient.query("get_merkle_map", {id: 2});
+    const [result, error] = await apiClient.query("get_merkle_map", {id: 2});
     console.log(result);
 
     expect(result).toEqual(mockResponse);
@@ -31,7 +31,7 @@ describe('get_merkle_map', () => {
     const apiClient = new CoreApiClient();
     await apiClient.connect("localhost", 3081);
 
-    const result = await apiClient.mutate("create_merkle_map", { 
+    const [result, error] = await apiClient.mutate("create_merkle_map", { 
       "name": randomName
     });
     console.log(result);
@@ -56,7 +56,7 @@ describe('get_merkle_map_leaf', () => {
     const apiClient = new CoreApiClient();
     await apiClient.connect("localhost", 3081);
 
-    const result = await apiClient.query("get_merkle_map_leaf", ​{
+    const [result, error] = await apiClient.query("get_merkle_map_leaf", ​{
       "mapId":2,
       "uid":"ffdf4a17-a35b-4703-be8e-8b16bdf54e91"
     });
@@ -65,3 +65,4 @@ describe('get_merkle_map_leaf', () => {
     expect(result).toEqual(mockResponse);
   });
 });
+

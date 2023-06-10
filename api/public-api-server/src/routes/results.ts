@@ -13,9 +13,7 @@ interface QueryResult {
 };
 
 interface MutationResult {
-  result: {
-    data: any
-  },
+  result: any,
   error: null
 };
 
@@ -43,9 +41,7 @@ function formatMutationResult(
 ): MutationResult {
   const count = (data || []).length;
   return {
-    result: {
-      data: data || {}
-    },
+    result: data || {},
     error: null
   }
 }
