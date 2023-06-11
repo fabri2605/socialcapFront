@@ -1,17 +1,25 @@
 import { Field, MerkleMapWitness } from "snarkyjs";
 import { ValueOrError } from "../core/responses.js";
-import { apiClient } from "../core/globals.js";
+import { CoreApiClient } from "../core/api-client.js";
 import { LeafInstance, MerkleMapUpdate } from "./imported-defs.js";
 
 export { OffchainMerkleMap };
 
 class OffchainMerkleMap {
+  apiClient: CoreApiClient;
   id: number;
   name: string;
   root: Field;
   count: number;
 
-  constructor(name: string, id: number, root: Field, count: number) {
+  constructor(
+    apiClient: CoreApiClient, 
+    name: string, 
+    id: number, 
+    root: Field, 
+    count: number
+  ) {
+    this.apiClient = apiClient;
     this.name = name;
     this.id = id;
     this.root = root;
@@ -19,7 +27,7 @@ class OffchainMerkleMap {
   }
 
   async get(uid: string): Promise<ValueOrError<LeafInstance>> {
-    const [rs, error] = await apiClient.query("get_merkle_map_leaf", { 
+    const [rs, error] = await this.apiClient.query("get_merkle_map_leaf", { 
       mapId: this.id, 
       uid: uid 
     });
@@ -35,7 +43,7 @@ class OffchainMerkleMap {
   }
 
   async set(uid: string, data: any, hash?: Field): Promise<ValueOrError<MerkleMapUpdate>> {
-    const [rs, error] = await apiClient.mutate("set_merkle_map_leaf", { 
+    const [rs, error] = await this.apiClient.mutate("set_merkle_map_leaf", { 
       mapId: this.id, 
       uid: uid,
       data: data,
@@ -64,7 +72,10 @@ class OffchainMerkleMap {
   }
 
   async getWitness(uid: string): Promise<ValueOrError<MerkleMapWitness>> {
-    const [rs, error] = await apiClient.query("get_merkle_map_witness", { uid: uid })
+    const [rs, error] = await this.apiClient.query("get_merkle_map_witness", { 
+      mapId: this.id,
+      uid: uid 
+    })
     if (error) return [null, error];
 
     const witness = new MerkleMapWitness(
@@ -76,7 +87,9 @@ class OffchainMerkleMap {
 
   async getRoot(): Promise<ValueOrError<Field>> {
     // we need to fetch it again, just in case it changed !
-    const [rs, error] = await apiClient.query("get_merkle_map", { id: this.id })
+    const [rs, error] = await this.apiClient.query("get_merkle_map", { 
+      id: this.id 
+    })
     if (error) return [null, error];
  
     this.root = Field(rs.root);

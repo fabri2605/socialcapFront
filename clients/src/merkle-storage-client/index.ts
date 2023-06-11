@@ -1,5 +1,5 @@
 import { 
-  ResultOrError, 
+  ValueOrError,
   hasResult, 
   hasError, 
   isError, 
@@ -21,10 +21,8 @@ export {
   MerkleMapUpdate,
   OffchainMerkleMap,
   OffchainMerkleStorage,
-  ResultOrError, 
-  hasResult, 
+  ValueOrError, 
   hasError, 
-  isError, 
   logErrors 
 }
 
