@@ -38,7 +38,7 @@ export async function getMerkleMap(params: {
     const map: any = await prisma.merkleMap.findFirst({
       where: { name: name}
     })
-    if (map) 
+    if (!map) 
       return hasError.NotFound(`Not Found MerkleMap with name='${name}'`);
     id = map.id;
   }
@@ -79,8 +79,9 @@ export async function getMerkleMapWitness(params: {
     return rsm;
 
   const merkleMap = rsm.result;
-  const rsl = await merkleMap.getWitness(params.uid);
-  return rsl; 
+  const witness = await merkleMap.getWitness(params.uid);
+  console.log(witness);
+  return hasResult({ ...witness }); 
 }
 
 /** @returns - a MerkleMapUpdate or an IsError  */
