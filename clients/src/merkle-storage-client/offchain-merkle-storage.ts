@@ -1,35 +1,58 @@
 import { Field } from "snarkyjs";
-import { IsError, isError } from "../core/errors.js";
-import { apiClient } from "../core/api-client.js";
+import { CoreApiClient } from "../core/api-client.js";
+import { ValueOrError } from "../core/responses.js";
 import { OffchainMerkleMap } from "./offchain-merkle-map.js"
 
 export { OffchainMerkleStorage };
 
 class OffchainMerkleStorage {
 
-  static async connect(
+  apiClient: CoreApiClient;
+  
+  constructor() {
+    this.apiClient = new CoreApiClient();
+  } 
+    
+  async connect(
     host: string, port: number, apiKey?: string
   ) {
-    await apiClient.connect(host, port, apiKey);
+    await this.apiClient.connect(host, port, apiKey);
+    return this;
   }
 
-  static async createMerkleMap(
+  async createMerkleMap(
     name: string
-  ): Promise<OffchainMerkleMap | IsError> {
-    const rs = await apiClient.mutate("create_merkle_map", { name: name })
-    if (isError(rs)) return rs;
+  ): Promise<ValueOrError<OffchainMerkleMap>> {
+    const [rs, error] =await this.apiClient.mutate("create_merkle_map", { 
+      name: name 
+    })
+    if (error) return [null, error];
 
-    const map = new OffchainMerkleMap(rs.name, rs.id, Field(rs.root), rs.count);
-    return map;
+    const map = new OffchainMerkleMap(
+      this.apiClient,
+      rs.name, 
+      rs.id, 
+      Field(rs.root), 
+      rs.count
+    );
+    return [map, null];
   }
 
-  static async getMerkleMap(
+  async getMerkleMap(
     name: string
-  ): Promise<OffchainMerkleMap | IsError> {
-    const rs = await apiClient.query("get_merkle_map", { name: name })
-    if (isError(rs)) return rs;
+  ): Promise<ValueOrError<OffchainMerkleMap>> {
+    const [rs, error] =await this. apiClient.query("get_merkle_map", { 
+      name: name 
+    })
+    if (error) return [null, error];
 
-    const map = new OffchainMerkleMap(rs.name, rs.id, Field(rs.root), rs.count);
-    return map;
+    const map = new OffchainMerkleMap(
+      this.apiClient,
+      rs.name, 
+      rs.id, 
+      Field(rs.root), 
+      rs.count
+    );
+    return [map, null];
   }
 }

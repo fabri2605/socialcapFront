@@ -1,5 +1,5 @@
 import axios, { AxiosResponse } from 'axios';
-import { IsError, hasError } from "./errors.js";
+import { ValueOrError } from "./responses.js";
 
 export { CoreApiClient };
 
@@ -38,14 +38,16 @@ class CoreApiClient {
   /**
    * Get the API server and Db status
    */
-  async status(params?: {metrics: boolean}): Promise<any | IsError> {
+  async status(
+    params?: {metrics: boolean}
+  ): Promise<ValueOrError<any>> {
     try {
       const url = `${this.API.baseUrl}/status`;
       const query = params?.metrics ? `?metrics` : "";
       const response: AxiosResponse = await axios.get(url+query);
-      return response.data;
-    } catch (error: any) {
-      return hasError.Unknown(error.message);
+      return [response.data, null];
+    } catch (err: any) {
+      return [null, err];
     }
   }
 
@@ -54,7 +56,10 @@ class CoreApiClient {
    * @param params object
    * @returns any | IsError
    */
-  async query(method: string, params: object): Promise<any | IsError> {
+  async query(
+    method: string, 
+    params: object
+  ): Promise<ValueOrError<any>> {
     try {
       const url = `${this.API.baseUrl}/query/${method}`;
       const query = `?params=${JSON.stringify(params)}`;
@@ -62,9 +67,9 @@ class CoreApiClient {
         'Authorization': this.API.authorization
       }}
       const response: AxiosResponse = await axios.get(url+query, {...headers});
-      return response.data.result;
-    } catch (error: any) {
-      return hasError.Unknown(error.message);
+      return [response.data.result, null];
+    } catch (err: any) {
+      return [null, err];
     }
   }
 
@@ -73,7 +78,7 @@ class CoreApiClient {
    * @param params object
    * @returns any | IsError
    * */
-  async mutate(method: string, params: any): Promise<any | IsError> {
+  async mutate(method: string, params: any): Promise<ValueOrError<any>> {
     try {
       const url = `${this.API.baseUrl}/mutation/${method}`;
       const payload = {"params": params || {}};
@@ -81,9 +86,9 @@ class CoreApiClient {
         'Authorization': this.API.authorization
       }}
       const response: AxiosResponse = await axios.post(url, payload, {...headers});
-      return response.data.result;
-    } catch (error: any) {
-      return hasError.Unknown(error.message);
+      return [response.data.result, null];
+    } catch (err: any) {
+      return [null, err];
     }
   }
 }

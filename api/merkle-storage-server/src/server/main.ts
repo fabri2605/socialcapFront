@@ -27,6 +27,5 @@ fastify.listen({ port: 3081 }, (err, address) => {
     process.exit(1)
   }
   console.log(`Server listening at ${address}`);
-  console.log(fastify.routes);
 })
 

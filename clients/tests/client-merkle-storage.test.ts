@@ -1,67 +1,68 @@
 import { randomInt } from 'crypto';
-import { CoreApiClient } from '../src/core/api-client.js';
+import {  
+  OffchainMerkleMap,
+  OffchainMerkleStorage,
+  LeafInstance,
+  MerkleMapUpdate
+} from "../src/merkle-storage-client/index.js";
 
 // jest.mock('axios'); // Mocking the axios module
 
-describe('get_merkle_map', () => {
-  it('should query merkle_map data successfully', async () => {
-    const mockResponse = {
-      "id": 2,
-      "name": "Maruco_2",
-      "root": "20317599963995714678870893528527629958288036455177062299831345807553926030028",
-      "count": 3
-    }
-
-    const apiClient = new CoreApiClient();
-    await apiClient.connect("localhost", 3081);
-
-    const result = await apiClient.query("get_merkle_map", {id: 2});
-    console.log(result);
-
-    expect(result).toEqual(mockResponse);
+describe('Test Merkle storage client', () => {
+  
+  let offchain: OffchainMerkleStorage;  
+  let map: OffchainMerkleMap;
+  const uid = "ffdf4a17-a35b-4703-be8e-8b16bdf54e91";
+  const hash = undefined;
+  const data = {
+    "uid": "ffdf4a17-a35b-4703-be8e-8b16bdf54e91",
+    "full_name": "ALgo Maruco Juan Zamudio",
+    "alias": "perejilitos"
+  }
+  
+  it('should connect to OffchainMerkleStorage', async () => {
+    offchain = new OffchainMerkleStorage();
+    offchain = await offchain.connect("localhost", 3081);
+    expect(offchain).not.toEqual(null);
   });
 
-  it('should mutate data successfully', async () => {
-    const randomName = "Maruco"+randomInt(5000);
-    const mockResponse = {
-      "name": randomName,
-      "count": 0
-    }
-
-    const apiClient = new CoreApiClient();
-    await apiClient.connect("localhost", 3081);
-
-    const result = await apiClient.mutate("create_merkle_map", { 
-      "name": randomName
-    });
-    console.log(result);
-
-    expect(result.name).toEqual(mockResponse.name);
-    expect(result.count).toEqual(mockResponse.count);
+  it('should create a random merkle_map', async () => {
+    const randname = "Mapita_"+randomInt(5000);
+    const [map1, err] = await offchain.createMerkleMap(randname);
+    if (err) console.log(err);
+    expect(err).toEqual(null);
   });
-});
 
-describe('get_merkle_map_leaf', () => {
-  it('should query merkle_leaf data successfully', async () => {
-    const mockResponse = {
-      "key": "340112523895721626410879996467678105233",
-      "hash": "4578195092967266717504634214083983441340587705529266918892238724554861292777",
-      "data": {
-        "uid": "ffdf4a17-a35b-4703-be8e-8b16bdf54e91",
-        "full_name": "ALgo Maruco Juan Zamudio",
-        "alias": "perejilitos"
-      }
-    }
+  it('should get a given merkle_map by name', async () => {
+    const [map2, err] = await offchain.getMerkleMap('Maruco_2');
+    if (err) console.log(err);
+    map = map2 as OffchainMerkleMap;
+    expect(err).toEqual(null);
+  });
+    
+  it('should get a given leaf by uid', async () => {
+    const [leaf, err] = await map.get(uid) ;
+    if (err) console.log(err);
+    expect(err).toEqual(null);
+  });
+    
+  it('should update a given leaf by uid', async () => {
+      // const hash = getHash(data);
+    const [updated, err] = await map.set(uid, data, hash);
+    if (err) console.log(err);
+    expect(err).toEqual(null);
+  });
 
-    const apiClient = new CoreApiClient();
-    await apiClient.connect("localhost", 3081);
+  it('should get a given leaf witness by uid', async () => {
+    const [witness, err] = await map.getWitness(uid);
+    if (err) console.log(err);
+    expect(err).toEqual(null);
+  });
 
-    const result = await apiClient.query("get_merkle_map_leaf", ​{
-      "mapId":2,
-      "uid":"ffdf4a17-a35b-4703-be8e-8b16bdf54e91"
-    });
-    console.log(result);
-
-    expect(result).toEqual(mockResponse);
+  it('should get a merkle map root', async () => {
+    const [root, err] = await map.getRoot();
+    if (err) console.log(err);
+    expect(err).toEqual(null);
   });
 });
+
