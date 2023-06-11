@@ -1,57 +1,48 @@
 
-# OffchainMerkleStorage
+# Offchain Merkle Storage
 
 ### How to use 
 
 Here is an example of how to use the OffchainMerkleStorage server.
 
 ~~~typescript
-  import {
-    Field, 
-    MerkleMapWitness
-  } from "snarkyjs";
+import {  
+  OffchainMerkleMap,
+  OffchainMerkleStorage,
+  LeafInstance,
+  MerkleMapUpdate
+} from "../src/merkle-storage-client/index.js";
 
-  import { 
-    OffchainMerkleStorage,
-    OffchainMerkleMap,
-    LeafInstance,
-    MerkleMapUpdate,
-    dataToHash,
-    uuidToField
-  } from 'offchain-storage'; // we use the NPM installed lib
+// jest.mock('axios'); // Mocking the axios module
 
-  // the received uuid we want to insert or update
-  const receivedUid = "419b4d3e-a616-44b3-9f5d-bdb940afb05f";
-
-  // and the received data of the key we want to update  
-  const receivedData = {
-    uid:"419b...b05f",
-    accountId: "B62q...qYAm",
-    fullName: "Arriba del Pino",
-    // ... and other properties
-  };
-
-  // connect to offchain storage
-  const offchain = await OffchainMerkleStorage.connect({
-    to: "http://localhost:3010",
-    db: "myDb", // the Db can contain a max of 8 Maps (0..7) for now !
-    apiKey: "B230...A456" // the API Key Token created by the Server
-  });
-
-  // get the MerkleMap we want to update
-  const map = await offchain.getMerkleMap("communities");
+describe('Test Merkle storage client', () => {
   
-  // convert the received uid to a Field key
-  const key = uuidToField(receivedUid);
+  let offchain: OffchainMerkleStorage;  
+ 
+  offchain = new OffchainMerkleStorage();
+  offchain = await offchain.connect("localhost", 3081);
 
-  // and update (or insert) the data with the given key
-  // we will receive in return a MerkleMapUpdate transaction
-  // with previous and current roots and leaf values
-  let updatedTx = await map.set(key, receivedData);
-
-  // get the Witness of the changed key
-  const witness = await map.getWitness(key);
+  const [rs, err1] = await offchain.getMerkleMap('Maruco_2');
+  if (err1) console.log(err1);
+  let map = rs as OffchainMerkleMap;
   
+  const [leaf, err2] = await map.get(uid) ;
+  if (err2) console.log(err2);
+
+  const uid = "ffdf4a17-a35b-4703-be8e-8b16bdf54e91";
+  const hash = undefined; // = getHash(data);
+  const data = {
+    "uid": "ffdf4a17-a35b-4703-be8e-8b16bdf54e91",
+    "full_name": "ALgo Maruco Juan Zamudio",
+    "alias": "perejilitos"
+  }
+
+  const [updated, err3] = await map.set(uid, data, hash);
+  if (err3) console.log(err3);
+
+  const [witness, err4] = await map.getWitness(uid);
+  if (err4) console.log(err4);
+
   // now we can call a Contract @method with this ...
   // we do not care about concurrency here as this will be managed 
   // by the contract itself using a reducer or something ...
@@ -59,7 +50,7 @@ Here is an example of how to use the OffchainMerkleStorage server.
     contract.updateSomeMap(
       map,
       witness,
-      updatedTx
+      updated
     )
   });
 
@@ -68,7 +59,6 @@ Here is an example of how to use the OffchainMerkleStorage server.
 
   // sign it ... 
   const txnSigned = await txn1.sign([this.sender.privateKey]).send();
-
 ~~~
 
 
@@ -97,10 +87,16 @@ export class SomeMapContract extends SmartContract {
 
   init() {
     super.init();
-    // get the root of the new tree to use as the initial tree root
-    const initialRoot = (new OffchainMerkleMap(SOMEMAP_ID)).getRoot();
+    // get the root of the new map to use as the initial tree root
+    // we add a Null leaf at start to be consistent with the map 
+    // as it was initialized in the storage server
+    const emptyMap = new MerkleMap();
+    emptyMap.set(Field(0), Field(0));
+    const initialRoot = emptyMap.getRoot();
+
     // INITIALIZE the state now 
     this.someMapRoot.set(Field(initialRoot));      
+
     // ... maybe some other @state Fields initialization here ...
   }
 
@@ -111,11 +107,7 @@ export class SomeMapContract extends SmartContract {
     witness: MerkleMapWitness,
     updateTx: MerkleMapUpdate
   ) {
-    // just check we are updating the right Map
-    map.id.assertEquals(SOMEMAP_ID);
-    Circuit.log("Circuit.log update mapId=", mapId);
-
-    // asert current state values
+    // assert current state values
     const currentRoot = this.someMapRoot.get();
     this.someMapRoot.assertEquals(currentRoot);
     Circuit.log("Circuit.log currentRoot=", currentRoot);
