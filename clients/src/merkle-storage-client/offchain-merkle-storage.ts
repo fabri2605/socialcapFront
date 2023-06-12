@@ -1,5 +1,5 @@
 import { Field } from "snarkyjs";
-import { CoreApiClient } from "../core/api-client.js";
+import { CoreAPIClient } from "../core/api-client.js";
 import { ValueOrError } from "../core/responses.js";
 import { OffchainMerkleMap } from "./offchain-merkle-map.js"
 
@@ -7,10 +7,10 @@ export { OffchainMerkleStorage };
 
 class OffchainMerkleStorage {
 
-  apiClient: CoreApiClient;
+  apiClient: CoreAPIClient;
   
   constructor() {
-    this.apiClient = new CoreApiClient();
+    this.apiClient = new CoreAPIClient();
   } 
     
   async connect(
@@ -41,7 +41,7 @@ class OffchainMerkleStorage {
   async getMerkleMap(
     name: string
   ): Promise<ValueOrError<OffchainMerkleMap>> {
-    const [rs, error] =await this. apiClient.query("get_merkle_map", { 
+    const [rs, error] =await this.apiClient.query("get_merkle_map", { 
       name: name 
     })
     if (error) return [null, error];

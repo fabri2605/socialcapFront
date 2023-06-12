@@ -1,5 +1,5 @@
 /**
- * Result and error responses definitions and helpers
+ * API result and error responses definitions and helpers
  * used to return a correct result or an error response.
  * @created - MAZito - 2023-0
  */

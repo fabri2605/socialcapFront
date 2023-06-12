@@ -1,9 +1,9 @@
 import axios, { AxiosResponse } from 'axios';
 import { ValueOrError } from "./responses.js";
 
-export { CoreApiClient };
+export { CoreAPIClient };
 
-class CoreApiClient {
+class CoreAPIClient {
   API = {
     host: "",
     port: 3081,

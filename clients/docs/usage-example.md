@@ -1,6 +1,7 @@
 
 # Offchain Merkle Storage
 
+
 ### How to use 
 
 Here is an example of how to use the OffchainMerkleStorage server.
@@ -13,10 +14,6 @@ import {
   MerkleMapUpdate
 } from "../src/merkle-storage-client/index.js";
 
-// jest.mock('axios'); // Mocking the axios module
-
-describe('Test Merkle storage client', () => {
-  
   let offchain: OffchainMerkleStorage;  
  
   offchain = new OffchainMerkleStorage();
@@ -25,7 +22,8 @@ describe('Test Merkle storage client', () => {
   const [rs, err1] = await offchain.getMerkleMap('Maruco_2');
   if (err1) console.log(err1);
   let map = rs as OffchainMerkleMap;
-  
+
+  const uid = "ffdf4a17-a35b-4703-be8e-8b16bdf54e91";
   const [leaf, err2] = await map.get(uid) ;
   if (err2) console.log(err2);
 
@@ -40,25 +38,34 @@ describe('Test Merkle storage client', () => {
   const [updated, err3] = await map.set(uid, data, hash);
   if (err3) console.log(err3);
 
-  const [witness, err4] = await map.getWitness(uid);
-  if (err4) console.log(err4);
+  try {
+    const [witness, err4] = await map.getWitness(uid);
+    if (err4) console.log(err4);
+  
+    // now we can call a Contract @method with this ...
+    // we do not care about concurrency here as this will be managed 
+    // by the contract itself using a reducer or something ...
+    const txn1 = await Mina.transaction(this.sender.publicKey, () => {
+      contract.updateSomeMap(
+        map,
+        witness,
+        updated
+      )
+    });
+  
+    // build prove
+    const txnProved = await txn1.prove();
 
-  // now we can call a Contract @method with this ...
-  // we do not care about concurrency here as this will be managed 
-  // by the contract itself using a reducer or something ...
-  const txn1 = await Mina.transaction(this.sender.publicKey, () => {
-    contract.updateSomeMap(
-      map,
-      witness,
-      updated
-    )
-  });
-
-  // build prove
-  const txnProved = await txn1.prove();
-
-  // sign it ... 
-  const txnSigned = await txn1.sign([this.sender.privateKey]).send();
+    // sign it ... 
+    const txnSigned = await txn1.sign([this.sender.privateKey]).send();
+  }  
+  catch (err) {
+    // ROLLBACK 
+    const [rollback, err3] = await map.set(uid, 
+      updated.beforeLeaf,data, 
+      updated.beforeLeaf.hash
+    );
+  }
 ~~~
 
 
@@ -105,23 +112,25 @@ export class SomeMapContract extends SmartContract {
   @method updateSomeMap(
     map: OffchainMerkleMap,
     witness: MerkleMapWitness,
-    updateTx: MerkleMapUpdate
+    updated: MerkleMapUpdate,
   ) {
     // assert current state values
     const currentRoot = this.someMapRoot.get();
     this.someMapRoot.assertEquals(currentRoot);
     Circuit.log("Circuit.log currentRoot=", currentRoot);
 
-    // check the updateTx ID matches the Offchain registered Tx 
-    const updated = map.assertUpdateTransaction(
-      updateTx
+    // check the updated ID matches the Offchain registered Tx 
+    /* FUTURE ...
+    const storageWasUpdated = map.assertUpdateTransaction(
+      updated
     );
-    updated.assertEquals(true);
+    storageWasUpdated.assertEquals(true);
     Circuit.log("Circuit.log Offchain updated=", updated);
+    */
 
     // check the initial state matches what we expect
     const [ previousRoot, previousKey ] = witness.computeRootAndKey(
-      updateTx.beforeLeaf.hash
+      updated.beforeLeaf.hash
     );
 
     // check root is correct
@@ -134,7 +143,7 @@ export class SomeMapContract extends SmartContract {
 
     // compute the new root for the existent key and the newValue
     const [ newRoot, _ ] = witness.computeRootAndKey(
-      updateTx.afterLeaf.hash
+      updated.afterLeaf.hash
     );
 
     // set the new root

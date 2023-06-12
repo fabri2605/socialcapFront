@@ -1,8 +1,5 @@
 import { 
   ValueOrError,
-  hasResult, 
-  hasError, 
-  isError, 
   setLogger as logErrors 
 } from "../core/responses.js";
 import { 
@@ -22,7 +19,6 @@ export {
   OffchainMerkleMap,
   OffchainMerkleStorage,
   ValueOrError, 
-  hasError, 
   logErrors 
 }
 
