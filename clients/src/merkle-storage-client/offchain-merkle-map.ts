@@ -1,19 +1,19 @@
 import { Field, MerkleMapWitness } from "snarkyjs";
 import { ValueOrError } from "../core/responses.js";
-import { CoreApiClient } from "../core/api-client.js";
+import { CoreAPIClient } from "../core/api-client.js";
 import { LeafInstance, MerkleMapUpdate } from "./imported-defs.js";
 
 export { OffchainMerkleMap };
 
 class OffchainMerkleMap {
-  apiClient: CoreApiClient;
+  apiClient: CoreAPIClient;
   id: number;
   name: string;
   root: Field;
   count: number;
 
   constructor(
-    apiClient: CoreApiClient, 
+    apiClient: CoreAPIClient, 
     name: string, 
     id: number, 
     root: Field, 
