@@ -79,9 +79,9 @@ export default function WithSubnavigation() {
             bg={colors.brandGrey}
             borderRadius={"16px"}
             padding={"22px 32px"}
-            href={"#"}
+            href={"/login"}
           >
-            Sign In
+            Login
           </Button>
           <Button
             as={"a"}
@@ -93,7 +93,7 @@ export default function WithSubnavigation() {
             bg={colors.brandBlue}
             borderRadius={"16px"}
             padding={"22px 32px"}
-            href={"#"}
+            href={"/sign-up"}
             _hover={{
               bg: "#0E2865",
             }}
