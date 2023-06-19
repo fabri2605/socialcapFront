@@ -34,10 +34,9 @@ const Home: NextPage = () => {
         <title>Mina zkApp UI</title>
         <meta name="description" content="built with SnarkyJS" />
         <link rel="icon" href="/assets/favicon.ico" />
-      </Head>
-   
-        <Layout>
-          <Footer />
+      </Head> 
+      <Layout>
+        
         </Layout>
     </>
   );

@@ -18,7 +18,7 @@ async function mutationRoutes(
    fastify.post('/api/mutation/:method', async (request, reply) => {
     // get the RPC method from the Url path
     const method = (request.params as any).method;
-    
+    console.log("REQUEST BODY", request.body)
     // extract call "params" from POST payload
     const body = (request.body as any);
     let params = {}; 
