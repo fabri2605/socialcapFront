@@ -46,18 +46,19 @@
     
   <Collapse {isOpen} navbar expand="md" on:update={handleUpdate}>
     <Nav class="w-100 justify-content-center --ms-auto text-center pr-5 mt-2" navbar>
-      <NavItem>
-        <NavLink class={isActive("/communities",$page.url.pathname)} href="/communities">Communities</NavLink>
-      </NavItem>
-
-      <div class="mt-1 fs-5 text-muted"> | </div>
-
+      
       <NavItem>
         <NavLink 
           class={isActive("/claims",$page.url.pathname)} 
           href="/claims">
           Credentials
         </NavLink>
+      </NavItem>
+
+      <div class="mt-1 fs-5 text-muted"> | </div>
+
+      <NavItem>
+        <NavLink class={isActive("/communities",$page.url.pathname)} href="/communities">Communities</NavLink>
       </NavItem>
 
       {#if user && user.hasTasks}
@@ -67,12 +68,10 @@
         </NavItem>
       {/if}
 
-      {#if user && user.hasAdmins}
-        <div class="mt-1 fs-5 text-muted"> | </div>
-        <NavItem>
-          <NavLink href="/admins">Admins</NavLink>
-        </NavItem>
-      {/if}
+      <div class="mt-1 fs-5 text-muted"> | </div>
+      <NavItem>
+        <NavLink href="/admins">Admin</NavLink>
+      </NavItem>
 
       <!-- filler to center align correctly -->
       <div style="width:12rem;">&nbsp;</div>

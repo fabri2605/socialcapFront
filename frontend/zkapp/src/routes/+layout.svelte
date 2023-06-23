@@ -24,14 +24,16 @@
   });
 </script>
 
-<!-- MUST include here Bootstrap styling -->
-<Styles />
+<!-- MUST include here Bootstrap styling 
+  <Styles />
+-->
 
 <!--
   MINA original not used here
 -->
 <style global>
-  @import '../styles/mina-globals.css';
+  @import '/css/mina-globals.css';
+  @import '/css/bootstrap.css';
 </style>
 
 <svelte:head>
@@ -41,7 +43,7 @@
 <!-- Hexui -->
 <div style="position:fixed;top:0;left:0;bottom:0;right:0;">
   <Header />
-  <div style="margin-top:5rem;border:0px dotted red;overflow:auto;">
+  <div style="position:fixed;top:60px;left:0;bottom:0;right:0;border:0px dotted red;overflow:auto;">
     <Container class="mt-5">
       <slot></slot>
     </Container>
