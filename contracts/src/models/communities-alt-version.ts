@@ -5,7 +5,7 @@
  * ~~~
  *  import { mainZkapp } from '../zkapps.js';
  * 
- *  const community = Community({
+ *  const community = aCommunity({
  *    uid: UID(uid).toString(),
  *    fullName: "This is my name !",
  *    descriptions: "We are a BIIIIIG community, join us",
@@ -36,8 +36,10 @@ export { Community };
 
 const Community = (params: any) => new _Community_().fromJSON(params);
 
+// Alternative version creates instance var inside the class, will it work ?
 
 class _Community_ extends Struct({ uid: Field }) {
+  // instance vars
   accountId: PublicKey = PublicKey.empty();
   fullName: CircuitString = CircuitString.fromString("?");
   description: CircuitString = CircuitString.fromString("");
