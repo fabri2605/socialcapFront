@@ -3,9 +3,10 @@
  * 
  * Use:
  * ~~~
- *  import { mainZkapp } from '../zkapps.js';
+ *  import { mainZkapp } from '../mediators/main-mediator.js';
+ *  import { aCommunity } from '../models/communities.js';
  * 
- *  const community = Community({
+ *  const community = aCommunity({
  *    uid: UID(uid).toString(),
  *    fullName: "This is my name !",
  *    descriptions: "We are a BIIIIIG community, join us",
@@ -32,12 +33,12 @@ import { UTCDateTime } from '../helpers/datetime.js';
 import { State, CommunityState } from '../helpers/states.js';
 import { BigString } from '../helpers/bigstring.js';
 
-export { Community };
+export { aCommunity, Community };
 
-const Community = (params: any) => new _Community_().fromJSON(params);
+const aCommunity = (params: any) => new _Community_().fromJSON(params);
 
 
-class _Community_ extends Struct({
+class Community extends Struct({
   uid: Field,
   accountId: PublicKey,
   fullName: String,
