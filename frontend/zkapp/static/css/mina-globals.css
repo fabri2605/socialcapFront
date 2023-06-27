@@ -2,23 +2,23 @@
   font-family: 'ABC Monument Grotesk';
   font-style: normal;
   font-weight: normal;
-  src: url('../fonts/ABCMonumentGrotesk-Regular.woff2') format('woff2'),
-    url('../fonts/ABCMonumentGrotesk-Regular.woff') format('woff');
+  src: url('/fonts/ABCMonumentGrotesk-Regular.woff2') format('woff2'),
+    url('/fonts/ABCMonumentGrotesk-Regular.woff') format('woff');
 }
 
 @font-face {
   font-family: 'ABC Monument Grotesk Light';
   font-style: normal;
-  src: url('../fonts/ABCMonumentGrotesk-Light.woff2') format('woff2'),
-    url('../fonts/ABCMonumentGrotesk-Light.woff') format('woff');
+  src: url('/fonts/ABCMonumentGrotesk-Light.woff2') format('woff2'),
+    url('/fonts/ABCMonumentGrotesk-Light.woff') format('woff');
 }
 
 @font-face {
   font-family: 'ABC Monument Grotesk Bold';
   font-style: normal;
   font-weight: bold;
-  src: url('../fonts/ABCMonumentGrotesk-Bold.woff2') format('woff2'),
-    url('../fonts/ABCMonumentGrotesk-Bold.woff') format('woff');
+  src: url('/fonts/ABCMonumentGrotesk-Bold.woff2') format('woff2'),
+    url('/fonts/ABCMonumentGrotesk-Bold.woff') format('woff');
 }
 
 :root {
@@ -28,6 +28,8 @@
   --font-monument-bold: 'ABC Monument Grotesk Bold', sans-serif;
   --font-monument-light: 'ABC Monument Grotesk Light', sans-serif;
   --foreground-rgb: 0, 0, 0;
+  --bs-font-sans-serif: 'ABC Monument Grotesk', sans-serif;
+  --bs-font-monospace: SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
 }
 
 * {
@@ -49,3 +51,7 @@ a {
   font-size: 1.125em;
   no-text-decoration: none;
 }
+
+/** Bootstrap extensions **/
+.fs-sm { font-size: 0.875rem; }
+.fs-xs { font-size: 0.8rem; }

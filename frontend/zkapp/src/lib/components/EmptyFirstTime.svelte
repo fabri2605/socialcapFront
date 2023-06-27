@@ -1,6 +1,6 @@
 <div class="py-4 border-0 w-100 text-center">
     <div class="mb-4">
-      <img src="/img/svg/undraw_mornings_re_cofi.svg" height="180px" alt="First time here!"/>
+      <img src="/img/svg/undraw_mornings_re_cofi.svg" height="80px" alt="First time here!"/>
     </div>
     <h6 class="lh-lg">Hi {user.fullName} !</h6>
     <p class="w-auto fs-4 lh-lg">You have not joined any community yet</p>

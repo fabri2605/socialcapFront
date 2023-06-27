@@ -25,8 +25,8 @@
 </script>
 
 <!-- MUST include here Bootstrap styling 
-  <Styles />
 -->
+<Styles />
 
 <!--
   MINA original not used here

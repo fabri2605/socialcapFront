@@ -50,7 +50,7 @@
       <NavItem>
         <NavLink 
           class={isActive("/claims",$page.url.pathname)} 
-          href="/claims">
+          href="/credentials">
           Credentials
         </NavLink>
       </NavItem>
