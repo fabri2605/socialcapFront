@@ -51,7 +51,7 @@
   --bs-info-rgb: 40, 123, 181;
   --bs-warning-rgb: 244, 189, 97;
   --bs-danger-rgb: 218, 41, 46;
-  --bs-light-rgb: 248, 249, 250;
+  --bs-light-rgb: 120,120,120; /*248, 249, 250;*/
   --bs-dark-rgb: 33, 37, 41;
   --bs-primary-text-emphasis: #15245c;
   --bs-secondary-text-emphasis: #666666;
@@ -88,8 +88,8 @@
   --bs-body-font-size: 1rem;
   --bs-body-font-weight: 400;
   --bs-body-line-height: 1.5;
-  --bs-body-color: #495057;
-  --bs-body-color-rgb: 73, 80, 87;
+  --bs-body-color: #aa7a99;/*#495057;*/
+  --bs-body-color-rgb: 190,120,120 /*73, 80, 87;*/
   --bs-body-bg: #fff;
   --bs-body-bg-rgb: 255, 255, 255;
   --bs-emphasis-color: #000;

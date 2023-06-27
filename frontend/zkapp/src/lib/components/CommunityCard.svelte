@@ -1,12 +1,12 @@
 <div class="card-container">
-  <Card class="px-3 border-0 -shadow-none">
-  <CardHeader class="bg-white d-flex justify-content-between align-items-start py-0 my-0 pt-4 fs-xs border-0">
+  <Card class="px-3 border-0 shadow">
+  <CardHeader class="bg-white d-flex justify-content-between align-items-center py-0 my-0 pt-4 fs-xs border-0">
     <div>
       <p class="mt-1 mb-0 py-0">
         <a class="fs-6 text-dark fw-bold text-decoration-none" href={`/communities/${uid}`}>Community tittle</a>
-        <Badge class="rounded-1 fs-xs mx-2 py-2" color="success">APPROVED</Badge>
       </p>
-      <p>
+      <p class="mt-1">
+        <Badge class="rounded-1 fs-xs me-2 py-1 px-2" color="success">APPROVED</Badge>
         <b>96</b> members
       </p>
     </div>
@@ -15,7 +15,8 @@
     </p>
   </CardHeader>
   <CardBody class="my-0 pt-1">
-    <p class="fs-xs text-body">Description of this awesome community which you want to join. Description of this awesome community which you want to join. Description of this awesome community which you want to join.</p>
+    <p class="fs-xs text-secondary">
+      Description of this awesome community which you want to join. Description of this awesome community which you want to join. Description of this awesome community which you want to join.</p>
     <div class="d-flex justify-content-start">
       <p class="">
         <span class="fs-xs">Start Date</span>
@@ -44,8 +45,9 @@
 
 <style>
   .card-container {
-    max-width: 27rem;
-    min-width: 27rem;
+    width:30.5%;
+    /* max-width: 24rem;
+    min-width: 24rem; */
     display: inline-block;
     margin-right: 2rem;
     margin-bottom: 2rem;;

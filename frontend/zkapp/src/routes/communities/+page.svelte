@@ -1,4 +1,4 @@
-<div style="background-color: #F8F8F6;">
+<div style="margin:auto;">
   <Sidenote>
     <hr/>
     <p>::: FIRST TIME USER - HAS NOT JOINED ANY COMMUNITY YET :::</p>

@@ -1,11 +1,19 @@
-<div style="background-color: #FaFaFa;">
+<div style="width: 46rem;margin:auto;color: #7a7a99;">
   <Section>
-    <h4 class="d-flex justify-content-between align-items-center">
-      <span>{data.fullName}</span>
-      <img height="42px" src="/img/vars/LongHash-Ventures-White-Logo-Transparent.png" />
-    </h4>
-    <p><b>{data.count}</b> members</p>
-    <p>{@html data.description}</p>    
+    <div class="d-flex justify-content-between align-items-center p-0 m-0">
+      <div>
+        <h2 class="text-black">{data.fullName}</h2>
+        <p class="fs-sm mt-2">
+          <b>{data.count}</b> members
+          | <span class="fs-4"> 🎉 </span>
+          &nbsp; <b>300</b> credentials issued !
+        </p>
+      </div>
+      <p class="bg-body-secondary p-3">
+        <img height="42px" src="/img/vars/zk_dao_logo.svg" />
+      </p>
+    </div>
+    <p class="w-50">{@html data.description}</p>    
 
     <div class="d-flex justify-content-start">
       <p class="">
@@ -21,20 +29,23 @@
         <br/><b class="fs-sm">Today</b>
       </p>
     </div>
-    <p class="fs-sm">
-      <a href={'#'}>Become a validator</a> for this community
-    </p>
-    <p class="fs-sm mt-1">
-      Do you <a href={'/admins/123'}>administer this</a> ? 
-    </p>
 
-    <p class="mt-5">
-      Claim your credential !
+    <p class="mt-4">
+      <b>Claim your credential !</b>
     </p>
     <div>
         {#each data.plans as plan}
           <CanClaimNow uid={plan.uid} data={plan}/>
         {/each}
+    </div>
+
+    <div class="mt-3">
+      <p class="fs-sm">
+        <a href={'#'}>Become a validator</a> for this community
+      </p>
+      <p class="fs-sm mt-1">
+        Do you <a href={'/admins/123'}>administer this</a> ? 
+      </p>
     </div>
   </Section>
 

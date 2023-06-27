@@ -5,12 +5,6 @@
   // Ui components
   import { onMount, afterUpdate } from 'svelte';
 	import { goto } from '$app/navigation';
-	import { getItem } from '$lib/utility/localStorageController';
-	import { Spinner, Icon } from 'sveltestrap';
-  import EmptyCredentials from '$lib/components/EmptyCredentials.svelte';
-  import EmptyFirstTime from '$lib/components/EmptyFirstTime.svelte';
-  import { getCurrentUser, isFirstTimeUser } from "$lib/models/current-user";
-
   import { 
     loadSnarky, 
     berkeleyMinaStore, 
@@ -18,6 +12,14 @@
 	  getWalletAccount,
 	  updateAdd
   } from '$lib/zkapp/helpers';
+	import { getItem } from '$lib/utility/localStorageController';
+	import { Spinner, Icon } from 'sveltestrap';
+  import EmptyCredentials from '$lib/components/EmptyCredentials.svelte';
+  import EmptyFirstTime from '$lib/components/EmptyFirstTime.svelte';
+  import { getCurrentUser, isFirstTimeUser } from "$lib/models/current-user";
+  import Sidenote from '@components/Sidenote.svelte';
+  import CanClaimNow from '@components/CanClaimNow.svelte';
+  import { claimableCredentials } from '@models/claimable-credentials';
 
   let 
     isAuthenticated = getItem('access_token'),
@@ -50,4 +52,18 @@
       <EmptyCredentials {user} />
     {/if}
   {/if}
+
+  <!-- <Sidenote>
+    <hr>
+    ::: Here we can show all available credentials he/she can claim from the communities he belongs:::
+  </Sidenote> -->
+  <p class="mt-4">
+    <!-- <b>Claim your credential !</b> -->
+  </p>
+  <div>
+      {#each claimableCredentials as plan}
+        <CanClaimNow uid={plan.uid} data={plan}/>
+      {/each}
+  </div>
+
 </div>
