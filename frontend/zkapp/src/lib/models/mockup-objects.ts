@@ -1,5 +1,28 @@
 
-export { aMasterPlan, aClaim };
+import { aCredentialMockup } from "./Credential";
+
+export { aMasterPlan, aClaim, aCredentialMockup as aCredential };
+
+/*
+  MOCKUP LISTS
+
+  - aClaimableCredentialsList
+  - aCredentialsList
+  - aClaimsList
+  - aCommunitiesList
+  - aTasksList
+  - aAdminCommunitiesList
+
+  MOCKUP SINGLE OBJECTS
+  
+  - aTask
+  - aAdminCommunity
+  - aCommunity
+  - aProfile
+  - aClaim DONE
+  - aMasterPlan DONE
+  - aCredential DONE
+*/
 
 const shorttext = "This is the Credential name";
 const longtext = "This is a description of the Credential type, its goals and who can claim it when providing the necessary evidence. ";
@@ -79,6 +102,11 @@ const aMasterPlan = {
 
 const aClaim = {
   uid: "claim1234",
+  communityUid: "comm1234",
+  planUid: "",
+  applicantUid: "",
+  accountId: "",
+
   name: shorttext,
   description: longtext+longtext,
   alias: "My crypto alias",
@@ -117,3 +145,4 @@ const aClaim = {
   ],
   hash: "A62F345678...A0BC4"
 }
+

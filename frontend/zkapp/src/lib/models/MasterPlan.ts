@@ -21,6 +21,9 @@ class MasterPlan {
   // required evidence data the claimer needs to supply
   evidence: EvidenceField[];
 
+  // extra data to be included in NFT metadata when issuing/minting
+  metadata: {}; // to be filled by Admin with a JSON object
+
   // extra claim content for Claimer and Validators ...
   instructions: Markdown; // validator instructions
   legal: Markdown; // legal warnings

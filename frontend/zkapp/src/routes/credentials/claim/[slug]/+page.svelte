@@ -72,7 +72,7 @@
       {/each}
 
       <div class="mt-5 mb-5 px-2 d-flex justify-content-between align-items-center">
-        <BackButton size="fs-2" label="Cancel" color="danger"/>
+        <BackButton size="fs-1" label="Cancel" color="danger"/>
         <div>
           <SubmitButton on:click={() => saveDraft()}
             color="secondary" label="Save draft ..."/>
