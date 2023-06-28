@@ -55,3 +55,5 @@ a {
 /** Bootstrap extensions **/
 .fs-sm { font-size: 0.875rem; }
 .fs-xs { font-size: 0.8rem; }
+.mw-form { max-width: 33rem;} /* max width for forms */
+.mw-readable { max-width: 46rem;} /* max width for readable text */

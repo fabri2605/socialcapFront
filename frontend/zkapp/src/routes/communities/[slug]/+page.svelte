@@ -1,5 +1,5 @@
-<div style="width: 46rem;margin:auto;color: #7a7a99;">
-  <Section>
+<div style="color: #7a7a99;">
+  <Section readable>
     <div class="d-flex justify-content-between align-items-center p-0 m-0">
       <div>
         <h2 class="text-black">{data.fullName}</h2>

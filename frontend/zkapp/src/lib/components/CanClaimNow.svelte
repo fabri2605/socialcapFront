@@ -4,7 +4,7 @@
     <div>
       <p class="mt-1 mb-0 py-0">
         <a class="fs-6 text-dark fw-bold text-decoration-none" 
-          href={`/canclaim/${uid}`}
+          href={`/credentials/claim/${uid}`}
           >{data.title}</a>
         </p>
         <p class="fs-6">
@@ -29,7 +29,11 @@
       </p>
     </div>
     <p>
-      <Button class="rounded-4 px-3 fs-sm" color="primary" size="sm">Claim it now !</Button>
+      <Button class="rounded-4 px-3 fs-sm" color="primary" size="sm">
+        <a href={"/credentials/claim/"+uid}>
+          Claim it now ! AA
+        </a>
+      </Button>
     </p>
   </CardBody>
 </Card>

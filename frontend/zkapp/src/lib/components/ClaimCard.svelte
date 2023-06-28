@@ -1,7 +1,7 @@
 <div class="card-container">
   <Card class="card-options">
   <CardHeader>
-    <a href="/credentials/issued/1234">Claim #{uid}</a>
+    <a href="/credentials/claimed/1234">Claim #{uid}</a>
   </CardHeader>
   <CardBody>
     <p>Description</p>

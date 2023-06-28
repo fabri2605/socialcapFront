@@ -33,7 +33,7 @@
 -->
 <style global>
   @import '/css/mina-globals.css';
-  @import '/css/bootstrap.css';
+  /*@import '/css/bootstrap.css';*/
 </style>
 
 <svelte:head>

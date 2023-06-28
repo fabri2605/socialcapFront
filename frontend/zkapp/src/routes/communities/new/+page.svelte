@@ -1,52 +1,37 @@
-<div style="max-width:36rem;margin:auto;" class="p-4">
+<div class="p-4">
+  <Section readable>
     <h4>Register your community</h4>
 
     <div class="new-member-modal">
 
       <!-- <Alert color="nolight mb-4"> -->
-        <div>
-          <!-- <h4 class="alert-heading text-capitalize">
+      <div>
+        <!-- <h4 class="alert-heading text-capitalize">
             Caution
           </h4> -->
-          <p class="lh-lg mt-4">
-            Are you one of the Administrators of this community ?
-            <br>
-            We <a href="#todo" class="alert-link text-danger">will check this before approving</a>
-            the community registration.
-          </p>
-        </div>
+        <p class="lh-lg mt-4">
+          Are you one of the Administrators of this community ?
+          <br>
+          We <a href="#todo" class="alert-link text-danger">will check this before approving</a>
+          the community registration.
+        </p>
+      </div>
       <!-- </Alert>   -->
 
       <Form>
         <FormGroup class="mt-4">
           <Label>Community name</Label>
-          <Input 
-            bind:value={data.name}
-            invalid={!data.name.trim()} 
-            type="text" class="form-control" placeholder="" 
-            feedback="Provide a name for this community."
-           />
+          <Input bind:value={data.name} invalid={!data.name.trim()} type="text" class="form-control" placeholder=""
+            feedback="Provide a name for this community." />
         </FormGroup>
         <FormGroup class="mt-5">
-          <Input
-            bind:value={data.description}
-            type="textarea"
-            class="form-control"
-            id="exampleFormControlTextarea1"
-            rows="3"
-            placeholder="Describe its goals, membership rules, etc here ..."
-            invalid={!data.description.trim()} 
-            feedback="Provide a description for this community."
-          />
+          <Input bind:value={data.description} type="textarea" class="form-control" id="exampleFormControlTextarea1"
+            rows="3" placeholder="Describe its goals, membership rules, etc here ..." invalid={!data.description.trim()}
+            feedback="Provide a description for this community." />
         </FormGroup>
         <FormGroup class="mt-5">
-          <Input
-          bind:checked={data.accepted}
-          class="checkbox"
-          type="checkbox"
-          id="check-grp-2"
-          label="I agree with the Terms and Conditions"
-          />
+          <Input bind:checked={data.accepted} class="checkbox" type="checkbox" id="check-grp-2"
+            label="I agree with the Terms and Conditions" />
           {#if !data.accepted}
             <p class="py-1 ">
               <!--Before submiting this, please note that in order to avoid spurious registrations we will latter require you to <b>deposit two (2) MINA tokens</b> to complete the registration. 
@@ -77,7 +62,7 @@
         </div>
 
       </Form>
-    </div>
+  </Section>
 </div>
 
 <script>
@@ -100,6 +85,7 @@
   import EmptyFirstTime from "$lib/components/EmptyFirstTime.svelte";
   import EmptyCredentials from "$lib/components/EmptyCredentials.svelte";
   import { getCurrentUser, isFirstTimeUser } from "$lib/models/current-user";
+  import Section from '@components/Section.svelte';
 	
   let user = null;
 
