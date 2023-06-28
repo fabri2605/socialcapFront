@@ -30,8 +30,8 @@
     </div>
     <p>
       <Button class="rounded-4 px-3 fs-sm" color="primary" size="sm">
-        <a href={"/credentials/claim/"+uid}>
-          Claim it now ! AA
+        <a href={"/credentials/claim/"+uid} class="text-white text-decoration-none fs-sm">
+          Claim it now !
         </a>
       </Button>
     </p>

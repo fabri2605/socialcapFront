@@ -26,20 +26,33 @@
   </Sidenote>
   <Section>
     <div class="pb-3">
-      Show <a href={'#'}>My credentials</a> | <a href={'#'}>Submited claims</a> 
+      Show 
+        <a href={'#'}>Available for claiming</a> 
+        | <a href={'#'}>My credentials</a> 
+        | <a href={'#'}>Submited claims</a> 
       &nbsp; | &nbsp;
       Sort by <select>
         <option>Newest</option>
         <option>Due date</option>
       </select>
     </div>
-    <div>
+    
+    <div class="mt-4">
+      <h5>My owned credentials ...</h5>
       <CredentialCard uid=1/>
       <CredentialCard uid=2/>
       <CredentialCard uid=3/>
     </div>
-    <br/>
-    <div>
+
+    <div class="mt-3">
+      <h5>Can claim this ones ...</h5>
+      {#each claimableCredentials as plan}
+        <CanClaimNow uid={plan.uid} data={plan}/>
+      {/each}
+    </div>
+
+    <div class="mt-4">
+      <h5>Submited claims in review</h5>
       <ClaimCard uid=1/>
       <ClaimCard uid=2/>
       <ClaimCard uid=3/>
@@ -61,8 +74,10 @@
   import Empty from "@components/Empty.svelte";
   import CredentialCard from "@components/CredentialCard.svelte";
   import ClaimCard from "@components/ClaimCard.svelte";
+  import CanClaimNow from "@components/CanClaimNow.svelte";
   import { getCurrentUser, isFirstTimeUser } from "$lib/models/current-user";
-	
+	import { claimableCredentials } from "@models/claimable-credentials";
+  
   let user = getCurrentUser();
 
   onMount(() => {

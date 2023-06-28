@@ -36,10 +36,11 @@
       </div>
       
       <div class="mt-4">
-        SocialCap community attestation 
-        <Badge class="fs-sm" color="success">Passed</Badge> 
-        <br>
-        <p class="mt-2 fs-sm"><a href="https://...">Link to transaction/metadata</a></p>
+        <p class="m-0 p-0 lh-1 mt-2 fs-sm"><a href="https://...">Link to transaction/metadata</a></p>
+        <p class="mt-2 fs-xs">
+          <img alt="Socialcap logo" src="/img/socialcap/socialcap-logo.svg" height="24px"/>
+          <Badge class="fs-sm" color="success">Verified</Badge> 
+        </p>
       </div>
     </div>
   </Section>
