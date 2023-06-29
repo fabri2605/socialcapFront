@@ -1,19 +1,25 @@
+import { MasterPlan, aMasterPlanMockup } from "./MasterPlan";
+import { Claim, aClaimMockup } from './Claim';
+import { CapCredential, aCredentialMockup } from "./Credential";
+import { ClaimsCollection, olClaimablesMockup, olSubmitedClaimsMockup } from "./ClaimsCollection";
+import { CredentialsCollection, olCredentialsMockup } from "./CredentialsCollection";
 
-import { aCredentialMockup } from "./Credential";
-
-export { aMasterPlan, aClaim, aCredentialMockup as aCredential };
+export { 
+  aMasterPlan, aClaim, aCredential, aTask, aCommunity, aProfile, aAdminCommunity,
+  olClaimables, olSubmitedClaims, olCredentials, olTasks, olCommunities, olAdminCommunities 
+};
 
 /*
-  MOCKUP LISTS
+  MOCKUP ORDERED LISTS (olTs)
 
-  - aClaimableCredentialsList
-  - aCredentialsList
-  - aClaimsList
-  - aCommunitiesList
-  - aTasksList
-  - aAdminCommunitiesList
+  - olClaimables
+  - olCredentials
+  - olSubmitedClaims
+  - olCommunities
+  - olTasks
+  - olAdminCommunities
 
-  MOCKUP SINGLE OBJECTS
+  MOCKUP SINGLE OBJECTS (aT)
   
   - aTask
   - aAdminCommunity
@@ -24,125 +30,21 @@ export { aMasterPlan, aClaim, aCredentialMockup as aCredential };
   - aCredential DONE
 */
 
-const shorttext = "This is the Credential name";
-const longtext = "This is a description of the Credential type, its goals and who can claim it when providing the necessary evidence. ";
-const longnote = "This is a long note which may contain **markdown** elements inside it. "
+const aClaim = Claim.fromJSON(JSON.stringify(aClaimMockup));
 
-const aMasterPlan = {
-  uid: "mp1234", 
-  communityUid: "co1234", // the community that will issue this Credential
-  state: "ACTIVE", 
+const aMasterPlan = MasterPlan.fromJSON(JSON.stringify(aMasterPlanMockup));
 
-  // how the claim or credential will be presented
-  name: "This is the Credential name",
-  description: longtext+longtext+longtext, // we can use Markdown here
-  card: { // some images for styling the Claim/Credential cards
-    logo: "", // a dataURI with the logo for use 
-    background: "", // a dataURI with the background
-  },
-  template: { // a template for the credential image, such as an SVG
-    type: "",
-    content: ""
-  }, 
+const aCredential = CapCredential.fromJSON(JSON.stringify(aCredentialMockup));
 
-  // required evidence data the claimer needs to supply
-  evidence: [{ 
-      sid: 'tgid',
-      required: true, // a required field
-      label: "Your telegram account",
-      description: "We need this in order to communicate with you.",
-      type: "text",
-      extras: { 
-        max: 300, //max number of chars in this field 
-      }
-    }, { 
-      sid: 'more',  
-      required: true, // a required field
-      label: "Additional evidence for your claim",
-      description: "Please provide additional evidence to sustain your claim.",
-      type: "note",
-      extras: { 
-        max: 1300, //max number of chars in this field 
-      }
-    }, {
-      sid: 'docfile',
-      required: false, // optional field
-      label: "Attach this file please ...",
-      description: "Please attach this file so we can verify it.",
-      type: "file",
-      extras: { 
-        allowed: "svg,png", // allowed field types
-      }
-    }
-  ],
+const olClaimables = ClaimsCollection.fromJSON(JSON.stringify(olClaimablesMockup));
 
-  // fees and shares
-  fee: 2, // the fee in MINA required for this credential
-  shares: {
-    rewards: 40,// percentaje of the fee that will go to validator rewards
-    community: 40, // percentaje of fee that will go to the community
-    protocol: 20 // percentaje of fee that will go to the Protocol (Socialcap)
-  },
+const olSubmitedClaims = ClaimsCollection.fromJSON(JSON.stringify(olSubmitedClaimsMockup));
 
-  // claim parameters
-  expiration: 365, // days since issued when an issued credential wil expire (or 0 for no expiration)
-  revocable: true, // if this credential can be revoked 
-  strategy: {},
-  links: [], // array of {value, text} 
-  // when claiming of this credential can start and when it ends
-  startsUTC: "2023-05-02", 
-  endsUTC: "2023-08-02",
+const olCredentials = CredentialsCollection.fromJSON(JSON.stringify(olCredentialsMockup));
 
-  // standard activity times
-  createdUTC: "2021-01-01",
-  updatedUTC: "2023-05-06",
-  approvedUTC: "2021-02-06",
-}
+const olAdminCommunities = [];
 
+const olTasks = [];
 
-const aClaim = {
-  uid: "claim1234",
-  communityUid: "comm1234",
-  planUid: "",
-  applicantUid: "",
-  accountId: "",
-
-  name: shorttext,
-  description: longtext+longtext,
-  alias: "My crypto alias",
-  state: "VOTING",
-
-  // activity times
-  createdUTC: "2023-05-01 15:07",
-  updatedUTC: "2023-05-07 12:01",
-  votedUTC: "",
-  issuedUTC: "",
-  dueUTC: "",
-  
-  // voting results
-  totalVotes: 4,
-  positiveVotes: 1,
-  negativeVotes: 0,
-  ignoredVotes: 0,
-
-  // evidence data
-  evidence: [{
-      sid: 'tgid',
-      label: "Your telegram account",
-      type: "text",
-      value: "@marucoPenguin"
-    }, { 
-      sid: 'more',  
-      label: "Additional evidence for your claim",
-      type: "note",
-      value: longnote+longnote+longnote,
-    }, {
-      sid: 'docfile',
-      label: "Attach this file please ...",
-      type: "file",
-      value: "/files/0234...feA00.svg"
-    }
-  ],
-  hash: "A62F345678...A0BC4"
-}
+const olCommunities = [];
 

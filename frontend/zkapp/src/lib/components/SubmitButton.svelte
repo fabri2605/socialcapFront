@@ -1,5 +1,5 @@
 <Button 
-  color={color} class="rounded-1 py-2 px-3">
+  color={color} class="rounded-5 py-2 px-3">
   {label}
 </Button>
 

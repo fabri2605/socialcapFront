@@ -23,8 +23,8 @@ const obj = {
 
 /** @type {import('./$types').PageLoad} */
 export function load({ params }) {
-    if (params.slug !== "") {
-        obj.uid = params.slug;
+    if (params.uid !== "") {
+        obj.uid = params.uid;
         return obj;
     }
 

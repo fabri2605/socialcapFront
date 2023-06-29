@@ -19,6 +19,9 @@ class CapCredential {
   }
 }
 
+
+/// Mockups ///
+
 const aCredentialMockup = {
   uid: "claim1234",
   communityUid: "comm1234",

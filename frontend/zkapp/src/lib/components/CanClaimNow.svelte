@@ -4,7 +4,7 @@
     <div>
       <p class="mt-1 mb-0 py-0">
         <a class="fs-6 text-dark fw-bold text-decoration-none" 
-          href={`/credentials/claim/${uid}`}
+          href={`/credentials/new/${uid}`}
           >{data.title}</a>
         </p>
         <p class="fs-6">
@@ -30,7 +30,7 @@
     </div>
     <p>
       <Button class="rounded-4 px-3 fs-sm" color="primary" size="sm">
-        <a href={"/credentials/claim/"+uid} class="text-white text-decoration-none fs-sm">
+        <a href={"/credentials/new/"+uid} class="text-white text-decoration-none fs-sm">
           Claim it now !
         </a>
       </Button>

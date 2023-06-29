@@ -1,4 +1,16 @@
-<div>
+<div class="w-100 m-0 pt-4 px-3 d-flex justify-content-between align-items-center">
+  <p class="p-0 m-0 pb-3">
+    <BackButton size="fs-2"/>  
+  </p>
+    <Breadcrumb>
+      <BreadcrumbItem>
+        <a href="/credentials">Credentials</a>
+      </BreadcrumbItem>
+      <BreadcrumbItem active>Issued credential {data.uid}</BreadcrumbItem>
+    </Breadcrumb>  
+</div>
+
+<div class="bg-white w-100 rounded-4 mt-0 pt-5">
   <!-- <Sidenote form>
     <hr/>
     <p>::: THIS IS AN APPROVED CREDENTIAL :::</p>
@@ -7,7 +19,7 @@
   </Sidenote> -->
 
   <Section form>
-    <div class="header text-center border border-1 rounded-3 p-4">
+    <div class="header text-center border border-1 rounded-3 p-4 shadow-lg">
       <div>
         <img src={data.image} height="240px" crossorigin/>
         <br/>
@@ -46,8 +58,7 @@
   </Section>
 
   <Section form>
-    <div class="mt-3 mb-5 px-2 d-flex justify-content-between align-items-center">
-      <BackButton size="fs-1" label="" color="secondary"/>
+    <div class="mt-3 mb-5 px-2 d-flex justify-content-center align-items-center">
       <div>
         Not minted yet ? &nbsp;
         <Button color="primary" class="rounded-5 p-2 px-3">Mint it now !</Button>
@@ -87,7 +98,7 @@
 
 <script>
   import { onMount } from "svelte";
-  import { Icon, Badge, Form, FormGroup, FormText, Label, Input, Button } from 'sveltestrap';
+  import { Breadcrumb, BreadcrumbItem, Icon, Badge, Form, FormGroup, FormText, Label, Input, Button } from 'sveltestrap';
   import Filler from "$lib/components/Filler.svelte";
   import Sidenote from "@components/Sidenote.svelte";
   import Section from "@components/Section.svelte";

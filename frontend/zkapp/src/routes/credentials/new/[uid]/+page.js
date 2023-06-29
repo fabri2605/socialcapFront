@@ -13,7 +13,7 @@ import { aMasterPlan } from '@models/mockup-objects';
 /** @type {import('./$types').PageLoad} */
 export async function load({ params, route, url }) {
     if (params.slug !== "") {
-      const planUid = params.slug;
+      const planUid = params.uid;
 
       // const aMasterPlan = await API.get(planUid, ...);
       const plan = MasterPlan.fromJSON(JSON.stringify(aMasterPlan));

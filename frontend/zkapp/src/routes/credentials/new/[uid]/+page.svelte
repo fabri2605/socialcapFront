@@ -1,31 +1,57 @@
-<div style="margin:auto;">
+<div class="w-100 m-0 pt-4 px-3 d-flex justify-content-between align-items-center">
+  <p class="p-0 m-0 pb-3">
+    <BackButton size="fs-2"/>  
+  </p>
+    <Breadcrumb>
+      <BreadcrumbItem>
+        <a href="/">Home</a>
+      </BreadcrumbItem>
+      <BreadcrumbItem active>Claim a new credential</BreadcrumbItem>
+    </Breadcrumb>  
+</div>
+
+<div class="bg-white w-100 rounded-4 mt-0 pt-5">
   <!-- <Sidenote>
     <hr/>
     <p>::: USER CAN CLAIM A CREDENTIAL OF SOME COMMUNITY WHERE HE/SHE IS A MEMBER :::</p>
     <p>This is a form where he will claim a new credential, and this form is controlled by the MasterPlan.</p>
     <p>We only arrive here if the user already is a member of at least one community.</p>
   </Sidenote> -->
-  <Section form>
-    <h3 class="text-black d-flex justify-content-between align-items-center">
-      <span>{data.plan.name}</span>
-      <span class="fs-xs">
-        <Badge color="success">ACTIVE</Badge>
-      </span>
-    </h3>
-    <p class="fs-sm text-secondary lh-base">{@html data.plan.description}</p>
-    <div class="d-flex justify-content-start">
-      <p class="">
-        <span class="fs-xs">Start Date</span>
-        <br/><b class="fs-sm">{data.plan.startsUTC}</b>
-      </p>
-      <p class="px-4">
-        <span class="fs-xs">Ends Date</span>
-        <br/><b class="fs-sm">{data.plan.endsUTC}</b>
-      </p>
-    </div>
+  <Section readable>
+    <div class="d-flex align-items-center justify-content-between">
+      <div class="w-25 me-4" style="--margin-left:-25px;">
+        <img src={data?.plan.image} alt="Badge" height="180px" crossorigin/>
+      </div>
 
+      <div class="w-75">
+        <h3 class="text-black d-flex justify-content-between align-items-center">
+          <span>{data.plan.name}</span>
+          <span class="fs-sm">
+            <Badge color="success">ACTIVE</Badge>
+          </span>
+        </h3>
+        <p class="fs-sm text-secondary lh-base mt-3">{@html data.plan.description}</p>
+        <div class="d-flex justify-content-start">
+          <p class="">
+            <span class="fs-xs">Start Date</span>
+            <br/><b class="fs-sm">{data.plan.startsUTC}</b>
+          </p>
+          <p class="px-4">
+            <span class="fs-xs">Ends Date</span>
+            <br/><b class="fs-sm">{data.plan.endsUTC}</b>
+          </p>
+        </div>
+      </div>
+    </div>
+  </Section>
+
+  <Section form>
+    <p class="py-2 hl-base">
+      Please provide below the required evidence to sustain your claim. This 
+      evidence will be deleted as soon as the claim has been approved.
+    </p>
     <Form>
-      <FormGroup class="mt-4">
+      <FormGroup class="mt-3">
         <Label for="alias" class="fw-bold fs-6 text-secondary ps-1 mb-1">Name or alias</Label>
         <Input 
           bind:value={data.claim.alias} 
@@ -71,25 +97,22 @@
         </FormGroup>
       {/each}
 
-      <div class="mt-5 mb-5 px-2 d-flex justify-content-between align-items-center">
-        <BackButton size="fs-1" label="Cancel" color="danger"/>
-        <div>
+      <div class="mt-5 mb-5 px-2 d-flex justify-content-center align-items-center">
           <SubmitButton on:click={() => saveDraft()}
             color="secondary" label="Save draft ..."/>
-          &nbsp;
+          &nbsp;&nbsp;
           <SubmitButton on:click={() => saveDraft()}
             color="primary" label="Claim now !" />
-        </div>
       </div>
     </Form>
-  </Section>
+  </Section>        
 
   <!-- <Filler n=40/> -->
 </div>
 
 <script>
   import { onMount } from "svelte";
-  import { Icon, Badge, Form, FormGroup, FormText, Label, Input, Button } from 'sveltestrap';
+  import { Breadcrumb, BreadcrumbItem, Icon, Badge, Form, FormGroup, FormText, Label, Input, Button } from 'sveltestrap';
   import Filler from "$lib/components/Filler.svelte";
   import Sidenote from "@components/Sidenote.svelte";
   import Section from "@components/Section.svelte";

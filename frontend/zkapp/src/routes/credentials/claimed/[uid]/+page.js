@@ -6,16 +6,14 @@ import { error } from '@sveltejs/kit';
 import { getCurrentUser } from '@models/current-user';
 
 // this is only for testing/mockups
-import { aCredential } from '@models/mockup-objects';
+import { aClaim } from '@models/mockup-objects';
 
 /** @type {import('./$types').PageLoad} */
 export async function load({ params, route, url }) {
-    if (params.slug !== "") {
+    if (params.uid !== "") {
       const user = getCurrentUser();
-
-      const credential = aCredential;
-
-      return credential; 
+      const claim = aClaim;
+      return JSON.parse(JSON.stringify(claim)); 
     }
     throw error(404, 'Not found');
 }

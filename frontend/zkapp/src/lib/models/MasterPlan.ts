@@ -1,5 +1,5 @@
 
-export { MasterPlan };
+export { MasterPlan, aMasterPlanMockup };
 
 class MasterPlan {
   uid: string; 
@@ -11,7 +11,7 @@ class MasterPlan {
   description: string; // we can use Markdown here
 
   // some images for styling the Claim/Credential cards
-  logo: string; // a dataURI with the logo for use 
+  image: string; // a dataURI with the logo for use 
   background: string; // a dataURI with the background
 
   // a template for the credential image; such as an SVG or a free text template?
@@ -92,4 +92,83 @@ type ClaimPlanStrategy = {
   min_psotive_votes: number,
   min_auditors: number,
   audit_frequency: number 
+}
+
+
+/// Mockups ///
+
+const shorttext = "Core Team Member";
+const longtext = "Rewarding our top level developers";
+const longnote = "This is a long note which may contain **markdown** elements inside it. "
+
+const aMasterPlanMockup = {
+  uid: "mp1234", 
+  communityUid: "co1234", // the community that will issue this Credential
+  state: "ACTIVE", 
+
+  // how the claim or credential will be presented
+  name: "This is the Credential name",
+  description: longtext, // we can use Markdown here
+  card: { // some images for styling the Claim/Credential cards
+    logo: "", // a dataURI with the logo for use 
+    background: "", // a dataURI with the background
+  },
+  image: "https://nftstorage.link/ipfs/bafybeignqpmsfdpvtko7zbojxns5ifjaki7vm7x5geb4jsq5xstnjy7uai/image", 
+  template: { // a template for the credential image, such as an SVG
+    type: "",
+    content: ""
+  }, 
+
+  // required evidence data the claimer needs to supply
+  evidence: [{ 
+      sid: 'tgid',
+      required: true, // a required field
+      label: "Your telegram account",
+      description: "We need this in order to communicate with you.",
+      type: "text",
+      extras: { 
+        max: 300, //max number of chars in this field 
+      }
+    }, { 
+      sid: 'more',  
+      required: true, // a required field
+      label: "Additional evidence for your claim",
+      description: "Please provide additional evidence to sustain your claim.",
+      type: "note",
+      extras: { 
+        max: 1300, //max number of chars in this field 
+      }
+    }, {
+      sid: 'docfile',
+      required: false, // optional field
+      label: "Attach this file please ...",
+      description: "Please attach this file so we can verify it.",
+      type: "file",
+      extras: { 
+        allowed: "svg,png", // allowed field types
+      }
+    }
+  ],
+
+  // fees and shares
+  fee: 2, // the fee in MINA required for this credential
+  shares: {
+    rewards: 40,// percentaje of the fee that will go to validator rewards
+    community: 40, // percentaje of fee that will go to the community
+    protocol: 20 // percentaje of fee that will go to the Protocol (Socialcap)
+  },
+
+  // claim parameters
+  expiration: 365, // days since issued when an issued credential wil expire (or 0 for no expiration)
+  revocable: true, // if this credential can be revoked 
+  strategy: {},
+  links: [], // array of {value, text} 
+  // when claiming of this credential can start and when it ends
+  startsUTC: "2023-05-02", 
+  endsUTC: "2023-08-02",
+
+  // standard activity times
+  createdUTC: "2021-01-01",
+  updatedUTC: "2023-05-06",
+  approvedUTC: "2021-02-06",
 }
