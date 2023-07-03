@@ -1,11 +1,21 @@
 <div class="card-container">
   <Card class="ps-3 pe-1 border-1 border-light shadow">
+    <div class="position-relative text-center mx-4">
+      <img src={data.image} width="160px" class="m-auto mt-3 --card-img-top" alt="..." crossorigin>  
+      <div class="d-inline-block position-absolute bottom-0 end-0 ">
+        <Button class="rounded-4 px-3 fs-sm" color="primary" size="sm">
+          <a href={"/credentials/new/"+uid} class="text-white text-decoration-none fs-sm">
+            Claim it now !
+          </a>
+        </Button>
+      </div>
+    </div>
   <CardHeader class="bg-white d-flex justify-content-between align-items-center py-0 my-0 pt-4 fs-xs border-0">
     <div>
       <p class="mt-1 mb-0 py-0">
         <a class="fs-6 text-dark fw-bold text-decoration-none" 
           href={`/credentials/new/${uid}`}
-          >{data.title}</a>
+          >{data.name}</a>
         </p>
         <p class="fs-6">
           <Badge color="warning" pill>3</Badge><span class="fs-sm"> 
@@ -21,20 +31,13 @@
     <div class="d-flex justify-content-start">
       <p class="">
         <span class="fs-xs">Start Date</span>
-        <br/><b class="fs-sm">26 Dec 2019</b>
+        <br/><b class="fs-sm">{data.startsUTC}</b>
       </p>
       <p class="px-4">
         <span class="fs-xs">Ends Date</span>
-        <br/><b class="fs-sm">2 Aug 2023</b>
+        <br/><b class="fs-sm">{data.endsUTC}</b>
       </p>
     </div>
-    <p>
-      <Button class="rounded-4 px-3 fs-sm" color="primary" size="sm">
-        <a href={"/credentials/new/"+uid} class="text-white text-decoration-none fs-sm">
-          Claim it now !
-        </a>
-      </Button>
-    </p>
   </CardBody>
 </Card>
 </div>

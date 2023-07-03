@@ -1,14 +1,9 @@
-<div class="no-border no-border-dark rounded-1 pb-3">
-  <div class={"p-0 no-border mx-auto "+mw}>
-    <slot></slot>
-  </div>
+<div class={"p-0 mx-auto "+className}>
+  <slot></slot>
 </div>
 
 <script>
-  export let 
-    readable = false,
-    form = false,
-    fluid = true;
-
-  $: mw = (readable ? "mw-readable" : "") || (form ? "mw-form": "") || "";  
+  export { className as class };
+  
+  let className = "mw-fluid";
 </script>

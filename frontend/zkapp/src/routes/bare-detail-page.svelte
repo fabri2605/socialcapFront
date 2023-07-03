@@ -6,7 +6,7 @@
     <p>We only arrive here if the user already is a member of at least one community.</p>
   </Sidenote>
 
-  <Section readable>
+  <Section class="mw-lg">
     <div class="header">
       <h3 class="text-black d-flex justify-content-between align-items-center">
         <span>Title</span>

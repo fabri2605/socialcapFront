@@ -1,14 +1,17 @@
+/**
+ * Params: 
+ *  slug uid: the UID of the Master Plan
+ */
 import { error } from '@sveltejs/kit';
 
+import { aTask } from '@models/mockup-objects';
+
 // this is only for testing/mockups
-import { olClaimables } from '@models/mockup-objects';
 
 /** @type {import('./$types').PageLoad} */
 export async function load({ params, route, url }) {
-    if (true) {
-      return { 
-        claimables: olClaimables
-      }; 
+    if (params.uid !== "") {
+      return JSON.parse(JSON.stringify(aTask)); 
     }
     throw error(404, 'Not found');
 }

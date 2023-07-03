@@ -1,11 +1,14 @@
-import { MasterPlan, aMasterPlanMockup } from "./MasterPlan";
-import { Claim, aClaimMockup } from './Claim';
-import { CapCredential, aCredentialMockup } from "./Credential";
-import { ClaimsCollection, olClaimablesMockup, olSubmitedClaimsMockup } from "./ClaimsCollection";
-import { CredentialsCollection, olCredentialsMockup } from "./CredentialsCollection";
+import { MasterPlan, aMasterPlanMockup } from "./master-plan";
+import { Claim } from './claim';
+import { CapCredential, aCredentialMockup } from "./credential";
+import { ClaimsCollection, olSubmitedClaimsMockup } from "./claims-collection";
+import { CredentialsCollection, olCredentialsMockup } from "./credentials-collection";
+import { ClaimablesCollection } from "./claimables-collection";
+import { Task } from "./task";
+import { TasksCollection } from "./tasks-collection";
 
 export { 
-  aMasterPlan, aClaim, aCredential, aTask, aCommunity, aProfile, aAdminCommunity,
+  aMasterPlan, aClaim, aCredential, aTask, //aCommunity, aProfile, aAdminCommunity,
   olClaimables, olSubmitedClaims, olCredentials, olTasks, olCommunities, olAdminCommunities 
 };
 
@@ -30,21 +33,20 @@ export {
   - aCredential DONE
 */
 
-const aClaim = Claim.fromJSON(JSON.stringify(aClaimMockup));
+// const aUser = getCurrentUser();
 
-const aMasterPlan = MasterPlan.fromJSON(JSON.stringify(aMasterPlanMockup));
-
-const aCredential = CapCredential.fromJSON(JSON.stringify(aCredentialMockup));
-
-const olClaimables = ClaimsCollection.fromJSON(JSON.stringify(olClaimablesMockup));
-
+const aMasterPlan = MasterPlan.mockup();
+const aClaim = Claim.mockup();
+const olClaimables = ClaimablesCollection.mockup();
 const olSubmitedClaims = ClaimsCollection.fromJSON(JSON.stringify(olSubmitedClaimsMockup));
 
+const aCredential = CapCredential.fromJSON(JSON.stringify(aCredentialMockup));
 const olCredentials = CredentialsCollection.fromJSON(JSON.stringify(olCredentialsMockup));
 
-const olAdminCommunities = [];
+const aTask = Task.mockup();
+const olTasks = TasksCollection.mockup();
 
-const olTasks = [];
+const olAdminCommunities = [];
 
 const olCommunities = [];
 

@@ -1,11 +1,11 @@
 <!-- <div class="position-absolute top-0 start-0" style="margin-left:-2.5rem;margin-top:-2px;"> -->
-<div class="d-inline-block">  
+<div class="d-inline-block" nostyle="margin-top:0rem;">  
   <Button 
     on:click={() => history.back()}
     outline 
-    color="light" class={"d-flex align-items-center justify-content-start border-0 lh-1 ps-0 pe-0 text-"+color+" "+size}>
-    <Icon name="arrow-left-circle-fill"/>
-    {#if label}<span class="fs-5">&nbsp;&nbsp;{label}</span>{/if}
+    color="light" class={"d-flex align-items-center justify-content-start lh-1 p-0 m-0 text-"+color+" "+size}>
+    <Icon name="x-circle-fill"/>
+    {#if label}<span class="fs-4">&nbsp;&nbsp;{label}</span>{/if}
   </Button>
 </div>
 
