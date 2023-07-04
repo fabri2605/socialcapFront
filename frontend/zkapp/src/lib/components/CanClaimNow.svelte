@@ -1,33 +1,31 @@
 <div class="card-container">
-  <Card class="ps-3 pe-1 border-1 border-light shadow">
-    <div class="position-relative text-center mx-4">
-      <img src={data.image} width="160px" class="m-auto mt-3 --card-img-top" alt="..." crossorigin>  
-      <div class="d-inline-block position-absolute bottom-0 end-0 ">
-        <Button class="rounded-4 px-3 fs-sm" color="primary" size="sm">
-          <a href={"/credentials/new/"+uid} class="text-white text-decoration-none fs-sm">
-            Claim it now !
-          </a>
-        </Button>
-      </div>
-    </div>
-  <CardHeader class="bg-white d-flex justify-content-between align-items-center py-0 my-0 pt-4 fs-xs border-0">
-    <div>
-      <p class="mt-1 mb-0 py-0">
-        <a class="fs-6 text-dark fw-bold text-decoration-none" 
-          href={`/credentials/new/${uid}`}
-          >{data.name}</a>
-        </p>
-        <p class="fs-6">
-          <Badge color="warning" pill>3</Badge><span class="fs-sm"> 
-            &nbsp; still available.</span>
+  <Card class="border-1 shadow">
+
+    <CardHeader>
+      <div class="position-relative text-left m-0 pb-2">
+        <img src={data.image} width="160px" class="mt-3 --card-img-top" alt="..." crossorigin>  
+        <div class="d-inline-block position-absolute top-0 end-0">
+          <p class="d-inline-block rounded-5 border border-1 pe-2 mt-2">
+            <Badge color="danger" pill class="fs-6">3</Badge>
+            <span class="fs-xs d-inline-block m-0 p-0 lh-1">Available</span>
           </p>
+        </div>
+        <div class="d-inline-block position-absolute bottom-0 end-0 rounded-4 border border-2 border-white">
+          <a href={"/credentials/new/"+uid} class="text-white text-decoration-none fs-sm">
+            <Button class="rounded-4 px-3 fs-sm" color="primary" size="sm">
+              Claim it now !
+            </Button>
+          </a>
+        </div>
       </div>
-      <p class="lh-1">
-        <Badge class="rounded-1 fs-xs mx-2 py-2" color="success">AVAILABLE</Badge>
-      </p>
+      <div class="text-left lh-base fs-sm">
+        <h5 class="mt-2 mb-2 py-0 fw-bold">{data.name}</h5>
+        {data.description}
+        <br>By <b class="">{data.community}</b>
+      </div>
   </CardHeader>
+
   <CardBody class="my-0 pt-1">
-    <p class="fs-xs text-body">{@html data.description}</p>
     <div class="d-flex justify-content-start">
       <p class="">
         <span class="fs-xs">Start Date</span>

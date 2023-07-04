@@ -1,4 +1,4 @@
-import { CapCredential } from './credential';
+import { CapCredential, aCredentialMockup } from './credential';
 
 export { CredentialsCollection, olCredentialsMockup }
 
@@ -13,7 +13,7 @@ class CredentialsCollection {
     let collection = [];
     let items = JSON.parse(json);
     for (var j=0; j < items.length; j++) {
-      let obj = CapCredential.fromJSON(JSON.stringify(items[j]))
+      let obj = CapCredential.fromJSON(JSON.stringify(aCredentialMockup))
       collection.push(obj);
     }
     return collection;
@@ -27,7 +27,4 @@ const olCredentialsMockup = [
   { uid: "c1", type: "Best dev in town", description: "Developers skill demonstrated fro ZK Knowledge building..."},
   { uid: "c2", type: "Freindly support", description: "Helped others achieve their goals"},
   { uid: "c3", type: "Best dev in town", description: "Developers skill demonstrated fro ZK Knowledge building..."},
-  { uid: "c4", type: "Freindly support", description: "Helped others achieve their goals"},
-  { uid: "c5", type: "Best dev in town", description: "Developers skill demonstrated fro ZK Knowledge building..."},
-  { uid: "c6", type: "Freindly support", description: "Helped others achieve their goals"},
 ];

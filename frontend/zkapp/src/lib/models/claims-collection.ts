@@ -11,9 +11,9 @@ class ClaimsCollection {
 
   static fromJSON(json: string): ClaimsCollection {
     let collection = [];
-    let items = JSON.parse(json);
-    for (var j=0; j < items.length; j++) {
-      let obj = Claim.fromJSON(JSON.stringify(items[j]))
+    let item = Claim.mockup();
+    for (var j=0; j < 5; j++) {
+      let obj = Claim.fromJSON(JSON.stringify(item))
       collection.push(obj);
     }
     return collection;

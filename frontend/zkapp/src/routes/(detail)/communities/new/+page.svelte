@@ -5,18 +5,15 @@
   ]} />
 
 <DetailPageContent>
-  <Section class="mw-lg">
-    <h4>Register your community</h4>
- 
-      <!-- <Alert color="nolight mb-4"> -->
-      <div>
+  <Section class="mw-md pb-5">
+        <!-- <Alert color="nolight mb-4"> -->
+      <div class="mt-4">
         <!-- <h4 class="alert-heading text-capitalize">
             Caution
           </h4> -->
-        <p class="lh-lg mt-4">
-          Are you one of the Administrators of this community ?
-          <br>
-          We <a href="#todo" class="alert-link text-danger">will check this before approving</a>
+        <b class="fs-5">Are you one of the Administrators of this community ?</b>
+        <p class="fs-sm lh-lg mt-1">
+          We <a href="#todo" class="text-danger">will check this before approving</a>
           the community registration.
         </p>
       </div>
@@ -24,15 +21,17 @@
 
       <Form>
         <FormGroup class="mt-4">
-          <Label>Community name</Label>
+          <Label class="fw-bold fs-6 text-secondary ps-1 mb-1">Community name</Label>
           <Input bind:value={data.name} invalid={!data.name.trim()} type="text" class="form-control" placeholder=""
             feedback="Provide a name for this community." />
         </FormGroup>
-        <FormGroup class="mt-5">
+
+        <FormGroup class="mt-2">
           <Input bind:value={data.description} type="textarea" class="form-control" id="exampleFormControlTextarea1"
             rows="3" placeholder="Describe its goals, membership rules, etc here ..." invalid={!data.description.trim()}
             feedback="Provide a description for this community." />
         </FormGroup>
+
         <FormGroup class="mt-5">
           <Input bind:checked={data.accepted} class="checkbox" type="checkbox" id="check-grp-2"
             label="I agree with the Terms and Conditions" />
@@ -56,13 +55,9 @@
               Register it now !
             </Button>
             &nbsp;
+          {:else}
+            <p>Please complete the required info ...</p>
           {/if}
-
-          <Button color="light" size="default" type="link"
-            class="btn-squared fs-15 fw-400 text-capitalize text-danger b-light btn-transparent-light"
-            on:click={cancelIt}>
-            Cancel
-          </Button>
         </div>
 
       </Form>

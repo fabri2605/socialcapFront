@@ -26,7 +26,7 @@ class Claim {
 
   // voting results
   requiredVotes: number;
-  totalVotes: number;
+  currentVotes: number;
   positiveVotes: number;
   negativeVotes: number;
   ignoredVotes: number;
@@ -51,7 +51,7 @@ class Claim {
     this.communityUid = params?.plan?.communityUid || "";
     this.applicantUid = params?.applicantUid || "";
     this.state = "STARTED";
-    this.title = params?.plan?.name || "";
+    this.type = params?.plan?.name || "";
     this.description = params?.plan?.description || "";
 
     // create slots for evidence data in the Claim object
@@ -81,17 +81,18 @@ const aClaimMockup = {
   applicantUid: "user1234",
   accountId: "",
 
-  name: "short text",
-  description: "longtext longtext",
-  alias: "My crypto alias",
-  state: "VOTING",
+  type: "Core Team Member", // derived form MasterPlan name for this credential
+  description: "Rewarding outstanding developers in our community",
+  state: "VOTING", 
+  community: "True Grass Eating DAO",
+  image: "https://nftstorage.link/ipfs/bafybeignqpmsfdpvtko7zbojxns5ifjaki7vm7x5geb4jsq5xstnjy7uai/image", 
 
   // activity times
-  createdUTC: "2023-05-01 15:07",
-  updatedUTC: "2023-05-07 12:01",
+  createdUTC: "1 May 2023",
+  updatedUTC: "7 May 2023",
   votedUTC: "",
   issuedUTC: "",
-  dueUTC: "",
+  dueUTC: "12 May 2023",
   
   // voting results
   requiredVotes: 4, // copied from MasterPlan

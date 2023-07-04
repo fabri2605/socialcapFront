@@ -7,10 +7,11 @@ import { error } from '@sveltejs/kit';
 // this is only for testing/mockups
 import { olClaimables, olCredentials, olSubmitedClaims } from '@models/mockup-objects';
 
-/** @type {import('./$types').PageLoad} */
+/** @type {import('../$types').PageLoad} */
 export async function load({ params, route, url }) {
-    if (true) {
+    if (params.view) {
       return { 
+        view: params.view,
         claimables: olClaimables, 
         submited: olSubmitedClaims,
         credentials: olCredentials 

@@ -79,7 +79,7 @@ const aCredentialMockup = {
   createdUTC: "2023-05-01 15:07",
   updatedUTC: "2023-05-07 12:01",
   votedUTC: "2023-07-01",
-  issuedUTC: "2023-07-01",
+  issuedUTC: "1 July 2023",
   expiresUTC: "",
   
   // extra info

@@ -12,50 +12,50 @@
     <p>We only arrive here if the user has made a Claim as member of some community.</p>
   </Sidenote> -->
 
-  <Section class="mw-lg">
+  <Section class="mw-lg px-4 pt-4 pb-5">
     <div class="header">
 
       <h3 class="text-black d-flex justify-content-between align-items-center">
-        <span>{data.name}</span>
-        <span class="fs-sm">
-          <Badge color="warning">VOTING</Badge>
+        <span>{data.type}</span>
+        <span class="fs-6">
+          <Badge color="warning">{data.state}</Badge>
         </span>
       </h3>
-      <p class="fs-sm text-secondary lh-base">{@html data.description}</p>
+      <p class="fs-sm text-secondary lh-base">
+        <b class="d-inline-block --py-2">{data.community}</b>
+        <br>
+        {@html data.description}
+      </p>
     </div>
 
     <div class="d-flex justify-content-start">
       <p class="">
-        <span class="fs-xs">Submited Date</span>
+        <span class="fs-xs">Submited</span>
         <br/><b class="fs-sm">{data.createdUTC}</b>
       </p>
       <p class="px-4">
-        <span class="fs-xs">Approved Date</span>
+        <span class="fs-xs">Ends</span>
+        <br/><b class="fs-sm">{data.dueUTC || "---"}</b>
+      </p>
+      <p class="px-4">
+        <span class="fs-xs">Approved</span>
         <br/><b class="fs-sm">{data.votedUTC || "---"}</b>
       </p>
       <p class="px-4">
-        <span class="fs-xs">Issued Date</span>
+        <span class="fs-xs">Issued</span>
         <br/><b class="fs-sm">{data.issuedUTC || "---"}</b>
       </p>
-      <p class="px-4">
-        <span class="fs-xs">Due Date</span>
-        <br/><b class="fs-sm">{data.dueUTC || "---"}</b>
-      </p>
     </div>
-  </Section>
 
-  <Section class="mw-lg">
-    <h6 class="mt-1">Votes</h6>
-    <div class="d-flex justify-content-between">
-      <p>Required: {data.totalVotes}</p>
-      <p>Positive: {data.positiveVotes}</p>
-      <p>Negative: {data.negativeVotes}</p>
-      <p>Ignored: {data.ignoredVotes}</p>
+    <h6 class="mt-1 text-secondary">Votes</h6>
+    <div class="d-flex justify-content-between fs-sm">
+      <p><Badge color="secondary rounded-5 ms-1 py-1 px-2 fs-6">{data.requiredVotes}</Badge> required</p>
+      <p><Badge color="success rounded-5 py-1 px-2 fs-6">{data.positiveVotes}</Badge> positive</p>
+      <p><Badge color="danger rounded-5 py-1 px-2 fs-6">{data.negativeVotes}</Badge> negative</p>
+      <p><Badge color="warning rounded-5 py-1 px-2 fs-6">{data.ignoredVotes}</Badge> abstained</p>
     </div>
-  </Section>
 
-  <Section class="mw-lg">
-    <h6 class="mt-3">Your provided evidence</h6>
+    <h6 class="mt-3 text-secondary">Your provided evidence</h6>
     {#each data.evidence as field}
       <div class="d-flex justify-content-start align-items-start border-top pt-3 pb-0">
         <p class="ps-0 py-0 fw-bold fs-sm w-25 text-start">{field.label}</p>
@@ -63,10 +63,6 @@
       </div>
     {/each}
     <div class="border-top"></div>
-  </Section>
-
-  <Section class="mw-lg">
-    <p class="ps-2"><BackButton size="fs-1"/></p>  
   </Section>
 
   <!-- <Filler n=40/> -->

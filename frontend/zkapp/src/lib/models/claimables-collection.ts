@@ -48,7 +48,7 @@ class ClaimablesCollection {
 
 const claimableCredentialsMockup = [
   { uid: "plan1234",
-    community: "The Grass Eaters", 
+    community: "True Grass Eaters DAO", 
     state: "AVAILABLE",
     name: "Best dev in town", 
     description: "Developers skill demonstrated fro ZK Knowledge building...",
@@ -59,7 +59,7 @@ const claimableCredentialsMockup = [
     image: "https://nftstorage.link/ipfs/bafybeignqpmsfdpvtko7zbojxns5ifjaki7vm7x5geb4jsq5xstnjy7uai/image", 
   },
   { uid: "plan1235",
-    community: "The Grass Eaters", 
+    community: "True Grass Eaters DAO", 
     state: "AVAILABLE",
     name: "Freindly support", 
     description: "Helped others achieve their goals",

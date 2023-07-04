@@ -51,7 +51,7 @@
     </div>
   </Section>
 
-  <Section form>
+  <Section class="mw-md pb-4">
     <div class="mt-3 mb-5 px-2 d-flex justify-content-center align-items-center">
       <div>
         Not minted yet ? &nbsp;
@@ -88,6 +88,7 @@
   </Section> -->
 
   <!-- <Filler n=40/> -->
+  <br><br>
 </DetailPageContent>
 
 <script>

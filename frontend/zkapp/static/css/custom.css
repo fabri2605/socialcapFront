@@ -27,7 +27,7 @@ body {
   max-width: 100vw;
   overflow-x: hidden;
   font-family: var(--font-monument);
-  background-color: rgb(242, 245, 248) !important;
+  background-color: rgb(227, 230, 233) !important;
 }
 
 a {
