@@ -1,14 +1,11 @@
-<div class="py-4 border-0 w-100 text-center">
-    <div class="mb-4">
-      <img src="/img/svg/undraw_mornings_re_cofi.svg" height="80px" alt="First time here!"/>
+<div class="py-4 border-0 w-100 text-center bg-white rounded-2 shadow">
+    <div class="mt-2 mb-4">
+      <img src="/img/svg/undraw_welcome_cats_thqn.svg" height="160px" alt="First time here!"/>
     </div>
     <h6 class="lh-lg">Hi {user.fullName} !</h6>
-    <p class="w-auto fs-4 lh-lg">You have not joined any community yet</p>
+    <p class="w-auto fs-5 lh-lg">You have not joined any community yet</p>
     <p class="w-auto">
-      <a href={'#'}>Join now one of this communities</a>
-    </p>
-    <p class="w-auto">
-      Are you a community admin ? <a href={'/communities/new'}>Register your community</a>
+      <a href={'/communities/all'}>Join now one of this communities</a>
     </p>
 </div>
 

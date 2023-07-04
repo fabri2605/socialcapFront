@@ -1,9 +1,9 @@
-<div class={"p-0 mx-auto "+className}>
+<div class={"p-0 m-0 mx-auto "+className}>
   <slot></slot>
 </div>
 
 <script>
   export { className as class };
   
-  let className = "mw-fluid";
+  let className = "section-fluid";
 </script>

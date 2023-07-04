@@ -116,7 +116,7 @@ const aMasterPlanMockup = {
   state: "ACTIVE", 
 
   // how the claim or credential will be presented
-  name: "This is the Credential name",
+  name: shorttext,
   description: longtext, // we can use Markdown here
   card: { // some images for styling the Claim/Credential cards
     logo: "", // a dataURI with the logo for use 
@@ -179,5 +179,5 @@ const aMasterPlanMockup = {
   approvedUTC: "2021-02-06",
 
   // extra data from Community
-  community: "Some community"
+  community: "True Grass Eaters DAO"
 }

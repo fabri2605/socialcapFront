@@ -11,20 +11,25 @@
     <p>This is a form where he will claim a new credential, and this form is controlled by the MasterPlan.</p>
     <p>We only arrive here if the user already is a member of at least one community.</p>
   </Sidenote> -->
-  <Section class="mw-lg">
-    <div class="d-flex align-items-center justify-content-between">
-      <div class="w-25 me-4" style="--margin-left:-25px;">
+  <Section class="section-md">
+    <div class="d-flex align-items-center justify-content-between pt-4">
+      <div class="w-25 me-4 pe-2" style="--margin-left:-25px;">
         <img src={data?.plan.image} alt="Badge" height="180px" crossorigin/>
       </div>
 
-      <div class="w-75">
+      <div class="w-75 ps-2">
         <h3 class="text-black d-flex justify-content-between align-items-center">
           <span>{data.plan.name}</span>
           <span class="fs-6">
             <Badge color="success">ACTIVE</Badge>
           </span>
         </h3>
-        <p class="fs-sm text-secondary lh-base mt-3">{@html data.plan.description}</p>
+
+        <p class="fs-sm text-secondary lh-lg">
+          {@html data.plan.description}
+          <br><b>{data.plan.community}</b>
+        </p>
+
         <div class="d-flex justify-content-start">
           <p class="">
             <span class="fs-xs">Start Date</span>
@@ -39,10 +44,11 @@
     </div>
   </Section>
 
-  <Section class="mw-md">
+  <Section class="section-sm">
     <p class="py-2 hl-base">
       Please provide below the required evidence to sustain your claim. This 
-      evidence will be deleted as soon as the claim has been approved.
+      evidence will be deleted as soon as the claim has been approved, so no 
+      personal or private data will be stored and kept.
     </p>
     <Form>
       <FormGroup class="mt-3">

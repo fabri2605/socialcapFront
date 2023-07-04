@@ -22,6 +22,10 @@
   import Sidenote from '@components/Sidenote.svelte';
   import CanClaimNow from '@components/CanClaimNow.svelte';
   import Section from '@components/Section.svelte';
+  import HomeAdminsCard from '@components/HomeAdminsCard.svelte';
+  import HomeCredentialsCard from '@components/HomeCredentialsCard.svelte';
+  import HomeCommunitiesCard from '@components/HomeCommunitiesCard.svelte';
+  import HomeValidatorsCard from '@components/HomeValidatorsCard.svelte';
 
   export let data; // this is the data for the lists
 
@@ -31,8 +35,8 @@
 
   onMount(async () => {
     if (isAuthenticated) user = getCurrentUser();
-
-    await loadSnarky();
+    user = getCurrentUser();
+    // await loadSnarky();
 
     // let [ok, publicKey, accountExists] = await getWalletAccount();
 
@@ -51,14 +55,14 @@
     </h1>
   </div> -->
 
-  <div>
+  <!-- <div>
     {#if user && isFirstTimeUser(user)}
       <EmptyFirstTime {user}/>   
     {:else}
       {#if user && !user.hasCredentials}
         <EmptyCredentials {user} />
         <div id="claimables">
-          <Section class="mw-fluid mt-5">
+          <Section class="section-fluid mt-5">
             <div class="mx-auto text-center">
               <p class="pt-4 pb-4 fs-6">
                 <b>You can claim this credentials from your communities</b>
@@ -72,34 +76,30 @@
           </Section>
         </div>
       {/if}
-    {/if}
-
-    <Section class="mw-fluid">
-
-    </Section>
-
-    <!-- <Sidenote>
-      <hr>
-      ::: Here we can show all available credentials he/she can claim from the communities he belongs:::
-    </Sidenote> -->
-    <!--
-
-    <Section class="mw-fluid mt-4">
-      <div class="mx-auto text-center">
-        <p class="mb-3 fs-3 fw-bold text-dark">
-          Claim your credential now 
-        </p>
-        <p>
-          These are all the available credentials you can claim from your communities. 
-        </p>
-        <div>
-          {#each data.claimables as plan}
-            <CanClaimNow uid={plan.uid} data={plan}/>
-          {/each}
+    {/if} -->
+    <Section class="section-xl px-5">
+      {#if user && isFirstTimeUser(user)}
+        <div class="mb-4">
+          <EmptyFirstTime {user}/>   
         </div>
+      {/if}
+
+      <div class="row">
+        <div class="col">
+          <HomeCredentialsCard {data}/>
+        </div>  
+        <div class="col">
+          <HomeCommunitiesCard {data}/>
+        </div>  
+      </div>
+      <div class="row pt-4">
+        <div class="col">
+          <HomeValidatorsCard {data}/>
+        </div>  
+        <div class="col">
+          <HomeAdminsCard {data}/>
+        </div>  
       </div>
     </Section>
-    -->
 
-  </div>
 </HubPageContent>

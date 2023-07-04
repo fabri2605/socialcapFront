@@ -1,4 +1,4 @@
-<Section class="mw-fluid pt-5 pb-4 bg-white rounded-3 shadow border">
+<Section class="section-fluid pt-5 pb-4 bg-white rounded-3 shadow border">
   <div class="px-4 border-0 ">
     <div class="text-center m-0 mt-3">
       <div class="mb-4">

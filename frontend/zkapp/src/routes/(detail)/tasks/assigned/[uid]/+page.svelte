@@ -11,7 +11,7 @@
     <p>This is a form where he will claim a new credential, and this form is controlled by the MasterPlan.</p>
     <p>We only arrive here if the user already is a member of at least one community.</p>
   </Sidenote> -->
-  <Section class="mw-lg">
+  <Section class="section-md">
     <div class="d-flex align-items-center justify-content-between">
       <div class="w-25 me-4" style="--margin-left:-25px;">
         <img src={data.image} alt="Badge" height="180px" crossorigin/>
@@ -46,7 +46,7 @@
     </div>
   </Section>
 
-  <Section class="mw-md">
+  <Section class="section-sm">
     <Form>
       <div class="d-flex align-items-center justify-content-between">
         <FormGroup class="mt-3 me-2 w-75">
@@ -95,7 +95,7 @@
     </Form>
   </Section>
 
-  <Section class="mw-md">
+  <Section class="section-sm">
       <p class="mt-4 mb-2 pt-2 hl-base">
         <b>Here you can find the evidence provided by the claimer</b>. This 
         evidence will be deleted as soon as the claim has been approved.

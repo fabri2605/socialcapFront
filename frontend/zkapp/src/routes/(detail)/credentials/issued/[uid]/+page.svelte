@@ -12,7 +12,7 @@
     <p>We only arrive here if the user already has an approved cerdential.</p>
   </Sidenote> -->
 
-  <Section class="mw-md">
+  <Section class="section-sm">
     <div class="header text-center border border-1 rounded-3 p-4 shadow-lg">
       <div>
         <img src={data.image} height="240px" crossorigin/>
@@ -51,7 +51,7 @@
     </div>
   </Section>
 
-  <Section class="mw-md pb-4">
+  <Section class="section-sm pb-4">
     <div class="mt-3 mb-5 px-2 d-flex justify-content-center align-items-center">
       <div>
         Not minted yet ? &nbsp;

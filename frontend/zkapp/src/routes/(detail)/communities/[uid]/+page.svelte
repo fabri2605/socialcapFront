@@ -5,7 +5,7 @@
 ]}/>
 
 <DetailPageContent>
-  <Section class="mw-lg">
+  <Section class="section-md">
     <div class="d-flex justify-content-between align-items-center p-0 m-0">
       <div>
         <h2 class="text-black">{data.fullName}</h2>

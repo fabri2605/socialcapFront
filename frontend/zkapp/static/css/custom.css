@@ -40,7 +40,15 @@ a {
 /** Bootstrap extensions **/
 .fs-sm { font-size: 0.875rem; }
 .fs-xs { font-size: 0.8rem; }
-.mw-md { max-width: 33rem;} /* max width for forms and restricted */
-.mw-lg { max-width: 46rem;} /* max width for readable text */
-.mw-fluid { max-width: 100% }
 
+/* 
+  Equivalent to containers
+  container-sm 540px = 33.75rem
+  container-md 720px = 45rem
+  container-fluid 100%
+*/
+.section-sm { max-width: 540px; } /* max width for forms and restricted */
+.section-md { max-width: 720px; } /* max width for readable text */
+.section-lg { max-width: 960px; } /* max width for laptop */
+.section-xl { max-width: 1140px; } /* max width for desktop */
+.section-fluid { max-width: 100% }
