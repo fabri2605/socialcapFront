@@ -6,10 +6,15 @@ import { CredentialsCollection, olCredentialsMockup } from "./credentials-collec
 import { ClaimablesCollection } from "./claimables-collection";
 import { Task } from "./task";
 import { TasksCollection } from "./tasks-collection";
+import { Community } from "./community";
+import { Person } from "./person"
 
 export { 
-  aMasterPlan, aClaim, aCredential, aTask, //aCommunity, aProfile, aAdminCommunity,
-  olClaimables, olSubmitedClaims, olCredentials, olTasks, olCommunities, olAdminCommunities 
+  aMasterPlan, aClaim, aCredential, aTask, aCommunity, aProfile, 
+  aAdminCommunity,
+  olClaimables, olSubmitedClaims, olCredentials, olTasks, 
+  olAllCommunities, olMyCommunities, 
+  olAdminCommunities 
 };
 
 /*
@@ -48,5 +53,25 @@ const olTasks = TasksCollection.mockup();
 
 const olAdminCommunities = [];
 
-const olCommunities = [];
+const aCommunity = Community.mockup();
 
+const olAllCommunities = [1,2,3,4,5,6,7].map((t) => {
+  let o = Community.mockup();
+  o.uid = o.uid+t;
+  o.name = o.name+` ${t}`;
+  o.countMembers = t;
+  return o; 
+});
+
+const olMyCommunities = [1,2].map((t) => {
+  let o = Community.mockup();
+  o.uid = o.uid+t;
+  o.name = o.name+` ${t}`;
+  o.countMembers = t;
+  o.countCredentials = t;
+  return o; 
+});
+
+const aProfile = Person.mockup();
+
+const aAdminCommunity = Community.mockup();

@@ -102,8 +102,8 @@
             </div> -->
           </DropdownToggle>
           <DropdownMenu end>
-            <DropdownItem>Profile</DropdownItem>
-            <DropdownItem>Preferences</DropdownItem>
+            <DropdownItem><a href="/profile">Profile</a></DropdownItem>
+            <!-- <DropdownItem>Preferences</DropdownItem> -->
             <DropdownItem divider />
             <DropdownItem>Logout</DropdownItem>
           </DropdownMenu>

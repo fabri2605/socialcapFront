@@ -1,6 +1,11 @@
 
 import { Indexer } from "./indexer";
-import { Task, Claim, MasterPlan } from "@models/index"
+import { Task, Claim, MasterPlan, Community } from "@models/index"
+
+import { 
+  olAllCommunities, olMyCommunities 
+} from "@models/mockup-objects";
+
 
 async function getTask(uid: string): Promise<Task | null> {
   // first get the current task
@@ -58,4 +63,13 @@ async function getCommunity(uid: string): Promise<any | null> {
 // return community;
   
   return {};
+}
+
+
+async function getAllCommunities(orderBy: string): Promise<any[] | null> {
+  return olAllCommunities;
+}
+
+async function getMyCommunities(orderBy: string): Promise<any[] | null> {
+  return olMyCommunities;
 }
