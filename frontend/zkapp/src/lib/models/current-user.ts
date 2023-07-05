@@ -31,9 +31,9 @@ function getCurrentUser(): CurrentUser {
     fullName: "Marcos del Cielo Nublado",
     uid: "1234",
     hasMemberships: false,
-    hasClaims: false,
-    hasCredentials: false,
-    hasTasks: false,
+    hasClaims: true,
+    hasCredentials: true,
+    hasTasks: true,
     hasAdmins: false,
   };
 }

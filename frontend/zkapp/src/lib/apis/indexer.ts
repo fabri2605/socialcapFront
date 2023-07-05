@@ -3,9 +3,13 @@
  * It allways returns Response with { data, error } where it is easy to test
  * for erro returns
  */
-import { env } from "$env/static/private";
+//import { env } from "$env/static/public";
 import type { AnyResponse } from "./responses";
 import { CoreAPIClient } from "./core-api-client";
+
+const env = {
+  INDEXER_HOST: "", INDEXER_PORT: 3081, INDEXER_API_KEY: ""
+}
 
 export { Indexer };
 

@@ -1,11 +1,14 @@
-
 import { Indexer } from "./indexer";
 import { Task, Claim, MasterPlan, Community } from "@models/index"
 
-import { 
-  olAllCommunities, olMyCommunities 
-} from "@models/mockup-objects";
+import { olClaimables, olAllCommunities, olMyCommunities, aCommunity } from "@models/mockup-objects";
 
+export { 
+  getClaimables,
+  getCommunity, 
+  getAllCommunities, 
+  getMyCommunities 
+};
 
 async function getTask(uid: string): Promise<Task | null> {
   // first get the current task
@@ -54,17 +57,23 @@ async function getMasterPlan(uid: string): Promise<MasterPlan | null> {
   return plan;
 }
 
+async function getClaimables(communityUid: string): Promise<any[] | null> {
+  return olClaimables;
+}
+
+
 async function getCommunity(uid: string): Promise<any | null> {
+  let o = aCommunity;
+  return o;
+
   // first get the current task
   let rsp = await Indexer.query("get_community_by_uid", { uid: uid });
   if (rsp.error) return null;
 
 //   /let community = Community.fromJSON(rsp.data);
 // return community;
-  
   return {};
 }
-
 
 async function getAllCommunities(orderBy: string): Promise<any[] | null> {
   return olAllCommunities;

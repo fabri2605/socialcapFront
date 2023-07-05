@@ -5,42 +5,41 @@
 ]}/>
 
 <DetailPageContent>
-  <Section class="section-md">
-    <div class="d-flex justify-content-between align-items-center p-0 m-0">
+  <Section class="section-md pb-4">
+    <div class="d-flex justify-content-start align-items-center">
+      <img width="80px" class="img-thumbnail rounded-circle me-2" src={data.image} crossorigin/>
       <div>
-        <h2 class="text-black">{data.fullName}</h2>
-        <p class="fs-sm mt-2">
-          <b>{data.count}</b> members
+        <h3 class="text-black m-0 p-0">{data.name}</h3>
+        <p class="fs-sm mt-1">
+          <b>{data.countMembers}</b> members
           | <span class="fs-4"> 🎉 </span>
-          &nbsp; <b>300</b> credentials issued !
+          &nbsp; <b>{data.countCredentials}</b> credentials issued !
         </p>
       </div>
-      <p class="bg-body-secondary p-3">
-        <img height="42px" src="/img/vars/zk_dao_logo.svg" />
-      </p>
     </div>
-    <p class="w-50">{@html data.description}</p>    
 
+    <p class="">{@html data.description}</p>    
+    
     <div class="d-flex justify-content-start">
       <p class="">
         <span class="fs-xs">Start Date</span>
-        <br/><b class="fs-sm">26 Dec 2019</b>
+        <br/><b class="fs-sm">{data.createdUTC}</b>
       </p>
       <p class="px-4">
         <span class="fs-xs">Approved Date</span>
-        <br/><b class="fs-sm">26 Dec 2022</b>
+        <br/><b class="fs-sm">{data.approvedUTC}/b>
       </p>
       <p class="px-0">
         <span class="fs-xs">Updated</span>
-        <br/><b class="fs-sm">Today</b>
+        <br/><b class="fs-sm">{data.updatedUTC}</b>
       </p>
     </div>
 
     <p class="mt-4">
-      <b>Claim your credential !</b>
+      <b>Claim your credential</b>
     </p>
     <div>
-        {#each data.plans as plan}
+        {#each data.claimables as plan}
           <CanClaimNow uid={plan.uid} data={plan}/>
         {/each}
     </div>
@@ -55,7 +54,6 @@
     </div>
   </Section>
 
-  <Filler n=40/>
 </DetailPageContent>
 
 <script>

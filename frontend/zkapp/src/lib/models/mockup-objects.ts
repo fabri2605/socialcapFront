@@ -60,15 +60,16 @@ const olAllCommunities = [1,2,3,4,5,6,7].map((t) => {
   o.uid = o.uid+t;
   o.name = o.name+` ${t}`;
   o.countMembers = t;
+  o.countCredentials = t;
   return o; 
 });
 
-const olMyCommunities = [1,2].map((t) => {
+const olMyCommunities = [1,2,3].map((t) => {
   let o = Community.mockup();
   o.uid = o.uid+t;
   o.name = o.name+` ${t}`;
-  o.countMembers = t;
-  o.countCredentials = t;
+  o.countMembers = (t)+100;
+  o.countCredentials = (t)+20;
   return o; 
 });
 

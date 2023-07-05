@@ -25,8 +25,7 @@
       <br>Shows all the obtained credentials OR all pending claims
     </p>
   </Sidenote> -->
-  <Section class="section-lg">
-
+  <Section class="section-xl">
     <div class="ps-2 pb-4 d-flex align-items-center justify-content-start">
       <!-- <p class="mt-2 pe-2"><a href="/">Home</a></p>
       <p class="mt-2 pe-2">/</p>

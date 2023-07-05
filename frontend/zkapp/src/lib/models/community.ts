@@ -44,13 +44,14 @@ const aCommunityMockup = {
   uid: "claim1234",
   accountId: "",
   name: "True Grass Eating DAO",
-  description: "Rewarding outstanding developers in our community",
+  description: "A group of people dedicated to eating grass like cows do",
   state: "APPROVED", 
   image: "https://nftstorage.link/ipfs/bafybeignqpmsfdpvtko7zbojxns5ifjaki7vm7x5geb4jsq5xstnjy7uai/image", 
-  countMembers: 0,
+  countMembers: 100,
+  countCredentials: 50,
 
   // activity times
   createdUTC: "1 May 2023",
-  updatedUTC: "7 May 2023",
+  updatedUTC: "17 May 2023",
   approvedUTC: "12 May 2023"
 }
