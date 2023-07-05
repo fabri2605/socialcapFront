@@ -18,7 +18,7 @@
         </Button>
       </div>
 
-      <div class="w-75 ps-2">
+      <div class="w-75">
         <h3 class="text-black d-flex justify-content-between align-items-center">
           <span>{data.fullName}</span>
           <span class="fs-6">
