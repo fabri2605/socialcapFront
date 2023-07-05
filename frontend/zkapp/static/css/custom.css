@@ -65,3 +65,27 @@ a {
 .mw-8 { max-width: 8rem;}
 .mw-10 { max-width: 10rem;}
 .mw-12 { max-width: 12rem;}
+
+/* Custom card containers */
+.card-container {
+  max-width: 31%;
+  min-width: 31%;
+  display: inline-block;
+  margin-right: 1rem;
+  margin-bottom: 3rem;
+}
+
+@media only screen and (max-width: 960px) {
+  .card-container {
+    max-width: 47.5%;
+    min-width: 40%;
+  }
+}
+
+@media only screen and (max-width: 540px) {
+  .card-container {
+    max-width: 100%;
+    min-width: 96%;
+  }
+}
+

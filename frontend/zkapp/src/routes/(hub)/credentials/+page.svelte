@@ -1,4 +1,6 @@
 <script>
   import { goto } from "$app/navigation";
-  goto("/credentials/issued")
+  setTimeout(() => {
+    goto("/credentials/issued")
+  }, 100)
 </script>

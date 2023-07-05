@@ -76,30 +76,11 @@
     </Nav>
 
     <Nav class="w-25 justify-content-end --ms-auto px-1" navbar>
-      <!-- <NavItem>
-        <Dropdown nav inNavbar>
-          <DropdownToggle nav caret>
-            <Icon name="plus-circle-fill" class="fs-4 text-primary" />
-          </DropdownToggle>
-          <DropdownMenu end>
-            <DropdownItem>Join a community</DropdownItem>
-            <DropdownItem>Claim a credential</DropdownItem>
-            <DropdownItem>Propose as validator</DropdownItem>
-            <DropdownItem divider />
-            <DropdownItem>Admin your community</DropdownItem>
-          </DropdownMenu>
-        </Dropdown>
-      </NavItem> -->
-
       <NavItem class="me-4">
         <Dropdown nav inNavbar>
           <DropdownToggle nav caret class="d-flex align-items-center justify-content-end text-secondary">
-            <span class="d-inline-block fs-xs me-3 text-wrap lh-1 text-end" style="max-width:6rem;">{user.fullName}</span>
+            <!-- <span class="d-inline-block fs-xs me-3 text-wrap lh-1 text-end" style="max-width:6rem;">{user.fullName}</span> -->
             <Icon name="person-circle" class="fs-2"/>
-            <!-- <div style="display:inline-block;text-align:center;max-width:4rem;overflow:hidden;">
-              <Icon name="person-circle" class="fs-3"/>
-              < !-- <div style="margin-top:-6px;font-size:12px;">{user.fullName}</div> -- >
-            </div> -->
           </DropdownToggle>
           <DropdownMenu end>
             <DropdownItem><a href="/profile">Profile</a></DropdownItem>
@@ -110,5 +91,6 @@
         </Dropdown>
       </NavItem>
     </Nav>
+    
   </Collapse>
 </Navbar>

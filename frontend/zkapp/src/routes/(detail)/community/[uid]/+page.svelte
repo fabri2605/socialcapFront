@@ -5,7 +5,7 @@
 ]}/>
 
 <DetailPageContent>
-  <Section class="section-md pb-4">
+  <Section class="section-xl pb-4">
     <div class="d-flex justify-content-start align-items-center">
       <img width="80px" class="img-thumbnail rounded-circle me-2" src={data.image} crossorigin/>
       <div>

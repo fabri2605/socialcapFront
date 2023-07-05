@@ -3,36 +3,37 @@
     <hr/>
     <p>::: FIRST TIME USER - HAS NOT JOINED ANY COMMUNITY YET :::</p>
   </Sidenote> -->
-  <Section class="section-xl">
+  <Section>
     <!-- {#if user && isFirstTimeUser(user)}
       <EmptyFirstTime {user}/>   
     {/if} -->
   
-  <!-- <Sidenote>
-    <hr>
-    <p>::: NOT FIRST TIME :::
-    <br>Shows all communities the you have joined and all available communities in a grid or list:
-    </p>
-  </Sidenote> -->
-    <div class="ps-2 pb-4 d-flex align-items-center justify-content-between">
-      <!-- <p class="mt-2 pe-2"><a href="/">Home</a></p>
-      <p class="mt-2 pe-2">/</p>
-      <p class="mt-2 pe-2">Credentials</p>
-      <p class="mt-2 pe-2">/</p> -->
-      <h1>{title[view]}</h1>
-
-      <div class="ps-2 fs-sm --text-bg-light">
-        Show <InlineTab current={view} items={tabs} />
-        &nbsp;|&nbsp;
-        Sort by <select class="ms-2 py-1 px-2 rounded-1 border">
-          <option>Newest</option>
-          <option>Popular</option>
-        </select>
+    <!-- <Sidenote>
+      <hr>
+      <p>::: NOT FIRST TIME :::
+      <br>Shows all communities the you have joined and all available communities in a grid or list:
+      </p>
+    </Sidenote> -->
+    <div class="row align-items-center justify-content-between">
+      <div class="col-12 col-md-6">
+        <h1>{title[view]}</h1>
+      </div>
+      <div class="col-12 text-start col-md-6 text-md-end">
+        <div class="fs-sm d-inline-block">
+          <span class="d-inline-block">
+            Show <InlineTab current={view} items={tabs} />
+          </span>
+          <span class="ms-2 d-inline-block">
+            Sort by<select class="ms-1 py-1 px-2 rounded-1 border">
+              <option>Newest</option>
+              <option>Popular</option>
+            </select>
+          </span>
+        </div>
       </div>
     </div>
 
-
-    <div class="mt-2 pt-1">
+    <div class="mt-2 pt-1 mx-auto">
       {#if view === "joined"}
         <div class="mt-3">
           {#if user && isFirstTimeUser(user)}

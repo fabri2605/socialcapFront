@@ -32,7 +32,7 @@ function getCurrentUser(): CurrentUser {
     uid: "1234",
     hasMemberships: true,
     hasClaims: false,
-    hasCredentials: false,
+    hasCredentials: true,
     hasTasks: true,
     hasAdmins: false,
   };

@@ -1,6 +1,5 @@
 <div class="card-container">
   <Card class="border-1 shadow">
-
     <CardHeader>
       <div class="position-relative text-left m-0 pb-2">
         <img src={data.image} width="160px" class="mt-3 --card-img-top" alt="..." crossorigin>  
@@ -11,46 +10,39 @@
           </p>
         </div>
         <div class="d-inline-block position-absolute bottom-0 end-0 rounded-4 border border-2 border-white">
-          <a href={"/credentials/new/"+uid} class="text-white text-decoration-none fs-sm">
+          <a href={`/credential/new/${uid}`} class="text-white text-decoration-none fs-sm">
             <Button class="rounded-4 px-3 fs-sm" color="primary" size="sm">
               Claim it now !
             </Button>
           </a>
         </div>
       </div>
+
       <div class="text-left lh-base fs-sm">
         <h5 class="mt-2 mb-2 py-0 fw-bold">{data.name}</h5>
-        {data.description}
+        <span class="text-secondary">{data.description}</span>
         <br>By <b class="">{data.community}</b>
       </div>
-  </CardHeader>
+    </CardHeader>
 
-  <CardBody class="my-0 pt-1">
-    <div class="d-flex justify-content-start">
-      <p class="">
-        <span class="fs-xs">Start Date</span>
-        <br/><b class="fs-sm">{data.startsUTC}</b>
-      </p>
-      <p class="px-4">
-        <span class="fs-xs">Ends Date</span>
-        <br/><b class="fs-sm">{data.endsUTC}</b>
-      </p>
-    </div>
-  </CardBody>
-</Card>
+    <CardBody class="my-0 pt-1">
+      <div class="d-flex justify-content-start">
+        <p class="">
+          <span class="fs-xs">Start Date</span>
+          <br/><b class="fs-sm">{data.startsUTC}</b>
+        </p>
+        <p class="px-4">
+          <span class="fs-xs">Ends Date</span>
+          <br/><b class="fs-sm">{data.endsUTC}</b>
+        </p>
+      </div>
+    </CardBody>
+  </Card>
 </div>
 
 <script>
-    import { Badge, Button, Card, CardBody, CardHeader } from "sveltestrap";
-    export let uid, data={};
-</script>
+  import { Badge, Button, Card, CardBody, CardHeader } from "sveltestrap";
+  import FullviewButton from "./FullviewButton.svelte";
 
-<style>
-  .card-container {
-    max-width: 18rem;
-    min-width: 18rem;
-    display: inline-block;
-    margin-right: 2rem;
-    margin-bottom: 2rem;;
-  }
-</style>
+  export let uid, data={};
+</script>

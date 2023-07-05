@@ -3,7 +3,7 @@
     <hr>
     <p>::: FIRST TIME USER :::</p>
   </Sidenote> -->
-  <Section class="section-xl">
+  <Section>
   {#if user && isFirstTimeUser(user)}
     <EmptyFirstTime {user}/>   
   {/if}
@@ -25,16 +25,23 @@
     </p>
   </Sidenote> -->
   {#if user && !isFirstTimeUser(user)}
-    <div class="ps-2 pb-4 d-flex align-items-center justify-content-between">
-      <h1>{title[view]}</h1>
-
-      <div class="ps-2 fs-sm --text-bg-light">
-        Show <InlineTab current={view} items={tabs}/>
-        &nbsp;|&nbsp;
-        Sort by <select class="ms-2 py-1 px-2 rounded-1 border">
-          <option>Newest</option>
-          <option>Due date</option>
-        </select>
+    <div class="row align-items-center justify-content-between">
+      <div class="col-12 col-md-6">
+        <h1>{title[view]}</h1>
+      </div>
+     
+      <div class="col-12 text-start col-md-6 text-md-end">
+        <div class="fs-sm lh-lg">
+          <span class="d-inline-block">
+            Show <InlineTab current={view} items={tabs}/>
+          </span>
+          <span class="ms-2 d-inline-block">
+            Sort by<select class="ms-1 py-1 px-2 rounded-1 border">
+              <option>Newest</option>
+              <option>Due date</option>
+            </select>
+          </span>
+        </div>
       </div>
     </div>
 
