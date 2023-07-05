@@ -14,15 +14,13 @@
 
   <Section class="section-md">
     <div class="d-flex align-items-center justify-content-between pt-4">
-      <div class="w-25 me-4 pe-2">
-        <img src={data.image} alt="Badge" height="180px" crossorigin/>
-      </div>
+      <img src={data.image} alt="Badge" width="22.5%" crossorigin/>
 
-      <div class="w-75 ps-2">
+      <div class="w-100 ps-4">
         <div class="header">
           <h3 class="text-black d-flex justify-content-between align-items-center">
             <span>{data.type}</span>
-            <span class="fs-6">
+            <span class="fs-5">
               <Badge color="warning">{data.state}</Badge>
             </span>
           </h3>
@@ -31,6 +29,14 @@
             <br>
             <b class="">{data.community}</b>
           </p>
+        </div>
+
+        <h6 class="mt-1 text-secondary">Votes</h6>
+        <div class="d-flex justify-content-between fs-sm text-left lh-lg">
+          <p><Badge color="secondary rounded-5 ms-1 py-1 px-2 fs-6">{data.requiredVotes}</Badge><br>required</p>
+          <p><Badge color="success rounded-5 py-1 px-2 fs-6">{data.positiveVotes}</Badge><br>positive</p>
+          <p><Badge color="danger rounded-5 py-1 px-2 fs-6">{data.negativeVotes}</Badge><br>negative</p>
+          <p><Badge color="warning rounded-5 py-1 px-2 fs-6">{data.ignoredVotes}</Badge><br>abstained</p>
         </div>
 
         <div class="d-flex justify-content-start">
@@ -51,16 +57,9 @@
             <br/><b class="fs-sm">{data.issuedUTC || "---"}</b>
           </p>
         </div>
-
-        <h6 class="mt-1 text-secondary">Votes</h6>
-        <div class="d-flex justify-content-between fs-sm text-left lh-lg">
-          <p><Badge color="secondary rounded-5 ms-1 py-1 px-2 fs-6">{data.requiredVotes}</Badge><br>required</p>
-          <p><Badge color="success rounded-5 py-1 px-2 fs-6">{data.positiveVotes}</Badge><br>positive</p>
-          <p><Badge color="danger rounded-5 py-1 px-2 fs-6">{data.negativeVotes}</Badge><br>negative</p>
-          <p><Badge color="warning rounded-5 py-1 px-2 fs-6">{data.ignoredVotes}</Badge><br>abstained</p>
-        </div>
       </div>
     </div>
+    <hr/>
   </Section>
 
   <Section class="section-sm pt-4 pb-5">

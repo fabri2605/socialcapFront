@@ -17,10 +17,10 @@
         <img src={data?.plan.image} alt="Badge" height="180px" crossorigin/>
       </div>
 
-      <div class="w-75 ps-2">
+      <div class="w-100 ps-2">
         <h3 class="text-black d-flex justify-content-between align-items-center">
           <span>{data.plan.name}</span>
-          <span class="fs-6">
+          <span class="fs-5">
             <Badge color="success">ACTIVE</Badge>
           </span>
         </h3>
@@ -42,6 +42,7 @@
         </div>
       </div>
     </div>
+    <hr>
   </Section>
 
   <Section class="section-sm">

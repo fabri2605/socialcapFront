@@ -9,20 +9,26 @@
 
     <div class="d-flex align-items-center justify-content-start">
       <img src={data.image} alt="Badge" width="22.5%" crossorigin/>
-      <!-- <div class="w-25 me-4" style="--margin-left:-25px;">
-      </div> -->
-      <div class="ps-4">
-        <span class="fs-5">
-          <Badge color="danger">{data.state}</Badge>
-        </span>
-        <h3 class="text-black mt-2">
-          <span>{data.type}</span>
-        </h3>
-        <p class="fs-sm text-secondary lh-base mt-3">{@html data.description}</p>
-        <p class="fs-6">
-          Claimed by <b class="d-inline-block text-bg-dark py-1 px-2 rounded-2 fs-6">{data.alias}</b>
-        </p>
-        <div class="d-flex justify-content-start">
+
+      <div class="ps-4 w-100">
+        <div class="header">
+          <h3 class="text-black d-flex justify-content-between align-items-center">
+            <span>{data.type}</span>
+            <span class="fs-5">
+              <Badge color="warning">{data.state}</Badge>
+            </span>
+          </h3>
+          <p class="fs-sm text-secondary lh-lg">
+            {@html data.description}
+            <br>
+            <b class="">{data.community}</b>
+          </p>
+          <p class="fs-6">
+            Claimed by <b class="d-inline-block text-bg-dark py-1 px-2 rounded-2 fs-6">{data.alias}</b>
+          </p>
+        </div>
+  
+        <div class="d-flex justify-content-start w-100">
           <p class="pe-2">
             <span class="fs-xs">Started</span>
             <br/><b class="fs-sm">{data.assignedUTC}</b>
@@ -38,7 +44,7 @@
         </div>
       </div>
     </div>
-    
+
     <hr>
   </Section>
 
