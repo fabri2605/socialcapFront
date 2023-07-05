@@ -5,11 +5,11 @@
 
       <CardHeader>
         <div class="d-flex justify-content-start align-items-center mt-2">
-          <img src={data.image} width="80px" crossorigin alt="Community logo" />
-          <div class="ms-3">
+          <img src={data.image} width="30%" crossorigin alt="Community logo" />
+          <div class="ms-3 mt-3">
             <h6>{data.name}</h6>
-            <span class="fs-sm">
-              <Badge pill color={stateColors[data.state]}>{data.state}</Badge>
+            <span class="fs-6">
+              <Badge color={stateColors[data.state]}>{data.state}</Badge>
             </span>
           </div>
           <p>

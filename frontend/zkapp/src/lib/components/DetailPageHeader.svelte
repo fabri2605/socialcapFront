@@ -4,7 +4,11 @@
     <img alt="Socialcap logo" src="/img/socialcap/socialcap-logo.svg" />
   </NavbarBrand>
   
-    <Nav class="w-100 justify-content-start --ms-auto --text-center pr-5 mt-1 ms-3" navbar>
+  <NavbarToggler on:click={() => (isOpen = !isOpen)} />
+
+  <Collapse {isOpen} navbar expand="md" on:update={handleUpdate}>
+    <Nav class="w-100 justify-content-start --ms-auto --text-center pr-5 mt-1 ms-3" navbar>      
+
       <NavItem>
         <Breadcrumb class="fs-sm mt-3">
           {#each items as item, j}
@@ -27,22 +31,28 @@
         <CloseButton size="fs-2"/>
       </NavItem>
     </Nav>
+
+  </Collapse>
 </Navbar>
 
 <script>
   import { onMount } from "svelte";
   import { Breadcrumb, BreadcrumbItem } from "sveltestrap";
-  import { Navbar, NavbarBrand, Nav, NavItem, NavLink } from 'sveltestrap';
+  import { Navbar, NavbarBrand, Nav, NavItem, Collapse, NavbarToggler } from 'sveltestrap';
   import { getCurrentUser } from "$lib/models/current-user"
   import CloseButton from "./CloseButton.svelte";
   
-  let 
-    user = null;
+  export let items = []; // [{ href, text }]
+  // the last item will allways be the active item
+
+  let user = null;
+  let isOpen = false;
   
   onMount(() => {
     user = getCurrentUser();
   })
 
-  export let items = []; // [{ href, text }]
-  // the last item will allways be the active item
+  function handleUpdate(event) {
+    isOpen = event.detail.isOpen;
+  }
 </script>

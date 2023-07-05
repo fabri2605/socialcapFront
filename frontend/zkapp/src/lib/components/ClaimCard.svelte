@@ -5,10 +5,10 @@
 
       <CardHeader>
         <div class="d-flex justify-content-between align-items-center mt-2">
-          <img src={data.image} width="120px" crossorigin alt="Credential logo" />
+          <img src={data.image} width="40%" crossorigin alt="Credential logo" />
           <div class="ms-3">
-            <Badge color="warning" class="fs-sm">{data.state}</Badge>
             <h6 class="mt-2">{data.type}</h6>
+            <Badge color="warning" class="fs-sm">{data.state}</Badge>
           </div>
         </div>
         <p class="fs-sm text-center lh-base mx-2 mt-2 mb-0">

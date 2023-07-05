@@ -5,24 +5,18 @@
   ]} />
 
 <DetailPageContent>
-  <!-- <Sidenote>
-    <hr/>
-    <p>::: USER CAN CLAIM A CREDENTIAL OF SOME COMMUNITY WHERE HE/SHE IS A MEMBER :::</p>
-    <p>This is a form where he will claim a new credential, and this form is controlled by the MasterPlan.</p>
-    <p>We only arrive here if the user already is a member of at least one community.</p>
-  </Sidenote> -->
   <Section class="section-md">
-    <div class="d-flex align-items-center justify-content-between">
-      <div class="w-25 me-4" style="--margin-left:-25px;">
-        <img src={data.image} alt="Badge" height="180px" crossorigin/>
-      </div>
 
-      <div class="w-75">
-        <h3 class="text-black d-flex justify-content-between align-items-center">
+    <div class="d-flex align-items-center justify-content-start">
+      <img src={data.image} alt="Badge" width="22.5%" crossorigin/>
+      <!-- <div class="w-25 me-4" style="--margin-left:-25px;">
+      </div> -->
+      <div class="ps-4">
+        <span class="fs-5">
+          <Badge color="danger">{data.state}</Badge>
+        </span>
+        <h3 class="text-black mt-2">
           <span>{data.type}</span>
-          <span class="fs-6">
-            <Badge color="success">{data.state}</Badge>
-          </span>
         </h3>
         <p class="fs-sm text-secondary lh-base mt-3">{@html data.description}</p>
         <p class="fs-6">
@@ -44,6 +38,8 @@
         </div>
       </div>
     </div>
+    
+    <hr>
   </Section>
 
   <Section class="section-sm">

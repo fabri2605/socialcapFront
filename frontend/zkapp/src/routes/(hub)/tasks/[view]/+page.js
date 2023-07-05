@@ -10,8 +10,9 @@ import { olTasks } from '@models/mockup-objects';
 
 /** @type {import('./$types').PageLoad} */
 export async function load({ params, route, url }) {
-    if (true) {
-      return {
+    if (params.view) {
+      return { 
+        view: params.view,
         assigned: olTasks.filter((t) => t.state==='PENDING'),
         completed: olTasks.filter((t) => t.state==='COMPLETED'),
       }; 

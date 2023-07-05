@@ -33,7 +33,7 @@
         </div>
         <p>
           <Button color="primary" size="sm" class="rounded-5 px-3 py-1">
-            <a href={"/tasks/assigned/"+uid} class="text-white text-decoration-none">
+            <a href={`/task/${uid}`} class="text-white text-decoration-none">
               Vote !
             </a>
           </Button>
@@ -60,15 +60,5 @@
 
 <script>
     import { Badge, Button, Card, CardBody, CardHeader } from "sveltestrap";
-    export let uid = 0, data;
+    export let uid, data;
 </script>
-
-<style>
-  .card-container {
-    max-width: 18rem;
-    min-width: 18rem;
-    margin-right: 0.25rem;
-    margin-bottom: 0.50rem;
-    display: inline-block;
-  }
-</style>
