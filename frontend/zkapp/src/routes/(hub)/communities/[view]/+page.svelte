@@ -3,11 +3,10 @@
     <hr/>
     <p>::: FIRST TIME USER - HAS NOT JOINED ANY COMMUNITY YET :::</p>
   </Sidenote> -->
-  <Section>
-    {#if user && isFirstTimeUser(user)}
+  <Section class="section-xl">
+    <!-- {#if user && isFirstTimeUser(user)}
       <EmptyFirstTime {user}/>   
-    {/if}
-  </Section>
+    {/if} -->
   
   <!-- <Sidenote>
     <hr>
@@ -15,31 +14,23 @@
     <br>Shows all communities the you have joined and all available communities in a grid or list:
     </p>
   </Sidenote> -->
-  <Section class="section-xl">
-    <div class="ps-2 pb-4 d-flex align-items-center justify-content-start">
+    <div class="ps-2 pb-4 d-flex align-items-center justify-content-between">
       <!-- <p class="mt-2 pe-2"><a href="/">Home</a></p>
       <p class="mt-2 pe-2">/</p>
       <p class="mt-2 pe-2">Credentials</p>
       <p class="mt-2 pe-2">/</p> -->
-      {#if view === "joined"}
-        <h4>Your communities</h4>
-      {/if}
-      {#if view === "all"}
-        <h4>All registered communities</h4>
-      {/if}
+      <h1>{title[view]}</h1>
+
+      <div class="ps-2 fs-sm --text-bg-light">
+        Show <InlineTab current={view} items={tabs} />
+        &nbsp;|&nbsp;
+        Sort by <select class="ms-2 py-1 px-2 rounded-1 border">
+          <option>Newest</option>
+          <option>Popular</option>
+        </select>
+      </div>
     </div>
 
-    <div class="ps-2 fs-sm --text-bg-light">
-      Show <InlineTab current={view} items={[
-        { value: "joined", text: "Your communities", href:"/communities/joined"},
-        { value: "all", text: "All", href:"/communities/all"},
-      ]}/>
-      &nbsp;|&nbsp;
-      Sort by <select class="ms-2 py-1 px-2 rounded-1 border">
-        <option>Newest</option>
-        <option>Popular</option>
-      </select>
-    </div>
 
     <div class="mt-2 pt-1">
       {#if view === "joined"}
@@ -78,10 +69,28 @@
 	
   export let data; // this is the data for the lists
 
+  const title = {
+    "all": "All communities",
+    "joined": "Your communities"
+  }
+
+  const allTabs = [
+    { value: "joined", text: title['joined'], href:"/communities/joined"},
+    { value: "all", text: title['all'], href:"/communities/all"},
+  ]
+
+  const filterTabs = (view) => {
+    return allTabs.filter((t) => {
+      return (t.value !== view);
+    });        
+  }
+
   let user = getCurrentUser();
 
   $: view = data.view || "joined"; 
   
+  $: tabs = filterTabs(view);
+
   onMount(() => {
     user = getCurrentUser();
   })

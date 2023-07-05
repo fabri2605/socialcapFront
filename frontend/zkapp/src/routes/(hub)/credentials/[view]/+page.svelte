@@ -3,19 +3,18 @@
     <hr>
     <p>::: FIRST TIME USER :::</p>
   </Sidenote> -->
-  <Section>
-    {#if user && isFirstTimeUser(user)}
-      <EmptyFirstTime {user}/>   
-    {/if}
-  </Section>
+  <Section class="section-xl">
+  {#if user && isFirstTimeUser(user)}
+    <EmptyFirstTime {user}/>   
+  {/if}
 
   <!-- <Sidenote>
     <hr>
     <p>::: IS NOT FIRST TIME USER BUT HAS NOT CLAIMED ANY CREDENTIAL YET :::</p>
   </Sidenote> -->
-  <Section>
-    {#if user && !isFirstTimeUser(user) && !user.hasCredentials}
-      <!-- <EmptyCredentials {user} /> -->
+  <!-- <Section class="section-lg">
+    {#if user && !isFirstTimeUser(user) && !user.hasCredentials} -->
+      <!-- <EmptyCredentials {user} />
     {/if}
   </Section>
   
@@ -25,34 +24,18 @@
       <br>Shows all the obtained credentials OR all pending claims
     </p>
   </Sidenote> -->
-  <Section class="section-xl">
-    <div class="ps-2 pb-4 d-flex align-items-center justify-content-start">
-      <!-- <p class="mt-2 pe-2"><a href="/">Home</a></p>
-      <p class="mt-2 pe-2">/</p>
-      <p class="mt-2 pe-2">Credentials</p>
-      <p class="mt-2 pe-2">/</p> -->
-      {#if view === "issued"}
-        <h4>My owned credentials ...</h4>
-      {/if}
-      {#if view === "canclaim"}
-        <h4>You can claim this ones now ...</h4>
-      {/if}
-      {#if view === "submited"}
-        <h4>Submited claims in review</h4>
-      {/if}
-    </div>
+  {#if user && !isFirstTimeUser(user)}
+    <div class="ps-2 pb-4 d-flex align-items-center justify-content-between">
+      <h1>{title[view]}</h1>
 
-    <div class="ps-2 fs-sm --text-bg-light">
-      Show <InlineTab current={view} items={[
-        { value: "issued", text: "My credentials", href:"/credentials/issued" },
-        { value: "canclaim", text: "Can claim", href:"/credentials/canclaim" },
-        { value: "submited", text: "Submited", href:"/credentials/submited" },
-      ]}/>
-      &nbsp;|&nbsp;
-      Sort by <select class="ms-2 py-1 px-2 rounded-1 border">
-        <option>Newest</option>
-        <option>Due date</option>
-      </select>
+      <div class="ps-2 fs-sm --text-bg-light">
+        Show <InlineTab current={view} items={tabs}/>
+        &nbsp;|&nbsp;
+        Sort by <select class="ms-2 py-1 px-2 rounded-1 border">
+          <option>Newest</option>
+          <option>Due date</option>
+        </select>
+      </div>
     </div>
 
     <div class="mt-2 pt-1">
@@ -84,8 +67,8 @@
         </div>
       {/if}
     </div>
+  {/if}
   </Section>
-
   <br><br>
   <!-- <Filler n=40/> -->
 </div>
@@ -107,11 +90,32 @@
 
   export let data; // this is the data for the lists
 
+  const title = {
+    "issued": "Your credentials",
+    "canclaim": "Claim a credential",
+    "submited": "Your claims"
+  };
+
+  const allTabs = [
+    { value: "issued", text: title['issued'], href:"/credentials/issued" },
+    { value: "canclaim", text: title['canclaim'], href:"/credentials/canclaim" },
+    { value: "submited", text: title['submited'], href:"/credentials/submited" },
+  ];
+
+  const filterTabs = (view) => {
+    return allTabs.filter((t) => {
+      return (t.value !== view);
+    });        
+  };
+
   const url = $page.url;
+
   let user = getCurrentUser();
 
   $: view = data.view || "issued"; // url.searchParams.get('view') || "issued";
   
+  $: tabs = filterTabs(view);
+
   onMount(() => {
     user = getCurrentUser();
   })
