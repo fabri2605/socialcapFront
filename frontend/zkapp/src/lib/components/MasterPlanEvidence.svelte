@@ -1,17 +1,19 @@
 <div>
-  <h6>Need this evidence fields</h6>
   {#each evidence as field, index}
     {#if index === selected}
       <div class="border border-3 border-warning rounded-2 mb-2 p-4">
         <div class="text-end">
           <Button color="light" on:click={() => {selected = null;}}> 
-            <Icon name="chevron-expand" />
+            <Icon name="x" />
           </Button>
         </div>
         <MasterPlanEvidenceField bind:field={evidence[index]} />
-        <div class="text-end">
+        <div class="d-flex justify-content-between">
           <Button outline color="secondary" on:click={() => {removeField(index);}}> 
             <Icon name="trash-fill" /> &nbsp; Remove it 
+          </Button>
+          <Button outline color="secondary" on:click={() => {selected = null;}}> 
+            <Icon name="check-lg" />
           </Button>
         </div>
       </div>

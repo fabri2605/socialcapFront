@@ -1,7 +1,7 @@
 <DetailPageHeader items={[
   { href: '/', text: 'Home'},
   { href: '/admins', text: 'Admin'},
-  { href: '', text: 'Admin this community'}
+  { href: '', text: data.name}
 ]}/>
 
 <DetailPageContent>
@@ -10,14 +10,14 @@
       <img width="22.5%" style="max-width:160px;" class="img-thumbnail rounded-circle me-2" src={data.image} crossorigin/>
       <div class="w-100 ms-4">
         <span class="text-secondary">ADMINISTERING  THIS COMMUNITY ...</span>
-        <h3 class="text-black m-0 p-0 w-100 d-flex align-items-center justify-content-between">
+        <h2 class="text-black m-0 p-0 w-100 d-flex align-items-center justify-content-between">
           {data.name}
           <span class="fs-5">
             <Badge size="sm">
               {data.state}
             </Badge>
           </span>
-        </h3>
+        </h2>
         <p class="fs-sm mt-1">
           <b>{data.countMembers}</b> members
           | <span class="fs-4"> 🎉 </span>

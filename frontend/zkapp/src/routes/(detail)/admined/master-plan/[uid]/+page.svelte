@@ -7,7 +7,8 @@
 
 <DetailPageContent>
   <Section class="section-lg pb-4">
-    <h1>Master Plan</h1>
+    <h2>Master Plan</h2>
+    <img src={data.image} width="80px" alt="..." crossorigin />
     <pre>
       {data.name}
       {data.description}
@@ -173,6 +174,11 @@
 
       <TabPane tabId="evidence" tab="Evidence" active>
         <Section class="section-sm ms-4">
+          <h4 class="mb-1 ms-3">Evidence fields</h4>
+          <p class="ms-3 lg-base text-secondary fs-sm">
+            This is the set of evidence that the applicant 
+            will be required to fill to sustain his/her claim.
+          </p>
           <MasterPlanEvidence bind:evidence={data.evidence} />
         </Section>
       </TabPane>
