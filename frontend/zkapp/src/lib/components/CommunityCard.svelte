@@ -40,14 +40,18 @@
         </div>
         {#if !joined}
           <p>
-            <Button color="primary" size="sm" class="rounded-5 px-3 py-1">
+            <Button 
+              on:click={toggleJoin}
+              color="primary" size="sm" class="rounded-5 px-3 py-1">
               Join it !
             </Button>
           </p>
         {/if}
         {#if joined}
           <p>
-            <Button outline color="primary" size="sm" class="rounded-5 px-3 py-1">
+            <Button 
+              on:click={toggleBecome}
+              outline color="primary" size="sm" class="rounded-5 px-3 py-1">
               Become a validator
             </Button>
           </p>
@@ -56,11 +60,29 @@
   </Card>
 </div>
 
+<Modal body 
+  header="Join" 
+  isOpen={openJoinDlg} toggle={toggleJoin}>
+  Join this community
+</Modal>
+
+<Modal body 
+  header="Become a validator"   
+  isOpen={openBecomeDlg} toggle={toggleBecome}>
+  Become a validator
+</Modal>
+
 <script>
-    import { Badge, Button, Card, CardBody, CardHeader } from "sveltestrap";
-    import FullviewButton
-     from "./FullviewButton.svelte";
+    import { Badge, Modal, Button, Card, CardBody, CardHeader } from "sveltestrap";
+    import FullviewButton from "./FullviewButton.svelte";
+
     export let uid = 0, data, joined = false;
+
+    let openJoinDlg = false;
+    const toggleJoin = () => (openJoinDlg = !openJoinDlg);
+
+    let openBecomeDlg = false;
+    const toggleBecome = () => (openBecomeDlg = !openBecomeDlg);
 
     const stateColors = {
       'DRAFT': 'warning',
