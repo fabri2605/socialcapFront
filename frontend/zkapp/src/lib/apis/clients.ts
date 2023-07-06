@@ -1,13 +1,23 @@
 import { Indexer } from "./indexer";
 import { Task, Claim, MasterPlan, Community } from "@models/index"
 
-import { olClaimables, olAllCommunities, olMyCommunities, aCommunity } from "@models/mockup-objects";
+import { 
+  aProfile,
+  olClaimables, olAllCommunities, olMyCommunities, aCommunity,
+  olPersons, olMasterPlans, olAdminedCommunities, olAdminedValidators 
+} from "@models/mockup-objects";
 
 export { 
   getClaimables,
   getCommunity, 
   getAllCommunities, 
-  getMyCommunities 
+  getMyCommunities,
+  getAdminedCommunities,
+  getAdminedPlans,
+  getAdminedAdmins,
+  getAdminedValidators,
+  getAdminedAuditors,
+  getAdminedMembers
 };
 
 async function getTask(uid: string): Promise<Task | null> {
@@ -81,4 +91,28 @@ async function getAllCommunities(orderBy: string): Promise<any[] | null> {
 
 async function getMyCommunities(orderBy: string): Promise<any[] | null> {
   return olMyCommunities;
+}
+
+async function getAdminedCommunities(orderBy: string): Promise<any[] | null> {
+  return olAdminedCommunities;
+}
+
+async function getAdminedPlans(uid: string, state?:string): Promise<any[] | null> {
+  return olMasterPlans;
+}
+
+async function getAdminedValidators(uid: string, state?:string): Promise<any[] | null> {
+  return olAdminedValidators;
+}
+
+async function getAdminedAuditors(uid: string, state?:string): Promise<any[] | null> {
+  return olPersons;
+}
+
+async function getAdminedMembers(uid: string, state?:string): Promise<any[] | null> {
+  return olPersons;
+}
+
+async function getAdminedAdmins(uid: string, state?:string): Promise<any[] | null> {
+  return [aProfile, olPersons[0]];
 }

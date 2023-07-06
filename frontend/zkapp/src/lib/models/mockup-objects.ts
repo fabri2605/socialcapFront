@@ -14,7 +14,8 @@ export {
   aAdminCommunity,
   olClaimables, olSubmitedClaims, olCredentials, olTasks, 
   olAllCommunities, olMyCommunities, 
-  olAdminCommunities 
+  olAdminedCommunities, olMasterPlans,olPersons,
+  olAdminedValidators, 
 };
 
 /*
@@ -41,6 +42,14 @@ export {
 // const aUser = getCurrentUser();
 
 const aMasterPlan = MasterPlan.mockup();
+
+const olMasterPlans = [1,2,3,4].map((t) => {
+  let mp = MasterPlan.mockup();
+  mp.name = mp.name+` mp${t}`;
+  mp.uid = mp.uid+`_mp${t}`;
+  return mp;
+})
+
 const aClaim = Claim.mockup();
 const olClaimables = ClaimablesCollection.mockup();
 const olSubmitedClaims = ClaimsCollection.fromJSON(JSON.stringify(olSubmitedClaimsMockup));
@@ -50,8 +59,6 @@ const olCredentials = CredentialsCollection.fromJSON(JSON.stringify(olCredential
 
 const aTask = Task.mockup();
 const olTasks = TasksCollection.mockup();
-
-const olAdminCommunities = [];
 
 const aCommunity = Community.mockup();
 
@@ -75,4 +82,28 @@ const olMyCommunities = [1,2,3].map((t) => {
 
 const aProfile = Person.mockup();
 
+const olPersons = [1,2,3,4,5,6].map((t) => {
+  let p = Person.mockup();
+  p.fullName = "Person "+t;
+  return p;
+})
+
 const aAdminCommunity = Community.mockup();
+
+const olAdminedCommunities = [1,2].map((t) => {
+  let o = Community.mockup();
+  o.uid = o.uid+t;
+  o.name = o.name+` ADMINED ${t}`;
+  o.countMembers = (t)+100;
+  o.countCredentials = (t)+20;
+  return o; 
+});
+
+const olAdminedValidators = [1,2,3,4,5,6,7,8].map((t) => {
+  let p = Person.mockup() as any
+  p.fullName = "Person "+t;
+  p.uid = p.uid+`_${t}`;
+  p.state = "APPLIED"; // applied as validator, but not yet approved
+  p.appliedUTC = "2023-01-07 15:00";
+  return p;
+})

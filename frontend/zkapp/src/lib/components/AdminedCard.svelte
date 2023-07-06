@@ -2,7 +2,7 @@
   <Card class="card-options">
     <CardHeader class="d-flex justify-content-between">
       <p>
-        <a href={`/admins/${uid}`}>Community tittle</a>
+        <a href={`/admined/${uid}`}>Community tittle</a>
       </p>
       <p>
         <Badge pill color="success">Approved</Badge>
@@ -22,9 +22,9 @@
 </div>
 
 <script>
-    import { Badge, Card, CardBody, CardHeader } from "sveltestrap";
-    export 
-      let uid;
+  import { Badge, Card, CardBody, CardHeader } from "sveltestrap";
+
+  export let uid;
 </script>
 
 <style>

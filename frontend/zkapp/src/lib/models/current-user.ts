@@ -34,6 +34,6 @@ function getCurrentUser(): CurrentUser {
     hasClaims: false,
     hasCredentials: true,
     hasTasks: true,
-    hasAdmins: false,
+    hasAdmins: true,
   };
 }

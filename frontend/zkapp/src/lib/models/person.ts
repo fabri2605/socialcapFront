@@ -44,7 +44,7 @@ class Person {
 /// Mockups ///
 
 const aPersonMockup = {
-  uid: "claim1234",
+  uid: "who1234",
   accountId: "",
   fullName: "Mario del Pino Alto",
   description: "Not much to say here ...",

@@ -1,3 +1,4 @@
+import type { MasterPlan } from "./master-plan";
 
 export { Community }; 
 
@@ -17,6 +18,9 @@ class Community {
   createdUTC: string;
   updatedUTC: string;
   approvedUTC: string;
+
+  // master plans
+  plans: MasterPlan[]; // Uid of all MasterPlans
 
   // extras 
   countMembers: number;
@@ -41,7 +45,7 @@ class Community {
 /// Mockups ///
 
 const aCommunityMockup = {
-  uid: "claim1234",
+  uid: "comn1234",
   accountId: "",
   name: "True Grass Eating DAO",
   description: "A group of people dedicated to eating grass like cows do",
@@ -53,5 +57,8 @@ const aCommunityMockup = {
   // activity times
   createdUTC: "1 May 2023",
   updatedUTC: "17 May 2023",
-  approvedUTC: "12 May 2023"
+  approvedUTC: "12 May 2023",
+
+  // master plans
+  plans: [],
 }

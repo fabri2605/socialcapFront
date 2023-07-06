@@ -55,6 +55,8 @@ class MasterPlan {
 
   constructor() {
     this.uid = UID.uuid4(); 
+    this.createdUTC = (new Date()).toISOString();
+    this.state = "DRAFT";
   }
 
   static fromJSON(json: string): MasterPlan {

@@ -49,7 +49,7 @@
         <a href={'#'}>Become a validator</a> for this community
       </p>
       <p class="fs-sm mt-1">
-        Do you <a href={'/admins/123'}>administer this</a> ? 
+        Do you <a href={`/admined/${data.uid}`}>administer this</a> ? 
       </p>
     </div>
   </Section>
