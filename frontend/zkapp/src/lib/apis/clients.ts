@@ -2,9 +2,9 @@ import { Indexer } from "./indexer";
 import { Task, Claim, MasterPlan, Community } from "@models/index"
 
 import { 
-  aProfile,
+  aProfile, aMasterPlan, 
   olClaimables, olAllCommunities, olMyCommunities, aCommunity,
-  olPersons, olMasterPlans, olAdminedCommunities, olAdminedValidators 
+  olPersons, olMasterPlans, olAdminedCommunities, olAdminedValidators, 
 } from "@models/mockup-objects";
 
 export { 
@@ -17,7 +17,8 @@ export {
   getAdminedAdmins,
   getAdminedValidators,
   getAdminedAuditors,
-  getAdminedMembers
+  getAdminedMembers,
+  getMasterPlan
 };
 
 async function getTask(uid: string): Promise<Task | null> {
@@ -55,7 +56,8 @@ async function getClaim(uid: string): Promise<Claim | null> {
 }
 
 async function getMasterPlan(uid: string): Promise<MasterPlan | null> {
-  // first get the current task
+  return aMasterPlan;   
+  /*
   let rsp = await Indexer.query("get_plan_by_uid", { uid: uid });
   if (rsp.error) return null;
 
@@ -65,6 +67,7 @@ async function getMasterPlan(uid: string): Promise<MasterPlan | null> {
   plan.community = community.name;
 
   return plan;
+  */
 }
 
 async function getClaimables(communityUid: string): Promise<any[] | null> {

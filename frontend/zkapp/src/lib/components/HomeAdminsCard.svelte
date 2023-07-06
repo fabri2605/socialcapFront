@@ -6,9 +6,11 @@
     <CardBody class="">
       <h1 class="fs-3">Administer</h1>
       <p class="">Do you admin a community ?</p>
-      <Button size="md" color="light" class="px-3 py-2 rounded-1">
-        Register it
-      </Button>
+      <a href={"/admined/new"} class="text-decoration-none text-dark">
+        <Button size="md" color="light" class="px-3 py-2 rounded-1">
+          Register it
+        </Button>
+      </a>
     </CardBody>
   </div>
 </Card>

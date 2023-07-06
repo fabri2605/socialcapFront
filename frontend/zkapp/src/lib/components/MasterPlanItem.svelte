@@ -6,7 +6,7 @@
       width="56px" crossorigin/>
   </span>
   <div class="col lh-base">
-    <a href={`/admined/${plan.communityUid}/${plan.uid}`} class="text-dark text-decoration-none">
+    <a href={`/admined/master-plan/${plan.uid}`} class="text-dark text-decoration-none">
       <b>{plan.name || "No name yet ..."}</b>
       <p class="fs-sm text-secondary m-0">
         {plan.description || "No description yet ..."}

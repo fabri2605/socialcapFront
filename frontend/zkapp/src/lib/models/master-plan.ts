@@ -82,7 +82,7 @@ type EvidenceField = {
   required: boolean,          // is required ?
   label: string,              // field label
   description: string,        // field description
-  type: "text" | "file",      // field type
+  type: "text" | "file" | "note" | "remark" ,      // field type
   extras: { 
     max: number | null,     //max number of chars in this field 
     allowed: string | null, // allowed File types
@@ -159,21 +159,29 @@ const aMasterPlanMockup = {
   ],
 
   // fees and shares
-  fee: 2, // the fee in MINA required for this credential
-  shares: {
-    rewards: 40,// percentaje of the fee that will go to validator rewards
-    community: 40, // percentaje of fee that will go to the community
-    protocol: 20 // percentaje of fee that will go to the Protocol (Socialcap)
-  },
+  fee: 5, // the fee in MINA required for this credential
+  rewardsShare: 60, // percentaje of the fee that will go to validator rewards
+  communityShare: 30, // percentaje of fee that will go to the community
+  protocolShare: 10, // percentaje of fee that will go to the Protocol (Socialcap)
 
-  // claim parameters
+  // claim options
+  total: 10,
   expiration: 365, // days since issued when an issued credential wil expire (or 0 for no expiration)
   revocable: true, // if this credential can be revoked 
-  strategy: {},
-  links: [], // array of {value, text} 
   // when claiming of this credential can start and when it ends
   startsUTC: "2023-05-02", 
   endsUTC: "2023-08-02",
+
+  // strategy 
+  strategy: {
+    title: "",
+    variant: "RandomAnonyomusValidators",
+    minValidators: 3,
+    minVotes: 3,
+    minPositives: 2,
+    minAuditors: 1,
+    auditFrequency: 10 // 1 every 10 claims 
+  }, 
 
   // standard activity times
   createdUTC: "2021-01-01",
