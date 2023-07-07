@@ -1,4 +1,4 @@
-<Card class="bg-info" style="min-height:280px">
+<Card class="bg-info" style="min-height:180px">
   <div class="position-absolute bottom-0 end-0">
     <img class="svg" alt="" width="220px" src={'/img/svg/banne-group21.svg'} />
   </div>

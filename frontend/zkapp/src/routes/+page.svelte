@@ -13,7 +13,7 @@
 	  updateAdd
   } from '$lib/zkapp/helpers';
 	import { getItem } from '$lib/utility/localStorageController';
-	import { Spinner, Icon } from 'sveltestrap';
+	import { Spinner, Icon, TabContent, TabPane } from 'sveltestrap';
   import RootHeader from '@components/RootHeader.svelte'; 
   import HubPageContent from '@components/HubPageContent.svelte';
   import EmptyCredentials from '@components/EmptyCredentials.svelte';
@@ -22,10 +22,14 @@
   import Sidenote from '@components/Sidenote.svelte';
   import CanClaimNow from '@components/CanClaimNow.svelte';
   import Section from '@components/Section.svelte';
-  import HomeAdminsCard from '@components/HomeAdminsCard.svelte';
-  import HomeCredentialsCard from '@components/HomeCredentialsCard.svelte';
-  import HomeCommunitiesCard from '@components/HomeCommunitiesCard.svelte';
-  import HomeValidatorsCard from '@components/HomeValidatorsCard.svelte';
+  import HomeAdminsCard from '@components/home/HomeAdminsCard.svelte';
+  import HomeCredentialsCard from '@components/home/HomeCredentialsCard.svelte';
+  import HomeCommunitiesCard from '@components/home/HomeCommunitiesCard.svelte';
+  import HomeValidatorsCard from '@components/home/HomeValidatorsCard.svelte';
+  import CredentialCard from '@components/CredentialCard.svelte';
+  import ClaimCard from "@components/ClaimCard.svelte";
+  import CommunityCard from '@components/CommunityCard.svelte';
+  import TaskCard from '@components/TaskCard.svelte';
 
   export let data; // this is the data for the lists
 
@@ -77,7 +81,7 @@
         </div>
       {/if}
     {/if} -->
-    <Section class="section-xl px-5">
+    <Section class="section-fluid px-0">
       {#if user && isFirstTimeUser(user)}
         <div class="mb-4">
           <EmptyFirstTime {user}/>   
@@ -85,21 +89,47 @@
       {/if}
 
       <div class="row">
-        <div class="col">
-          <HomeCredentialsCard {data}/>
-        </div>  
-        <div class="col">
-          <HomeCommunitiesCard {data}/>
-        </div>  
+        <div class="col-9 row">
+          <div class="col-6">
+            <HomeCredentialsCard {data}/>
+          </div>  
+          <div class="col-6">
+            <HomeCommunitiesCard {data}/>
+          </div>  
+        </div>
+        <div class="col-3">
+          <div class="col-12">
+            <HomeAdminsCard {data}/>
+          </div>  
+        </div>
       </div>
-      <div class="row pt-4">
-        <div class="col">
-          <HomeValidatorsCard {data}/>
-        </div>  
-        <div class="col">
-          <HomeAdminsCard {data}/>
-        </div>  
-      </div>
+    </Section>
+
+    <Section class="section-fluid mt-4 pt-4 bg-white rounded-2">
+      <TabContent class="justify-content-center">
+        &nbsp;&nbsp;&nbsp;&nbsp;
+        <TabPane tabId="creds" tab="My credentials" active>
+          {#each data.credentials as credential}
+            <CredentialCard uid={credential.uid} data={credential}/>
+          {/each}
+          <br>
+        </TabPane>
+        <TabPane tabId="claims" tab="My claims">
+          {#each data.submited as submited}
+            <ClaimCard data={submited}/>
+          {/each}
+        </TabPane>
+        <TabPane tabId="comns" tab="My communities">
+          {#each data.joined as org}
+            <CommunityCard uid={org.uid} data={org} joined={true}/>
+          {/each}
+        </TabPane>
+        <TabPane tabId="tasks" tab="My tasks">
+          {#each data.assigned as task}
+            <TaskCard uid={task.uid} data={task}/>
+          {/each}
+        </TabPane>
+      </TabContent>      
     </Section>
 
 </HubPageContent>

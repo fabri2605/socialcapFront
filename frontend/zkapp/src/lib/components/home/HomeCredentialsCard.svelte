@@ -1,4 +1,4 @@
-<Card class="text-white bg-primary" style="min-height:280px">
+<Card class="text-white bg-primary" style="min-height:180px">
   <div class="position-absolute bottom-0 end-0">
     <img class="svg" alt="" width="200px" src={'/img/svg/group3320.svg'} />
   </div>

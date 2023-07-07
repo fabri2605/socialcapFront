@@ -1,13 +1,18 @@
 import { error } from '@sveltejs/kit';
 
 // this is only for testing/mockups
-import { olClaimables } from '@models/mockup-objects';
+import { olClaimables, olCredentials, olSubmitedClaims, olTasks } from '@models/mockup-objects';
+import { getAllCommunities, getMyCommunities } from '@apis/clients';
 
 /** @type {import('./$types').PageLoad} */
 export async function load({ params, route, url }) {
     if (true) {
       return { 
         claimables: olClaimables,
+        credentials: olCredentials, 
+        submited: olSubmitedClaims,
+        joined: getMyCommunities(), 
+        assigned: olTasks.filter((t) => t.state==='PENDING'),
         stats: aStats
       }; 
     }

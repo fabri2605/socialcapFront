@@ -1,46 +1,31 @@
-<div class="card-container">
-  <Card> 
+<div class="w-100 px-4">
+  <Card class="border-0 border-bottom">
     <a href={`/credential/claimed/${uid}`} class="text-decoration-none text-dark">
-      <FullviewButton />
-
-      <CardHeader>
-        <div class="d-flex justify-content-between align-items-center mt-2">
-          <img src={data.image} width="40%" crossorigin alt="Credential logo" />
-          <div class="ms-3">
-            <h6 class="mt-2">{data.type}</h6>
-            <Badge color="warning" class="fs-sm">{data.state}</Badge>
+      <CardBody class="ps-4">
+        <div class="d-flex justify-content-start align-items-center pt-0">
+          <img src={data.image} width="92px" crossorigin alt="Credential logo" />
+          <div class="ms-4 text-left">
+            <p class="fs-sm text-secondary lh-base mt-2 mb-0">
+              <b>{data.community}</b>
+            </p>
+            <h5 class="mt-0">{data.type}</h5>
+            <p class="fs-sm text-secondary lh-base mt-2 mb-0">
+              {data.description}
+            </p>
+            <p class="m-0 p-0 mt-1">
+              <span class="fs-xs p-1 border border-1 border-dark rounded-2">Claimed  
+              <b class="fs-sm">{data.createdUTC}</b></span>
+              <Badge color="warning" class="fs-sm">{data.state}</Badge>
+            </p>
           </div>
-        </div>
-        <p class="fs-sm text-center lh-base mx-2 mt-2 mb-0">
-          <b class="d-inline-block --py-2">{data.community}</b>
-          <br>{data.description}
-        </p>
-      </CardHeader>
+      </CardBody>
     </a>
-
-    <CardBody class="fs-sm">
-      <div class="d-flex justify-content-start">
-        <p class="p-0">
-          <span class="fs-xs">Submited</span>
-          <br/><b class="fs-sm">{data.createdUTC}</b>
-        </p>
-        <p class="ps-4 pe-0">
-          <span class="fs-xs">Ends</span>
-          <br/><b class="fs-sm">{data.dueUTC}</b>
-        </p>
-        <p class="ps-4 pe-0">
-          <span class="fs-xs">Votes</span>
-          <br/><b class="fs-sm">{data.currentVotes} / {data.requiredVotes}</b>
-        </p>
-      </div>
-    </CardBody>
   </Card>
 </div>
 
 <script>
     import { goto } from "$app/navigation";
     import { Badge, Button, Card, CardBody, CardHeader } from "sveltestrap";
-    import FullviewButton from "./FullviewButton.svelte";
 
     export let uid, data;
 </script>

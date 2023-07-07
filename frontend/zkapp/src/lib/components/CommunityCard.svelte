@@ -1,62 +1,50 @@
-<div class="card-container">
-  <Card class="card-options">
-    <a href={`/community/${uid}`} class="text-decoration-none text-dark">
-      <FullviewButton />
-
-      <CardHeader>
-        <div class="d-flex justify-content-start align-items-center mt-2">
-          <img src={data.image} width="30%" crossorigin alt="Community logo" />
-          <div class="ms-3 mt-3">
-            <h6>{data.name}</h6>
-            <span class="fs-6">
-              <Badge color={stateColors[data.state]}>{data.state}</Badge>
-            </span>
-          </div>
-          <p>
-        </div>
-        <p class="fs-sm lh-base mt-3 text-left mb-0 text-secondary">
-          {@html data.description}
-          <br><b>{data.countMembers}</b> members
-          | <span class="fs-5"> 🎉 </span>
-          &nbsp; <b>{data.countCredentials}</b> credentials issued !
-        </p>
-      </CardHeader>
-    </a>
-
-    <CardBody class="fs-sm">
-        <div class="d-flex justify-content-start">
-          <p class="p-0">
-            <span class="fs-xs">Registered</span>
-            <br/><b class="fs-sm">{data.createdUTC}</b>
+<div class="w-100 px-4">
+  <Card class="border-0 border-bottom">
+    <CardBody class="ps-4">
+      <div class="d-flex justify-content-start align-items-center pt-0">
+        <img src={data.image} width="92px" crossorigin alt="Credential logo" />
+        <div class="ms-4 mt-0">
+          <a href={`/community/${uid}`} class="text-decoration-none text-dark">
+            <h5>{data.name}
+              <span class="fs-6 ms-1">
+                <Badge color={stateColors[data.state]}>{data.state}</Badge>
+              </span>
+            </h5>
+            <p class="fs-sm lh-base mt-1 text-left mb-0 text-secondary">
+              {@html data.description}
+              <br><b>{data.countMembers}</b> members
+              | <span class="fs-5"> 🎉 </span>
+              &nbsp; <b>{data.countCredentials}</b> credentials issued !
+            </p>
+          </a>    
+          <p class="mt-2">
+            {#if !joined}
+              <p>
+                <Button 
+                  on:click={toggleJoin}
+                  color="primary" size="sm" class="rounded-5 px-3 py-1">
+                  Join it !
+                </Button>
+              </p>
+            {/if}
+            {#if joined}
+              <p>
+                <Button 
+                  on:click={toggleBecome}
+                  outline color="primary" size="sm" class="rounded-5 px-3 py-1">
+                  Become a validator
+                </Button>
+                &nbsp;
+                <Button outline color="secondary" size="sm" class="rounded-5 px-3 py-1">
+                  <a href={`/admined/${data.uid}`} class="text-dark text-decoration-none">
+                    Admin it
+                  </a>
+                </Button>
+              </p>
+            {/if}
           </p>
-          <p class="ps-4 pe-0">
-            <span class="fs-xs">Approved</span>
-            <br/><b class="fs-sm">{data.approvedUTC || "---"}</b>
-          </p>
-          <p class="ps-4 pe-0">
-            <span class="fs-xs">Updated</span>
-            <br/><b class="fs-sm">{data.updatedUTC}</b>
-          </p>
-        </div>
-        {#if !joined}
-          <p>
-            <Button 
-              on:click={toggleJoin}
-              color="primary" size="sm" class="rounded-5 px-3 py-1">
-              Join it !
-            </Button>
-          </p>
-        {/if}
-        {#if joined}
-          <p>
-            <Button 
-              on:click={toggleBecome}
-              outline color="primary" size="sm" class="rounded-5 px-3 py-1">
-              Become a validator
-            </Button>
-          </p>
-        {/if}
-    </CardBody>
+        </div>  
+      </CardBody>
   </Card>
 </div>
 

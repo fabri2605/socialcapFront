@@ -58,7 +58,12 @@ const aCredential = CapCredential.fromJSON(JSON.stringify(aCredentialMockup));
 const olCredentials = CredentialsCollection.fromJSON(JSON.stringify(olCredentialsMockup));
 
 const aTask = Task.mockup();
-const olTasks = TasksCollection.mockup();
+
+const olTasks = [1,2,3,4].map((t) => {
+  let o = Task.mockup();
+  o.uid = o.uid+t;
+  return o; 
+});
 
 const aCommunity = Community.mockup();
 
