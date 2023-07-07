@@ -1,7 +1,6 @@
 <DetailPageHeader items={[
   { href: '/', text: 'Home'},
-  { href: '/communities', text: 'Communities'},
-  { href: '', text: 'The community'}
+  { href: '', text: data.name}
 ]}/>
 
 <DetailPageContent>

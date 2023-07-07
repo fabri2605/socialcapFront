@@ -1,6 +1,5 @@
 <DetailPageHeader items={[
   { href: '/', text: 'Home'},
-  { href: '/admins', text: 'Admin'},
   { href: '', text: 'Register your community'}
   ]} />
 

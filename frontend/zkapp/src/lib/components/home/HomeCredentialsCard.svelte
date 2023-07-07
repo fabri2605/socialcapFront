@@ -8,16 +8,25 @@
       <p class="fs-6 color-white">
         <b class="fs-6">{data.stats.countClaimables}</b> available credentials
       </p>
-      <a href="/credentials/canclaim" class="text-decoration-none">
-        <Button size="md" color="light" class="px-3 py-2 rounded-1">
+      <!-- <a href="/credentials/canclaim" class="text-decoration-none"> -->
+        <Button size="md" color="light" class="px-3 py-2 rounded-1"
+          on:click={() => open = true}>
           Claim it now
         </Button>
-      </a>
+      <!-- </a> -->
     </CardBody>
   </div>
 </Card>
 
+<ClaimCredentialDialog 
+  bind:open={open} 
+  claimables={data.claimables}/>
+
 <script>
   import { Card, CardBody, Button } from "sveltestrap";
+  import ClaimCredentialDialog from "@components/dialogs/ClaimCredentialDialog.svelte";
+
   export let data;
+
+  let open = false;
 </script>

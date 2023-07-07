@@ -1,6 +1,5 @@
 <DetailPageHeader items={[
     { href: "/", text: 'Home'},
-    { href: "/tasks", text: 'Tasks'},
     { href: "/", text: 'Submit your vote'},
   ]} />
 

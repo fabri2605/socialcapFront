@@ -103,10 +103,10 @@
       </div>
     </Section>
 
-    <Section class="section-fluid mt-4 pt-4 bg-white rounded-2">
-      <TabContent class="justify-content-center">
+    <Section class="section-fluid mt-4 pt-5 bg-white rounded-2">
+      <TabContent class="">
         &nbsp;&nbsp;&nbsp;&nbsp;
-        <TabPane class="pb-5" tabId="creds" tab="My credentials">
+        <TabPane class="pb-5" tabId="creds" tab="My credentials" active>
           {#each data.credentials as credential}
             <CredentialCard uid={credential.uid} data={credential}/>
           {/each}
@@ -117,11 +117,11 @@
             <ClaimCard data={submited}/>
           {/each}
         </TabPane>
-        <TabPane class="pb-5" tabId="comns" tab="My communities" active>
+        <TabPane class="pb-5" tabId="comns" tab="My communities" on:click={() => alert()}>
           {#each data.joined as org}
             <CommunityCard uid={org.uid} data={org} joined={true}/>
           {/each}
-          <div class="p-0 m-0">
+          <div class="p-4 m-0 px-4">
             <HomeAdminsCard />
           </div>
         </TabPane>

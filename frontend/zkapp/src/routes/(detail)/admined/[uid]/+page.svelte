@@ -1,7 +1,6 @@
 <DetailPageHeader items={[
   { href: '/', text: 'Home'},
-  { href: '/admins', text: 'Admin'},
-  { href: '', text: data.name}
+  { href: '', text: "Admin: "+data.name}
 ]}/>
 
 <DetailPageContent>

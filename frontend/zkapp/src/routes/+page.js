@@ -12,6 +12,7 @@ export async function load({ params, route, url }) {
         credentials: olCredentials, 
         submited: olSubmitedClaims,
         joined: getMyCommunities(), 
+        allCommunities: getAllCommunities(),
         assigned: olTasks.filter((t) => t.state==='PENDING'),
         stats: aStats
       }; 

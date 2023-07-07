@@ -1,6 +1,5 @@
 <DetailPageHeader items={[
   { href: '/', text: 'Home'},
-  { href: '/credentials', text: 'Credentials'},
   { href: '', text: `Claim your credential`}
 ]}/>
 

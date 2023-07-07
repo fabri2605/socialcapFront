@@ -9,13 +9,23 @@
         <b>{data.stats.countCommunities}</b> awesome communities
       </p>
       <Button size="md" color="light" class="px-3 py-2 rounded-1"
+        on:click={() => open = true}
         >Join one</Button
       >
     </CardBody>
   </div>
 </Card>
 
+<JoinCommunityDialog 
+  bind:open={open}
+  joined={data.joined} 
+  all={data.allCommunities} />
+
 <script>
   import { Card, CardBody, Button } from "sveltestrap";
+  import JoinCommunityDialog from "@components/dialogs/JoinCommunityDialog.svelte";
+
   export let data;
+
+  let open = false;
 </script>

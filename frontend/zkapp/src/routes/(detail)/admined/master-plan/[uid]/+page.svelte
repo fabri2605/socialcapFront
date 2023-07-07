@@ -1,6 +1,5 @@
 <DetailPageHeader items={[
   { href: '/', text: 'Home'},
-  { href: '/admins', text: 'Admin'},
   { href: `/admined/${data.communityUid}`, text: data.community},
   { href: '', text: `Master Plan #${data.name || data.uid}`}
 ]}/>
