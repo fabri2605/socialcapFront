@@ -103,7 +103,7 @@
       </div>
     </Section>
 
-    <Section class="section-fluid mt-4 pt-5 bg-white rounded-2">
+    <Section class="section-fluid mt-4 pt-4 bg-white rounded-2">
       <TabContent class="">
         &nbsp;&nbsp;&nbsp;&nbsp;
         <TabPane class="pb-5" tabId="creds" tab="My credentials" active>
@@ -125,11 +125,14 @@
             <HomeAdminsCard />
           </div>
         </TabPane>
+
+        {#if user && user.hasTasks}
         <TabPane class="pb-5" tabId="tasks" tab="My tasks">
           {#each data.assigned as task}
             <TaskCard uid={task.uid} data={task}/>
           {/each}
         </TabPane>
+        {/if}
       </TabContent>      
     </Section>
 
