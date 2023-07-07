@@ -35,11 +35,11 @@
                   Become a validator
                 </Button>
                 &nbsp;
-                <Button outline color="secondary" size="sm" class="rounded-5 px-3 py-1">
-                  <a href={`/admined/${data.uid}`} class="text-dark text-decoration-none">
-                    Admin it
-                  </a>
-                </Button>
+                <a href={`/admined/${data.uid}`} class="text-dark text-decoration-none">
+                  <Button outline color="dark" size="sm" class="rounded-5 px-3 py-1">
+                    Admin it ...
+                  </Button>
+                </a>
               </p>
             {/if}
           </p>

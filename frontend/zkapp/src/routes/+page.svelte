@@ -13,7 +13,7 @@
 	  updateAdd
   } from '$lib/zkapp/helpers';
 	import { getItem } from '$lib/utility/localStorageController';
-	import { Spinner, Icon, TabContent, TabPane } from 'sveltestrap';
+	import { Spinner, Icon, TabContent, TabPane, Button } from 'sveltestrap';
   import RootHeader from '@components/RootHeader.svelte'; 
   import HubPageContent from '@components/HubPageContent.svelte';
   import EmptyCredentials from '@components/EmptyCredentials.svelte';
@@ -88,27 +88,25 @@
         </div>
       {/if}
 
-      <div class="row">
-        <div class="col-9 row">
-          <div class="col-6">
+      <div class="row p-0">
+          <div class="col-12 col-md-6">
             <HomeCredentialsCard {data}/>
           </div>  
-          <div class="col-6">
+          <div class="col-12 mt-3 col-md-6 mt-md-0">
             <HomeCommunitiesCard {data}/>
           </div>  
-        </div>
-        <div class="col-3">
-          <div class="col-12">
+        <!-- <div class="col-12 col-md-3 m-0 px-0">
+          <div class="col-12 m-0 px-0">
             <HomeAdminsCard {data}/>
           </div>  
-        </div>
+        </div> -->
       </div>
     </Section>
 
     <Section class="section-fluid mt-4 pt-4 bg-white rounded-2">
       <TabContent class="justify-content-center">
         &nbsp;&nbsp;&nbsp;&nbsp;
-        <TabPane tabId="creds" tab="My credentials" active>
+        <TabPane tabId="creds" tab="My credentials">
           {#each data.credentials as credential}
             <CredentialCard uid={credential.uid} data={credential}/>
           {/each}
@@ -119,10 +117,13 @@
             <ClaimCard data={submited}/>
           {/each}
         </TabPane>
-        <TabPane tabId="comns" tab="My communities">
+        <TabPane class="pb-5" tabId="comns" tab="My communities" active>
           {#each data.joined as org}
             <CommunityCard uid={org.uid} data={org} joined={true}/>
           {/each}
+          <div class="p-0 m-0">
+            <HomeAdminsCard />
+          </div>
         </TabPane>
         <TabPane tabId="tasks" tab="My tasks">
           {#each data.assigned as task}
