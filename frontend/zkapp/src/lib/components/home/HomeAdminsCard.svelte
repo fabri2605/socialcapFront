@@ -4,7 +4,7 @@
       <img class="svg" alt="" width="180px" src={'img/svg/maintenance.svg'} />
     </div>
     <div class="d-flex justify-content-center position-relative">
-      <CardBody class="ps-0 ms-4">
+      <CardBody class="ps-3 ms-4">
         <p class="fw-bold">Do you admin a community ?</p>
         <a href={"/admined/new"} class="text-decoration-none text-dark">
           <Button size="md" color="light" class="px-3 py-2 rounded-2">

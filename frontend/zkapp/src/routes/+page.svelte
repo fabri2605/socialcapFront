@@ -106,13 +106,13 @@
     <Section class="section-fluid mt-4 pt-4 bg-white rounded-2">
       <TabContent class="justify-content-center">
         &nbsp;&nbsp;&nbsp;&nbsp;
-        <TabPane tabId="creds" tab="My credentials">
+        <TabPane class="pb-5" tabId="creds" tab="My credentials">
           {#each data.credentials as credential}
             <CredentialCard uid={credential.uid} data={credential}/>
           {/each}
           <br>
         </TabPane>
-        <TabPane tabId="claims" tab="My claims">
+        <TabPane class="pb-5" tabId="claims" tab="My claims">
           {#each data.submited as submited}
             <ClaimCard data={submited}/>
           {/each}
@@ -125,7 +125,7 @@
             <HomeAdminsCard />
           </div>
         </TabPane>
-        <TabPane tabId="tasks" tab="My tasks">
+        <TabPane class="pb-5" tabId="tasks" tab="My tasks">
           {#each data.assigned as task}
             <TaskCard uid={task.uid} data={task}/>
           {/each}

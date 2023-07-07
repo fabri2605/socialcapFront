@@ -48,7 +48,7 @@
   <Collapse {isOpen} navbar expand="md" on:update={handleUpdate}>
     <Nav class="w-100 justify-content-start --ms-auto --text-center pr-5 mt-1 ms-3" navbar>
       
-      <NavItem>
+      <!-- <NavItem>
         <NavLink 
           class={isActive("/claims",$page.url.pathname)} 
           href="/credentials">
@@ -68,7 +68,7 @@
 
       <NavItem>
         <NavLink href="/admins">Admin</NavLink>
-      </NavItem>
+      </NavItem> -->
 
       <!-- filler to center align correctly 
         <div style="width:12rem;">&nbsp;</div>
