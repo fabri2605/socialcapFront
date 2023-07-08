@@ -5,11 +5,8 @@
 	import { page } from '$app/stores';
   
   // local imports ...
-	import { Spinner, Icon } from 'sveltestrap';
-  import { Container } from 'sveltestrap';
   import { Styles } from 'sveltestrap';
-  import Header from '$lib/components/Header.svelte';
-  import Filler from '$lib/components/Filler.svelte';
+  import RootHeader from '@components/RootHeader.svelte';
 
   // Hexui
   let isAuthenticated = getItem('access_token');
@@ -25,27 +22,22 @@
 </script>
 
 <!-- MUST include here Bootstrap styling 
-  <Styles />
 -->
+<Styles />
 
 <!--
   MINA original not used here
 -->
 <style global>
-  @import '/css/mina-globals.css';
-  @import '/css/bootstrap.css';
+  @import '/css/mina-fonts.css';
+  /* @import '/css/bootstrap.css'; */
+  @import '/css/custom.css';
 </style>
 
 <svelte:head>
   <title>Socialcap</title>
 </svelte:head>
 
-<!-- Hexui -->
 <div style="position:fixed;top:0;left:0;bottom:0;right:0;">
-  <Header />
-  <div style="position:fixed;top:60px;left:0;bottom:0;right:0;border:0px dotted red;overflow:auto;">
-    <Container class="mt-5">
-      <slot></slot>
-    </Container>
-  </div>
+  <slot></slot>
 </div>

@@ -37,6 +37,7 @@
   },
   "dependencies": {
     "@sveltejs/adapter-static": "^2.0.2",
+    "bootstrap": "^5.3.0",
     "popper": "^1.0.1",
     "snarkyjs": "0.*",
     "sveltestrap": "git+https://github.com/laxadev/sveltestrap.git"
