@@ -27,10 +27,10 @@
  * field types to any of the SnarkyJS types (Field, etc...)
  */
 import { Field, Struct, Bool, CircuitString, PublicKey, Poseidon } from 'snarkyjs';
-import { UID } from '../helpers/uid.js';
-import { UTCDateTime } from '../helpers/datetime.js';
-import { State, CommunityState } from '../helpers/states.js';
-import { BigString } from '../helpers/bigstring.js';
+import { UID } from '../utils/uid.js';
+//import { State } from './states.js';
+import { UTCDateTime } from '../utils/datetime.js';
+//import { BigString } from '../utils/bigstring.js';
 
 export { Community };
 
