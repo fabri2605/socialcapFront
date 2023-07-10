@@ -69,9 +69,16 @@ const customTheme = extendTheme(
   
         h1: {
           fontFamily: dmSans.style.fontFamily,
-          fontSize: {base: '56px !important',md:'88px !important'},
+          fontSize: {base: '48px !important',md:'88px !important'},
           fontWeight: '700 !important',
-          lineHeight: '88px !important',
+          lineHeight: {base: '48px !important', md: '88px !important'},
+          letterSpacing: "-2.4 px !important"
+        },
+        h2: {
+          fontFamily: dmSans.style.fontFamily,
+          fontSize: {base: '32px !important',md:'68px !important'},
+          fontWeight: '500 !important',
+          lineHeight: {base: '32px !important', md: '68px !important'},
           letterSpacing: "-2.4 px !important"
         },
         h3: {

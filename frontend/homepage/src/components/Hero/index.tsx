@@ -1,5 +1,6 @@
 import { colors } from "@/theme/colors";
 import {
+  Box,
   Button,
   Flex,
   Heading,
@@ -13,45 +14,48 @@ export default function Hero() {
   return (
     <Stack
       minH={"100vh"}
-      mt={74}
-      ml={20}
-      direction={{ base: "column", md: "row" }}
+      align={"center"}
+      backgroundImage={{base: "url(/assets/hero-mobile.svg)", lg: "url(/assets/hero.svg)"}}
+      backgroundSize={"cover"}
+      backgroundPosition={{base: "bottom center", lg: "top center"}}
+      bgRepeat="no-repeat"
     >
-      <Flex p={8} flex={1} direction={"column"}>
-        <Stack spacing={20} w={"full"}>
-          <Heading as={"h1"}>Power up your community</Heading>
+      <Flex
+        flex={1}
+        direction={"column"}
+        alignContent={"center"}
+        maxWidth={"610px"}
+      >
+        <Box w={"full"}>
+          <Heading as={"h1"} wordBreak={"break-word"} textAlign={{base: "center"}}>Power up your community</Heading>
           <Text
-            fontSize={{ base: "lg", lg: "xl" }}
+            fontSize={{ base: "16px", lg: "24px" }}
             fontWeight={500}
+            lineHeight={{ base: "24px", lg: "38px"}}
+            wordBreak={"break-word"}
             color={colors.brandBlack}
+            align={"center"}
+            p={8}
           >
             Communities are the heart and soul of Web3, and Credentials are the
             new foundation for building trust and reputation within them.
           </Text>
-     
+        </Box>
+        <Stack mt={{base:4, lg: 8}} alignItems={"center"}>
+          <Button
+            fontWeight={500}
+            color={colors.brandBlue}
+            variant={"outline"}
+            borderColor={colors.brandBlue}
+            padding="22px 32px"
+            borderWidth={"3px"}
+            borderStyle={"solid"}
+            borderRadius="16px"
+            fontSize={"20px"}
+          >
+            Learn more
+          </Button>
         </Stack>
-        <Stack mt={62} direction={{ base: "column", md: "row" }}>
-            <Button
-              fontWeight={500}
-              color={colors.brandBlue}
-              variant={"outline"}
-              borderColor={colors.brandBlue}
-              padding= "22px 32px"
-              borderWidth={"3px"}
-              borderStyle={"solid"}
-              borderRadius="16px"
-              fontSize={"20px"}
-            >
-              Learn more
-            </Button>
-          </Stack>
-      </Flex>
-      <Flex flex={1} color={colors.brandBlue}>
-        <Image
-          alt={"hero image"}
-          objectFit={"cover"}
-          src={"/assets/hero.svg"}
-        />
       </Flex>
     </Stack>
   );

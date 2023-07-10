@@ -43,7 +43,7 @@ export default function WithSubnavigation() {
         bg={colors.white}
         color={colors.brandBlack}
         minH={"80px"}
-        px={"6rem"}
+        px={"2rem"}
         justify={"center"}
         align={"center"}
       >
@@ -83,7 +83,7 @@ export default function WithSubnavigation() {
             bg: "#0E2865",
           }}
         >
-          Request access
+          Join Waitlist
         </Button>
       </Flex>
 
@@ -280,6 +280,10 @@ const NAV_ITEMS: Array<NavItem> = [
   {
     label: "Why socialcap?",
     href: "#why-socialcap",
+  },
+  {
+    label: "How it works",
+    href: "#how-it-works",
   },
   {
     label: "Our team",
