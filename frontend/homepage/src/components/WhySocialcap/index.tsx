@@ -13,6 +13,9 @@ import {
   Heading,
   useBreakpointValue,
   Button,
+  WrapItem,
+  Center,
+  Wrap,
 } from "@chakra-ui/react";
 import { ChevronRightIcon } from "@chakra-ui/icons";
 import SectionTitle from "../SectionTitle";
@@ -28,9 +31,14 @@ const Benefits: NextPage = () => {
         </SectionTitle>
         <Container maxW="container.xl">
           <HStack py={8} background={colors.smoke} borderRadius={16}>
-            <SimpleGrid columns={{ base: 1, md: 2 }} overflow={"hidden"} spacing={25}>
+            <SimpleGrid
+              columns={{ base: 1, md: 2 }}
+              overflow={"hidden"}
+              spacing={25}
+            >
               <Section
                 imageUrl={"assets/why-socialcap/private.svg"}
+                imageUrlMobile={"assets/why-socialcap/private-mobile.svg"}
                 text={`At the heart of Socialcap is our community-based attestation
                   protocol that enables easy self-validation and issuance of
                   credentials using a transparent and repeatable process, while
@@ -38,6 +46,7 @@ const Benefits: NextPage = () => {
               />
               <Section
                 imageUrl="assets/why-socialcap/validators.svg"
+                imageUrlMobile="assets/why-socialcap/validators-mobile.svg"
                 text={`By using social proof, validators anonymity, random selection,
                secret voting, self-auditing, and community rules, our
                protocol ensures that the validation process is fair,
@@ -46,6 +55,7 @@ const Benefits: NextPage = () => {
 
               <Section
                 imageUrl="assets/why-socialcap/community.svg"
+                imageUrlMobile="assets/why-socialcap/community-mobile.svg"
                 text={`Socialcap is designed to be community-driven, allowing each
               community to set its own claim types, credential prices,
               validation rules and badges. In this way, the protocol is
@@ -87,6 +97,30 @@ const Benefits: NextPage = () => {
               Read out the whitepaper
             </Button>
           </Stack>
+          <Wrap
+            mt={["50px", "50px"]}
+            spacing={19}
+            justify="center"
+            align={"center"}
+          >
+            <WrapItem>
+              <Center>
+                <Text as={"h5"} color={colors.brandBlueLight}>
+                  Backed by
+                </Text>
+              </Center>
+            </WrapItem>
+            <WrapItem>
+              <Center w="228px" h="80px">
+                <Image alt="MINA" src="assets/mina.svg" />
+              </Center>
+            </WrapItem>
+            <WrapItem>
+              <Center w="228px" h="80px">
+                <Image alt="zkignite" src="assets/zkignite.svg" />
+              </Center>
+            </WrapItem>
+          </Wrap>
         </Container>
       </Flex>
     </section>

@@ -12,32 +12,41 @@ import {
   Link,
   Stack,
   Heading,
+  Button,
+  Tag,
+  VStack,
 } from "@chakra-ui/react";
 import { colors } from "@/theme/colors";
 import SectionTitle from "../SectionTitle";
 import { cards } from "./cards";
 import Card from "./Card";
-import CardContainer from "./CardContainer";
-
+import { useEffect, useState } from "react";
+import Carousel from "../Carousel";
 const OurCredentials: NextPage = () => {
   return (
     <section id="our-credentials">
       <Flex position="relative" justifyContent="center" direction={"column"}>
         <SectionTitle my={"54px"}>Our credentials</SectionTitle>
         <Container
-          className={styles.container}
           maxW="container.xl"
           px={{ base: "1rem", md: "2rem" }}
           pt={"96px"}
           pb={"72px"}
         >
-          <CardContainer className={styles.stack}>
-            <ul className={styles.cards}>
-              {cards.map((card) => (
+          <Carousel gap={0}>
+            {cards.map((card) => (
+              <Flex
+                key={card.index}
+                justifyContent="space-between"
+                flexDirection="column"
+                overflow="hidden"
+                flex={1}
+                p={5}
+              >
                 <Card card={card} />
-              ))}
-            </ul>
-          </CardContainer>
+              </Flex>
+            ))}
+          </Carousel>
         </Container>
       </Flex>
     </section>

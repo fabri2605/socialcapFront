@@ -1,5 +1,6 @@
-import Image from "next/image";
 import styles from "./card.module.css";
+import { Stack, Text, Image, useBreakpointValue } from "@chakra-ui/react";
+import { colors } from "@/theme/colors";
 export interface Card {
   index: number;
   title: string;
@@ -9,20 +10,48 @@ export interface Card {
 interface Props {
   card: Card;
 }
-const Card = ({ card }: Props) => (
-  <li key={card.index} className={styles.card}>
-    <div className={styles.cardBody}>
-      <h3>{card.title}</h3>
-      <p>{card.content}</p>
-    </div>
-    <Image
-      alt={"card"}
-      src={card.image}
-      width={100}
-      height={100}
-      className={styles.cardImg}
-    />
-  </li>
-);
+const Card = ({ card }: Props) => {
+  const showImage = useBreakpointValue([false, true]);
+  return (
+    <Stack
+      key={card.index}
+      display={["column", "grid"]}
+      gridTemplateColumns={"1fr 1fr"}
+      background={colors.brandBlue}
+      borderRadius={"1rem"}
+      boxShadow={"0 0 32px 0 rgba(23, 88, 254, 0.1)"}
+      height={"full"}
+      transition={"all 0.4s"}
+      color={colors.white}
+      padding={["1.5rem 1.5rem 1.5rem 1.5rem", "2rem 4rem 2rem 2rem"]}
+      alignItems={"center"}
+    >
+      <Stack gridArea={"1 / 2 / 2 / 3"}>
+        <Text as={"h3"} marginBottom={"2rem"} wordBreak={"break-word"}>
+          {card.title}
+        </Text>
+        <Text
+          fontSize={["16px", "18px"]}
+          fontWeight={400}
+          lineHeight={["24px", "28px"]}
+          letterSpacing={"-0.4px"}
+          wordBreak={"break-word"}
+        >
+          {card.content}
+        </Text>
+      </Stack>
+      {showImage && (
+        <Image
+          alt={"card"}
+          src={card.image}
+          width={"80%"}
+          height={"80%"}
+          objectFit={"cover"}
+          gridArea={"1 / 1 / 2 / 2"}
+        />
+      )}
+    </Stack>
+  );
+};
 
 export default Card;

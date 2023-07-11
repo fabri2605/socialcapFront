@@ -95,7 +95,7 @@ const customTheme = extendTheme(
         },
         h5: {
           fontFamily: dmSans.style.fontFamily,
-          fontSize: '18px !important',
+          fontSize: {base: '18px !important',md:'20px !important'},
           fontWeight: '400 !important',
           lineHeight: '28px !important',
         },
