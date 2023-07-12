@@ -1,5 +1,5 @@
 import { PrivateKey, PublicKey, Mina, AccountUpdate } from "snarkyjs";
-import { ClaimContract } from "../src/ClaimContract.js";
+import { ClaimContract } from "../ClaimContract.js";
 
 export { deployClaimContract };
 

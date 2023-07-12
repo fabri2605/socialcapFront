@@ -8,14 +8,7 @@ class Votes extends Struct({
   ignored: UInt32
 }){}
 
-
 export class FailedInitContract extends SmartContract {
-  // events to update Nullifier
-  events = {
-    'nullify-voter': Field,
-    'updated-voting-status': Field
-  };
-
   // Account states
   @state(Field) claimUid = State<Field>(); //1
   @state(Votes) votes = State<Votes>(); // 4

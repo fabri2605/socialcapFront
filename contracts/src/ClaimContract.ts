@@ -1,10 +1,5 @@
 import { SmartContract, state, State, method, MerkleMap, Poseidon, Reducer, MerkleMapWitness } from "snarkyjs";
 import { Field, Int64, UInt32, Bool, Struct, Circuit } from "snarkyjs";
-// import { MerkleMapUpdate, LeafInstance, MerkleMapProxy } from "./lib/offchain-storage.js";
-//import { ProvableCommunity } from "./models/provable-community.js";
-//import { ProvablePerson } from "./models/provable-person.js";
-//import { ProvableMember } from "./models/provable-member.js";
-
 
 class Votes extends Struct({
   total: Field,
@@ -52,16 +47,16 @@ export class ClaimContract extends SmartContract {
   reducer = Reducer({ actionType: VoteAction });
 
   // Account states
-  @state(Field) claimUid = State<Field>(); //
-  @state(Field) votes = State<Field>(); // 
-  @state(Field) positive = State<Field>(); // 
-  @state(Field) negative = State<Field>(); // 
-  @state(Field) ignored = State<Field>(); // 
+  @state(Field) claimUid = State<Field>();
+  @state(Field) votes = State<Field>(); 
+  @state(Field) positive = State<Field>(); 
+  @state(Field) negative = State<Field>(); 
+  @state(Field) ignored = State<Field>(); 
   // final result 0: Not finished, 1: Approved, 2: Rejected
-  @state(Field) result = State<Field>(); //1
+  @state(Field) result = State<Field>(); 
   @state(Field) nullifierRoot = State<Field>();
   // helper field to store the point in the action history that our on-chain state is at
-  @state(Field) actionsState = State<Field>(); //1
+  @state(Field) actionsState = State<Field>(); 
   
   //@state(EndConditions) required = State<EndConditions>(); // 2
 
@@ -80,7 +75,6 @@ export class ClaimContract extends SmartContract {
   }
 
   @method assertHasNotVoted(
-    // map: MerkleMapProxy,
     electorUid: Field,
     claimUid: Field,
     nullifier: NullifierProxy
