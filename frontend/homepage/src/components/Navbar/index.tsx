@@ -36,7 +36,7 @@ export enum Section {
 
 export default function WithSubnavigation() {
   const { isOpen, onToggle } = useDisclosure();
-  
+
   return (
     <header>
       <Flex
@@ -46,6 +46,7 @@ export default function WithSubnavigation() {
         py={["32px", "40px"]}
         justify={"center"}
         align={"center"}
+        marginBottom={"32px"}
       >
         <Flex
           flex={{ base: 1 }}
@@ -72,6 +73,7 @@ export default function WithSubnavigation() {
           as={"a"}
           display={{ base: "none", md: "inline-flex" }}
           fontSize={"xl"}
+          height={"64px"}
           lineHeight={"20px"}
           fontWeight={400}
           color={"white"}
@@ -79,8 +81,15 @@ export default function WithSubnavigation() {
           borderRadius={"16px"}
           padding={"22px 32px"}
           href={"#waitlist"}
+          borderWidth={"3px"}
+          borderColor={"white"}
+          borderStyle={"solid"}
           _hover={{
-            bg: "#0E2865",
+            bg: "white",
+            color: colors.brandBlue,
+            borderWidth: "3px",
+            borderColor: colors.brandBlue,
+            borderStyle: "solid",
           }}
         >
           Join Waitlist

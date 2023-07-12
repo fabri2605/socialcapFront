@@ -1,19 +1,4 @@
-import { FormEvent, ChangeEvent, useState } from "react";
-import {
-  Stack,
-  FormControl,
-  Input,
-  Button,
-  useColorModeValue,
-  Heading,
-  Text,
-  Container,
-  Flex,
-  Box,
-  HStack,
-  SimpleGrid,
-  Image,
-} from "@chakra-ui/react";
+import { Stack, Heading, Text, Container, Flex, Image } from "@chakra-ui/react";
 import { CheckIcon } from "@chakra-ui/icons";
 import { NextPage } from "next";
 import SectionTitle from "../SectionTitle";
@@ -31,6 +16,7 @@ const Waitlist: NextPage = () => {
           bg={colors.brandBlue}
           my={"54px"}
           borderRadius={"16px"}
+          height={"auto"}
         >
           <Stack
             color={colors.white}
@@ -51,9 +37,7 @@ const Waitlist: NextPage = () => {
               Join the waitlist and unlock the full potential of your community
               with legitimate, trustworthy, and valuable credentials
             </Text>
-            <SubscribeForm
-              w={{ base: "full", lg: "50%" }}
-            />
+            <SubscribeForm w={{ base: "full", lg: "50%" }} />
             <Image
               display={{ lg: "none" }}
               src={"/assets/waitlist-mobile.svg"}
