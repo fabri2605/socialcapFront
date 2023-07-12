@@ -1,4 +1,5 @@
 import { SocialcapContract } from "./SocialcapContract.js"
+import { ClaimContract } from "./ClaimContract.js";
 import { ProvableCommunity } from "./models/provable-community.js";
 import { ProvablePerson } from "./models/provable-person.js";
 import { ProvableMember } from "./models/provable-member.js";
@@ -8,6 +9,7 @@ import {  UTCDateTime, ISO8601 } from "./lib/datetime.js";
 
 export { 
   SocialcapContract, 
+  ClaimContract,
   ProvableCommunity,
   ProvablePerson,
   ProvableMember,

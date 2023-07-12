@@ -2,14 +2,17 @@ import { Mina, PrivateKey, PublicKey, AccountUpdate,} from 'snarkyjs';
 import { UID } from "../src/lib/uid.js";
 
 import { SocialcapContract } from "../src/SocialcapContract.js";
+import { ClaimContract } from '../src/ClaimContract.js';
+import { FailedInitContract } from "../src/FailedInitContract.js"
+// import { deployClaimContract } from "./deploy-contract.js";
 
 import { 
   testUpdateCommunity, 
   testUpdatePerson, 
   testUpdateMember 
-} from "./test-contract.js"
+} from "./test-root-contract.js"
 
-let Contract = SocialcapContract;
+let Contract = FailedInitContract;
 
 let proofsEnabled = true;
 console.log("Proofs enabled=", proofsEnabled);
@@ -19,11 +22,11 @@ let
   deployerKey: PrivateKey,
   senderAccount: PublicKey,
   senderKey: PrivateKey,
-  zkAppAddress: PublicKey,
-  zkAppPrivateKey: PrivateKey;
+  zkAppAddr: PublicKey,
+  zkAppKey: PrivateKey;
 
 // compile Contract
-console.log("compiling Contract ...", Contract);
+console.log("compiling Contract ClaimContract ...", Contract);
 if (proofsEnabled) 
   await Contract.compile();
 console.log("compiled !");
@@ -39,10 +42,10 @@ console.log("deployer Addr=", deployerAccount);
 console.log("sender Addr=", senderAccount);
 
 // create zkapp keys and instance 
-zkAppPrivateKey = PrivateKey.random();
-zkAppAddress = zkAppPrivateKey.toPublicKey();
-let zkApp = new Contract(zkAppAddress);
-console.log("zkApp Addr=", zkAppAddress.toBase58());
+zkAppKey = PrivateKey.random();
+zkAppAddr = zkAppKey.toPublicKey();
+let zkApp = new Contract(zkAppAddr);
+console.log("zkApp Addr=", zkAppAddr.toBase58());
 console.log("zkApp=", zkApp);
 
 // deploy it 
@@ -53,29 +56,6 @@ const txn = await Mina.transaction(deployerAccount, () => {
 await txn.prove();
 // this tx needs .sign(), because `deploy()` adds an account update 
 // that requires signature authorization
-await txn.sign([deployerKey, zkAppPrivateKey]).send();
+await txn.sign([deployerKey, zkAppKey]).send();
 console.log("Deployed")
 
-console.log("UID=", UID.uuid4())
-
-// testing Contract now ...
-console.log("begin testing contract ... updateCommunity");
-await testUpdateCommunity(
-  zkApp, 
-  senderAccount, 
-  senderKey
-)
-
-console.log("begin testing contract ... updatePerson");
-await testUpdatePerson(
-  zkApp, 
-  senderAccount, 
-  senderKey
-)
-
-console.log("begin testing contract ... updateMember");
-await testUpdateMember(
-  zkApp, 
-  senderAccount, 
-  senderKey
-)
