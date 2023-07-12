@@ -95,14 +95,19 @@ type StrategyVariant =
   "AllMembersAnonymousVoting" | 
   "NominatedValidators";
 
+type SelectionSet =
+  "ValidatorsSet" |
+  "WholeCommunity" ;
+
 type ClaimPlanStrategy = {
   title: string,
   variant: StrategyVariant,
-  min_validators: number,
-  min_votes: number,
-  min_psotive_votes: number,
-  min_auditors: number,
-  audit_frequency: number 
+  selection: SelectionSet,
+  minValidators: number,
+  minVotes: number,
+  minPositiveVotes: number,
+  minAuditors: number,
+  auditFrequency: number 
 }
 
 
@@ -176,6 +181,7 @@ const aMasterPlanMockup = {
   strategy: {
     title: "",
     variant: "RandomAnonyomusValidators",
+    selection: "ValidatorsSet",
     minValidators: 3,
     minVotes: 3,
     minPositives: 2,
