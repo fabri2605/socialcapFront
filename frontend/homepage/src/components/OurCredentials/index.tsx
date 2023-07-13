@@ -19,21 +19,20 @@ import {
 import { colors } from "@/theme/colors";
 import SectionTitle from "../SectionTitle";
 import { cards } from "./cards";
-import Card from "./Card";
-import { useEffect, useState } from "react";
+
 import Carousel from "../Carousel";
+import Card from "./Card";
 const OurCredentials: NextPage = () => {
   return (
     <section id="our-credentials">
       <Flex position="relative" justifyContent="center" direction={"column"}>
-        <SectionTitle my={"54px"}>Our credentials</SectionTitle>
+        <SectionTitle>Our credentials</SectionTitle>
         <Container
           maxW="container.xl"
           px={{ base: "1rem", md: "2rem" }}
-          pt={"96px"}
-          pb={"72px"}
         >
           <Carousel gap={0}>
+
             {cards.map((card) => (
               <Flex
                 key={card.index}

@@ -42,8 +42,8 @@ export default function WithSubnavigation() {
       <Flex
         bg={colors.white}
         color={colors.brandBlack}
-        minH={"80px"}
-        px={"2rem"}
+        px={["32px", "80px"]}
+        py={["32px", "40px"]}
         justify={"center"}
         align={"center"}
       >
@@ -105,13 +105,13 @@ const DesktopNav = () => {
           <Popover trigger={"hover"} placement={"bottom-start"}>
             <PopoverTrigger>
               <Link
-                p={2}
                 href={navItem.href ?? "#"}
-                fontSize={"20px"}
-                lineHeight={"20px"}
+                fontSize={"18px"}
+                lineHeight={"18px"}
                 fontWeight={500}
                 color={linkColor}
-                padding="22px 32px"
+                padding="16px 30px"
+                wordBreak={"break-word"}
                 _hover={{
                   textDecoration: "none",
                   backgroundColor: colors.smoke,

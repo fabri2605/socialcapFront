@@ -14,6 +14,7 @@ export default function Hero() {
   return (
     <Stack
       minH={"100vh"}
+      mt={{md:"18px"}}
       align={"center"}
       backgroundImage={{base: "url(/assets/hero-mobile.svg)", lg: "url(/assets/hero.svg)"}}
       backgroundSize={"cover"}
@@ -26,7 +27,7 @@ export default function Hero() {
         alignContent={"center"}
         maxWidth={"610px"}
       >
-        <Box w={"full"}>
+        <Box w={"full"} mt={["32px","61px"]}>
           <Heading as={"h1"} wordBreak={"break-word"} textAlign={{base: "center"}}>Power up your community</Heading>
           <Text
             fontSize={{ base: "16px", lg: "24px" }}
@@ -36,12 +37,13 @@ export default function Hero() {
             color={colors.brandBlack}
             align={"center"}
             p={8}
+            mt={{base:"32px", md:"56px"}}
           >
             Communities are the heart and soul of Web3, and Credentials are the
             new foundation for building trust and reputation within them.
           </Text>
         </Box>
-        <Stack mt={{base:4, lg: 8}} alignItems={"center"}>
+        <Stack mt={{base:"32px", md:"64px"}} alignItems={"center"}>
           <Button
             fontWeight={500}
             color={colors.brandBlue}

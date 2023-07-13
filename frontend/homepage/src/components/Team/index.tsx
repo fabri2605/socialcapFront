@@ -11,42 +11,29 @@ import {
   Link,
   Stack,
   Heading,
-  Image
+  Image,
 } from "@chakra-ui/react";
 import SectionTitle from "../SectionTitle";
 import { colors } from "@/theme/colors";
+import Card from "./Card";
 
 const Team: NextPage = () => (
   <section id="team">
     <Flex position="relative" justifyContent="center" direction={"column"}>
-      <SectionTitle mt={"73px"}>The team</SectionTitle>
-      <Container maxW="container.xl" py="4rem">
+      <SectionTitle>The team</SectionTitle>
+      <Container maxW="container.xl">
         <HStack justifyContent={"space-around"}>
-          <SimpleGrid columns={{ base: 1, md: 4 }} spacing={97}>
-            <Stack textAlign={"center"} align={"center"} spacing={5}>
-              <Image src={"/assets/avatars/mario.svg"} alt="mario" />
-              <Text>
-               Founder
-              </Text>
-            </Stack>
-            <Stack textAlign={"center"} align={"center"} spacing={5}>
-              <Image src={"/assets/avatars/leandro.svg"} alt="leandro" />
-              <Text>
-               Founder
-              </Text>
-            </Stack>
-            <Stack textAlign={"center"} align={"center"} spacing={5}>
-              <Image src={"/assets/avatars/nico.svg"} alt="nico" />
-              <Text>
-               UX/UI Designer
-              </Text>
-            </Stack>
-            <Stack textAlign={"center"} align={"center"} spacing={5}>
-              <Image src={"/assets/avatars/mariana.svg"} alt="mariana" />
-              <Text>
-               Social Researcher
-              </Text>
-            </Stack>
+          <SimpleGrid columns={{ base: 1, md: 4 }} spacing={[1, 8]}>
+            <Card imageUrl={"/assets/avatars/mario.svg"} title="Founder" />
+            <Card imageUrl={"/assets/avatars/leandro.svg"} title="Founder" />
+            <Card
+              imageUrl={"/assets/avatars/nico.svg"}
+              title="UX/UI Designer"
+            />
+            <Card
+              imageUrl={"/assets/avatars/mariana.svg"}
+              title="Social Researcher"
+            />
           </SimpleGrid>
         </HStack>
       </Container>

@@ -1,14 +1,14 @@
 import styles from "./card.module.css";
 import { Stack, Text, Image, useBreakpointValue } from "@chakra-ui/react";
 import { colors } from "@/theme/colors";
-export interface Card {
+export interface CardType {
   index: number;
   title: string;
   content: string;
   image: string;
 }
 interface Props {
-  card: Card;
+  card: CardType;
 }
 const Card = ({ card }: Props) => {
   const showImage = useBreakpointValue([false, true]);

@@ -26,7 +26,7 @@ export const colors = {
   darkBlue: "#0C2246",
   darkGray: "#D7E0E4",
   gray: "#C0C5C1",
-  lightGrey: "#F9FAFB",
+  lightGrey: "#F6F8FF",
   borderButton: "#0C2246",
   russianViolet: "#231B51",
   kloralWhite: "#F6F2E8",

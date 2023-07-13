@@ -26,7 +26,7 @@
           "@/*": ["./src/*"]
     }
       },
-    "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", "src/hooks/useBoundingRect.js", "src/components/Carousel.tsx"],
+    "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", "src/hooks/useBoundingRect.js", "src/components/Carousel.js", "src/utils/capsFirst.js", "src/utils/percentage.js", "src/utils/debounce.js"],
     "exclude": ["node_modules"]
     }
   

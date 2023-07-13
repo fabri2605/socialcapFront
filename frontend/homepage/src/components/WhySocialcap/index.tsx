@@ -22,48 +22,58 @@ import SectionTitle from "../SectionTitle";
 import { colors } from "@/theme/colors";
 import Section from "./Section";
 
-const Benefits: NextPage = () => {
+const WhySocialcap: NextPage = () => {
+  const imageMinaUrl = useBreakpointValue([
+    "assets/mina-mobile.svg",
+    "assets/mina.svg",
+  ]);
+  const imageZkigniteUrl = useBreakpointValue([
+    "assets/zkignite-mobile.svg",
+    "assets/zkignite.svg",
+  ]);
   return (
     <section id="why-socialcap">
       <Flex position="relative" justifyContent="center" direction={"column"}>
-        <SectionTitle mt={"108px"} mb={"64px"}>
-          Why socialcap?
-        </SectionTitle>
+        <SectionTitle>Why socialcap?</SectionTitle>
         <Container maxW="container.xl">
-          <HStack py={8} background={colors.smoke} borderRadius={16}>
-            <SimpleGrid
-              columns={{ base: 1, md: 2 }}
+          <Stack
+            align={"center"}
+            borderRadius={16}
+            backgroundColor={colors.smoke}
+          >
+            {/* <SimpleGrid
+              columns={{ base: 1, md: 1 }}
               overflow={"hidden"}
               spacing={25}
-            >
-              <Section
-                imageUrl={"assets/why-socialcap/private.svg"}
-                imageUrlMobile={"assets/why-socialcap/private-mobile.svg"}
-                text={`At the heart of Socialcap is our community-based attestation
+            > */}
+            <Section
+              imageUrl={"assets/why-socialcap/private.svg"}
+              imageUrlMobile={"assets/why-socialcap/private-mobile.svg"}
+              text={`At the heart of Socialcap is our community-based attestation
                   protocol that enables easy self-validation and issuance of
                   credentials using a transparent and repeatable process, while
                   preserving privacy and confidentiality.`}
-              />
-              <Section
-                imageUrl="assets/why-socialcap/validators.svg"
-                imageUrlMobile="assets/why-socialcap/validators-mobile.svg"
-                text={`By using social proof, validators anonymity, random selection,
+            />
+            <Section
+              imageUrl="assets/why-socialcap/validators.svg"
+              imageUrlMobile="assets/why-socialcap/validators-mobile.svg"
+              text={`By using social proof, validators anonymity, random selection,
                secret voting, self-auditing, and community rules, our
                protocol ensures that the validation process is fair,
                unbiased, and reliable.`}
-              />
+            />
 
-              <Section
-                imageUrl="assets/why-socialcap/community.svg"
-                imageUrlMobile="assets/why-socialcap/community-mobile.svg"
-                text={`Socialcap is designed to be community-driven, allowing each
+            <Section
+              imageUrl="assets/why-socialcap/community.svg"
+              imageUrlMobile="assets/why-socialcap/community-mobile.svg"
+              text={`Socialcap is designed to be community-driven, allowing each
               community to set its own claim types, credential prices,
               validation rules and badges. In this way, the protocol is
               flexible and can be customized to fit a wide range of use
               cases.`}
-              />
-            </SimpleGrid>
-          </HStack>
+            />
+            {/* </SimpleGrid> */}
+          </Stack>
 
           <Stack
             direction={["column", "row"]}
@@ -97,34 +107,27 @@ const Benefits: NextPage = () => {
               Read out the whitepaper
             </Button>
           </Stack>
-          <Wrap
+          <Stack
+            direction={["column", "row"]}
             mt={["50px", "50px"]}
-            spacing={19}
+            spacing={["25px", "77px"]}
             justify="center"
             align={"center"}
           >
-            <WrapItem>
-              <Center>
-                <Text as={"h5"} color={colors.brandBlueLight}>
-                  Backed by
-                </Text>
-              </Center>
-            </WrapItem>
-            <WrapItem>
-              <Center w="228px" h="80px">
-                <Image alt="MINA" src="assets/mina.svg" />
-              </Center>
-            </WrapItem>
-            <WrapItem>
-              <Center w="228px" h="80px">
-                <Image alt="zkignite" src="assets/zkignite.svg" />
-              </Center>
-            </WrapItem>
-          </Wrap>
+            <Text as={"h5"} color={colors.brandBlueLight}>
+              Backed by
+            </Text>
+
+            <HStack spacing={["40px", "77px"]}>
+              <Image alt="MINA" src={imageMinaUrl} />
+
+              <Image alt="zkignite" src={imageZkigniteUrl} />
+            </HStack>
+          </Stack>
         </Container>
       </Flex>
     </section>
   );
 };
 
-export default Benefits;
+export default WhySocialcap;

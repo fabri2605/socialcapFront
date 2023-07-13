@@ -25,7 +25,7 @@ import SectionTitle from "../SectionTitle";
 const FAQ: NextPage = () => (
   <section id="faq">
     <Flex position="relative" justifyContent="center" direction={"column"}>
-      <SectionTitle my={"54px"}>FAQ</SectionTitle>
+      <SectionTitle>FAQ</SectionTitle>
       <Container
         maxW="container.xl"
         px={{ base: "1rem", md: "2rem" }}
