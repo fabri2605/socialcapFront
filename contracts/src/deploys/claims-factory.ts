@@ -9,12 +9,13 @@ let proofsEnabled = true;
 const ClaimsFactory = {
   compile: compileClaimContract, 
   deploy: deployClaimContract,
+  getInstance: getClaimInstance
 }
 
 type ClaimInstance = {
   instance: any,
   address: PublicKey,
-  secret: PrivateKey
+  secret?: PrivateKey
 }
 
 
@@ -70,6 +71,30 @@ async function deployClaimContract(
   logIt(instance);
   return instance;
 }
+
+
+async function getClaimInstance(
+  address: PublicKey
+): Promise<ClaimInstance> {
+  // we need to create an instance of an already deployed contract
+  console.log(`\nzkApp instance address=${address.toBase58()}`);
+
+  let zkApp = new ClaimContract(address);
+  console.log("zkApp instance created!");
+  
+  // get some value after creating just for checking
+  let actionsState = zkApp.actionsState.get(); 
+  console.log("zkApp instance actionsState=", actionsState.toString())
+
+  const instance: ClaimInstance = {
+    instance: zkApp, 
+    address: address
+  };
+
+  logIt(instance);
+  return instance;
+}
+
 
 function logIt(zkapp: any) {
   console.log(

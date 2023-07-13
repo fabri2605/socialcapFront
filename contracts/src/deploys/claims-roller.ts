@@ -1,5 +1,5 @@
 import { Mina, Field, PrivateKey, PublicKey } from 'snarkyjs';
-import { ClaimInstance } from "./deploy-claims.js";
+import { ClaimInstance } from "./claims-factory.js";
 
 export { rollupClaims };
 
@@ -29,14 +29,14 @@ async function rollupClaims(
     }
 
     let claimUid: Field = instance.claimUid.get();
-    console.log("rollupVotes running claimUid= ", claimUid.toString());
+    console.log("\nrollingClaims running claimUid= ", claimUid.toString());
 
     // do we have pending votes ?
     let actionsState: Field = instance.actionsState.get();
     let pending = instance.reducer.getActions({
       fromActionState: actionsState,
     });
-    console.log("rollupVotes pending votes= ", pending.length);
+    console.log("rollingClaims pending votes= ", pending.length);
 
     // if no pending votes we just go to the next instance ...
     // we run rollup ONLY when we have something to rollup
@@ -71,7 +71,7 @@ async function rollupClaims(
       await pendingTx.wait();
     }
     catch (err: any) {
-      console.log("rollupVotes failed on rollup=", err.toString())
+      console.log("rollingClaims failed on rollup=", err.toString())
     }
   }
 }

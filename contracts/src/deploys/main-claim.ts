@@ -1,7 +1,7 @@
 import { Mina, PrivateKey, PublicKey, Field } from 'snarkyjs';
 import { randomInt } from 'crypto';
-import { ClaimInstance, ClaimsFactory } from "./deploy-claims.js";
-import { rollupClaims } from "./rollup-claims.js";
+import { ClaimInstance, ClaimsFactory } from "./claims-factory.js";
+import { rollupClaims } from "./claims-roller.js";
 
 let 
   deployerAccount: PublicKey,
