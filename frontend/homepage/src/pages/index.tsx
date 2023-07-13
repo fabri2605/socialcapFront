@@ -30,7 +30,7 @@ const Home: NextPage = () => {
           <WhySocialcap />
           <HowItWorks />
           <Team />
-          <Communities />
+          {/* <Communities /> */}
           <FAQ />
           <Waitlist />
           <Footer />
