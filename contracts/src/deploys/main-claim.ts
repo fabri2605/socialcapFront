@@ -1,6 +1,7 @@
-import { Mina, PrivateKey, PublicKey } from 'snarkyjs';
-
-import { deployClaimContract } from "./deploy-contract.js";
+import { Mina, PrivateKey, PublicKey, Field } from 'snarkyjs';
+import { randomInt } from 'crypto';
+import { ClaimInstance, ClaimsFactory } from "./deploy-claims.js";
+import { rollupClaims } from "./rollup-claims.js";
 
 let 
   deployerAccount: PublicKey,
@@ -18,5 +19,31 @@ Mina.setActiveInstance(Local);
 console.log("deployer Addr=", deployerAccount);
 console.log("sender Addr=", senderAccount);
 
-let zkApp = await deployClaimContract(deployerAccount, deployerKey);
-console.log("zkApp=",zkApp);
+// first compile it
+await ClaimsFactory.compile();
+
+// now deploy  ONE
+let zkapp1 = await ClaimsFactory.deploy(
+  Field(randomInt(1000)), Field(5), Field(3), 
+  deployerAccount, deployerKey
+);
+
+// now deploy TWO
+let zkapp2 = await ClaimsFactory.deploy(
+  Field(randomInt(1000)), Field(15), Field(9), 
+  deployerAccount, deployerKey
+);
+
+// now deploy THREE
+let zkapp3 = await ClaimsFactory.deploy(
+  Field(randomInt(1000)), Field(100), Field(51), 
+  deployerAccount, deployerKey
+);
+
+// try to run the rollups forever ...
+await rollupClaims(
+  [zkapp1, zkapp2, zkapp3],
+  // we should think about who will be the payer here, maybe a special 
+  // Socialcap account for this funded on demand ?
+  senderAccount, senderKey 
+)

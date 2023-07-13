@@ -21,6 +21,7 @@ export class SocialcapContract extends SmartContract {
   @state(Field) claimsRoot = State<Field>();
   @state(Field) tasksRoot = State<Field>();
   @state(Field) credentialsRoot = State<Field>();
+  @state(Field) votingsRoot = State<Field>();
 
   init() {
     super.init();
@@ -92,7 +93,7 @@ export class SocialcapContract extends SmartContract {
     
     // set the new root
     this.communitiesRoot.set(updated.afterRoot);
-    Circuit.log("Circuit.log newRoot=", updated.afterRoot);
+    Circuit.log("new communititesRoot=", updated.afterRoot);
   }
 
   @method updatePerson(

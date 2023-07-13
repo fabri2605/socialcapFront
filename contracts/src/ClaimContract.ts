@@ -1,5 +1,6 @@
-import { SmartContract, state, State, method, MerkleMap, Poseidon, Reducer, MerkleMapWitness } from "snarkyjs";
-import { Field, Int64, UInt32, Bool, Struct, Circuit } from "snarkyjs";
+import { SmartContract, state, State, method, Reducer } from "snarkyjs";
+import { Field, Bool, Struct, Circuit, Poseidon } from "snarkyjs";
+import { MerkleMapWitness } from "snarkyjs";
 
 class Votes extends Struct({
   total: Field,
@@ -8,17 +9,12 @@ class Votes extends Struct({
   ignored: Field
 }){}
 
-class EndConditions extends Struct({
-  votes: Field, // if we have at least the votes election is finished
-  positives: Field // if we have this positive votes claim is approved
-}) {}
-
 class VoteAction extends Struct({
   isValid: Bool,
   positive: Bool,
   negative: Bool,
   ignore: Bool,
-}) {}
+}){}
 
 class NullifierProxy extends Struct({
   root: Field,
@@ -29,49 +25,80 @@ class NullifierProxy extends Struct({
   } 
 }
 
+class VotingStatusEvent extends Struct({
+  claimUid: Field,
+  isFinished: Bool,
+  result: Field,
+  total: Field,
+  positive: Field,
+  negative: Field,
+  ignored: Field
+}) {}
+
 // Voting states for an Elector on this Claim
 const 
-  NOT_ASSIGNED = Field(0),
-  PENDING = Field(1),
-  VOTED = Field(2);
+  NOT_ASSIGNED = Field(0), // Claim was not assigned to this elector
+  PENDING = Field(1),      // Claim was assigned to elector, but has not voted yet
+  VOTED = Field(2);        // Claim was assigned to elector and has already voted
+
+// Final result states  
+const 
+  APPROVED = Field(1),
+  REJECTED = Field(2);
 
 
 export class ClaimContract extends SmartContract {
   // events to update Nullifier
   events = {
-    'nullify-voter': Field,
-    'updated-voting-status': Field
+    'elector-has-voted': Field,
+    'voting-changed': VotingStatusEvent
   };
 
   // the "reducer" field describes a type of action that we can dispatch, and reduce later
   reducer = Reducer({ actionType: VoteAction });
 
-  // Account states
-  @state(Field) claimUid = State<Field>();
-  @state(Field) votes = State<Field>(); 
+  // associated claim (referenced in Root contract on claimsRoots dataset)
+  @state(Field) claimUid = State<Field>(); 
+
+  // current voting status
+  // total votes is the sum of this three
   @state(Field) positive = State<Field>(); 
   @state(Field) negative = State<Field>(); 
   @state(Field) ignored = State<Field>(); 
+
+  // end conditions
+  // if we have at least 'requiredVotes' the election is finished
+  // if we have this at leasr 'requiredPositive' votes the claim is approved
+  @state(Field) requiredVotes = State<Field>(); 
+  @state(Field) requiredPositives = State<Field>(); 
+
   // final result 0: Not finished, 1: Approved, 2: Rejected
   @state(Field) result = State<Field>(); 
-  @state(Field) nullifierRoot = State<Field>();
-  // helper field to store the point in the action history that our on-chain state is at
+
+  // helper field to store the actual point in the action history
   @state(Field) actionsState = State<Field>(); 
-  
-  //@state(EndConditions) required = State<EndConditions>(); // 2
 
   init() {
     super.init();
     this.claimUid.set(Field(0));
-    this.votes.set(Field(0));
     this.positive.set(Field(0));
     this.negative.set(Field(0)); 
-    this.ignored.set(Field(0))
-    // this.required.set({
-    //   votes: new UInt32(0), 
-    //   positives: new UInt32(0), 
-    // });
+    this.ignored.set(Field(0));
+    this.requiredVotes.set(Field(0));
+    this.requiredPositives.set(Field(0));
     this.result.set(Field(0));
+    this.actionsState.set(Reducer.initialActionState); // TODO: is this the right way to initialize this ???
+  }
+
+  @method setup(
+    claimUid: Field,
+    requiredVotes: Field,
+    requiredPositives: Field
+  ) { 
+    // we need to initialize a new claim with the correct params
+    this.claimUid.set(claimUid);
+    this.requiredVotes.set(requiredVotes);
+    this.requiredPositives.set(requiredPositives);
   }
 
   @method assertHasNotVoted(
@@ -96,8 +123,7 @@ export class ClaimContract extends SmartContract {
   @method sendVote(
     electorUid: Field,
     vote: Field, // +1 positive, -1 negative or 0 ignored
-    nullifier: NullifierProxy,
-    required: EndConditions
+    nullifier: NullifierProxy
   ) {
     const claimUid = this.claimUid.get();
     this.claimUid.assertEquals(claimUid);
@@ -106,50 +132,51 @@ export class ClaimContract extends SmartContract {
     this.assertHasNotVoted(electorUid, claimUid, nullifier);
 
     // get current votes state
-    let votes = this.votes.get();
-    this.votes.assertEquals(votes);
+    let positives = this.positive.getAndAssertEquals();
+    let negatives = this.negative.getAndAssertEquals();
+    let ignored = this.ignored.getAndAssertEquals();
+    let votes = Field(0).add(positives).add(negatives).add(ignored);
 
     // get current end conditions
-    //let required = this.required.get();
-    //this.required.assertEquals(required);
+    let requiredVotes = this.requiredVotes.getAndAssertEquals();
     
     // check that we have not already finished 
     // and that we can receive additional votes
-    votes.lessThanOrEqual(required.votes);
-
-    // send event to change this elector state in Nullifier
-    let key: Field = NullifierProxy.key(electorUid, claimUid);
-    this.emitEvent("nullify-voter", key);
+    votes.lessThanOrEqual(requiredVotes);
 
     // dispatch action
     this.reducer.dispatch({ 
       isValid: Bool(true),
-      positive: Circuit.if(vote.equals(1), Bool(true), Bool(false)),
-      negative: Circuit.if(vote.equals(-1), Bool(true), Bool(false)),
+      positive: Circuit.if(vote.greaterThan(0), Bool(true), Bool(false)),
+      negative: Circuit.if(vote.lessThan(0), Bool(true), Bool(false)),
       ignore: Circuit.if(vote.equals(0), Bool(true), Bool(false))
     });  
+
+    // send event to change this elector state in Nullifier
+    let key: Field = NullifierProxy.key(electorUid, claimUid);
+    this.emitEvent("elector-has-voted", key);
   }
 
 
-  @method rollupVotes(
-    required: EndConditions
-  ) {
+  @method rollupVotes() {
     const claimUid = this.claimUid.get();
     this.claimUid.assertEquals(claimUid);
 
     // get current votes state
-    let votes = this.votes.get();
-    this.votes.assertEquals(votes);
+    let positives = this.positive.getAndAssertEquals();
+    let negatives = this.negative.getAndAssertEquals();
+    let ignored = this.ignored.getAndAssertEquals();
+    let votes = Field(0).add(positives).add(negatives).add(ignored);
 
     // get current end conditions
-    //let required = this.required.get();
-    //this.required.assertEquals(required);
+    let requiredVotes = this.requiredVotes.getAndAssertEquals();
+    let requiredPositives = this.requiredPositives.getAndAssertEquals();
     
     // check that we have not already finished 
     // and that we can receive additional votes
-    votes.lessThanOrEqual(required.votes);
-    Circuit.log("rollupVotes required,total=", required.votes, votes);
-    
+    votes.assertLessThan(requiredVotes, "Too late, voting has already finished !");
+    Circuit.log("rollupVotes votes required,total=", requiredVotes, votes);
+
     // get the point in history where we left the last rollup
     let actionsState = this.actionsState.get();
     this.actionsState.assertEquals(actionsState);
@@ -162,9 +189,6 @@ export class ClaimContract extends SmartContract {
     Circuit.log("rollupVotes pendingVotes.length=", pendingVotes.length);
 
     // build Voting state for Reducer
-    let positives = this.positive.getAndAssertEquals();
-    let negatives = this.negative.getAndAssertEquals();
-    let ignored = this.ignored.getAndAssertEquals();
     let votingState: Votes = {
       total: votes,
       positive: positives,
@@ -192,27 +216,37 @@ export class ClaimContract extends SmartContract {
       { state: votingState, actionState: actionsState } // initial state and actions point
     );
 
-    // update on-chain state
-    this.votes.set(newVotes.total);
+    // update on-chain voting and actions state
     this.actionsState.set(newActionsState);
+    this.positive.set(newVotes.positive);
+    this.negative.set(newVotes.negative);
+    this.ignored.set(newVotes.ignored);
 
     // check if we have met end voting conditions
-    let isFinished = newVotes.total.greaterThan(required.votes);
-    let isApproved = newVotes.positive.greaterThanOrEqual(required.positives);
+    let isFinished = newVotes.total.greaterThanOrEqual(requiredVotes);
+    let isApproved = newVotes.positive.greaterThanOrEqual(requiredPositives);
          
-    // asert result before changing state
+    // asert result before changing its value
     let result = this.result.get();
     this.result.assertEquals(result);
 
     // now evaluate final result
     result = Circuit.if(isFinished, 
-        Circuit.if(isApproved, Field(1)/*APPROVED*/, Field(2)/*REJECTED*/),
+        Circuit.if(isApproved, APPROVED, REJECTED),
         result);
 
     // update final on-chain result state
     this.result.set(result);
 
     // and send event with actual result, even if it is not yet finished
-    this.emitEvent("updated-voting-status", result);
+    this.emitEvent("voting-changed", {
+      claimUid: claimUid,
+      isFinished: isFinished,
+      result: result,
+      total: newVotes.total,
+      positive: newVotes.positive,
+      negative: newVotes.negative,
+      ignored: newVotes.ignored
+    });
   }
 }
