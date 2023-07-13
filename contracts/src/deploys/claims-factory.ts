@@ -1,4 +1,4 @@
-import { PrivateKey, PublicKey, Mina, Field, AccountUpdate } from "snarkyjs";
+import { PrivateKey, PublicKey, Mina, Field, AccountUpdate, fetchAccount } from "snarkyjs";
 import { ClaimContract } from "../ClaimContract.js";
 import { randomInt } from "crypto";
 
@@ -44,12 +44,11 @@ async function deployClaimContract(
   console.log("zkApp instance created!");
   
   // deploy it 
-  const txn = await Mina.transaction(deployerAccount, () => {
+  let txn = await Mina.transaction(deployerAccount, () => {
     // IMPORTANT: the deployer account must already be funded 
     // or this will fail miserably ughhh
     AccountUpdate.fundNewAccount(deployerAccount);
     zkApp.deploy();
-    zkApp.setup(claimUid, requiredVotes, requiredPositives);
   });
   await txn.prove();
 
@@ -58,6 +57,19 @@ async function deployClaimContract(
   await txn.sign([deployerKey, zkAppKey]).send();
   console.log("zkApp instance deployed !")
   
+  // wait for account ...
+  await fetchAccount({ publicKey: zkAppAddr });
+
+  // initialize it !
+  // we can only call setup() AFTER we are sure the deployed account exists
+  // otherwise we have failures when initializing ...
+  txn = await Mina.transaction(deployerAccount, () => {
+    zkApp.setup(claimUid, requiredVotes, requiredPositives);
+  });
+  await txn.prove();
+  await txn.sign([deployerKey]).send();
+  console.log("zkApp instance initialized !")
+
   // get some value after deploy
   let actionsState = zkApp.actionsState.get(); 
   console.log("zkApp instance actionsState=", actionsState.toString())

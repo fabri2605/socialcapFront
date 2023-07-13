@@ -96,6 +96,16 @@ export class ClaimContract extends SmartContract {
     requiredPositives: Field
   ) { 
     // we need to initialize a new claim with the correct params
+    // but first need to be sure that it has never been setup before
+    let uid = this.claimUid.getAndAssertEquals();
+    let votes = this.requiredVotes.getAndAssertEquals();
+    let positives = this.requiredPositives.getAndAssertEquals();
+    // unless all three are 0 then they can not be changed
+    // TODO: need to check if we need to manage additional permissions here!
+    uid.assertEquals(Field(0));
+    votes.assertEquals(Field(0));
+    positives.assertEquals(Field(0));
+    // now we can do it !
     this.claimUid.set(claimUid);
     this.requiredVotes.set(requiredVotes);
     this.requiredPositives.set(requiredPositives);
