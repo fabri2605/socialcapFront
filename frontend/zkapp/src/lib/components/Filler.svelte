@@ -9,6 +9,8 @@
 
 <div>
   {#each lines as line}
-    <p style="text-align:center;">{line}</p>
+    <p style="text-align:center;">{line}
+      - . - . - . -- . - . - . -- . - . - . -- . - . - . -
+    </p>
   {/each}
 </div>

@@ -1,18 +1,22 @@
-<div class="py-4 border-0">
-  <div class="text-center my-3">
-    <div class="mb-4">
-      <img src="/img/svg/undraw_no_data_re_kwbl.svg" height="180px" alt="First time here!"/>
-    </div>
-    <h6 class="lh-lg">Hi {user.fullName} !</h6>
-    <p class="fs-4 lh-lg">You have not claimed any credentials yet</p>
-    <div>
-      <a href={'#'}>Claim your credential now !</a>
+<Section class="section-fluid pt-5 pb-4 bg-white rounded-3 shadow border">
+  <div class="px-4 border-0 ">
+    <div class="text-center m-0 mt-3">
+      <div class="mb-4">
+        <img src="/img/svg/undraw_mornings_re_cofi.svg" height="160px" alt="First time here!"/>
+      </div>
+      <p class="fs-6 lh-lg">
+        Hi <b>{user.fullName}</b>. 
+        <br>
+        You have not claimed any credentials yet. 
+        <a href="/credentials/canclaim">Claim one now !</a>
+      </p>
     </div>
   </div>
-</div>
+</Section>
 
 <script lang="ts">
-  import { Card, CardBody, CardText } from 'sveltestrap';
+  import { Card, CardBody, CardText, Badge } from 'sveltestrap';
+  import Section from './Section.svelte';
   import type { CurrentUser } from "$lib/models/current-user";
 
   export let user: CurrentUser;

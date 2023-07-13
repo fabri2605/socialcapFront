@@ -45,3 +45,8 @@ yarn-error.log*
 
 # typescript
 *.tsbuildinfo
+
+# svelte-kit
+.svelte-kit
+*/.svelte-kit
+
