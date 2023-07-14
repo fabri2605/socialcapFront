@@ -112,6 +112,6 @@ function logIt(zkapp: any) {
   console.log(
     `instance= ${JSON.stringify(zkapp.instance.account, null, 2)}`
     +`\naddress= ${zkapp.address.toBase58()}`
-    +`\nsecret= ${zkapp.secret.toBase58()}`  
+    +`\nsecret= ${zkapp?.secret?.toBase58() || ''}`  
   );
 }

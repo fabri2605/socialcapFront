@@ -1,5 +1,5 @@
 import { Mina, Field, PrivateKey, PublicKey } from 'snarkyjs';
-import { ClaimInstance } from "./claims-factory.js";
+import { ClaimInstance, ClaimsFactory } from "./claims-factory.js";
 
 export { rollupClaims };
 
@@ -10,28 +10,27 @@ async function rollupClaims(
   running: ClaimInstance[],
   payerAccount: PublicKey,
   payerSecret: PrivateKey
-) {
-  // VERY NAIVE IMPL just to test running multiple claims 
-  // this will not good in prod because of tx fees will escalate. 
-  // Would need to use a scheduler instead of this, but anyway
-  // fees should only be paid when we have pending votes to process
-  // CAUTION: we must be sure about what does reducer.getActions() really
-  // returns because it may be misgiding
+): Promise<ClaimInstance[]> {
+  let updatedQueue = [];
+
   for (let j=0; j < running.length; j++) {
     let instance = running[j].instance;
 
     // first check if finished (result > 0)
     let result: Field = instance.result.get();
     const isFinished = result.greaterThan(Field(0)).toBoolean();
-    if (isFinished) {
-      // should remove this from the queue 
-      continue;
-    }
+    if (isFinished)
+      continue; // it will not be copied to the updated queue 
+
+    // still voting, must leave it in the queue and go on ...
+    updatedQueue.push(running[j]);
 
     let claimUid: Field = instance.claimUid.get();
     console.log("\nrollingClaims running claimUid= ", claimUid.toString());
 
     // do we have pending votes ?
+    // CAUTION: we must be sure about what does reducer.getActions() really
+    // returns because it may be misgiding
     let actionsState: Field = instance.actionsState.get();
     let pending = instance.reducer.getActions({
       fromActionState: actionsState,
@@ -74,4 +73,46 @@ async function rollupClaims(
       console.log("rollingClaims failed on rollup=", err.toString())
     }
   }
+
+  return updatedQueue; // the modified running queue
+}
+
+
+async function runRollerService(
+  payerAccount: PublicKey,
+  payerSecret: PrivateKey
+) {
+  // VERY NAIVE IMPL just to test running multiple claims 
+  // this will not good in prod because of tx fees will escalate ??? 
+  // Would need to use a scheduler instead of this, but anyway
+  // fees should only be paid when we have pending votes to process
+  let isRolling = false;
+  const ROLLUP_EVERY = (60*1000*1); // 1 min
+
+  let running: ClaimInstance[] = [];
+  // we should load the list of open claims from the database and then
+  // instantiate them here to fill the runningClaims queue
+  // TODO ...
+  let openClaims: any[] = [];// await API.query("get_open_claims");
+  (openClaims || []).forEach(async (claim: any) => {
+    // const address = claims.accountId.toPublicKey();
+    // const instance = await ClaimsFactory.getInstance(address);
+    // running.push(instance); 
+  })
+
+  // run the rollups forever ...
+  // activate every minute
+  setInterval(async () => {
+    if (!isRolling) {
+      isRolling = true; 
+      let updated = await rollupClaims(
+        running,
+        // we should think about who will be the payer here, maybe a special 
+        // Socialcap account for this funded on demand ?
+        payerAccount, payerSecret 
+      )
+      running = updated;
+      isRolling = false;
+    }
+  }, ROLLUP_EVERY);  
 }

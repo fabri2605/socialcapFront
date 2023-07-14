@@ -28,6 +28,7 @@ class NullifierProxy extends Struct({
 class VotingStatusEvent extends Struct({
   claimUid: Field,
   isFinished: Bool,
+  hasChanged: Bool,
   result: Field,
   total: Field,
   positive: Field,
@@ -37,14 +38,16 @@ class VotingStatusEvent extends Struct({
 
 // Voting states for an Elector on this Claim
 const 
-  NOT_ASSIGNED = Field(0), // Claim was not assigned to this elector
-  PENDING = Field(1),      // Claim was assigned to elector, but has not voted yet
-  VOTED = Field(2);        // Claim was assigned to elector and has already voted
+  UNASSIGNED = Field(0), // Claim not assigned to this elector
+  ASSIGNED = Field(1),   // Claim assigned to elector but has not voted yet
+  VOTED = Field(2);      // Claim assigned to elector and has already voted
 
 // Final result states  
 const 
+  VOTING = Field(0),   // Claim is still in the voting process
   APPROVED = Field(1),
-  REJECTED = Field(2);
+  REJECTED = Field(2),
+  CANCELED = Field(3); // TODO: not sure how can we change this state ?
 
 
 export class ClaimContract extends SmartContract {
@@ -68,14 +71,14 @@ export class ClaimContract extends SmartContract {
 
   // end conditions
   // if we have at least 'requiredVotes' the election is finished
-  // if we have this at leasr 'requiredPositive' votes the claim is approved
+  // if we have at least 'requiredPositive' votes the claim is approved
   @state(Field) requiredVotes = State<Field>(); 
   @state(Field) requiredPositives = State<Field>(); 
 
-  // final result 0: Not finished, 1: Approved, 2: Rejected
+  // final result 0: Voting, 1: Approved, 2: Rejected
   @state(Field) result = State<Field>(); 
 
-  // helper field to store the actual point in the action history
+  // helper field to store the actual point in the actions history
   @state(Field) actionsState = State<Field>(); 
 
   init() {
@@ -105,28 +108,40 @@ export class ClaimContract extends SmartContract {
     uid.assertEquals(Field(0));
     votes.assertEquals(Field(0));
     positives.assertEquals(Field(0));
+    // assert that received values are ok
+    // all Uids are allways > 0
+    claimUid.assertGreaterThan(Field(0), "Invalid claimUid"); 
+    // positives and votes must be at least >= 1
+    requiredVotes.assertGreaterThanOrEqual(Field(1), "Required votes must be >= 1")
+    requiredPositives.assertGreaterThanOrEqual(Field(1), "Required positives must be >= 1")
+    // votes > positives or votes == positives are valid
+    // NOTE that votes == positives means unanimity voting
+    requiredVotes.assertGreaterThanOrEqual(requiredPositives, "Required votes must be >= required positives"); 
     // now we can do it !
     this.claimUid.set(claimUid);
     this.requiredVotes.set(requiredVotes);
     this.requiredPositives.set(requiredPositives);
   }
 
+
   @method assertHasNotVoted(
     electorUid: Field,
     claimUid: Field,
     nullifier: NullifierProxy
   ) {
-    // compute the new root for the existent key and hash using the given Witness 
-    const [ newRoot, newKey ] = nullifier.witness.computeRootAndKey(
-      PENDING /* WAS ASSIGNED BUT NOT VOTED YET */
+    // compute a root and key from the given Witness using the only valid 
+    // value ASSIGNED, other values indicate that the elector was 
+    // never assigned to this claim or that he has already voted on it
+    const [witnessRoot, witnessKey] = nullifier.witness.computeRootAndKey(
+      ASSIGNED /* WAS ASSIGNED BUT NOT VOTED YET */
     );
 
-    // check the newRoot matchs the Nullifier root
-    nullifier.root.assertEquals(newRoot) ; 
+    // check the witness obtained root matchs the Nullifier root
+    nullifier.root.assertEquals(witnessRoot) ; 
 
-    // check the newKey matchs the given key
+    // check the witness obtained key matchs the elector+claim key 
     const key: Field = NullifierProxy.key(electorUid, claimUid);
-    newKey.assertEquals(key);
+    witnessKey.assertEquals(key);
   }
 
 
@@ -172,13 +187,18 @@ export class ClaimContract extends SmartContract {
     const claimUid = this.claimUid.get();
     this.claimUid.assertEquals(claimUid);
 
+    // check that this claim is still open (in the voting process)
+    const currentResult = this.result.get();
+    this.result.assertEquals(currentResult);
+    currentResult.assertEquals(VOTING, /*ELSE*/"Voting has already finished !");
+
     // get current votes state
     let positives = this.positive.getAndAssertEquals();
     let negatives = this.negative.getAndAssertEquals();
     let ignored = this.ignored.getAndAssertEquals();
     let votes = Field(0).add(positives).add(negatives).add(ignored);
 
-    // get current end conditions
+    // get current ending conditions
     let requiredVotes = this.requiredVotes.getAndAssertEquals();
     let requiredPositives = this.requiredPositives.getAndAssertEquals();
     
@@ -236,22 +256,28 @@ export class ClaimContract extends SmartContract {
     let isFinished = newVotes.total.greaterThanOrEqual(requiredVotes);
     let isApproved = newVotes.positive.greaterThanOrEqual(requiredPositives);
          
-    // asert result before changing its value
+    // assert result before changing its value
     let result = this.result.get();
     this.result.assertEquals(result);
 
     // now evaluate final result
-    result = Circuit.if(isFinished, 
-        Circuit.if(isApproved, APPROVED, REJECTED),
-        result);
+    let newResult = Circuit.if(isFinished, 
+      Circuit.if(isApproved, APPROVED, REJECTED),
+      result
+    );
 
     // update final on-chain result state
-    this.result.set(result);
+    this.result.set(newResult);
+
+    // check if it has changed so we can report it with the event
+    let resultHasChanged = newResult.greaterThan(result);
 
     // and send event with actual result, even if it is not yet finished
+    // TODO: can we use an if condition here? I think it cant be done
     this.emitEvent("voting-changed", {
       claimUid: claimUid,
       isFinished: isFinished,
+      hasChanged: resultHasChanged,
       result: result,
       total: newVotes.total,
       positive: newVotes.positive,

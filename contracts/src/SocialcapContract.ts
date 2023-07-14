@@ -14,23 +14,54 @@ const zeroRoot = ((): Field => {
 
 
 export class SocialcapContract extends SmartContract {
-  // To commit to data, with the ability to "reveal" it later
+
+  // the Communities dataset, binded to the Provable Community entity
+  // key: community.uid, value: community.hash()
   @state(Field) communitiesRoot = State<Field>();
+
+  // the Persons dataset, binded to the Provable Person entity
+  // key: person.uid, value: person.hash()
   @state(Field) personsRoot = State<Field>();
+
+  // the Members dataset, defining a person's role in a given community
+  // key: hash([personUid,communityUid,nonce?]), value: Status
+  // where Status is 0: NONE, 1: MEMBER, 2: VALIDATOR, 3: AUDITOR
+  // NOTE that all validators are members, and all auditors are validators
   @state(Field) membersRoot = State<Field>();
+
+  // the MasterPlans dataset, binded to the Provable MasterPlan entity
+  // key: plan.uid, value: plan.hash()
+  @state(Field) plansRoot = State<Field>();
+
+  // the Claims dataset, binded to the Provable Claim entity
+  // key: claim.uid, value: claim.hash()
   @state(Field) claimsRoot = State<Field>();
-  @state(Field) tasksRoot = State<Field>();
+
+  // the Approved Credentials dataset, binded to the Provable Credential entity
+  // key: credential.uid, value: credential.hash()
+  // NOTE that the the credential uid === the claim uid that claimed it
   @state(Field) credentialsRoot = State<Field>();
-  @state(Field) votingsRoot = State<Field>();
+
+  // the tasks dataset, binded to the Provable Task entity
+  // key: task.uid, value: task.hash()
+  @state(Field) tasksRoot = State<Field>();
+
+  // a common nullifier we will use in all the voting processes 
+  // to avoid double voting and unassigned electors
+  // key: hash([personUid,claimUid,nonce?]) value: State
+  // where State is 0=UNASSIGNED, 1=ASSIGNED (but not voted), 2=VOTED
+  @state(Field) nullifierRoot = State<Field>();
 
   init() {
     super.init();
     this.communitiesRoot.set(zeroRoot);
     this.personsRoot.set(zeroRoot);
+    this.plansRoot.set(zeroRoot);
     this.claimsRoot.set(zeroRoot);
     this.tasksRoot.set(zeroRoot);
     this.membersRoot.set(zeroRoot);
     this.credentialsRoot.set(zeroRoot);
+    this.nullifierRoot.set(zeroRoot);
   }
 
   @method checkMerkleUpdate(

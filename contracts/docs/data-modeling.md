@@ -78,6 +78,32 @@ Each leaf in this MerkleMap contains:
 
 With this we can verify easily if certain person is a member, and if its also a validator or an auditor in a given community.
 
+
+### Claims MerkleMap
+
+Binded to the Claim DB Entity.
+
+Each leaf in this MerkleMap contains:
+
+- **key**: the Claim `uid`
+- **hash**: a hash of the following community properties:
+    
+    ~~~
+      uid: Field,
+      state: CircuitString, 
+      accountId: PublicKey, // the address of the deployed ClaimContract for this claim
+      fullName: CircuitString,
+      description: CircuitString,
+      image: CircuitString,
+      telegram: CircuitString,
+      email: CircuitString,
+      phone: CircuitString,
+      createdUTC: Field,
+      updatedUTC: Field,
+      approvedUTC: Field,
+    ~~~
+
+
 ### Tasks MerkleMap
 
 Binded to the N-M relation _Person has assigned Task_.

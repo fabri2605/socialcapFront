@@ -40,10 +40,19 @@ let zkapp3 = await ClaimsFactory.deploy(
   deployerAccount, deployerKey
 );
 
-// try to run the rollups forever ...
-await rollupClaims(
-  [zkapp1, zkapp2, zkapp3],
-  // we should think about who will be the payer here, maybe a special 
-  // Socialcap account for this funded on demand ?
-  senderAccount, senderKey 
-)
+// run the rollups forever ...
+// activate every minute
+let isRolling = false;
+setInterval(async () => {
+  if (!isRolling) {
+    isRolling = true;
+    await rollupClaims(
+      [zkapp1, zkapp2, zkapp3],
+      // we should think about who will be the payer here, maybe a special 
+      // Socialcap account for this funded on demand ?
+      senderAccount, senderKey 
+    )
+    isRolling = false;
+  }
+}, (60*1000*1));  
+
