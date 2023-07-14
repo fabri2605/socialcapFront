@@ -162,7 +162,7 @@ Details in [api-sessions.md](./api-sessions.md):
 ### Persons
 
 Methods:
-- sign_up({email, ...}): {{authorization,profile},error}
+- sign_up({email, ...}): {authorization,profile},error}
 - register_as_validator(my, communityId)
 - request_membership(my, communityId)
 - update_profile(my, {...})
