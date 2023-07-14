@@ -65,6 +65,7 @@ class OffchainMerkleMap {
     this.id = id;
     this.name = name || "mm"+id.toString();
     this.memmap = new MerkleMap();
+    this.memmap.set(Field(0), Field(0)); // initalize with (key=0,value=0)
     this.root = this.memmap.getRoot();
     this.count = 0;
   }

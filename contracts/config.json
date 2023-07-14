@@ -1,4 +1,13 @@
 {
   "version": 1,
-  "deployAliases": {}
+  "deployAliases": {
+    "brk1": {
+      "url": "https://proxy.berkeley.minaexplorer.com/graphql",
+      "keyPath": "keys/brk1.json",
+      "feepayerKeyPath": "/home/mzito/.cache/zkapp-cli/keys/test01.json",
+      "feepayerAlias": "test01",
+      "fee": "0.1",
+      "smartContract": "SocialcapContract"
+    }
+  }
 }

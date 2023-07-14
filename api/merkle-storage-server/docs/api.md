@@ -23,7 +23,7 @@
 
   get(key: Field): Promise<LeafInstance>;
 
-  set(key: Field, data: any): Promise<MerkleMapUpdate>;
+  set(key: Field, data: any, hash?: string): Promise<MerkleMapUpdate>;
 
   getRoot(): Promise<Field>;
 
