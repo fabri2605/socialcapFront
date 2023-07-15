@@ -12,6 +12,39 @@ datasource db {
 }
 
 //
+// Merkle Maps 
+//
+model MerkleMap {
+  id         Int      @id @default(autoincrement())
+  name       String
+  root       BigInt
+  size       Int
+  height     Int
+  createdUtc DateTime @default(now()) @map("created_utc")
+  updatedUtc DateTime @updatedAt @map("updated_utc")
+
+  leafs MerkleMapLeaf[] @relation(name: "map_leafs")
+
+  @@map("merkle_map")
+}
+
+model MerkleMapLeaf {
+  uid        String   @id @default(uuid())
+  mapId      Int      @map("merkle_map_id")
+  index      BigInt // a Bigint
+  key        String // a Bigint
+  hash       String // a Bigint
+  data       String // JSON stringified
+  createdUtc DateTime @default(now()) @map("created_utc")
+  updatedUtc DateTime @updatedAt @map("updated_utc")
+
+  // Many to one relation: MarkleMapLeaf belongs to MerkleMap
+  map MerkleMap @relation(name: "map_leafs", fields: [mapId], references: [id])
+
+  @@map("merkle_map_leaf")
+}
+
+//
 // Entities
 // 
 model Session {
@@ -25,25 +58,24 @@ model Session {
 }
 
 model Person {
-  uid         String    @id @unique @default(uuid())
+  uid         String    @id @unique
   accountId   String?   @map("account_id")
-  fullName    String    @map("full_name")
   state       String // P-Pending A-Active V-Verified S-Suspended X-Deleted  
+  fullName    String    @map("full_name")
+  description String?
+  image       String? // a DataURL
   email       String    @unique
   phone       String?
   telegram    String?
-  avatar      String? // a DataURI
   preferences String?
-  tags        String    @default("[]")
-  createdUtc  DateTime  @default(now()) @map("created_utc")
-  updatedUtc  DateTime  @updatedAt @map("updated_utc")
-  approvedUtc DateTime? @map("approved_utc")
+  createdUTC  DateTime  @default(now()) @map("created_utc")
+  updatedUTC  DateTime? @updatedAt @map("updated_utc")
+  approvedUTC DateTime? @map("approved_utc")
 
   // roles in Communities related to this Person
-  Members    Members[]
-  Admins     Admins[]
-  Validators Validators[]
-  Auditors   Auditors[]
+  Members Members[]
+  //Validators Validators[]
+  //Auditors   Auditors[]
 
   @@map("persons")
 }
@@ -51,100 +83,32 @@ model Person {
 model Community {
   uid         String   @id @unique @default(uuid())
   accountId   String?  @map("account_id")
-  fullName    String   @map("full_name")
+  adminUid    String   @map("admin_uid")
   state       String // P-Pending A-Active V-Verified S-Suspended X-Deleted  
-  logo        String? // a DataURI
+  name        String
+  description String?
+  image       String? // a DataURL
   createdUtc  DateTime @default(now()) @map("created_utc")
   updatedUtc  DateTime @updatedAt @map("updated_utc")
   approvedUtc DateTime @map("approved_utc")
 
   // Persons related to this Community
-  Members    Members[]
-  Admins     Admins[]
-  Validators Validators[]
-  Auditors   Auditors[]
+  Members Members[]
+  //Validators Validators[]
+  //Auditors   Auditors[]
 
   @@map("communities")
 }
 
 model Members {
   // members of this community
-  community    Community @relation(fields: [communityUid], references: [uid])
   communityUid String
-  person       Person    @relation(fields: [personUid], references: [uid])
+  community    Community @relation(fields: [communityUid], references: [uid])
   personUid    String
+  person       Person    @relation(fields: [personUid], references: [uid])
   createdUtc   DateTime  @default(now()) @map("created_utc")
-  approvedUtc  DateTime
+  approvedUtc  DateTime?
 
   @@id([communityUid, personUid])
   @@map("members")
 }
-
-model Admins {
-  // administrators of this community
-  community    Community @relation(fields: [communityUid], references: [uid])
-  communityUid String
-  person       Person    @relation(fields: [personUid], references: [uid])
-  personUid    String
-  createdUtc   DateTime  @default(now()) @map("created_utc")
-  approvedUtc  DateTime
-
-  @@id([communityUid, personUid])
-  @@map("admins")
-}
-
-model Validators {
-  // validators of this community
-  community    Community @relation(fields: [communityUid], references: [uid])
-  communityUid String
-  person       Person    @relation(fields: [personUid], references: [uid])
-  personUid    String
-  createdUtc   DateTime  @default(now()) @map("created_utc")
-  approvedUtc  DateTime
-
-  @@id([communityUid, personUid])
-  @@map("validators")
-}
-
-model Auditors {
-  // auditors of this community
-  community    Community @relation(fields: [communityUid], references: [uid])
-  communityUid String
-  person       Person    @relation(fields: [personUid], references: [uid])
-  personUid    String
-  createdUtc   DateTime  @default(now()) @map("created_utc")
-  approvedUtc  DateTime
-
-  @@id([communityUid, personUid])
-  @@map("auditors")
-}
-
-//
-// Merkle Trees schema
-//
-
-// model MerkleTree {
-//   uid   String @id @unique @default(uuid())
-//   name  String @unique
-//   root  String @db.VarChar(128)
-//   nodes String def
-//   size  Int
-// 
-//   @@map("merkle_trees")
-// }
-// 
-// model MerkleLeaf {
-//   uid          String @id @unique @default(uuid())
-//   merkleTreeUid String @map("merkle_tree_uid")
-//   index        BigInt
-//   // witness      Json   @db.Json // is this necessary ???
-// 
-//   // stringified data which has used to build the hashed, this may not be 
-//   // the full data stored in the Database for some entity but just the
-//   // data needed to verify existence in the MerkleTree
-//   // example: '{\"accountId\":\"0xB234...5678\"}'
-//   hash String @db.VarChar(128)
-//   data String @default("{}") @db.Text
-// 
-//   @@map("merkle_leaves")
-// }

@@ -11,7 +11,7 @@ import { sendEmail } from "~/services/email-service";
  * @param params Object: { email }
  * @returns MutationResult
  */
-export async function requestOtp(params: Object) {
+export async function requestOtp(params: object) {
   const remail: string = (params as any).email;
 
   // If no email => Error BAD_REQUEST (incomplete params)
@@ -115,18 +115,6 @@ export async function login(params: { session_key: string; otp: string }) {
 
   return formatMutationResult({
     authorization: jwt,
-    profile: {
-      uid: person.uid,
-      full_name: person.fullName,
-      email: person.email,
-      phone: person.phone,
-      telegram: person.telegram,
-      account_id: person.accountId,
-      avatar: person.avatar,
-      state: person.state,
-      preferences: person.preferences || {},
-      created_utc: person.createdUtc,
-      updated_utc: person.updatedUtc,
-    },
+    profile: person
   });
 }

@@ -2,7 +2,7 @@
  * Results template
  */
 interface QueryResult {
-  result: {
+  data: {
     start: number, 
     count: number,
     limit: number,
@@ -13,7 +13,7 @@ interface QueryResult {
 };
 
 interface MutationResult {
-  result: any,
+  data: any,
   error: null
 };
 
@@ -25,7 +25,7 @@ function formatQueryResult(
 ): QueryResult {
   const count = (data || []).length;
   return {
-    result: {
+    data: {
       start: start || 0,
       limit: limit || 1000,
       total: total || count,
@@ -41,7 +41,7 @@ function formatMutationResult(
 ): MutationResult {
   const count = (data || []).length;
   return {
-    result: data || {},
+    data: data || {},
     error: null
   }
 }

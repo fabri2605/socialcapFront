@@ -1,5 +1,6 @@
 const sgMail = require("@sendgrid/mail");
-sgMail.setApiKey(process.env.SENDGRID_API_KEY);
+
+// sgMail.setApiKey(process.env.SENDGRID_API_KEY);
 
 interface SendEmailParams {
   email: string;
@@ -22,5 +23,5 @@ export async function sendEmail ({
     html: content,
   };
 
-  return sgMail.send(msg);
+  // return sgMail.send(msg);
 };

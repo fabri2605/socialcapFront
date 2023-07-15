@@ -1,11 +1,12 @@
 import { randomInt, randomUUID } from "crypto";
 import { fastify, prisma } from "~/global";
+import { UID } from "~/lib/uid"
 import { i18n as _ } from "~/i18n/messages";
 import { Errors } from "~/routes/errors";
 import { formatMutationResult } from "~/routes/results";
 import { PersonState } from "~/models/person-helpers";
-import { DEFAULT_AVATAR } from "~/resources/avatars";
 import { sendEmail } from "~/services/email-service";
+
 
 /**
  * signUp
@@ -38,14 +39,13 @@ export async function signUp(params: {
   // 4. Insert into `personas(email, state:PENDING, ...params)`
   const person = await prisma.person.create({
     data: {
-      uid: randomUUID(),
+      uid: UID.uuid4(),
       accountId: "",
       state: PersonState.PENDING,
       fullName: params.full_name,
       email: params.email,
       phone: params.phone || "",
       telegram: params.telegram || "",
-      avatar: DEFAULT_AVATAR,
       preferences: defaultPrefs,
     },
   });
@@ -55,18 +55,31 @@ export async function signUp(params: {
   console.log(`sign_up params=`, params);
   console.log(`sign_up result=`, person);
 
-  // 5. Return the fully created Person data
-  return formatMutationResult({
-    uid: person.uid,
-    state: person.state,
-    email: person.email,
-    full_name: person.fullName,
-    phone: person.phone,
-    telegram: person.telegram,
-    account_id: person.accountId,
-    avatar: person.avatar,
-    preferences: person.preferences,
-    created_utc: person.createdUtc,
-    updated_utc: person.updatedUtc,
-  });
+  // 5. Add to ProvablePerson MerkleMap and updatePerson() on RootContract ...
+  // this is just a Promise call and we do not wait for response !!!
+  // updateProvablePerson(person);
+
+  // 7. Return the fully created Person data
+  return formatMutationResult(person);
 }
+
+
+/**
+ * 
+ * @param params 
+ */
+export async function updateProfile(params: any) {
+  const person = await prisma.person.update({
+    where: { uid: params.uid },
+    data: { ...params },
+  });
+  if (!person)
+    return Errors.DatabaseEngine(_.database_error("update table Person"));
+
+  // Add to ProvablePerson MerkleMap and updatePerson() on RootContract ...
+  // this is just a Promise call and we do not wait for response !!!
+  // updateProvablePerson(person);
+
+  // Return the modified Person
+  return formatMutationResult(person);
+};
