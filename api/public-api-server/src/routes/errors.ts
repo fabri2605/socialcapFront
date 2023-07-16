@@ -51,7 +51,13 @@ const Errors = {
   , DatabaseEngine: (m: string) =>  formatError(BAD_GATEWAY, m)
 }
 
+const raiseError = (err: string) => { 
+  logger.error(`Raised error ${err}`);
+  throw new Error(err) 
+};
+
 export {
   Errors,
-  UNKNOWN_ERROR
+  UNKNOWN_ERROR,
+  raiseError
 };

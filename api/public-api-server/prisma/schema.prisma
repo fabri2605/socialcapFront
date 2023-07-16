@@ -6,6 +6,12 @@ generator client {
   previewFeatures = ["metrics"]
 }
 
+generator zod {
+  provider = "zod-prisma-types"
+  useMultipleFiles                 = true // default is false
+  writeBarrelFiles                 = true // default is true  
+}
+
 datasource db {
   provider = "postgresql"
   url      = env("DATABASE_URL")
@@ -48,9 +54,9 @@ model MerkleMapLeaf {
 // Entities
 // 
 model Session {
-  uid        String   @id @unique @default(uuid())
-  otp        String
-  email      String
+  uid        String   @id @unique @default(uuid()) /// @zod.string.max(36)
+  otp        String /// @zod.string.min(6).max(8)
+  email      String /// @zod.string.email().min(5).max(128)
   createdUtc DateTime @default(now()) @map("created_utc")
   updatedUtc DateTime @updatedAt @map("updated_utc")
 
@@ -58,15 +64,15 @@ model Session {
 }
 
 model Person {
-  uid         String    @id @unique
-  accountId   String?   @map("account_id")
-  state       String // P-Pending A-Active V-Verified S-Suspended X-Deleted  
-  fullName    String    @map("full_name")
-  description String?
-  image       String? // a DataURL
-  email       String    @unique
-  phone       String?
-  telegram    String?
+  uid         String    @id @unique /// @zod.string.max(32)
+  accountId   String?   @map("account_id")  /// @zod.string.max(32)
+  state       String    /// @zod.string.min(1).max(12)
+  fullName    String    @map("full_name") /// @zod.string.min(3).max(128)
+  description String?   /// @zod.string.max(128)
+  image       String?   /// @zod.string.url().max(128) 
+  email       String    @unique  /// @zod.string.email().min(5).max(128)
+  phone       String?   /// @zod.string.max(128)
+  telegram    String?   /// @zod.string.max(128)
   preferences String?
   createdUTC  DateTime  @default(now()) @map("created_utc")
   updatedUTC  DateTime? @updatedAt @map("updated_utc")
@@ -74,38 +80,35 @@ model Person {
 
   // roles in Communities related to this Person
   Members Members[]
-  //Validators Validators[]
-  //Auditors   Auditors[]
 
   @@map("persons")
 }
 
 model Community {
-  uid         String   @id @unique @default(uuid())
-  accountId   String?  @map("account_id")
-  adminUid    String   @map("admin_uid")
-  state       String // P-Pending A-Active V-Verified S-Suspended X-Deleted  
-  name        String
-  description String?
-  image       String? // a DataURL
+  uid         String   @id @unique /// @zod.string.max(32)
+  accountId   String?  @map("account_id") /// @zod.string.max(32)
+  adminUid    String   @map("admin_uid") /// @zod.string.max(32)
+  state       String   /// @zod.string.min(1).max(12) 
+  name        String   /// @zod.string.min(3).max(128)
+  description String?  /// @zod.string.max(128)
+  image       String?  /// @zod.string.url().max(128)
   createdUtc  DateTime @default(now()) @map("created_utc")
   updatedUtc  DateTime @updatedAt @map("updated_utc")
   approvedUtc DateTime @map("approved_utc")
 
   // Persons related to this Community
   Members Members[]
-  //Validators Validators[]
-  //Auditors   Auditors[]
 
   @@map("communities")
 }
 
 model Members {
   // members of this community
-  communityUid String
+  communityUid String   /// @zod.string.max(32)
   community    Community @relation(fields: [communityUid], references: [uid])
-  personUid    String
+  personUid    String   /// @zod.string.max(32)
   person       Person    @relation(fields: [personUid], references: [uid])
+  role         String    @default("NONE") /// @zod.string.max(32) // PLAIN, VALIDATOR, AUDITOR
   createdUtc   DateTime  @default(now()) @map("created_utc")
   approvedUtc  DateTime?
 
