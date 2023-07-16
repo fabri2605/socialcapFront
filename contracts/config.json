@@ -7,7 +7,7 @@
       "feepayerKeyPath": "/home/mzito/.cache/zkapp-cli/keys/test01.json",
       "feepayerAlias": "test01",
       "fee": "0.1",
-      "smartContract": "SocialcapContract"
+      "smartContract": "RootContract"
     }
   }
 }

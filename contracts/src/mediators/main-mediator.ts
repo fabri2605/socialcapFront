@@ -7,5 +7,5 @@
  * 
  * created: mario@socialcapp.app - 2023-06-23
  */
-import { SocialcapContract } from '../SocialcapContract.js';
+import { RootContract } from '../RootContract.js';
 

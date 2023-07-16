@@ -13,7 +13,7 @@ const zeroRoot = ((): Field => {
 })();
 
 
-export class SocialcapContract extends SmartContract {
+export class RootContract extends SmartContract {
 
   // the Communities dataset, binded to the Provable Community entity
   // key: community.uid, value: community.hash()

@@ -1,7 +1,7 @@
 import { Mina, PrivateKey, PublicKey, AccountUpdate,} from 'snarkyjs';
 import { UID } from "../src/lib/uid.js";
 
-import { SocialcapContract } from "../src/SocialcapContract.js";
+import { RootContract } from "../src/RootContract.js";
 
 import { deployClaimContract } from "./deploy-contract.js";
 
@@ -11,7 +11,7 @@ import {
   testUpdateMember 
 } from "./test-root-contract.js"
 
-let Contract = SocialcapContract;
+let Contract = RootContract;
 
 let proofsEnabled = true;
 console.log("Proofs enabled=", proofsEnabled);

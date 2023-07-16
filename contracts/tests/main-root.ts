@@ -1,7 +1,7 @@
 import { Mina, PrivateKey, PublicKey, AccountUpdate,} from 'snarkyjs';
 import { UID } from "../src/lib/uid.js";
 
-import { SocialcapContract } from "../src/SocialcapContract.js";
+import { RootContract } from "../src/RootContract.js";
 import { ClaimContract } from '../src/ClaimContract.js';
 import { FailedInitContract } from "../src/FailedInitContract.js"
 // import { deployClaimContract } from "./deploy-contract.js";

@@ -1,7 +1,7 @@
 
 ## Merkle Maps
 
-We use the following MerkleMaps linked to the `SocialcapContract` states:
+We use the following MerkleMaps linked to the `RootContract` states:
 ~~~
   @state(Field) communitiesRoot = State<Field>();
   @state(Field) personsRoot = State<Field>();

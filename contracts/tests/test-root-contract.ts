@@ -18,11 +18,11 @@ import { ProvableCommunity } from "../src/models/provable-community.js";
 import { ProvablePerson } from "../src/models/provable-person.js";
 import { ProvableMember } from "../src/models/provable-member.js";
 import { aCommunity, aPerson, aMember } from "../src/mockups/mockups.js";
-import { SocialcapContract } from "../src/SocialcapContract.js";
+import { RootContract } from "../src/RootContract.js";
 
 
 export async function testUpdateCommunity(
-  zkApp: SocialcapContract,
+  zkApp: RootContract,
   senderAccount: PublicKey,
   senderKey: PrivateKey
 ) {
@@ -83,7 +83,7 @@ export async function testUpdateCommunity(
 }
 
 export async function testUpdatePerson(
-  zkApp: SocialcapContract,
+  zkApp: RootContract,
   senderAccount: PublicKey,
   senderKey: PrivateKey
 ) {
@@ -144,7 +144,7 @@ export async function testUpdatePerson(
 }
 
 export async function testUpdateMember(
-    zkApp: SocialcapContract,
+    zkApp: RootContract,
     senderAccount: PublicKey,
     senderKey: PrivateKey
   ) {
