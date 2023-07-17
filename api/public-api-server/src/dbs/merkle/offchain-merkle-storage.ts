@@ -5,8 +5,8 @@
  * @created - MAZito - 2023-06-06
  */
 import { Field } from "snarkyjs";
-import { logger, prisma } from "../core/global.js";
-import { ResultOrError, hasError, hasResult } from "../core/responses.js";
+import { logger, prisma } from "~/global.js";
+import { ResultOrError, hasError, hasResult } from "~/core/responses.js";
 import { OffchainMerkleMap } from "./offchain-merkle-map.js";
 
 export { OffchainMerkleStorage };
@@ -15,6 +15,9 @@ class OffchainMerkleStorage {
 
   // All MerkleMaps are memoized while server is running
   static cache: Map<number, OffchainMerkleMap | null> = new Map();
+
+  // The startup status
+  static started = false;
  
   /**
    * Gets and rebuilds an existent MerkleMap using the stored data leafs
@@ -24,6 +27,9 @@ class OffchainMerkleStorage {
   static async getMerkleMap(
     id: number
   ): Promise<ResultOrError> {
+    if (!OffchainMerkleStorage.started)
+      return hasError.DatabaseEngine(`OffchainMerkleStorage not started`);
+
     // first chech if we already have it in the cache
     let cached = OffchainMerkleStorage.cache.get(id); 
     if (cached) 
@@ -64,6 +70,9 @@ class OffchainMerkleStorage {
   static async createNewMerkleMap(
     name: string
   ): Promise<ResultOrError> {
+    if (!OffchainMerkleStorage.started)
+      return hasError.DatabaseEngine(`OffchainMerkleStorage not started`);
+
     // add to database ...
     const map = await prisma.merkleMap.create({
       data: { name: name, root: 0, size: 0, height: 256 },
@@ -84,14 +93,24 @@ class OffchainMerkleStorage {
    * Startup the Offchain storage by creating a cache for all Merkle maps. 
    * The Merkle maps will not be loaded here, but when someone asks for it.
    */
-  static async startup() {
-    const maps = await prisma.merkleMap.findMany(
-      { orderBy: { id: 'asc' }}
-    );
-    
-    // reset the cache for all of them
-    for (let j=0; j < maps.length; j++) {
-      OffchainMerkleStorage.cache.set(maps[j].id, null);
-    }
+  static startup() {
+    if (OffchainMerkleStorage.started) return ;
+
+    console.log("OffchainMerkleStorage starting ...");
+    setTimeout(async () => {
+      const maps = await prisma.merkleMap.findMany(
+        { orderBy: { id: 'asc' }}
+      );
+      
+      // reset the cache for all of them
+      for (let j=0; j < maps.length; j++) {
+        OffchainMerkleStorage.cache.set(maps[j].id, null);
+      }
+  
+      OffchainMerkleStorage.started = true;
+      console.log("OffchainMerkleStorage started");
+    }, 100);
+
+    return OffchainMerkleStorage;
   }
 }

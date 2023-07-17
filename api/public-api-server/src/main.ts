@@ -1,6 +1,6 @@
 import "module-alias/register";
 // import Fastify from 'fastify';
-import { fastify, logger } from "./global";
+import { fastify, logger, merkleStorage } from "./global";
 import fastifyJwt from "@fastify/jwt";
 import fastifyRoutes from "@fastify/routes";
 import cors from '@fastify/cors'
@@ -32,4 +32,7 @@ fastify.listen({ port: 3080 }, (err, address) => {
   }
   console.log(`Server listening at ${address}`);
   console.log(fastify.routes);
+
+  // we need the Db to be ready before we can do this
+  merkleStorage.startup();
 });

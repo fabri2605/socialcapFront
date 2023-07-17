@@ -31,7 +31,7 @@ class MerkleMapUpdate extends Struct({
   txId: Field, 
 
   // the map index (may be redundant but useful)
-  mapId: UInt32, 
+  mapId: Field, 
 
   // root and leaf value BEFORE we applied the update
   beforeRoot: Field, 

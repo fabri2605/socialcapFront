@@ -5,48 +5,12 @@
  * @created - MAZito - 2023-06-06
  */
 import { Field, MerkleMap, MerkleMapWitness } from "snarkyjs"
-import { logger, prisma } from "../core/global.js";
-import { hashString, uuidToField } from "./helpers.js";
-import { ResultOrError, hasError, hasResult } from "../core/responses.js";
+import { logger, prisma } from "~/global.js";
+import { UID } from "~/models/uid.js";
+import { ResultOrError, hasError, hasResult } from "~/core/responses.js";
+import { MerkleMapUpdate, LeafInstance } from "./definitions.js";
 
-export { OffchainMerkleMap, MerkleMapUpdate, LeafInstance };
-
-
-/**
- * LeafInstance
- * Describes a MerkleMap leaf, which contains both the 'data' stored in the
- * leaf and the 'hash' of this data. The 'hash' value is calculated by
- * the 'set(key,data)' method when we update the MerkleMap.
- */
-type LeafInstance = {
-  key: Field, // the key of this Leaf (may be redundant but useful)
-  hash: Field, // the hashed(data) value as 
-  data: any // the leaf real data content, as a JSON object 
-}
-
-
-/**
- * MerkleMapUpdate
- * Describes the last "provable?" change applied to a given OffchainMerkleMap 
- * after using the .set(key,data) method on it. It can be used to update the
- * state of commitment (a Merkle root) in a MINA account.
- * Contains both the previous map state and the current updated state.
-*/
-type MerkleMapUpdate = {
-  // transaction id of the transaction which produced the change
-  txId: Field, 
-
-  // the map index (may be redundant but useful)
-  mapId: number, 
-
-  // root and leaf value BEFORE we applied the update
-  beforeRoot: Field, 
-  beforeLeaf: LeafInstance,
-  
-  // root and leaf value AFTERr we applied this update
-  afterRoot: Field, 
-  afterLeaf: LeafInstance 
-}
+export { OffchainMerkleMap };
 
 
 /**
@@ -88,8 +52,7 @@ class OffchainMerkleMap {
 
     let instance: LeafInstance = {
       key: Field(storedLeaf.key), 
-      hash: Field(storedLeaf.hash),
-      data: JSON.parse(storedLeaf.data) 
+      hash: Field(storedLeaf.hash)
     };
 
     return hasResult(instance)
@@ -104,8 +67,7 @@ class OffchainMerkleMap {
    */
   async set(
     uid: string, 
-    data: any,
-    hash?: Field
+    hash: Field,
   ): Promise<ResultOrError> {
     if (!uid) 
       return hasError.BadRequest(`Missing param 'uid'`);
@@ -117,12 +79,9 @@ class OffchainMerkleMap {
       where: { uid: uid }
     })
     
-    // serialize the received data and create Hash for it
-    const key = uuidToField(uid);
-    let stringified = "";
-    try { stringified = JSON.stringify(data); }
-    catch { stringified = "{}"; }
-    const hashed = hash || hashString(stringified);
+    // the received data has already been hashed
+    const key = UID.toField(uid);
+    const hashed = hash;
     const index = storedLeaf ? storedLeaf.index : this.count;
     const isNewLeaf = !storedLeaf;
 
@@ -141,21 +100,20 @@ class OffchainMerkleMap {
     const updatedLeaf = await prisma.merkleMapLeaf.upsert({
       where: { uid: uid },
       update: { 
-        hash: hashed.toString(), 
-        data: stringified 
+        hash: hashed.toString()
       },
       create: { 
         uid: uid, mapId: this.id, index: index, 
         key: key.toString(), 
-        hash: hashed.toString(), 
-        data: stringified 
+        hash: hashed.toString()
       },
     })
 
     // check if leaf upsert operation succeeded, on failure we must revert 
     // the Map operation because the key,hash was already updated in the Map 
     if (! updatedLeaf) {
-      this.memmap.set(key, Field(0)); // rollback the key
+      // rollback the key,value 
+      this.memmap.set(key, storedLeaf ? Field(storedLeaf.hash) : Field(0)); 
       return hasError.DatabaseEngine(
         `Could not set MerkleMapLeaf with uid='${uid}'`
       )
@@ -163,19 +121,19 @@ class OffchainMerkleMap {
 
     // prepare the Update instance we will return
     const merkleUpdate: MerkleMapUpdate = {
-      mapId: this.id,
+      mapId: Field(this.id),
       txId: Field(0),
       beforeRoot: currentRoot,
       beforeLeaf: { 
         key:  Field(storedLeaf?.key || "0"),
         hash:  Field(storedLeaf?.hash || "0"),
-        data: JSON.parse(storedLeaf?.data || "{}")
+        // data: JSON.parse(storedLeaf?.data || "{}")
       },
       afterRoot: this.memmap.getRoot(),
       afterLeaf: {
         key: key,
         hash: hashed,
-        data: JSON.parse(stringified)
+        // data: JSON.parse(stringified)
       }
     }
 
@@ -196,7 +154,7 @@ class OffchainMerkleMap {
    * @returns - the MerkleMapWitness or null 
    */
   getWitness(uid: string): MerkleMapWitness | null {
-    const key = uuidToField(uid);
+    const key = UID.toField(uid);
     return this.memmap.getWitness(key) || null;
   }
 

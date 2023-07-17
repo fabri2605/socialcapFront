@@ -53,7 +53,7 @@ export async function getMerkleMap(params: {
       where: { name: name}
     })
     if (!map) 
-      return hasError.NotFound(`Not Found MerkleMap with name='${name}'`);
+      return asError.NotFound(`Not Found MerkleMap with name='${name}'`);
     id = map.id;
   }
 
