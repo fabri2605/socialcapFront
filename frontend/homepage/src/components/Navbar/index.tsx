@@ -36,28 +36,29 @@ export enum Section {
 
 export default function WithSubnavigation() {
   const { isOpen, onToggle } = useDisclosure();
-  
+
   return (
     <header>
       <Flex
         bg={colors.white}
         color={colors.brandBlack}
-        minH={"80px"}
-        px={"6rem"}
+        px={["32px", "80px"]}
+        py={["32px", "40px"]}
         justify={"center"}
         align={"center"}
+        marginBottom={"32px"}
       >
         <Flex
           flex={{ base: 1 }}
           align={"center"}
-          justify={{ base: "flex-start", md: "space-between" }}
+          justify={{ base: "flex-start", lg: "space-between" }}
         >
           <Image alt={"logo"} src={"/assets/logo.svg"} />
-          <Flex display={{ base: "none", md: "flex" }} mx={10} align={"end"}>
+          <Flex display={{ base: "none", lg: "flex" }} mx={10} align={"end"}>
             <DesktopNav />
           </Flex>
         </Flex>
-        <Flex align={"flex-end"} display={{ base: "flex", md: "none" }}>
+        <Flex align={"flex-end"} display={{ base: "flex", lg: "none" }}>
           <IconButton
             onClick={onToggle}
             icon={
@@ -70,8 +71,9 @@ export default function WithSubnavigation() {
 
         <Button
           as={"a"}
-          display={{ base: "none", md: "inline-flex" }}
+          display={{ base: "none", lg: "inline-flex" }}
           fontSize={"xl"}
+          height={"64px"}
           lineHeight={"20px"}
           fontWeight={400}
           color={"white"}
@@ -79,11 +81,18 @@ export default function WithSubnavigation() {
           borderRadius={"16px"}
           padding={"22px 32px"}
           href={"#waitlist"}
+          borderWidth={"3px"}
+          borderColor={"white"}
+          borderStyle={"solid"}
           _hover={{
-            bg: "#0E2865",
+            bg: "white",
+            color: colors.brandBlue,
+            borderWidth: "3px",
+            borderColor: colors.brandBlue,
+            borderStyle: "solid",
           }}
         >
-          Request access
+          Join Waitlist
         </Button>
       </Flex>
 
@@ -105,13 +114,13 @@ const DesktopNav = () => {
           <Popover trigger={"hover"} placement={"bottom-start"}>
             <PopoverTrigger>
               <Link
-                p={2}
                 href={navItem.href ?? "#"}
-                fontSize={"20px"}
-                lineHeight={"20px"}
+                fontSize={"18px"}
+                lineHeight={"18px"}
                 fontWeight={500}
                 color={linkColor}
-                padding="22px 32px"
+                padding="16px 30px"
+                wordBreak={"break-word"}
                 _hover={{
                   textDecoration: "none",
                   backgroundColor: colors.smoke,
@@ -190,7 +199,7 @@ const MobileNav = () => {
     <Stack
       bg={useColorModeValue("white", "gray.800")}
       p={4}
-      display={{ md: "none" }}
+      display={{ lg: "none" }}
     >
       {NAV_ITEMS.map((navItem) => (
         <MobileNavItem key={navItem.label} {...navItem} />
@@ -274,7 +283,7 @@ interface NavItem {
 
 const NAV_ITEMS: Array<NavItem> = [
   {
-    label: "Our credentials",
+    label: "Why credentials?",
     href: "#our-credentials",
   },
   {
@@ -282,11 +291,15 @@ const NAV_ITEMS: Array<NavItem> = [
     href: "#why-socialcap",
   },
   {
-    label: "Our team",
-    href: "#team",
+    label: "How it works",
+    href: "#how-it-works",
   },
-  {
-    label: "FAQ",
-    href: "#faq",
-  },
+  // {
+  //   label: "Our team",
+  //   href: "#team",
+  // },
+  // {
+  //   label: "FAQ",
+  //   href: "#faq",
+  // },
 ];

@@ -13,6 +13,8 @@ import Team from '@/components/Team';
 import FAQ from '@/components/FAQ';
 import Waitlist from '@/components/Waitlist';
 import Footer from '@/components/Footer';
+import HowItWorks from '@/components/HowItWorks';
+import Communities from '@/components/Communities';
 
 const Home: NextPage = () => {
    return (
@@ -26,7 +28,9 @@ const Home: NextPage = () => {
           <Hero />
           <OurCredentials />
           <WhySocialcap />
+          <HowItWorks />
           <Team />
+          {/* <Communities /> */}
           <FAQ />
           <Waitlist />
           <Footer />
