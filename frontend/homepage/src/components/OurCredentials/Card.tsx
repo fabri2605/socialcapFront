@@ -11,11 +11,11 @@ interface Props {
   card: CardType;
 }
 const Card = ({ card }: Props) => {
-  const showImage = useBreakpointValue([false, true]);
+  // const showImage = useBreakpointValue([false, true]);
   return (
     <Stack
       key={card.index}
-      display={["column", "grid"]}
+      display={["column", "column", "grid"]}
       gridTemplateColumns={"1fr 1fr"}
       background={colors.brandBlue}
       borderRadius={"1rem"}
@@ -40,16 +40,15 @@ const Card = ({ card }: Props) => {
           {card.content}
         </Text>
       </Stack>
-      {showImage && (
+      {/* {showImage && ( */}
+      <Stack>
         <Image
           alt={"card"}
           src={card.image}
-          width={"80%"}
-          height={"80%"}
           objectFit={"cover"}
-          gridArea={"1 / 1 / 2 / 2"}
         />
-      )}
+        </Stack>
+      {/* )} */}
     </Stack>
   );
 };

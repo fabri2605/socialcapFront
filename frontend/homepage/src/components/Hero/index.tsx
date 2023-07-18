@@ -55,6 +55,7 @@ export default function Hero() {
         </Box>
         <Stack mt={{ base: "32px", md: "64px" }} alignItems={"center"}>
           <Button
+          as={"a"}
             fontWeight={500}
             color={colors.brandBlue}
             variant={"outline"}
@@ -72,6 +73,7 @@ export default function Hero() {
               borderColor: colors.brandBlue,
               borderStyle: "solid",
             }}
+            href="#our-credentials"
           >
             Learn more
           </Button>

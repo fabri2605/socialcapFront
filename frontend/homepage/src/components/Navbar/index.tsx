@@ -51,14 +51,14 @@ export default function WithSubnavigation() {
         <Flex
           flex={{ base: 1 }}
           align={"center"}
-          justify={{ base: "flex-start", md: "space-between" }}
+          justify={{ base: "flex-start", lg: "space-between" }}
         >
           <Image alt={"logo"} src={"/assets/logo.svg"} />
-          <Flex display={{ base: "none", md: "flex" }} mx={10} align={"end"}>
+          <Flex display={{ base: "none", lg: "flex" }} mx={10} align={"end"}>
             <DesktopNav />
           </Flex>
         </Flex>
-        <Flex align={"flex-end"} display={{ base: "flex", md: "none" }}>
+        <Flex align={"flex-end"} display={{ base: "flex", lg: "none" }}>
           <IconButton
             onClick={onToggle}
             icon={
@@ -71,7 +71,7 @@ export default function WithSubnavigation() {
 
         <Button
           as={"a"}
-          display={{ base: "none", md: "inline-flex" }}
+          display={{ base: "none", lg: "inline-flex" }}
           fontSize={"xl"}
           height={"64px"}
           lineHeight={"20px"}
@@ -199,7 +199,7 @@ const MobileNav = () => {
     <Stack
       bg={useColorModeValue("white", "gray.800")}
       p={4}
-      display={{ md: "none" }}
+      display={{ lg: "none" }}
     >
       {NAV_ITEMS.map((navItem) => (
         <MobileNavItem key={navItem.label} {...navItem} />
@@ -283,7 +283,7 @@ interface NavItem {
 
 const NAV_ITEMS: Array<NavItem> = [
   {
-    label: "Our credentials",
+    label: "Why credentials?",
     href: "#our-credentials",
   },
   {
@@ -294,12 +294,12 @@ const NAV_ITEMS: Array<NavItem> = [
     label: "How it works",
     href: "#how-it-works",
   },
-  {
-    label: "Our team",
-    href: "#team",
-  },
-  {
-    label: "FAQ",
-    href: "#faq",
-  },
+  // {
+  //   label: "Our team",
+  //   href: "#team",
+  // },
+  // {
+  //   label: "FAQ",
+  //   href: "#faq",
+  // },
 ];

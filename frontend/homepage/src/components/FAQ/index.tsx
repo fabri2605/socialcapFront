@@ -26,21 +26,16 @@ const FAQ: NextPage = () => (
   <section id="faq">
     <Flex position="relative" justifyContent="center" direction={"column"}>
       <SectionTitle>FAQ</SectionTitle>
-      <Container
-        maxW="container.xl"
-        px={{ base: "1rem", md: "2rem" }}
-        py={"3rem"}
-        bgColor={colors.brandGrey}
-        borderRadius={"16px"}
-      >
+      <Container maxW="container.xl">
         <Flex
+          px={{ base: "1rem", md: "2rem" }}
+          py={{base:"1.5rem", md: "3rem"}}
+          bgColor={colors.brandGrey}
+          borderRadius={"16px"}
           justifyContent={{ base: "center", md: "center" }}
           flexDirection={{ base: "column", md: "column" }}
         >
-          <Accordion
-          
-            allowMultiple
-          >
+          <Accordion allowMultiple>
             {content.map((item: FAQItem, index: any) => {
               return (
                 <Box key={`faq_${index}`}>

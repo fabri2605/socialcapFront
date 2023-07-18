@@ -12,6 +12,7 @@ import {
   Heading,
   Image,
   BoxProps,
+  Center,
 } from "@chakra-ui/react";
 interface Props extends BoxProps {
   imageUrl: string;
@@ -23,22 +24,22 @@ const Card = ({ imageUrl, heading, text }: Props) => (
     textAlign={["center", "left"]}
     borderRadius={{ base: 16, md: "none" }}
     border={{ base: "0.50px #DADDF1 solid", md: "none" }}
-    p={6}
+    p={{base: "32px", md:0 }}
   >
     {/* <Box > */}
-    <Image
-      boxSize={["208px", "299px"]}
-    
-      alt="join com"
-      src={imageUrl}
-    />
+    <Center textAlign={"center"}>
+      <Image boxSize={["208px", "299px"]} alt="join com" src={imageUrl} />
+    </Center>
     {/* </Box> */}
     {/* <Box> */}
-    <Heading as={"h4"} color={colors.brandBlue} wordBreak={"break-word"}>
-      {heading}
-    </Heading>
-
-    <Text my={"13px"}>{text}</Text>
+    <Center textAlign={"center"}>
+      <Heading as={"h4"} color={colors.brandBlue} wordBreak={"break-word"}>
+        {heading}
+      </Heading>
+    </Center>
+    <Center textAlign={"center"}>
+      <Text my={"13px"}>{text}</Text>
+    </Center>
     {/* </Box> */}
   </Stack>
 );

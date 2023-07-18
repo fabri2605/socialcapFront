@@ -9,16 +9,14 @@ const Waitlist: NextPage = () => {
   return (
     <section id="waitlist">
       <Flex position="relative" justifyContent="center" direction={"column"}>
-        <Container
-          maxW="container.xl"
-          py="4rem"
-          px="4rem"
-          bg={colors.brandBlue}
-          my={"54px"}
-          borderRadius={"16px"}
-          height={"auto"}
-        >
+        <Container maxW="container.xl">
           <Stack
+            py="4rem"
+            px={{ base: "2rem", md: "8rem" }}
+            bg={colors.brandBlue}
+            my={["2rem", "4rem"]}
+            borderRadius={"16px"}
+            height={"auto"}
             color={colors.white}
             spacing={10}
             backgroundImage={{ base: "none", lg: "url(/assets/waitlist.svg)" }}

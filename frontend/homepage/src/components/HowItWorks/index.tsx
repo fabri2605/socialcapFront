@@ -21,10 +21,10 @@ const HowItWorks: NextPage = () => (
   <section id="how-it-works">
     <Flex position="relative" justifyContent="center" direction={"column"}>
       <SectionTitle>How it works</SectionTitle>
-      <Container maxW="container.xl" px={{ base: "2rem", lg: "8rem" }}>
-        <HStack spacing="32px">
+      <Container maxW="container.xl" px={{ base: "2rem", md: "8rem" }}>
+      
           <SimpleGrid
-            columns={{ base: 1, lg: 3 }}
+            columns={{ base: 1, md: 3, lg: 3 }}
             spacing={10}
             mx={{ base: 2, md: 8, lg: 10 }}
           >
@@ -46,7 +46,7 @@ const HowItWorks: NextPage = () => (
               text="Multi-chain credential minting"
             />
           </SimpleGrid>
-        </HStack>
+       
       </Container>
     </Flex>
   </section>
