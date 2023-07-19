@@ -21,6 +21,7 @@ const Section = ({ imageUrl, imageUrlMobile, text }: Props) => {
       align={"center"}
       width={["full", "700px"]}
       p={"32px"}
+      gap={{base: "1.5rem", md: "2rem"}}
     >
       <Image alt="private" boxSize={["full", "160px"]} src={image} />
       <Text

@@ -1,13 +1,13 @@
-import { Text, Stack, Image, StackProps } from "@chakra-ui/react";
-interface Props extends StackProps {
+import { Text, Box, Image, StackProps, BoxProps } from "@chakra-ui/react";
+interface Props extends BoxProps {
   imageUrl: string;
   title: string;
 }
 const Card = ({ imageUrl, title, ...props }: Props) => (
-  <Stack textAlign={"center"} align={"center"} mt={2} {...props}>
-    <Image src={imageUrl} alt="avatar" />
+  <Box align={"center"} mt={2} {...props}>
+    <Image src={imageUrl} alt="avatar" objectFit={"fill"} />
     <Text>{title}</Text>
-  </Stack>
+  </Box>
 );
 
 export default Card;
