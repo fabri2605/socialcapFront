@@ -4,12 +4,13 @@
  * @created - MAZito - 2023-0
  */
 import { logger } from "~/global";
-import { hasError, raiseError, UNKNOWN_ERROR } from "./errors.js";
+import { hasError, raiseError, UNKNOWN_ERROR } from "./errors";
 
 export { 
   ResultOrError,
   hasResult,
   hasError,
+  raiseError,
   isError,
   isResult
 }

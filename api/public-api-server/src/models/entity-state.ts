@@ -81,6 +81,10 @@ class EntityState {
     return this;
   }
 
+  initial(): string {
+    return this.valids[0];
+  }
+
   get(): string {
     return this.current;
   }
@@ -97,5 +101,14 @@ class EntityState {
   private isValidTransition(value: string): boolean {
     if (! this.transitions) return true;
     return this.transitions[this.current].includes(value);
+  }
+
+
+  // experimental
+  changeFrom(from0: string, to1: string): string {
+    if (! this.valids.includes(from0)) return this.initial();
+    if (! this.valids.includes(to1)) return from0;
+    this.set(from0).set(to1);
+    return this.get();
   }
 }

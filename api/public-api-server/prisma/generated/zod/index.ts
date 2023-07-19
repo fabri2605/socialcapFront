@@ -148,7 +148,7 @@ export const CommunitySchema = z.object({
   image: z.string().url().max(128).nullish(),
   createdUtc: z.coerce.date(),
   updatedUtc: z.coerce.date(),
-  approvedUtc: z.coerce.date(),
+  approvedUtc: z.coerce.date().nullish(),
 })
 
 export type Community = z.infer<typeof CommunitySchema>

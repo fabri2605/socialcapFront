@@ -5,9 +5,9 @@
  * @created - MAZito - 2023-06-06
  */
 import { Field } from "snarkyjs";
-import { logger, prisma } from "~/global.js";
-import { ResultOrError, hasError, hasResult } from "~/core/responses.js";
-import { OffchainMerkleMap } from "./offchain-merkle-map.js";
+import { logger, prisma } from "~/global";
+import { ResultOrError, hasError, hasResult } from "~/core/responses";
+import { OffchainMerkleMap } from "./offchain-merkle-map";
 
 export { OffchainMerkleStorage };
 

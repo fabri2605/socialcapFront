@@ -106,7 +106,7 @@ model Community {
   image       String?  /// @zod.string.url().max(128)
   createdUtc  DateTime @default(now()) @map("created_utc")
   updatedUtc  DateTime @updatedAt @map("updated_utc")
-  approvedUtc DateTime @map("approved_utc")
+  approvedUtc DateTime? @map("approved_utc")
 
   // Persons related to this Community
   Members Members[]

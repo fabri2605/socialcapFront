@@ -5,10 +5,10 @@
  * @created - MAZito - 2023-06-06
  */
 import { Field, MerkleMap, MerkleMapWitness } from "snarkyjs"
-import { logger, prisma } from "~/global.js";
-import { UID } from "~/models/uid.js";
-import { ResultOrError, hasError, hasResult } from "~/core/responses.js";
-import { MerkleMapUpdate, LeafInstance } from "./definitions.js";
+import { logger, prisma } from "~/global";
+import { UID } from "~/models/uid";
+import { ResultOrError, hasError, hasResult } from "~/core/responses";
+import { MerkleMapUpdate, LeafInstance } from "./definitions";
 
 export { OffchainMerkleMap };
 

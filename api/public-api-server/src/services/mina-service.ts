@@ -24,38 +24,44 @@ export { MinaService } ;
 const TX_FEE = 100_000_000;
 
 let sender = {
-  accountId: PublicKey.fromBase58(""),
+  accountId: PublicKey.fromBase58("B62qpffbtmeU3L2xt2k6X4WPP54uA4fSkkqsV99ZD39Y8nJ8N6eRgUa"),
   key: null
 }
 
 
 class MinaService {
 
-  static async updateRootOrRevert(
-    provable: any, 
+  static async updatePersonsRootOrRaise(
+    provable: ProvablePerson, 
     map: MerkleMapProxy, 
     witness: MerkleMapWitness, 
-    updatedMerkle: MerkleMapUpdate,
-    revert: () => void
+    updatedMerkle: MerkleMapUpdate
   ) {
-    try {
-      let tx = await Mina.transaction(
-        { sender: sender.accountId, fee: TX_FEE }, () => {
-          // socialcapContract.updatePerson(
-          //   provable as ProvablePerson,
-          //   map, 
-          //   witness,
-          //   updatedMerkle
-          // );}
-        }
-      );
-      await tx.prove();
-      tx.sign([senderKey]);
-      let pendingTx = await tx.send();
-    }
-    catch (err: any) {
-      revert();
-    }
-
+    // try {
+    //   let tx = await Mina.transaction(
+    //     { sender: sender.accountId, fee: TX_FEE }, () => {
+    //       // socialcapContract.updatePerson(
+    //       //   provable as ProvablePerson,
+    //       //   map, 
+    //       //   witness,
+    //       //   updatedMerkle
+    //       // );}
+    //     }
+    //   );
+    //   await tx.prove();
+    //   tx.sign([senderKey]);
+    //   let pendingTx = await tx.send();
+    // }
+    // catch (err: any) {
+    //   revert();
+    // }
   }
+
+  static async updateCommunitiesRootOrRaise(
+    provable: ProvableCommunity, 
+    map: MerkleMapProxy, 
+    witness: MerkleMapWitness, 
+    updatedMerkle: MerkleMapUpdate
+  ) {
+  }  
 }

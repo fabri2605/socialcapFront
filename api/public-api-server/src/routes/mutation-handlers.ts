@@ -1,6 +1,7 @@
 import { noActions } from "~/controllers/no-actions";
 import { requestOtp, login } from "~/controllers/sessions-controller";
 import { signUp, updateProfile } from "~/controllers/persons-controller";
+import { updateCommunity } from "~/controllers/communities-controller";
 
 const mutationHandlers = {
   'no_actions': { fn: noActions, authorize: false },
@@ -8,6 +9,7 @@ const mutationHandlers = {
   'login': { fn: login, authorize: false },
   'sign_up': { fn: signUp, authorize: false },
   'update_profile': { fn: updateProfile, authorize: true },
+  'update_community': { fn: updateCommunity, authorize: true },
 
 /*
 - [mint_credential]():

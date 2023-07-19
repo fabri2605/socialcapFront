@@ -56,6 +56,7 @@ const hasError = {
   , Timeout: (m: string) =>  formatError(TIMEOUT, m)
   , InternalServer: (m: string) =>  formatError(INTERNAL_SERVER_ERROR, m)
   , DatabaseEngine: (m: string) =>  formatError(BAD_GATEWAY, m)
+  , This: (err: {code: number, message: string}) => formatError(err.code, err.message),
 }
 
 const raiseError = { 
@@ -73,6 +74,7 @@ const raiseError = {
   , Timeout: (m: string) =>  formatAndRaiseError(TIMEOUT, m)
   , InternalServer: (m: string) =>  formatAndRaiseError(INTERNAL_SERVER_ERROR, m)
   , DatabaseEngine: (m: string) =>  formatAndRaiseError(BAD_GATEWAY, m)
+  , This: (err: {code: number, message: string}) => formatAndRaiseError(err.code, err.message),
 }
 
 

@@ -18,7 +18,7 @@ CREATE TABLE "merkle_map_leaf" (
     "index" BIGINT NOT NULL,
     "key" TEXT NOT NULL,
     "hash" TEXT NOT NULL,
-    "data" TEXT NOT NULL,
+    "data" TEXT,
     "created_utc" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updated_utc" TIMESTAMP(3) NOT NULL,
 
@@ -49,7 +49,7 @@ CREATE TABLE "persons" (
     "telegram" TEXT,
     "preferences" TEXT,
     "created_utc" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    "updated_utc" TIMESTAMP(3) NOT NULL,
+    "updated_utc" TIMESTAMP(3),
     "approved_utc" TIMESTAMP(3),
 
     CONSTRAINT "persons_pkey" PRIMARY KEY ("uid")
@@ -75,6 +75,7 @@ CREATE TABLE "communities" (
 CREATE TABLE "members" (
     "communityUid" TEXT NOT NULL,
     "personUid" TEXT NOT NULL,
+    "role" TEXT NOT NULL DEFAULT 'NONE',
     "created_utc" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "approvedUtc" TIMESTAMP(3),
 
