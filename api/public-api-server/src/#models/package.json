@@ -1,0 +1,15 @@
+{
+  "name": "@socialcap/models",
+  "version": "0.1.0a",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "description": "",
+  "dependencies": {
+    "snarkyjs": "0.11.*",
+    "zod": "^3.21.4"
+  }
+}

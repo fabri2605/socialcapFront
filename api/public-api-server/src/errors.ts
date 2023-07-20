@@ -1,4 +1,4 @@
-import { logger } from "~/global";
+import { logger } from "./global.js";
 
 const
   UNKNOWN_ERROR = 500
@@ -26,7 +26,7 @@ function formatError(code: number, message: string) {
   // All errors are logged to the Fastify.logger
   logger.error(`Error ${code}: ${message}`);
   return {
-    result: null,
+    data: null,
     error: {
       code: code, 
       message: (message || '').toString()
@@ -34,7 +34,14 @@ function formatError(code: number, message: string) {
   }
 }
 
-const Errors = { 
+function formatAndRaiseError(code: number, message: string) { 
+  const m = `Raised error '${code}': ${message}`;
+  logger.error(m);
+  throw new Error(m) 
+};
+
+
+const hasError = { 
   Unknown: (m: string) =>  formatError(UNKNOWN_ERROR, m)
   , Parse: (m: string) =>  formatError(PARSE_ERROR, m)
   , BadRequest: (m: string) =>  formatError(BAD_REQUEST, m)
@@ -49,9 +56,30 @@ const Errors = {
   , Timeout: (m: string) =>  formatError(TIMEOUT, m)
   , InternalServer: (m: string) =>  formatError(INTERNAL_SERVER_ERROR, m)
   , DatabaseEngine: (m: string) =>  formatError(BAD_GATEWAY, m)
+  , This: (err: {code: number, message: string}) => formatError(err.code, err.message),
 }
 
+const raiseError = { 
+  Unknown: (m: string) =>  formatAndRaiseError(UNKNOWN_ERROR, m)
+  , Parse: (m: string) =>  formatAndRaiseError(PARSE_ERROR, m)
+  , BadRequest: (m: string) =>  formatAndRaiseError(BAD_REQUEST, m)
+  , MissingParams: (m: string) =>  formatAndRaiseError(BAD_REQUEST, m)
+  , NotFound: (m: string) =>  formatAndRaiseError(NOT_FOUND, m)
+  , MethodNotSupported: (m: string) =>  formatAndRaiseError(METHOD_NOT_SUPPORTED, m)
+  , Conflict: (m: string) =>  formatAndRaiseError(CONFLICT, m)
+  , PreconditionFailed: (m: string) =>  formatAndRaiseError(PRECONDITION_FAILED, m)
+  , PayloadTooLarge: (m: string) =>  formatAndRaiseError(PAYLOAD_TOO_LARGE, m)
+  , UnauthorizedError : (m: string) =>  formatAndRaiseError(UNAUTHORIZED, m)
+  , ForbiddenError : (m: string) =>  formatAndRaiseError(FORBIDDEN, m)
+  , Timeout: (m: string) =>  formatAndRaiseError(TIMEOUT, m)
+  , InternalServer: (m: string) =>  formatAndRaiseError(INTERNAL_SERVER_ERROR, m)
+  , DatabaseEngine: (m: string) =>  formatAndRaiseError(BAD_GATEWAY, m)
+  , This: (err: {code: number, message: string}) => formatAndRaiseError(err.code, err.message),
+}
+
+
 export {
-  Errors,
-  UNKNOWN_ERROR
+  UNKNOWN_ERROR,
+  hasError,
+  raiseError
 };

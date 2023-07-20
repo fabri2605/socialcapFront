@@ -1,20 +1,19 @@
 /**
  * Results template
  */
+
 interface QueryResult {
-  result: {
+  data: {
     start: number, 
     count: number,
     limit: number,
     total: number,
-    data: Array<any> // 0 or more items
-  },
-  error: null
+    rows: Array<any> // 0 or more items
+  }
 };
 
 interface MutationResult {
-  result: any,
-  error: null
+  data: any
 };
 
 function formatQueryResult(
@@ -25,14 +24,13 @@ function formatQueryResult(
 ): QueryResult {
   const count = (data || []).length;
   return {
-    result: {
+    data: {
       start: start || 0,
       limit: limit || 1000,
       total: total || count,
       count: count,
-      data: data || []
-    },
-    error: null
+      rows: data || []
+    }
   }
 }
 
@@ -41,14 +39,13 @@ function formatMutationResult(
 ): MutationResult {
   const count = (data || []).length;
   return {
-    result: data || {},
-    error: null
+    data: data || {}
   }
 }
 
 export { 
   QueryResult, 
-  formatQueryResult,
   MutationResult, 
+  formatQueryResult,
   formatMutationResult
 };

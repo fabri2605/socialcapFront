@@ -1,9 +1,9 @@
-# Personas
+# Persons
 
 ### Entity Model
 
 ~~~typescript
-Personas {
+Person {
   uid           String   @id @unique @default(uuid())
   account_id    String   @unique @map("account_id") @db.VarChar(36)
   full_name     String   @map("full_name") @db.VarChar(128)

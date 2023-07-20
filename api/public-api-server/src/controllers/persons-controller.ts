@@ -1,11 +1,11 @@
-import { randomInt, randomUUID } from "crypto";
-import { fastify, prisma } from "~/global";
-import { i18n as _ } from "~/i18n/messages";
-import { Errors } from "~/routes/errors";
-import { formatMutationResult } from "~/routes/results";
-import { PersonState } from "~/models/person-helpers";
-import { DEFAULT_AVATAR } from "~/resources/avatars";
-import { sendEmail } from "~/services/email-service";
+import { fastify, prisma } from "../global.js";
+import { UID, ProvablePerson, PersonState } from "@socialcap/contracts"
+import { i18n as _ } from "../i18n/messages.js";
+import { hasError, hasResult } from "../responses.js";
+import { PERSONS_MERKLE_MAP } from "../dbs/index.js";
+import { updateMerkleMapOrRaise } from "../dbs/merkle-map-helpers.js";
+import { updatePersonOrRaise } from "../dbs/person-helpers.js";
+import { MinaService } from "../services/mina-service.js";
 
 /**
  * signUp
@@ -21,16 +21,16 @@ export async function signUp(params: {
 }) {
   // 1. If no email/full_name/account_id => Error BAD_REQUEST (incomplete params)
   if (!params.email)
-    return Errors.MissingParams(_.missing_param("email", "sign_up"));
+    return hasError.MissingParams(_.missing_param("email", "sign_up"));
   if (!params.full_name)
-    return Errors.MissingParams(_.missing_param("full_name", "sign_up"));
+    return hasError.MissingParams(_.missing_param("full_name", "sign_up"));
 
   // 2. If received email exists in `persons` table => Error CONFLICT (already exists)
   const noPerson = await prisma.person.findUnique({
     where: { email: params.email },
   });
   if (noPerson !== null)
-    return Errors.Conflict(_.persons_already_registered(params.email));
+    return hasError.Conflict(_.persons_already_registered(params.email));
 
   // 3. Create default values for fields 'avatar' and 'preferences'
   const defaultPrefs = "{}";
@@ -38,35 +38,53 @@ export async function signUp(params: {
   // 4. Insert into `personas(email, state:PENDING, ...params)`
   const person = await prisma.person.create({
     data: {
-      uid: randomUUID(),
+      uid: UID.uuid4(),
       accountId: "",
-      state: PersonState.PENDING,
+      state: PersonState.initial(),
       fullName: params.full_name,
       email: params.email,
       phone: params.phone || "",
       telegram: params.telegram || "",
-      avatar: DEFAULT_AVATAR,
       preferences: defaultPrefs,
     },
   });
   if (!person)
-    return Errors.DatabaseEngine(_.database_error("insert into table Persons"));
+    return hasError.DatabaseEngine(_.database_error("insert into table Persons"));
 
   console.log(`sign_up params=`, params);
   console.log(`sign_up result=`, person);
 
-  // 5. Return the fully created Person data
-  return formatMutationResult({
-    uid: person.uid,
-    state: person.state,
-    email: person.email,
-    full_name: person.fullName,
-    phone: person.phone,
-    telegram: person.telegram,
-    account_id: person.accountId,
-    avatar: person.avatar,
-    preferences: person.preferences,
-    created_utc: person.createdUtc,
-    updated_utc: person.updatedUtc,
-  });
+  // 5. Add to ProvablePerson MerkleMap and updatePerson() on RootContract ...
+  // this is just a Promise call and we do not wait for response !!!
+  // updateProvablePerson(person);
+
+  // 7. Return the fully created Person data
+  return hasResult(person);
+}
+
+
+export async function updateProfile(params: any) {
+  try {
+    const uid = params.uid;
+    const key = UID.toField(uid);
+    
+    // update Indexer
+    const person = await updatePersonOrRaise(uid, params);
+
+    // update Merkle
+    const provable = new ProvablePerson(person);
+    const {map, updated, witness} = await updateMerkleMapOrRaise(
+      PERSONS_MERKLE_MAP, uid, provable.hash()
+    );
+ 
+    // call Mina service here ...
+    await MinaService.updatePersonsRootOrRaise(
+      provable, map, witness, updated
+    );
+
+    return hasResult(person); 
+  }
+  catch (err: any) {
+    return hasError.This(err);
+  }
 }

@@ -1,4 +1,4 @@
-import { prisma } from "~/global";
+import { prisma } from "~/global.js";
 import { Person } from "@prisma/client";
 
 const 

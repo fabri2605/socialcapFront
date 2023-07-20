@@ -1,4 +1,4 @@
-import { formatQueryResult } from "~/routes/results";
+import { hasResult } from "../responses.js";
 
 /**
  * Gets an empty set, just for testing purposes.
@@ -6,6 +6,6 @@ import { formatQueryResult } from "~/routes/results";
  * @returns QueryResult
  */
 export async function queryEmptySet(params: Object) { 
-  return formatQueryResult([]);
+  return hasResult([]);
 }
 

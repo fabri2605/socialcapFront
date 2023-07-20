@@ -1,4 +1,4 @@
-import { en_US } from "./en_US";
+import { en_US } from "./en_US.js";
 
 const i18n: any = en_US;
 
