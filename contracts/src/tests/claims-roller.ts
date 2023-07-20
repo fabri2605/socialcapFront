@@ -1,5 +1,5 @@
 import { Mina, Field, PrivateKey, PublicKey } from 'snarkyjs';
-import { ClaimInstance, ClaimsFactory } from "./claims-factory.js";
+import { ClaimInstance, ClaimsFactory } from "../claims-factory.js";
 
 export { rollupClaims };
 
@@ -39,7 +39,7 @@ async function rollupClaims(
 
     // if no pending votes we just go to the next instance ...
     // we run rollup ONLY when we have something to rollup
-    //if (pending.length === 0 ) continue;
+    if (pending.length === 0) continue;
     
     // we should check here if payer has funds for TX fees
     // ...
@@ -77,7 +77,7 @@ async function rollupClaims(
   return updatedQueue; // the modified running queue
 }
 
-
+/*
 async function runRollerService(
   payerAccount: PublicKey,
   payerSecret: PrivateKey
@@ -116,3 +116,4 @@ async function runRollerService(
     }
   }, ROLLUP_EVERY);  
 }
+*/

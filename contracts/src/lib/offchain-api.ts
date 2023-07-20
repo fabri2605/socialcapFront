@@ -15,8 +15,8 @@ export {
 class LeafInstance extends Struct({
   key: Field, // the key of this Leaf (may be redundant but useful)
   hash: Field, // the hashed(data) value as 
-  // data: any // the leaf real data content, as a JSON object 
 }) {}
+
 
 /**
  * MerkleMapUpdate

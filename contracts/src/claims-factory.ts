@@ -1,6 +1,5 @@
 import { PrivateKey, PublicKey, Mina, Field, AccountUpdate, fetchAccount } from "snarkyjs";
-import { ClaimContract } from "../ClaimContract.js";
-import { randomInt } from "crypto";
+import { ClaimContract } from "./ClaimContract.js";
 
 export { ClaimsFactory, ClaimInstance };
 

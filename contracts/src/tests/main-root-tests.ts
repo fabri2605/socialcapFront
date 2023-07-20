@@ -1,18 +1,15 @@
 import { Mina, PrivateKey, PublicKey, AccountUpdate,} from 'snarkyjs';
-import { UID } from "../src/lib/uid.js";
+import { UID } from "../lib/uid.js";
 
-import { SocialcapContract } from "../src/SocialcapContract.js";
-import { ClaimContract } from '../src/ClaimContract.js';
-import { FailedInitContract } from "../src/FailedInitContract.js"
-// import { deployClaimContract } from "./deploy-contract.js";
+import { RootContract } from "../RootContract.js";
 
 import { 
   testUpdateCommunity, 
   testUpdatePerson, 
   testUpdateMember 
-} from "./test-root-contract.js"
+} from "./root-tests-helpers.js"
 
-let Contract = FailedInitContract;
+let Contract = RootContract;
 
 let proofsEnabled = true;
 console.log("Proofs enabled=", proofsEnabled);
@@ -26,7 +23,7 @@ let
   zkAppKey: PrivateKey;
 
 // compile Contract
-console.log("compiling Contract ClaimContract ...", Contract);
+console.log("compiling Contract ...", Contract);
 if (proofsEnabled) 
   await Contract.compile();
 console.log("compiled !");
@@ -59,3 +56,26 @@ await txn.prove();
 await txn.sign([deployerKey, zkAppKey]).send();
 console.log("Deployed")
 
+// testing Contract now ...
+/*
+console.log("begin testing contract ... updateCommunity");
+await testUpdateCommunity(
+  zkApp, 
+  senderAccount, 
+  senderKey
+)
+*/
+
+console.log("begin testing contract ... updatePerson");
+await testUpdatePerson(
+  zkApp, 
+  senderAccount, 
+  senderKey
+)
+
+console.log("begin testing contract ... updateMember");
+await testUpdateMember(
+  zkApp, 
+  senderAccount, 
+  senderKey
+)
