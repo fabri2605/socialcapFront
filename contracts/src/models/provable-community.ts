@@ -1,13 +1,17 @@
 import { Field, Struct, CircuitString, PublicKey, Poseidon } from 'snarkyjs';
 import { UID } from '../lib/uid.js';
 import { UTCDateTime } from '../lib/datetime.js';
+import { EntityState } from './entity-state.js';
 
-export { ProvableCommunity };
+export { ProvableCommunity, CommunityState };
 
 const COMMUNITY_STATES = [
-  "", "REVISION", "APPROVED", "PAYMENT", "ACTIVE", 
+  "REVISION", "APPROVED", "PAYMENT", "ACTIVE", 
   "DELETED","CANCELED","PAUSED"
 ];
+
+const CommunityState = new EntityState(COMMUNITY_STATES);
+
 
 class ProvableCommunity extends Struct({
   uid: Field,
@@ -41,14 +45,14 @@ class ProvableCommunity extends Struct({
   }): this {
     this.uid = UID.toField(json.uid);
     this.accountId = json.accountId && PublicKey.fromBase58(json.accountId) || this.accountId || PublicKey.empty();
-    this.name = CircuitString.fromString(json.name || this.name);
-    this.image = CircuitString.fromString(json.image || this.image);
-    this.description = CircuitString.fromString(json.description || this.description);
-    this.state = CircuitString.fromString(json.state || this.state);
-    this.approvedUTC = json.approvedUTC && UTCDateTime.fromString(json.approvedUTC) || this.approvedUTC;
-    this.createdUTC = json.createdUTC && UTCDateTime.fromString(json.createdUTC) || this.createdUTC;
-    this.updatedUTC = json.updatedUTC && UTCDateTime.fromString(json.updatedUTC) || this.createdUTC;
+    this.name = CircuitString.fromString(json.name || this.name || "");
+    this.image = CircuitString.fromString(json.image || this.image || "");
+    this.description = CircuitString.fromString(json.description || this.description || "");
+    this.state = CircuitString.fromString(json.state || this.state || "");
     this.adminUid = UID.toField(json.adminUid || this.adminUid.toString()); 
+    this.createdUTC = UTCDateTime.fromString((json.createdUTC || this.createdUTC).toString());
+    this.updatedUTC = UTCDateTime.fromString((json.updatedUTC || this.updatedUTC).toString());
+    this.approvedUTC = UTCDateTime.fromString((json.approvedUTC || this.approvedUTC || 0).toString());
     return this;
   } 
 
@@ -64,10 +68,6 @@ class ProvableCommunity extends Struct({
       approvedUTC: this.approvedUTC.toString(),
       createdUTC: this.createdUTC.toString(),
       updatedUTC: this.updatedUTC.toString(),
-      //admins: this.admins.map(t => t.toString()),
-      //validators: this.validators.map(t => (t as Field).toString()),
-      //auditors: this.auditors.map(t => (t as Field).toString()),
-      //plans: this.plans.map(t => (t as Field).toString()),
     };
   }
 

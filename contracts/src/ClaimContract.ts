@@ -1,4 +1,4 @@
-import { SmartContract, state, State, method, Reducer } from "snarkyjs";
+import { SmartContract, state, State, method, Reducer, PrivateKey, PublicKey } from "snarkyjs";
 import { Field, Bool, Struct, Circuit, Poseidon } from "snarkyjs";
 import { MerkleMapWitness } from "snarkyjs";
 
@@ -16,12 +16,15 @@ class VoteAction extends Struct({
   ignore: Bool,
 }){}
 
-class NullifierProxy extends Struct({
+export class NullifierProxy extends Struct({
   root: Field,
   witness: MerkleMapWitness
 }) {
-  static key(electorUid: Field, claimUid: Field): Field {
-    return Poseidon.hash([electorUid, claimUid])
+  static key(electorId: PublicKey, claimUid: Field): Field {
+    return Poseidon.hash(
+      electorId.toFields()
+      .concat([claimUid])
+    );
   } 
 }
 
@@ -125,7 +128,7 @@ export class ClaimContract extends SmartContract {
 
 
   @method assertHasNotVoted(
-    electorUid: Field,
+    electorPuk: PublicKey,
     claimUid: Field,
     nullifier: NullifierProxy
   ) {
@@ -135,26 +138,36 @@ export class ClaimContract extends SmartContract {
     const [witnessRoot, witnessKey] = nullifier.witness.computeRootAndKey(
       ASSIGNED /* WAS ASSIGNED BUT NOT VOTED YET */
     );
+    Circuit.log("assertHasNotVoted witnessRoot", witnessRoot);
+    Circuit.log("assertHasNotVoted witnessKey", witnessKey);
 
     // check the witness obtained root matchs the Nullifier root
-    nullifier.root.assertEquals(witnessRoot) ; 
+    nullifier.root.assertEquals(witnessRoot, 
+      "Invalid elector root or already voted") ;
 
     // check the witness obtained key matchs the elector+claim key 
-    const key: Field = NullifierProxy.key(electorUid, claimUid);
-    witnessKey.assertEquals(key);
+    const key: Field = NullifierProxy.key(electorPuk, claimUid);
+    witnessKey.assertEquals(key, 
+      "Invalid elector key or already voted");
   }
 
 
   @method sendVote(
-    electorUid: Field,
+    privateKey: PrivateKey, // voter private key
     vote: Field, // +1 positive, -1 negative or 0 ignored
     nullifier: NullifierProxy
   ) {
     const claimUid = this.claimUid.get();
     this.claimUid.assertEquals(claimUid);
+    
+    // the elector Pub key MUST be the same that the one sending the Tx
+    let electorPuk = privateKey.toPublicKey();
+    Circuit.log("sender=", this.sender);
+    Circuit.log("electorId=", electorPuk);
+    this.sender.assertEquals(electorPuk);
 
-    // check that the elector has not voted on this claim before
-    this.assertHasNotVoted(electorUid, claimUid, nullifier);
+    // check this elector was assigned AND has not voted on this claim before
+    this.assertHasNotVoted(electorPuk, claimUid, nullifier);
 
     // get current votes state
     let positives = this.positive.getAndAssertEquals();
@@ -170,15 +183,17 @@ export class ClaimContract extends SmartContract {
     votes.lessThanOrEqual(requiredVotes);
 
     // dispatch action
-    this.reducer.dispatch({ 
+    const action: VoteAction = { 
       isValid: Bool(true),
       positive: Circuit.if(vote.greaterThan(0), Bool(true), Bool(false)),
       negative: Circuit.if(vote.lessThan(0), Bool(true), Bool(false)),
       ignore: Circuit.if(vote.equals(0), Bool(true), Bool(false))
-    });  
+    };
+    this.reducer.dispatch(action);  
+    Circuit.log("dispatched action", action);
 
     // send event to change this elector state in Nullifier
-    let key: Field = NullifierProxy.key(electorUid, claimUid);
+    let key: Field = NullifierProxy.key(electorPuk, claimUid);
     this.emitEvent("elector-has-voted", key);
   }
 
@@ -236,15 +251,25 @@ export class ClaimContract extends SmartContract {
         state: Votes, 
         action: VoteAction
       ) {
-        // if is a valid vote then sum votes ... 
-        state.total = Circuit.if(action.isValid, state.total.add(1), state.total);
-        state.positive = Circuit.if(action.isValid && action.positive, state.positive.add(1), state.positive);
-        state.negative = Circuit.if(action.isValid && action.negative, state.negative.add(1), state.negative);
-        state.ignored = Circuit.if(action.isValid && action.ignore, state.ignored.add(1), state.ignored);
+        // we can use a reducer here because it is not important if votes arrive 
+        // in different order than the one they were emited. we just need more
+        // than the total required votes to be done
+        Circuit.log("---");
+        Circuit.log("reducer action=", action);
+        Circuit.log("reducer before state=", state);
+        const notFinished = state.total.lessThan(requiredVotes);
+        const mustCount = notFinished.and(action.isValid);
+        Circuit.log("reducer notFinished=", notFinished, "isValid=", action.isValid, " mustCount=", mustCount);
+        state.total = Circuit.if(mustCount, state.total.add(1), state.total);
+        state.positive = Circuit.if(mustCount.and(action.positive), state.positive.add(1), state.positive);
+        state.negative = Circuit.if(mustCount.and(action.negative), state.negative.add(1), state.negative);
+        state.ignored = Circuit.if(mustCount.and(action.ignore), state.ignored.add(1), state.ignored);
+        Circuit.log("reducer after state=", state);
         return state;
       },
       { state: votingState, actionState: actionsState } // initial state and actions point
     );
+    Circuit.log("reducer final state=", newVotes);
 
     // update on-chain voting and actions state
     this.actionsState.set(newActionsState);
@@ -284,5 +309,9 @@ export class ClaimContract extends SmartContract {
       negative: newVotes.negative,
       ignored: newVotes.ignored
     });
+
+    Circuit.log("rollupClaims result=", newResult);
+    Circuit.log("rollupClaims isFinished=", isFinished);
+    Circuit.log("rollupClaims isApproved=", isApproved);
   }
 }

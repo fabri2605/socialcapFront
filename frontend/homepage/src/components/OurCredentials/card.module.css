@@ -1,0 +1,5 @@
+  
+ 
+  .card:nth-child(even) {
+    background: var(--black);
+  }

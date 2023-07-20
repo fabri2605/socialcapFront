@@ -1,8 +1,22 @@
 import { Field, Struct, CircuitString, PublicKey, Poseidon } from 'snarkyjs';
 import { UID } from '../lib/uid.js';
 import { UTCDateTime } from '../lib/datetime.js';
+import { EntityState } from "./entity-state.js";
 
-export { ProvablePerson };
+export { ProvablePerson, PersonState };
+
+
+const PersonState = new EntityState([
+  // valid states
+  "INITIAL", "ACTIVE", "CANCELED", "PAUSED"
+], {
+  // transitions
+  "INITIAL": ["ACTIVE", "CANCELED", "PAUSED"],
+  "ACTIVE": ["CANCELED", "PAUSED"],
+  "PAUSED": ["ACTIVE", "CANCELED"],
+  "CANCELED": [],
+});
+
 
 class ProvablePerson extends Struct({
   uid: Field,
@@ -30,25 +44,25 @@ class ProvablePerson extends Struct({
     image?: string,
     accountId?: string,
     state?: string,
-    createdUTC?: string,
-    approvedUTC?: string,
-    updatedUTC?: string,
+    createdUTC?: Date,
+    approvedUTC?: Date,
+    updatedUTC?: Date,
     telegram?: string,
-    email: string,
-    phone: string
+    email?: string,
+    phone?: string
   }) {
     this.uid = UID.toField(json.uid);
     this.accountId = json.accountId && PublicKey.fromBase58(json.accountId) || this.accountId || PublicKey.empty();
-    this.fullName = CircuitString.fromString(json.fullName || this.fullName);
-    this.image = CircuitString.fromString(json.image || this.image);
-    this.description = CircuitString.fromString(json.description || this.description);
-    this.state = CircuitString.fromString(json.state || this.state);
-    this.approvedUTC = json.approvedUTC && UTCDateTime.fromString(json.approvedUTC) || this.approvedUTC;
-    this.createdUTC = json.createdUTC && UTCDateTime.fromString(json.createdUTC) || this.createdUTC;
-    this.updatedUTC = json.updatedUTC && UTCDateTime.fromString(json.updatedUTC) || this.createdUTC;
-    this.telegram = CircuitString.fromString(json.telegram || this.telegram);
-    this.email = CircuitString.fromString(json.email || this.email);
-    this.phone = CircuitString.fromString(json.phone || this.phone);
+    this.fullName = CircuitString.fromString(json.fullName || this.fullName || "");
+    this.image = CircuitString.fromString(json.image || this.image || "");
+    this.description = CircuitString.fromString(json.description || this.description || "");
+    this.state = CircuitString.fromString(json.state || this.state || "");
+    this.telegram = CircuitString.fromString(json.telegram || this.telegram || "");
+    this.email = CircuitString.fromString(json.email || this.email || "");
+    this.phone = CircuitString.fromString(json.phone || this.phone || "");
+    this.createdUTC = UTCDateTime.fromString((json.createdUTC || this.createdUTC).toString());
+    this.updatedUTC = UTCDateTime.fromString((json.updatedUTC || this.updatedUTC).toString());
+    this.approvedUTC = UTCDateTime.fromString((json.approvedUTC || this.approvedUTC || 0).toString());
   } 
 
   toJSON() {
@@ -82,8 +96,23 @@ class ProvablePerson extends Struct({
       .concat(this.updatedUTC.toFields())
       .concat(this.email.toFields())
       .concat(this.phone.toFields())
-      .concat(this.telegram.toFields())
+      .concat(this.telegram.toFields());
     return Poseidon.hash(fields);
+    /*
+        let f1 = this.uid.toFields();
+        let f2 = this.accountId.toFields();
+        let f3 = this.fullName.toFields();
+        let f4 = this.description.toFields();
+        let f5 = this.state.toFields();
+        let f6 = this.image.toFields();
+        let f7 = [];// this.approvedUTC.toFields();
+        let f8 = [];//this.createdUTC.toFields();
+        let f9 = [];//this.updatedUTC.toFields();
+        let f10 = this.email.toFields();
+        let f11 = this.phone.toFields();
+        let f12 = this.telegram.toFields();
+        let fields = f1.concat(f2).concat(f3).concat(f4).concat(f5).concat(f6).concat(f7).concat(f8).concat(f9).concat(f10).concat(f11).concat(f12);
+    */
   }
 
   key(): Field {

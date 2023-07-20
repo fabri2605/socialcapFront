@@ -7,24 +7,23 @@ const ShortNavs = () => (
     spacing={2}
   >
     <Stack align={"flex-start"}>
-      <Link  href={"#our-credentials"}>
-        Our Credentials
+      <Link href={"#our-credentials"}>Our Credentials</Link>
+    </Stack>
+    <Stack align={"flex-start"}>
+      <Link href={"#why-socialcap"}>Why SocialCap?</Link>
+    </Stack>
+    <Stack align={"flex-start"}>
+      <Link p="0px" href={"#how-it-works"}>
+        How it works?
       </Link>
     </Stack>
     <Stack align={"flex-start"}>
-      <Link href={"#why-socialcap"}>
-        Why SocialCap?
-      </Link>
-    </Stack>
-    <Stack align={"flex-start"}>
-      <Link  p="0px" href={"#team"}>
+      <Link p="0px" href={"#team"}>
         Our team
       </Link>
     </Stack>
     <Stack align={"flex-start"}>
-      <Link  href={"#faq"}>
-        FAQ
-      </Link>
+      <Link href={"#faq"}>FAQ</Link>
     </Stack>
     <Stack align={"flex-start"}>
       <Text w="full">© 2023 - Identicon Network</Text>
