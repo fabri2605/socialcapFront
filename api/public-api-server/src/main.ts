@@ -1,12 +1,11 @@
-import "module-alias/register";
 // import Fastify from 'fastify';
-import { fastify, logger, merkleStorage } from "./global";
+import { fastify, logger, merkleStorage } from "./global.js";
 import fastifyJwt from "@fastify/jwt";
 import fastifyRoutes from "@fastify/routes";
 import cors from '@fastify/cors'
-import helperRoutes from "./routes/helper-routes";
-import queryRoutes from "./routes/query-routes";
-import mutationRoutes from "./routes/mutation-routes";
+import helperRoutes from "./routes/helper-routes.js";
+import queryRoutes from "./routes/query-routes.js";
+import mutationRoutes from "./routes/mutation-routes.js";
 
 // setup JWT plugin
 fastify.register(fastifyJwt, { secret: "MYYYYsupersecret" });

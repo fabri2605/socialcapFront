@@ -1,11 +1,10 @@
-import { fastify, prisma } from "~/global";
-import { UID } from "~/models/uid"
-import { hasError, hasResult } from "~/core/responses";
-import { COMMUNITIES_MERKLE_MAP } from "~/dbs/merkle/index";
-import { updateMerkleMapOrRaise } from "~/dbs/merkle/merkle-map-helpers";
-import { updateCommunityOrRaise } from "~/dbs/indexer/community-helpers";
-import { ProvableCommunity } from "~/models/provable-community";
-import { MinaService } from "~/services/mina-service";
+import { fastify, prisma } from "../global";
+import { UID, ProvableCommunity } from "@socialcap/contracts";
+import { hasError, hasResult } from "../responses.js";
+import { COMMUNITIES_MERKLE_MAP } from "../dbs/index.js";
+import { updateMerkleMapOrRaise } from "../dbs/merkle-map-helpers.js";
+import { updateCommunityOrRaise } from "../dbs/community-helpers.js";
+import { MinaService } from "../services/mina-service.js";
 
 export async function updateCommunity(params: any) {
   try {

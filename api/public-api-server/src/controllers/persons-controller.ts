@@ -1,12 +1,11 @@
-import { fastify, prisma } from "~/global";
-import { UID } from "~/models/uid"
-import { i18n as _ } from "~/i18n/messages";
-import { hasError, hasResult } from "~/core/responses";
-import { PERSONS_MERKLE_MAP } from "~/dbs/merkle/index";
-import { updateMerkleMapOrRaise } from "~/dbs/merkle/merkle-map-helpers";
-import { updatePersonOrRaise, PersonState } from "~/dbs/indexer/person-helpers";
-import { ProvablePerson } from "~/models/provable-person";
-import { MinaService } from "~/services/mina-service";
+import { fastify, prisma } from "../global.js";
+import { UID, ProvablePerson, PersonState } from "@socialcap/contracts"
+import { i18n as _ } from "../i18n/messages.js";
+import { hasError, hasResult } from "../responses.js";
+import { PERSONS_MERKLE_MAP } from "../dbs/index.js";
+import { updateMerkleMapOrRaise } from "../dbs/merkle-map-helpers.js";
+import { updatePersonOrRaise } from "../dbs/person-helpers.js";
+import { MinaService } from "../services/mina-service.js";
 
 /**
  * signUp
@@ -71,13 +70,13 @@ export async function updateProfile(params: any) {
     
     // update Indexer
     const person = await updatePersonOrRaise(uid, params);
-    
-    // update Merkle 
+
+    // update Merkle
     const provable = new ProvablePerson(person);
     const {map, updated, witness} = await updateMerkleMapOrRaise(
       PERSONS_MERKLE_MAP, uid, provable.hash()
     );
-
+ 
     // call Mina service here ...
     await MinaService.updatePersonsRootOrRaise(
       provable, map, witness, updated

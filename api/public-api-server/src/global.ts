@@ -4,7 +4,7 @@
  */
 import Fastify from "fastify";
 import { PrismaClient } from "@prisma/client";
-import { OffchainMerkleStorage } from "./dbs/merkle/offchain-merkle-storage";
+import { OffchainMerkleStorage } from "./dbs/index.js";
 
 const fastify = Fastify({
   logger: true

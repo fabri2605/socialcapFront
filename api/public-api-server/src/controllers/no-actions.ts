@@ -1,4 +1,4 @@
-import { formatMutationResult } from "~/routes/results";
+import { hasResult } from "../responses.js";
 
 /**
  * Call with no actions, just for testing purposes.
@@ -6,5 +6,5 @@ import { formatMutationResult } from "~/routes/results";
  * @returns MutationResult
  */
 export async function noActions(params: Object) { 
-  return formatMutationResult({});
+  return hasResult({});
 }

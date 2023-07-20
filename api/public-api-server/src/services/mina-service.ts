@@ -1,4 +1,4 @@
-import { Mina, PublicKey, PrivateKey } from "snarkyjs";
+import { Mina, PublicKey, PrivateKey, MerkleMapWitness } from "snarkyjs";
 
 import { 
   COMMUNITIES_MERKLE_MAP,
@@ -9,15 +9,14 @@ import {
   CREDENTIALS_MERKLE_MAP,
   TASKS_MERKLE_MAP,
   NULLIFIER_MERKLE_MAP,
-  LeafInstance,
-  MerkleMapProxy, 
-  MerkleMapUpdate, 
-  MerkleMapWitness 
-} from "~/dbs/merkle/index";
-
-import { ProvablePerson } from "~/models/provable-person";
-import { ProvableCommunity } from "~/models/provable-community";
-import { ProvableMember } from "~/models/provable-member";
+} from "../dbs/index.js";
+import { 
+  ProvablePerson, 
+  ProvableCommunity, 
+  ProvableMember,
+  MerkleMapProxy,
+  MerkleMapUpdate,
+} from "@socialcap/contracts";
 
 export { MinaService } ;
 

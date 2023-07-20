@@ -1,4 +1,4 @@
-import { i } from "./helpers";
+import { i } from "./helpers.js";
 
 const en_US: any = {
     // 
