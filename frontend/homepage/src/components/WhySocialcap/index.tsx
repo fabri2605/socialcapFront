@@ -108,7 +108,7 @@ const WhySocialcap: NextPage = () => {
             </Button>
           </Stack>
           <Stack
-            direction={["column", "row"]}
+            direction={["column", "column", "row"]}
             mt={["50px", "50px"]}
             spacing={["25px", "77px"]}
             justify="center"
