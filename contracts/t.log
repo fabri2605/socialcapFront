@@ -1,0 +1,637 @@
+deployer Addr= PublicKey {
+  x: Field { value: [ 0, [Uint8Array] ] },
+  isOdd: Bool { value: [ 0, [Uint8Array] ] }
+}
+sender Addr= PublicKey {
+  x: Field { value: [ 0, [Uint8Array] ] },
+  isOdd: Bool { value: [ 0, [Uint8Array] ] }
+}
+proofs enabled= true
+compiling Contract ...
+compiled !
+
+zkApp instance address=B62qo6cHpkKgnHSrpn5qMjUQm5REAvey52tp8SN5VnHQeuC2QgQS7pR
+zkApp instance created!
+zkApp instance deployed !
+zkApp instance initialized !
+zkApp instance actionsState= 25079927036070901246064867767436987657692091363973573142121686150614948079097
+instance= {
+  "balance": {},
+  "nonce": {},
+  "receiptChainHash": {},
+  "delegate": {},
+  "state": {},
+  "actionState": {},
+  "provedState": {},
+  "isNew": {},
+  "verificationKey": {},
+  "permissions": {},
+  "zkappUri": {},
+  "tokenSymbol": {},
+  "timing": {},
+  "votingFor": {}
+}
+address= B62qo6cHpkKgnHSrpn5qMjUQm5REAvey52tp8SN5VnHQeuC2QgQS7pR
+secret= EKFZ7L4WemmVkkuMRJaNSrmoCvDwTngzZpRE7vFBbgvBN6w5hoWq
+addElectorsToNullifier witnessRoot= 4753798150817499660645134210855048134099559618302849253374506385809873345912  witnessKey= 25856705691681585795631981284465383845629219842404479872671220459474328898433
+addElectorsToNullifier witnessRoot= 26529314930065407256152249528908825678003512838931575009765679819059244351180  witnessKey= 26316526297054431776938153852210917322019516049536278623209341449032718554622
+addElectorsToNullifier witnessRoot= 16506932441426566441549075204828356960081034028472801261292726797520476531240  witnessKey= 16520167616126121410262577535878065312401816703003549112810055327225619823619
+addElectorsToNullifier witnessRoot= 18928497962546342448460257977801724869357315256278060973086507214483240325069  witnessKey= 27335344235638361577881153764867749184984287239412370282095626998767755239734
+sender= B62qn2QJkXKESbc7vVnAjkkio4WHwVgbXdZZXWaeHVrF2gLnSWHiKwE
+electorId= B62qn2QJkXKESbc7vVnAjkkio4WHwVgbXdZZXWaeHVrF2gLnSWHiKwE
+assertHasNotVoted witnessRoot 18928497962546342448460257977801724869357315256278060973086507214483240325069
+assertHasNotVoted witnessKey 25856705691681585795631981284465383845629219842404479872671220459474328898433
+dispatched action { isValid: true, positive: true, negative: false, ignore: false }
+sender= B62qn2QJkXKESbc7vVnAjkkio4WHwVgbXdZZXWaeHVrF2gLnSWHiKwE
+electorId= B62qn2QJkXKESbc7vVnAjkkio4WHwVgbXdZZXWaeHVrF2gLnSWHiKwE
+assertHasNotVoted witnessRoot 18928497962546342448460257977801724869357315256278060973086507214483240325069
+assertHasNotVoted witnessKey 25856705691681585795631981284465383845629219842404479872671220459474328898433
+dispatched action { isValid: true, positive: true, negative: false, ignore: false }
+sender= B62qn2QJkXKESbc7vVnAjkkio4WHwVgbXdZZXWaeHVrF2gLnSWHiKwE
+electorId= B62qn2QJkXKESbc7vVnAjkkio4WHwVgbXdZZXWaeHVrF2gLnSWHiKwE
+assertHasNotVoted witnessRoot 18928497962546342448460257977801724869357315256278060973086507214483240325069
+assertHasNotVoted witnessKey 25856705691681585795631981284465383845629219842404479872671220459474328898433
+dispatched action { isValid: true, positive: true, negative: false, ignore: false }
+assertHasNotVoted witnessRoot 18928497962546342448460257977801724869357315256278060973086507214483240325069
+assertHasNotVoted witnessKey 25856705691681585795631981284465383845629219842404479872671220459474328898433
+Info: Txn Hash retrieving is not supported for LocalBlockchain.
+See transaction at https://berkeley.minaexplorer.com/transaction/Info: Txn Hash retrieving is not supported for LocalBlockchain.
+      Waiting for transaction to be included...
+Info: Waiting for inclusion in a block is not supported for LocalBlockchain.
+sender= B62qj1ciUkBrJj6CpyB9qhuqHbKKb4JUJee9zp6Xwpbefqz6cxhLT3Z
+electorId= B62qj1ciUkBrJj6CpyB9qhuqHbKKb4JUJee9zp6Xwpbefqz6cxhLT3Z
+assertHasNotVoted witnessRoot 18928497962546342448460257977801724869357315256278060973086507214483240325069
+assertHasNotVoted witnessKey 26316526297054431776938153852210917322019516049536278623209341449032718554622
+dispatched action { isValid: true, positive: true, negative: false, ignore: false }
+sender= B62qj1ciUkBrJj6CpyB9qhuqHbKKb4JUJee9zp6Xwpbefqz6cxhLT3Z
+electorId= B62qj1ciUkBrJj6CpyB9qhuqHbKKb4JUJee9zp6Xwpbefqz6cxhLT3Z
+assertHasNotVoted witnessRoot 18928497962546342448460257977801724869357315256278060973086507214483240325069
+assertHasNotVoted witnessKey 26316526297054431776938153852210917322019516049536278623209341449032718554622
+dispatched action { isValid: true, positive: true, negative: false, ignore: false }
+sender= B62qj1ciUkBrJj6CpyB9qhuqHbKKb4JUJee9zp6Xwpbefqz6cxhLT3Z
+electorId= B62qj1ciUkBrJj6CpyB9qhuqHbKKb4JUJee9zp6Xwpbefqz6cxhLT3Z
+assertHasNotVoted witnessRoot 18928497962546342448460257977801724869357315256278060973086507214483240325069
+assertHasNotVoted witnessKey 26316526297054431776938153852210917322019516049536278623209341449032718554622
+dispatched action { isValid: true, positive: true, negative: false, ignore: false }
+assertHasNotVoted witnessRoot 18928497962546342448460257977801724869357315256278060973086507214483240325069
+assertHasNotVoted witnessKey 26316526297054431776938153852210917322019516049536278623209341449032718554622
+Info: Txn Hash retrieving is not supported for LocalBlockchain.
+See transaction at https://berkeley.minaexplorer.com/transaction/Info: Txn Hash retrieving is not supported for LocalBlockchain.
+      Waiting for transaction to be included...
+Info: Waiting for inclusion in a block is not supported for LocalBlockchain.
+sender= B62qjxRDHnEBDyhVq9QxFH3cZUJe76Ftpbn5ikj4ZudguydSKx68ZoA
+electorId= B62qjxRDHnEBDyhVq9QxFH3cZUJe76Ftpbn5ikj4ZudguydSKx68ZoA
+assertHasNotVoted witnessRoot 18928497962546342448460257977801724869357315256278060973086507214483240325069
+assertHasNotVoted witnessKey 16520167616126121410262577535878065312401816703003549112810055327225619823619
+dispatched action { isValid: true, positive: true, negative: false, ignore: false }
+sender= B62qjxRDHnEBDyhVq9QxFH3cZUJe76Ftpbn5ikj4ZudguydSKx68ZoA
+electorId= B62qjxRDHnEBDyhVq9QxFH3cZUJe76Ftpbn5ikj4ZudguydSKx68ZoA
+assertHasNotVoted witnessRoot 18928497962546342448460257977801724869357315256278060973086507214483240325069
+assertHasNotVoted witnessKey 16520167616126121410262577535878065312401816703003549112810055327225619823619
+dispatched action { isValid: true, positive: true, negative: false, ignore: false }
+sender= B62qjxRDHnEBDyhVq9QxFH3cZUJe76Ftpbn5ikj4ZudguydSKx68ZoA
+electorId= B62qjxRDHnEBDyhVq9QxFH3cZUJe76Ftpbn5ikj4ZudguydSKx68ZoA
+assertHasNotVoted witnessRoot 18928497962546342448460257977801724869357315256278060973086507214483240325069
+assertHasNotVoted witnessKey 16520167616126121410262577535878065312401816703003549112810055327225619823619
+dispatched action { isValid: true, positive: true, negative: false, ignore: false }
+assertHasNotVoted witnessRoot 18928497962546342448460257977801724869357315256278060973086507214483240325069
+assertHasNotVoted witnessKey 16520167616126121410262577535878065312401816703003549112810055327225619823619
+Info: Txn Hash retrieving is not supported for LocalBlockchain.
+See transaction at https://berkeley.minaexplorer.com/transaction/Info: Txn Hash retrieving is not supported for LocalBlockchain.
+      Waiting for transaction to be included...
+Info: Waiting for inclusion in a block is not supported for LocalBlockchain.
+sender= B62qpvuBu1i3uM4n9JsbCraLumbVgWnFEvVgbgT93XYE4fPHiwDMmyP
+electorId= B62qpvuBu1i3uM4n9JsbCraLumbVgWnFEvVgbgT93XYE4fPHiwDMmyP
+assertHasNotVoted witnessRoot 18928497962546342448460257977801724869357315256278060973086507214483240325069
+assertHasNotVoted witnessKey 27335344235638361577881153764867749184984287239412370282095626998767755239734
+dispatched action { isValid: true, positive: true, negative: false, ignore: false }
+sender= B62qpvuBu1i3uM4n9JsbCraLumbVgWnFEvVgbgT93XYE4fPHiwDMmyP
+electorId= B62qpvuBu1i3uM4n9JsbCraLumbVgWnFEvVgbgT93XYE4fPHiwDMmyP
+assertHasNotVoted witnessRoot 18928497962546342448460257977801724869357315256278060973086507214483240325069
+assertHasNotVoted witnessKey 27335344235638361577881153764867749184984287239412370282095626998767755239734
+dispatched action { isValid: true, positive: true, negative: false, ignore: false }
+sender= B62qpvuBu1i3uM4n9JsbCraLumbVgWnFEvVgbgT93XYE4fPHiwDMmyP
+electorId= B62qpvuBu1i3uM4n9JsbCraLumbVgWnFEvVgbgT93XYE4fPHiwDMmyP
+assertHasNotVoted witnessRoot 18928497962546342448460257977801724869357315256278060973086507214483240325069
+assertHasNotVoted witnessKey 27335344235638361577881153764867749184984287239412370282095626998767755239734
+dispatched action { isValid: true, positive: true, negative: false, ignore: false }
+assertHasNotVoted witnessRoot 18928497962546342448460257977801724869357315256278060973086507214483240325069
+assertHasNotVoted witnessKey 27335344235638361577881153764867749184984287239412370282095626998767755239734
+Info: Txn Hash retrieving is not supported for LocalBlockchain.
+See transaction at https://berkeley.minaexplorer.com/transaction/Info: Txn Hash retrieving is not supported for LocalBlockchain.
+      Waiting for transaction to be included...
+Info: Waiting for inclusion in a block is not supported for LocalBlockchain.
+sender= B62qpq4VewR7Ebjn5n37nzVCQbLeAdpr3Pq6e6GAzkRxHh4a7jqXLDU
+electorId= B62qpq4VewR7Ebjn5n37nzVCQbLeAdpr3Pq6e6GAzkRxHh4a7jqXLDU
+assertHasNotVoted witnessRoot 18928497962546342448460257977801724869357315256278060973086507214483240325069
+assertHasNotVoted witnessKey 27335344235638361577881153764867749184984287239412370282095626998767755239734
+helpers sendVote ERROR= Error: Invalid elector key or already voted
+Field.assertEquals(): 27335344235638361577881153764867749184984287239412370282095626998767755239734 != 9783915541571988165146429999939332161832798651751067684747796997154060530298
+
+rollingClaims running claimUid=  1001
+rollingClaims pending votes=  4
+rollupVotes votes required,total= 3 0
+rollupVotes actionsState= 25079927036070901246064867767436987657692091363973573142121686150614948079097
+rollupVotes pendingVotes.length= 4
+---
+reducer action= { ignore: false, isValid: true, negative: false, positive: true }
+reducer before state= { ignored: '0', negative: '0', positive: '0', total: '0' }
+reducer notFinished= true isValid= true  mustCount= true
+reducer after state= { ignored: '0', negative: '0', positive: '1', total: '1' }
+---
+reducer action= { ignore: false, isValid: true, negative: false, positive: true }
+reducer before state= { ignored: '0', negative: '0', positive: '1', total: '1' }
+reducer notFinished= true isValid= true  mustCount= true
+reducer after state= { ignored: '0', negative: '0', positive: '2', total: '2' }
+---
+reducer action= { ignore: false, isValid: true, negative: false, positive: true }
+reducer before state= { ignored: '0', negative: '0', positive: '2', total: '2' }
+reducer notFinished= true isValid= true  mustCount= true
+reducer after state= { ignored: '0', negative: '0', positive: '3', total: '3' }
+---
+reducer action= { ignore: false, isValid: true, negative: false, positive: true }
+reducer before state= { ignored: '0', negative: '0', positive: '3', total: '3' }
+reducer notFinished= false isValid= true  mustCount= false
+reducer after state= { ignored: '0', negative: '0', positive: '3', total: '3' }
+---
+reducer action= { ignore: false, isValid: false, negative: false, positive: false }
+reducer before state= { ignored: '0', negative: '0', positive: '3', total: '3' }
+reducer notFinished= false isValid= false  mustCount= false
+reducer after state= { ignored: '0', negative: '0', positive: '3', total: '3' }
+---
+reducer action= { ignore: false, isValid: false, negative: false, positive: false }
+reducer before state= { ignored: '0', negative: '0', positive: '3', total: '3' }
+reducer notFinished= false isValid= false  mustCount= false
+reducer after state= { ignored: '0', negative: '0', positive: '3', total: '3' }
+---
+reducer action= { ignore: false, isValid: false, negative: false, positive: false }
+reducer before state= { ignored: '0', negative: '0', positive: '3', total: '3' }
+reducer notFinished= false isValid= false  mustCount= false
+reducer after state= { ignored: '0', negative: '0', positive: '3', total: '3' }
+---
+reducer action= { ignore: false, isValid: false, negative: false, positive: false }
+reducer before state= { ignored: '0', negative: '0', positive: '3', total: '3' }
+reducer notFinished= false isValid= false  mustCount= false
+reducer after state= { ignored: '0', negative: '0', positive: '3', total: '3' }
+---
+reducer action= { ignore: false, isValid: false, negative: false, positive: false }
+reducer before state= { ignored: '0', negative: '0', positive: '3', total: '3' }
+reducer notFinished= false isValid= false  mustCount= false
+reducer after state= { ignored: '0', negative: '0', positive: '3', total: '3' }
+---
+reducer action= { ignore: false, isValid: false, negative: false, positive: false }
+reducer before state= { ignored: '0', negative: '0', positive: '3', total: '3' }
+reducer notFinished= false isValid= false  mustCount= false
+reducer after state= { ignored: '0', negative: '0', positive: '3', total: '3' }
+---
+reducer action= { ignore: false, isValid: false, negative: false, positive: false }
+reducer before state= { ignored: '0', negative: '0', positive: '3', total: '3' }
+reducer notFinished= false isValid= false  mustCount= false
+reducer after state= { ignored: '0', negative: '0', positive: '3', total: '3' }
+---
+reducer action= { ignore: false, isValid: false, negative: false, positive: false }
+reducer before state= { ignored: '0', negative: '0', positive: '3', total: '3' }
+reducer notFinished= false isValid= false  mustCount= false
+reducer after state= { ignored: '0', negative: '0', positive: '3', total: '3' }
+---
+reducer action= { ignore: false, isValid: false, negative: false, positive: false }
+reducer before state= { ignored: '0', negative: '0', positive: '3', total: '3' }
+reducer notFinished= false isValid= false  mustCount= false
+reducer after state= { ignored: '0', negative: '0', positive: '3', total: '3' }
+---
+reducer action= { ignore: false, isValid: false, negative: false, positive: false }
+reducer before state= { ignored: '0', negative: '0', positive: '3', total: '3' }
+reducer notFinished= false isValid= false  mustCount= false
+reducer after state= { ignored: '0', negative: '0', positive: '3', total: '3' }
+---
+reducer action= { ignore: false, isValid: false, negative: false, positive: false }
+reducer before state= { ignored: '0', negative: '0', positive: '3', total: '3' }
+reducer notFinished= false isValid= false  mustCount= false
+reducer after state= { ignored: '0', negative: '0', positive: '3', total: '3' }
+---
+reducer action= { ignore: false, isValid: false, negative: false, positive: false }
+reducer before state= { ignored: '0', negative: '0', positive: '3', total: '3' }
+reducer notFinished= false isValid= false  mustCount= false
+reducer after state= { ignored: '0', negative: '0', positive: '3', total: '3' }
+---
+reducer action= { ignore: false, isValid: false, negative: false, positive: false }
+reducer before state= { ignored: '0', negative: '0', positive: '3', total: '3' }
+reducer notFinished= false isValid= false  mustCount= false
+reducer after state= { ignored: '0', negative: '0', positive: '3', total: '3' }
+---
+reducer action= { ignore: false, isValid: false, negative: false, positive: false }
+reducer before state= { ignored: '0', negative: '0', positive: '3', total: '3' }
+reducer notFinished= false isValid= false  mustCount= false
+reducer after state= { ignored: '0', negative: '0', positive: '3', total: '3' }
+---
+reducer action= { ignore: false, isValid: false, negative: false, positive: false }
+reducer before state= { ignored: '0', negative: '0', positive: '3', total: '3' }
+reducer notFinished= false isValid= false  mustCount= false
+reducer after state= { ignored: '0', negative: '0', positive: '3', total: '3' }
+---
+reducer action= { ignore: false, isValid: false, negative: false, positive: false }
+reducer before state= { ignored: '0', negative: '0', positive: '3', total: '3' }
+reducer notFinished= false isValid= false  mustCount= false
+reducer after state= { ignored: '0', negative: '0', positive: '3', total: '3' }
+---
+reducer action= { ignore: false, isValid: false, negative: false, positive: false }
+reducer before state= { ignored: '0', negative: '0', positive: '3', total: '3' }
+reducer notFinished= false isValid= false  mustCount= false
+reducer after state= { ignored: '0', negative: '0', positive: '3', total: '3' }
+---
+reducer action= { ignore: false, isValid: false, negative: false, positive: false }
+reducer before state= { ignored: '0', negative: '0', positive: '3', total: '3' }
+reducer notFinished= false isValid= false  mustCount= false
+reducer after state= { ignored: '0', negative: '0', positive: '3', total: '3' }
+---
+reducer action= { ignore: false, isValid: false, negative: false, positive: false }
+reducer before state= { ignored: '0', negative: '0', positive: '3', total: '3' }
+reducer notFinished= false isValid= false  mustCount= false
+reducer after state= { ignored: '0', negative: '0', positive: '3', total: '3' }
+---
+reducer action= { ignore: false, isValid: false, negative: false, positive: false }
+reducer before state= { ignored: '0', negative: '0', positive: '3', total: '3' }
+reducer notFinished= false isValid= false  mustCount= false
+reducer after state= { ignored: '0', negative: '0', positive: '3', total: '3' }
+---
+reducer action= { ignore: false, isValid: false, negative: false, positive: false }
+reducer before state= { ignored: '0', negative: '0', positive: '3', total: '3' }
+reducer notFinished= false isValid= false  mustCount= false
+reducer after state= { ignored: '0', negative: '0', positive: '3', total: '3' }
+---
+reducer action= { ignore: false, isValid: false, negative: false, positive: false }
+reducer before state= { ignored: '0', negative: '0', positive: '3', total: '3' }
+reducer notFinished= false isValid= false  mustCount= false
+reducer after state= { ignored: '0', negative: '0', positive: '3', total: '3' }
+---
+reducer action= { ignore: false, isValid: false, negative: false, positive: false }
+reducer before state= { ignored: '0', negative: '0', positive: '3', total: '3' }
+reducer notFinished= false isValid= false  mustCount= false
+reducer after state= { ignored: '0', negative: '0', positive: '3', total: '3' }
+---
+reducer action= { ignore: false, isValid: false, negative: false, positive: false }
+reducer before state= { ignored: '0', negative: '0', positive: '3', total: '3' }
+reducer notFinished= false isValid= false  mustCount= false
+reducer after state= { ignored: '0', negative: '0', positive: '3', total: '3' }
+---
+reducer action= { ignore: false, isValid: false, negative: false, positive: false }
+reducer before state= { ignored: '0', negative: '0', positive: '3', total: '3' }
+reducer notFinished= false isValid= false  mustCount= false
+reducer after state= { ignored: '0', negative: '0', positive: '3', total: '3' }
+---
+reducer action= { ignore: false, isValid: false, negative: false, positive: false }
+reducer before state= { ignored: '0', negative: '0', positive: '3', total: '3' }
+reducer notFinished= false isValid= false  mustCount= false
+reducer after state= { ignored: '0', negative: '0', positive: '3', total: '3' }
+---
+reducer action= { ignore: false, isValid: false, negative: false, positive: false }
+reducer before state= { ignored: '0', negative: '0', positive: '3', total: '3' }
+reducer notFinished= false isValid= false  mustCount= false
+reducer after state= { ignored: '0', negative: '0', positive: '3', total: '3' }
+---
+reducer action= { ignore: false, isValid: false, negative: false, positive: false }
+reducer before state= { ignored: '0', negative: '0', positive: '3', total: '3' }
+reducer notFinished= false isValid= false  mustCount= false
+reducer after state= { ignored: '0', negative: '0', positive: '3', total: '3' }
+reducer final state= { ignored: '0', negative: '0', positive: '3', total: '3' }
+rollupClaims result= 1
+rollupClaims isFinished= true
+rollupClaims isApproved= true
+rollupVotes votes required,total= 3 0
+rollupVotes actionsState= 25079927036070901246064867767436987657692091363973573142121686150614948079097
+rollupVotes pendingVotes.length= 4
+---
+reducer action= { ignore: false, isValid: true, negative: false, positive: true }
+reducer before state= { ignored: '0', negative: '0', positive: '0', total: '0' }
+reducer notFinished= true isValid= true  mustCount= true
+reducer after state= { ignored: '0', negative: '0', positive: '1', total: '1' }
+---
+reducer action= { ignore: false, isValid: true, negative: false, positive: true }
+reducer before state= { ignored: '0', negative: '0', positive: '1', total: '1' }
+reducer notFinished= true isValid= true  mustCount= true
+reducer after state= { ignored: '0', negative: '0', positive: '2', total: '2' }
+---
+reducer action= { ignore: false, isValid: true, negative: false, positive: true }
+reducer before state= { ignored: '0', negative: '0', positive: '2', total: '2' }
+reducer notFinished= true isValid= true  mustCount= true
+reducer after state= { ignored: '0', negative: '0', positive: '3', total: '3' }
+---
+reducer action= { ignore: false, isValid: true, negative: false, positive: true }
+reducer before state= { ignored: '0', negative: '0', positive: '3', total: '3' }
+reducer notFinished= false isValid= true  mustCount= false
+reducer after state= { ignored: '0', negative: '0', positive: '3', total: '3' }
+---
+reducer action= { ignore: false, isValid: false, negative: false, positive: false }
+reducer before state= { ignored: '0', negative: '0', positive: '3', total: '3' }
+reducer notFinished= false isValid= false  mustCount= false
+reducer after state= { ignored: '0', negative: '0', positive: '3', total: '3' }
+---
+reducer action= { ignore: false, isValid: false, negative: false, positive: false }
+reducer before state= { ignored: '0', negative: '0', positive: '3', total: '3' }
+reducer notFinished= false isValid= false  mustCount= false
+reducer after state= { ignored: '0', negative: '0', positive: '3', total: '3' }
+---
+reducer action= { ignore: false, isValid: false, negative: false, positive: false }
+reducer before state= { ignored: '0', negative: '0', positive: '3', total: '3' }
+reducer notFinished= false isValid= false  mustCount= false
+reducer after state= { ignored: '0', negative: '0', positive: '3', total: '3' }
+---
+reducer action= { ignore: false, isValid: false, negative: false, positive: false }
+reducer before state= { ignored: '0', negative: '0', positive: '3', total: '3' }
+reducer notFinished= false isValid= false  mustCount= false
+reducer after state= { ignored: '0', negative: '0', positive: '3', total: '3' }
+---
+reducer action= { ignore: false, isValid: false, negative: false, positive: false }
+reducer before state= { ignored: '0', negative: '0', positive: '3', total: '3' }
+reducer notFinished= false isValid= false  mustCount= false
+reducer after state= { ignored: '0', negative: '0', positive: '3', total: '3' }
+---
+reducer action= { ignore: false, isValid: false, negative: false, positive: false }
+reducer before state= { ignored: '0', negative: '0', positive: '3', total: '3' }
+reducer notFinished= false isValid= false  mustCount= false
+reducer after state= { ignored: '0', negative: '0', positive: '3', total: '3' }
+---
+reducer action= { ignore: false, isValid: false, negative: false, positive: false }
+reducer before state= { ignored: '0', negative: '0', positive: '3', total: '3' }
+reducer notFinished= false isValid= false  mustCount= false
+reducer after state= { ignored: '0', negative: '0', positive: '3', total: '3' }
+---
+reducer action= { ignore: false, isValid: false, negative: false, positive: false }
+reducer before state= { ignored: '0', negative: '0', positive: '3', total: '3' }
+reducer notFinished= false isValid= false  mustCount= false
+reducer after state= { ignored: '0', negative: '0', positive: '3', total: '3' }
+---
+reducer action= { ignore: false, isValid: false, negative: false, positive: false }
+reducer before state= { ignored: '0', negative: '0', positive: '3', total: '3' }
+reducer notFinished= false isValid= false  mustCount= false
+reducer after state= { ignored: '0', negative: '0', positive: '3', total: '3' }
+---
+reducer action= { ignore: false, isValid: false, negative: false, positive: false }
+reducer before state= { ignored: '0', negative: '0', positive: '3', total: '3' }
+reducer notFinished= false isValid= false  mustCount= false
+reducer after state= { ignored: '0', negative: '0', positive: '3', total: '3' }
+---
+reducer action= { ignore: false, isValid: false, negative: false, positive: false }
+reducer before state= { ignored: '0', negative: '0', positive: '3', total: '3' }
+reducer notFinished= false isValid= false  mustCount= false
+reducer after state= { ignored: '0', negative: '0', positive: '3', total: '3' }
+---
+reducer action= { ignore: false, isValid: false, negative: false, positive: false }
+reducer before state= { ignored: '0', negative: '0', positive: '3', total: '3' }
+reducer notFinished= false isValid= false  mustCount= false
+reducer after state= { ignored: '0', negative: '0', positive: '3', total: '3' }
+---
+reducer action= { ignore: false, isValid: false, negative: false, positive: false }
+reducer before state= { ignored: '0', negative: '0', positive: '3', total: '3' }
+reducer notFinished= false isValid= false  mustCount= false
+reducer after state= { ignored: '0', negative: '0', positive: '3', total: '3' }
+---
+reducer action= { ignore: false, isValid: false, negative: false, positive: false }
+reducer before state= { ignored: '0', negative: '0', positive: '3', total: '3' }
+reducer notFinished= false isValid= false  mustCount= false
+reducer after state= { ignored: '0', negative: '0', positive: '3', total: '3' }
+---
+reducer action= { ignore: false, isValid: false, negative: false, positive: false }
+reducer before state= { ignored: '0', negative: '0', positive: '3', total: '3' }
+reducer notFinished= false isValid= false  mustCount= false
+reducer after state= { ignored: '0', negative: '0', positive: '3', total: '3' }
+---
+reducer action= { ignore: false, isValid: false, negative: false, positive: false }
+reducer before state= { ignored: '0', negative: '0', positive: '3', total: '3' }
+reducer notFinished= false isValid= false  mustCount= false
+reducer after state= { ignored: '0', negative: '0', positive: '3', total: '3' }
+---
+reducer action= { ignore: false, isValid: false, negative: false, positive: false }
+reducer before state= { ignored: '0', negative: '0', positive: '3', total: '3' }
+reducer notFinished= false isValid= false  mustCount= false
+reducer after state= { ignored: '0', negative: '0', positive: '3', total: '3' }
+---
+reducer action= { ignore: false, isValid: false, negative: false, positive: false }
+reducer before state= { ignored: '0', negative: '0', positive: '3', total: '3' }
+reducer notFinished= false isValid= false  mustCount= false
+reducer after state= { ignored: '0', negative: '0', positive: '3', total: '3' }
+---
+reducer action= { ignore: false, isValid: false, negative: false, positive: false }
+reducer before state= { ignored: '0', negative: '0', positive: '3', total: '3' }
+reducer notFinished= false isValid= false  mustCount= false
+reducer after state= { ignored: '0', negative: '0', positive: '3', total: '3' }
+---
+reducer action= { ignore: false, isValid: false, negative: false, positive: false }
+reducer before state= { ignored: '0', negative: '0', positive: '3', total: '3' }
+reducer notFinished= false isValid= false  mustCount= false
+reducer after state= { ignored: '0', negative: '0', positive: '3', total: '3' }
+---
+reducer action= { ignore: false, isValid: false, negative: false, positive: false }
+reducer before state= { ignored: '0', negative: '0', positive: '3', total: '3' }
+reducer notFinished= false isValid= false  mustCount= false
+reducer after state= { ignored: '0', negative: '0', positive: '3', total: '3' }
+---
+reducer action= { ignore: false, isValid: false, negative: false, positive: false }
+reducer before state= { ignored: '0', negative: '0', positive: '3', total: '3' }
+reducer notFinished= false isValid= false  mustCount= false
+reducer after state= { ignored: '0', negative: '0', positive: '3', total: '3' }
+---
+reducer action= { ignore: false, isValid: false, negative: false, positive: false }
+reducer before state= { ignored: '0', negative: '0', positive: '3', total: '3' }
+reducer notFinished= false isValid= false  mustCount= false
+reducer after state= { ignored: '0', negative: '0', positive: '3', total: '3' }
+---
+reducer action= { ignore: false, isValid: false, negative: false, positive: false }
+reducer before state= { ignored: '0', negative: '0', positive: '3', total: '3' }
+reducer notFinished= false isValid= false  mustCount= false
+reducer after state= { ignored: '0', negative: '0', positive: '3', total: '3' }
+---
+reducer action= { ignore: false, isValid: false, negative: false, positive: false }
+reducer before state= { ignored: '0', negative: '0', positive: '3', total: '3' }
+reducer notFinished= false isValid= false  mustCount= false
+reducer after state= { ignored: '0', negative: '0', positive: '3', total: '3' }
+---
+reducer action= { ignore: false, isValid: false, negative: false, positive: false }
+reducer before state= { ignored: '0', negative: '0', positive: '3', total: '3' }
+reducer notFinished= false isValid= false  mustCount= false
+reducer after state= { ignored: '0', negative: '0', positive: '3', total: '3' }
+---
+reducer action= { ignore: false, isValid: false, negative: false, positive: false }
+reducer before state= { ignored: '0', negative: '0', positive: '3', total: '3' }
+reducer notFinished= false isValid= false  mustCount= false
+reducer after state= { ignored: '0', negative: '0', positive: '3', total: '3' }
+---
+reducer action= { ignore: false, isValid: false, negative: false, positive: false }
+reducer before state= { ignored: '0', negative: '0', positive: '3', total: '3' }
+reducer notFinished= false isValid= false  mustCount= false
+reducer after state= { ignored: '0', negative: '0', positive: '3', total: '3' }
+reducer final state= { ignored: '0', negative: '0', positive: '3', total: '3' }
+rollupClaims result= 1
+rollupClaims isFinished= true
+rollupClaims isApproved= true
+rollupVotes votes required,total= 3 0
+rollupVotes actionsState= 25079927036070901246064867767436987657692091363973573142121686150614948079097
+rollupVotes pendingVotes.length= 4
+---
+reducer action= { ignore: false, isValid: true, negative: false, positive: true }
+reducer before state= { ignored: '0', negative: '0', positive: '0', total: '0' }
+reducer notFinished= true isValid= true  mustCount= true
+reducer after state= { ignored: '0', negative: '0', positive: '1', total: '1' }
+---
+reducer action= { ignore: false, isValid: true, negative: false, positive: true }
+reducer before state= { ignored: '0', negative: '0', positive: '1', total: '1' }
+reducer notFinished= true isValid= true  mustCount= true
+reducer after state= { ignored: '0', negative: '0', positive: '2', total: '2' }
+---
+reducer action= { ignore: false, isValid: true, negative: false, positive: true }
+reducer before state= { ignored: '0', negative: '0', positive: '2', total: '2' }
+reducer notFinished= true isValid= true  mustCount= true
+reducer after state= { ignored: '0', negative: '0', positive: '3', total: '3' }
+---
+reducer action= { ignore: false, isValid: true, negative: false, positive: true }
+reducer before state= { ignored: '0', negative: '0', positive: '3', total: '3' }
+reducer notFinished= false isValid= true  mustCount= false
+reducer after state= { ignored: '0', negative: '0', positive: '3', total: '3' }
+---
+reducer action= { ignore: false, isValid: false, negative: false, positive: false }
+reducer before state= { ignored: '0', negative: '0', positive: '3', total: '3' }
+reducer notFinished= false isValid= false  mustCount= false
+reducer after state= { ignored: '0', negative: '0', positive: '3', total: '3' }
+---
+reducer action= { ignore: false, isValid: false, negative: false, positive: false }
+reducer before state= { ignored: '0', negative: '0', positive: '3', total: '3' }
+reducer notFinished= false isValid= false  mustCount= false
+reducer after state= { ignored: '0', negative: '0', positive: '3', total: '3' }
+---
+reducer action= { ignore: false, isValid: false, negative: false, positive: false }
+reducer before state= { ignored: '0', negative: '0', positive: '3', total: '3' }
+reducer notFinished= false isValid= false  mustCount= false
+reducer after state= { ignored: '0', negative: '0', positive: '3', total: '3' }
+---
+reducer action= { ignore: false, isValid: false, negative: false, positive: false }
+reducer before state= { ignored: '0', negative: '0', positive: '3', total: '3' }
+reducer notFinished= false isValid= false  mustCount= false
+reducer after state= { ignored: '0', negative: '0', positive: '3', total: '3' }
+---
+reducer action= { ignore: false, isValid: false, negative: false, positive: false }
+reducer before state= { ignored: '0', negative: '0', positive: '3', total: '3' }
+reducer notFinished= false isValid= false  mustCount= false
+reducer after state= { ignored: '0', negative: '0', positive: '3', total: '3' }
+---
+reducer action= { ignore: false, isValid: false, negative: false, positive: false }
+reducer before state= { ignored: '0', negative: '0', positive: '3', total: '3' }
+reducer notFinished= false isValid= false  mustCount= false
+reducer after state= { ignored: '0', negative: '0', positive: '3', total: '3' }
+---
+reducer action= { ignore: false, isValid: false, negative: false, positive: false }
+reducer before state= { ignored: '0', negative: '0', positive: '3', total: '3' }
+reducer notFinished= false isValid= false  mustCount= false
+reducer after state= { ignored: '0', negative: '0', positive: '3', total: '3' }
+---
+reducer action= { ignore: false, isValid: false, negative: false, positive: false }
+reducer before state= { ignored: '0', negative: '0', positive: '3', total: '3' }
+reducer notFinished= false isValid= false  mustCount= false
+reducer after state= { ignored: '0', negative: '0', positive: '3', total: '3' }
+---
+reducer action= { ignore: false, isValid: false, negative: false, positive: false }
+reducer before state= { ignored: '0', negative: '0', positive: '3', total: '3' }
+reducer notFinished= false isValid= false  mustCount= false
+reducer after state= { ignored: '0', negative: '0', positive: '3', total: '3' }
+---
+reducer action= { ignore: false, isValid: false, negative: false, positive: false }
+reducer before state= { ignored: '0', negative: '0', positive: '3', total: '3' }
+reducer notFinished= false isValid= false  mustCount= false
+reducer after state= { ignored: '0', negative: '0', positive: '3', total: '3' }
+---
+reducer action= { ignore: false, isValid: false, negative: false, positive: false }
+reducer before state= { ignored: '0', negative: '0', positive: '3', total: '3' }
+reducer notFinished= false isValid= false  mustCount= false
+reducer after state= { ignored: '0', negative: '0', positive: '3', total: '3' }
+---
+reducer action= { ignore: false, isValid: false, negative: false, positive: false }
+reducer before state= { ignored: '0', negative: '0', positive: '3', total: '3' }
+reducer notFinished= false isValid= false  mustCount= false
+reducer after state= { ignored: '0', negative: '0', positive: '3', total: '3' }
+---
+reducer action= { ignore: false, isValid: false, negative: false, positive: false }
+reducer before state= { ignored: '0', negative: '0', positive: '3', total: '3' }
+reducer notFinished= false isValid= false  mustCount= false
+reducer after state= { ignored: '0', negative: '0', positive: '3', total: '3' }
+---
+reducer action= { ignore: false, isValid: false, negative: false, positive: false }
+reducer before state= { ignored: '0', negative: '0', positive: '3', total: '3' }
+reducer notFinished= false isValid= false  mustCount= false
+reducer after state= { ignored: '0', negative: '0', positive: '3', total: '3' }
+---
+reducer action= { ignore: false, isValid: false, negative: false, positive: false }
+reducer before state= { ignored: '0', negative: '0', positive: '3', total: '3' }
+reducer notFinished= false isValid= false  mustCount= false
+reducer after state= { ignored: '0', negative: '0', positive: '3', total: '3' }
+---
+reducer action= { ignore: false, isValid: false, negative: false, positive: false }
+reducer before state= { ignored: '0', negative: '0', positive: '3', total: '3' }
+reducer notFinished= false isValid= false  mustCount= false
+reducer after state= { ignored: '0', negative: '0', positive: '3', total: '3' }
+---
+reducer action= { ignore: false, isValid: false, negative: false, positive: false }
+reducer before state= { ignored: '0', negative: '0', positive: '3', total: '3' }
+reducer notFinished= false isValid= false  mustCount= false
+reducer after state= { ignored: '0', negative: '0', positive: '3', total: '3' }
+---
+reducer action= { ignore: false, isValid: false, negative: false, positive: false }
+reducer before state= { ignored: '0', negative: '0', positive: '3', total: '3' }
+reducer notFinished= false isValid= false  mustCount= false
+reducer after state= { ignored: '0', negative: '0', positive: '3', total: '3' }
+---
+reducer action= { ignore: false, isValid: false, negative: false, positive: false }
+reducer before state= { ignored: '0', negative: '0', positive: '3', total: '3' }
+reducer notFinished= false isValid= false  mustCount= false
+reducer after state= { ignored: '0', negative: '0', positive: '3', total: '3' }
+---
+reducer action= { ignore: false, isValid: false, negative: false, positive: false }
+reducer before state= { ignored: '0', negative: '0', positive: '3', total: '3' }
+reducer notFinished= false isValid= false  mustCount= false
+reducer after state= { ignored: '0', negative: '0', positive: '3', total: '3' }
+---
+reducer action= { ignore: false, isValid: false, negative: false, positive: false }
+reducer before state= { ignored: '0', negative: '0', positive: '3', total: '3' }
+reducer notFinished= false isValid= false  mustCount= false
+reducer after state= { ignored: '0', negative: '0', positive: '3', total: '3' }
+---
+reducer action= { ignore: false, isValid: false, negative: false, positive: false }
+reducer before state= { ignored: '0', negative: '0', positive: '3', total: '3' }
+reducer notFinished= false isValid= false  mustCount= false
+reducer after state= { ignored: '0', negative: '0', positive: '3', total: '3' }
+---
+reducer action= { ignore: false, isValid: false, negative: false, positive: false }
+reducer before state= { ignored: '0', negative: '0', positive: '3', total: '3' }
+reducer notFinished= false isValid= false  mustCount= false
+reducer after state= { ignored: '0', negative: '0', positive: '3', total: '3' }
+---
+reducer action= { ignore: false, isValid: false, negative: false, positive: false }
+reducer before state= { ignored: '0', negative: '0', positive: '3', total: '3' }
+reducer notFinished= false isValid= false  mustCount= false
+reducer after state= { ignored: '0', negative: '0', positive: '3', total: '3' }
+---
+reducer action= { ignore: false, isValid: false, negative: false, positive: false }
+reducer before state= { ignored: '0', negative: '0', positive: '3', total: '3' }
+reducer notFinished= false isValid= false  mustCount= false
+reducer after state= { ignored: '0', negative: '0', positive: '3', total: '3' }
+---
+reducer action= { ignore: false, isValid: false, negative: false, positive: false }
+reducer before state= { ignored: '0', negative: '0', positive: '3', total: '3' }
+reducer notFinished= false isValid= false  mustCount= false
+reducer after state= { ignored: '0', negative: '0', positive: '3', total: '3' }
+---
+reducer action= { ignore: false, isValid: false, negative: false, positive: false }
+reducer before state= { ignored: '0', negative: '0', positive: '3', total: '3' }
+reducer notFinished= false isValid= false  mustCount= false
+reducer after state= { ignored: '0', negative: '0', positive: '3', total: '3' }
+---
+reducer action= { ignore: false, isValid: false, negative: false, positive: false }
+reducer before state= { ignored: '0', negative: '0', positive: '3', total: '3' }
+reducer notFinished= false isValid= false  mustCount= false
+reducer after state= { ignored: '0', negative: '0', positive: '3', total: '3' }
+reducer final state= { ignored: '0', negative: '0', positive: '3', total: '3' }
+rollupClaims result= 1
+rollupClaims isFinished= true
+rollupClaims isApproved= true
+Info: Txn Hash retrieving is not supported for LocalBlockchain.
+See transaction at https://berkeley.minaexplorer.com/transaction/Info: Txn Hash retrieving is not supported for LocalBlockchain.
+        Waiting for transaction to be included...
+Info: Waiting for inclusion in a block is not supported for LocalBlockchain.
