@@ -1,17 +1,17 @@
 export const cards = [
   {
     index: 1,
-    title: "Improve governance and transparency",
-    content:
-      "Credentials facilitate the assignment of roles and responsibilities for participating in governance activities, promoting transparent decision-making, accountability, equitable participation, and trust. With Blockchain technology, they offer a level of transparency that traditional systems lack, making it easier to verify credentials and achievements.",
-    image: "/assets/credentials/c-1.svg"
-  },
-  {
-    index: 2,
     title: "Bring strictly validated social proof",
     content:
       "Forget about likes or blue checks, that can be easily faked, boted or bought. Our protocol strictly validates your claim with randomly selected anonymous true peers from your community, and creates an inmutable proof of certification, valid forever (or as long as the credential should be valid).",
     image: "/assets/credentials/c-2.svg"
+  },
+  {
+    index: 2,
+    title: "Improve governance and transparency",
+    content:
+      "Credentials facilitate the assignment of roles and responsibilities for participating in governance activities, promoting transparent decision-making, accountability, equitable participation, and trust. With Blockchain technology, they offer a level of transparency that traditional systems lack, making it easier to verify credentials and achievements.",
+    image: "/assets/credentials/c-1.svg"
   },
   {
     index: 3,

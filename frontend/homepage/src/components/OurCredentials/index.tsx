@@ -26,7 +26,7 @@ const OurCredentials: NextPage = () => {
   return (
     <section id="our-credentials">
       <Flex position="relative" justifyContent="center" direction={"column"}>
-        <SectionTitle>Our credentials</SectionTitle>
+        <SectionTitle>Why Credentials?</SectionTitle>
         <Container
           maxW="container.xl"
           px={{ base: "1rem", md: "2rem" }}
