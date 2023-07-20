@@ -1,22 +1,27 @@
-import { SocialcapContract } from "./SocialcapContract.js"
-import { ClaimContract } from "./ClaimContract.js";
-import { ProvableCommunity } from "./models/provable-community.js";
-import { ProvablePerson } from "./models/provable-person.js";
-import { ProvableMember } from "./models/provable-member.js";
-import { MerkleMapUpdate, LeafInstance, MerkleMapProxy } from "./lib/offchain-storage.js";
 import { UID } from "./lib/uid.js";
-import {  UTCDateTime, ISO8601 } from "./lib/datetime.js";
+import { UTCDateTime } from "./lib/datetime.js";
+import { ProvableCommunity, CommunityState } from "./models/provable-community.js";
+import { ProvablePerson, PersonState } from "./models/provable-person.js";
+import { ProvableMember, MemberRole } from "./models/provable-member.js";
+import { RootContract, MerkleMapProxy, MerkleMapUpdate, LeafInstance } from "./RootContract.js"
+import { ClaimContract, NullifierProxy } from "./ClaimContract.js";
+import { ClaimInstance, ClaimsFactory } from "./claims-factory.js";
 
 export { 
-  SocialcapContract, 
+  RootContract, 
   ClaimContract,
-  ProvableCommunity,
+  ClaimInstance,
+  ClaimsFactory,
+  ProvableCommunity, 
+  CommunityState,
   ProvablePerson,
+  PersonState,
   ProvableMember,
-  MerkleMapProxy, 
-  MerkleMapUpdate, 
-  LeafInstance,
-  UID, 
+  MemberRole,
+  UID,
   UTCDateTime,
-  ISO8601
+  MerkleMapProxy,
+  MerkleMapUpdate,
+  LeafInstance,
+  NullifierProxy,
 };

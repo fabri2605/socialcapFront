@@ -1,7 +1,22 @@
-import { Field, Struct, Poseidon } from 'snarkyjs';
-import { UID } from '../lib/uid.js';
+import { Field, Struct, Poseidon } from "snarkyjs";
+import { UID } from "../lib/uid.js";
+import { EntityState } from "./entity-state.js";
 
-export { ProvableMember };
+export { ProvableMember, MemberRole };
+
+
+const MemberRole = new EntityState([
+  // valid roles
+  // 0-Not a member, 1-Plain member, 2-Validator, 3-Auditor 
+  "NONE", "PLAIN", "VALIDATOR", "AUDITOR"
+], {
+  // transitions
+  "NONE": ["PLAIN"],
+  "PLAIN": ["VALIDATOR", "AUDITOR"],
+  "VALIDATOR": ["PLAIN", "AUDITOR"],
+  "AUDITOR": ["PLAIN", "VALIDATOR"],
+});
+
 
 class ProvableMember extends Struct({
   personUid: Field,

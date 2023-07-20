@@ -1,18 +1,12 @@
 import { Field } from "snarkyjs";
-let crypto: any;
-try {
-  crypto = window && window.crypto; // exist in the browser
-}
-catch (e) {
-  crypto = await import("crypto"); // or load from node
-}
+import { randomUUID } from "crypto"; 
 
 export { UID };
 
 const UID = {
 
   uuid4: function(): string {
-    return crypto.randomUUID().replace(/-/g,'');
+    return randomUUID().replace(/-/g,'');
   },
 
   fromField: function(f: Field): string {
@@ -21,7 +15,6 @@ const UID = {
 
   toField: function(uid: string): Field {
     let s = `0x${uid}`;
-    let f: Field = Field(s);
     return Field(s);
   },
 

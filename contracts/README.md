@@ -1,25 +1,53 @@
-# Mina zkApp: Pptest
+# Mina zkApp: @socialcap/contracts
 
 This template uses TypeScript.
 
-## How to build
+### How to build
 
 ```sh
 npm run build
 ```
 
-## How to run tests
+### How to run tests
 
 ```sh
-npm run test
-npm run testw # watch mode
+node build/src/tests/main-root-tests.js
+node build/src/tests/main-claim-tests.js
 ```
 
-## How to run coverage
+### Publish to NPM
+~~~
+npm publish --access public
+~~~
 
-```sh
-npm run coverage
-```
+### Use it
+
+Install in client
+~~~
+npm i @socialcap/contracts
+~~~
+
+Import it
+~~~
+import { 
+  RootContract, 
+  ClaimContract,
+  ClaimInstance,
+  ClaimsFactory,
+  ProvableCommunity, 
+  CommunityState,
+  ProvablePerson,
+  PersonState,
+  ProvableMember,
+  MemberRole,
+  UID,
+  UTCDateTime,
+  MerkleMapProxy,
+  MerkleMapUpdate,
+  LeafInstance,
+  NullifierProxy,
+} from "@socialcap/contracts";
+~~~
 
 ## License
 
