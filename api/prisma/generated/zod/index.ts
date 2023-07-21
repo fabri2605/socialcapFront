@@ -114,7 +114,7 @@ export const PersonSchema = z.object({
   state: z.string().min(1).max(12),
   fullName: z.string().min(3).max(128),
   description: z.string().max(128).nullish(),
-  image: z.string().url().max(128).nullish(),
+  image: z.string().max(128).nullish(),
   email: z.string().email().min(5).max(128),
   phone: z.string().max(128).nullish(),
   telegram: z.string().max(128).nullish(),

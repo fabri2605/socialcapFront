@@ -81,7 +81,7 @@ model Person {
   state       String    /// @zod.string.min(1).max(12)
   fullName    String    @map("full_name") /// @zod.string.min(3).max(128)
   description String?   @default("") /// @zod.string.max(128)
-  image       String?   @default("") /// @zod.string.url().max(128) 
+  image       String?   @default("") /// @zod.string.max(128) 
   email       String    @unique  /// @zod.string.email().min(5).max(128)
   phone       String?   @default("") /// @zod.string.max(128)
   telegram    String?   @default("") /// @zod.string.max(128)
