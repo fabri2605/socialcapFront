@@ -43,10 +43,11 @@ const FAQ: NextPage = () => (
                     borderTopWidth={0}
                     borderBottomWidth={"1px"}
                     borderColor={colors.brandGrey}
+                    py={{ base: "0.5rem", md: "0.5rem" }}
                   >
                     {({ isExpanded }) => (
                       <>
-                        <AccordionButton>
+                        <AccordionButton borderRadius={"16px"} >
                           <Flex
                             w="full"
                             color={colors.brandBlack}
@@ -54,7 +55,8 @@ const FAQ: NextPage = () => (
                             fontSize={{ base: "sm", md: "2xl" }}
                             textAlign="left"
                             justify="space-between"
-                            my={{ base: "1rem", md: "2rem" }}
+                            py={{ base: "1rem", md: "1.5rem" }}
+                        
                           >
                             <Text>{item.q}</Text>
                             <Circle

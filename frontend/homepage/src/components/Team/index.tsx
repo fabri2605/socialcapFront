@@ -22,7 +22,7 @@ const Team: NextPage = () => (
     <Flex position="relative" justifyContent="center" direction={"column"}>
       <SectionTitle>The team</SectionTitle>
       <Container maxW="container.xl">
-        <HStack justifyContent={"space-around"}>
+    
           <SimpleGrid columns={{ base: 1, md: 4 }} spacing={[1, 8]}>
             <Card imageUrl={"/assets/avatars/mario.svg"} title="Founder" />
             <Card imageUrl={"/assets/avatars/leandro.svg"} title="Founder" />
@@ -35,7 +35,7 @@ const Team: NextPage = () => (
               title="Social Researcher"
             />
           </SimpleGrid>
-        </HStack>
+
       </Container>
     </Flex>
   </section>
