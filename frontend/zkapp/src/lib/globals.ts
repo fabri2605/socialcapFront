@@ -1,10 +1,11 @@
 import type { CoreAPIClient } from "@apis/core-api-client";
-import { writable } from "svelte/store";
+import { appStatus, AppStatus } from "$lib/utilities/app-status";
 
 export { 
   apiClient,
   setApiClient,
-  actionStatus 
+  appStatus,
+  AppStatus 
 };
 
 // the global API client, established at startup
@@ -14,12 +15,3 @@ function setApiClient(client: CoreAPIClient) {
   apiClient = client;
 }
 
-let actionStatus = writable({
-  message: "",
-  code: ""
-})
-
-actionStatus.set({
-  code: "0",
-  message: "Ok"
-})

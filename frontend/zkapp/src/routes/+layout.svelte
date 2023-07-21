@@ -1,4 +1,5 @@
 <script>
+  import Status from "@components/Status.svelte";
   import { onMount } from "svelte";
 
   onMount(async () => {

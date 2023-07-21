@@ -16,7 +16,6 @@
   } from "sveltestrap";
   import { getCurrentUser } from "$lib/models/current-user";
   import { page } from "$app/stores";
-  import { actionStatus } from "$lib/globals";
   import Status from "./Status.svelte";
 
   let user: any = null,
@@ -84,7 +83,7 @@
 
     <Nav class="w-25 justify-content-end --ms-auto px-1" navbar>
       <NavItem class="me-4 mt-2">
-        <Status status={$actionStatus}/>
+        <!-- <Status /> -->
       </NavItem>
 
       <NavItem class="me-4 mt-2">

@@ -28,7 +28,7 @@
 
     <Nav class="w-25 justify-content-end --ms-auto px-1" navbar>
       <NavItem class="me-4 mt-2">
-        <Status status={$actionStatus}/>
+        <!-- <Status /> -->
       </NavItem>
 
       <NavItem class="me-4">
@@ -44,7 +44,6 @@
   import { Breadcrumb, BreadcrumbItem } from "sveltestrap";
   import { Navbar, NavbarBrand, Nav, NavItem, Collapse, NavbarToggler } from 'sveltestrap';
   import { getCurrentUser } from "$lib/models/current-user";
-  import { actionStatus } from "$lib/globals";
   import CloseButton from "./CloseButton.svelte";
   import Status from "./Status.svelte";
   

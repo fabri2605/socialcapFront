@@ -1,4 +1,4 @@
-import { apiClient, actionStatus } from "$lib/globals";
+import { apiClient, appStatus } from "$lib/globals";
 
 export { CurrentUser, isFirstTimeUser, getCurrentUser }
 
@@ -33,11 +33,9 @@ async function getCurrentUser(isAuthenticated: boolean): Promise<any> {
   if (currentUser) 
     return currentUser;
 
-  actionStatus.set({code: "100", message: "Loading profile ..."});  
   let rs = await apiClient.query("get_profile", {});
   if (rs.error) return null;
   let profile = rs.data;
-  actionStatus.set({code: "0", message: "Done !"});  
 
   currentUser = {
     uid: profile.uid,
