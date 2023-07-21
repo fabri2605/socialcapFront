@@ -103,37 +103,38 @@
       </div>
     </Section>
 
-    <Section class="section-fluid mt-4 pt-4 bg-white rounded-2">
-      <TabContent class="">
-        &nbsp;&nbsp;&nbsp;&nbsp;
-        <TabPane class="pb-5" tabId="creds" tab="My credentials" active>
-          {#each data.credentials as credential}
+    <Section class="m-0 p-0 section-fluid mt-4 pt-4 bg-light">
+        <TabContent >
+          &nbsp;&nbsp;&nbsp;&nbsp;
+          <TabPane tabId="creds" tab="My credentials" active>
+            {#each data.credentials as credential}
             <CredentialCard uid={credential.uid} data={credential}/>
-          {/each}
-          <br>
-        </TabPane>
-        <TabPane class="pb-5" tabId="claims" tab="My claims">
-          {#each data.submited as submited}
+            {/each}
+            <br>
+          </TabPane>
+          <TabPane tabId="claims" tab="My claims">
+            {#each data.submited as submited}
             <ClaimCard data={submited}/>
-          {/each}
-        </TabPane>
-        <TabPane class="pb-5" tabId="comns" tab="My communities" on:click={() => alert()}>
-          {#each data.joined as org}
+            {/each}
+          </TabPane>
+          <TabPane tabId="comns" tab="My communities" on:click={() => alert()}>
+            {#each data.joined as org}
             <CommunityCard uid={org.uid} data={org} joined={true}/>
-          {/each}
-          <div class="p-4 m-0 px-4">
-            <HomeAdminsCard />
-          </div>
-        </TabPane>
-
-        {#if user && user.hasTasks}
-        <TabPane class="pb-5" tabId="tasks" tab="My tasks">
-          {#each data.assigned as task}
+            {/each}
+            <div class="p-4 m-0 px-4">
+              <HomeAdminsCard />
+            </div>
+          </TabPane>
+          
+          {#if user && user.hasTasks}
+          <TabPane tabId="tasks" tab="My tasks">
+            {#each data.assigned as task}
             <TaskCard uid={task.uid} data={task}/>
-          {/each}
-        </TabPane>
-        {/if}
-      </TabContent>      
+            {/each}
+          </TabPane>
+          {/if}
+        </TabContent>      
+      
     </Section>
 
 </HubPageContent>

@@ -6,13 +6,29 @@ $font-family-sans-serif: "DM Sans", sans-serif;
 $primary: #1758fe;
 $black: #081638;
 $blue: #b5d6f4;
-$light: #1eb635;
+$light: #F6F8FF;
 $dark: #788da0;
-$gray-500: #daddf1;
+$gray: #DADDF1;
 $success: #42e37a;
 $h1-font-size: 32px;
 $h2-font-size: 18px;
 $h4-font-size: 16px;
+$font-weight-bold: 700;
+
+//Tabs
+$nav-link-color: $black;
+$nav-link-hover-color: $gray;
+$nav-tabs-border-color: $light;
+$nav-tabs-link-hover-border-color: $light;
+$nav-tabs-link-active-color: $primary;
+$nav-tabs-link-active-bg: $light;
+$nav-tabs-link-active-border-color: $light;
+$nav-pills-link-active-color: $primary;
+$nav-pills-link-active-bg:   $light;
+$nav-pills-link-border-color: $light;
+$nav-link-padding-y: 1rem;
+$nav-link-padding-x: 2rem;
+$nav-link-font-size: 20px;
 
 @import "../../node_modules/bootstrap/scss/bootstrap";
 
@@ -21,6 +37,7 @@ $h4-font-size: 16px;
 
 body {
   letter-spacing: -0.3px;
+  background-color: $light;
 }
 
 .navbar-nav .nav-item.active .nav-link,
@@ -57,4 +74,9 @@ body {
   width: auto;
   border: 2px solid #daddf1;
   color: $black;
+}
+
+
+.shadow-sc {
+  box-shadow: 0px 4px 0px 1px $gray;
 }
