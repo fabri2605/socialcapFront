@@ -1,4 +1,4 @@
-import { UID } from "../utility/uid";
+import { UID } from "../utilities/uid";
 
 export { MasterPlan, aMasterPlanMockup };
 

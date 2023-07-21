@@ -1,4 +1,4 @@
-import { Indexer } from "./indexer";
+import { apiClient } from "$lib/globals";
 import { Task, Claim, MasterPlan, Community } from "@models/index"
 
 import { 
@@ -23,7 +23,7 @@ export {
 
 async function getTask(uid: string): Promise<Task | null> {
   // first get the current task
-  let rsp = await Indexer.query("get_task_by_uid", { uid: uid });
+  let rsp = await apiClient.query("get_task_by_uid", { uid: uid });
   if (rsp.error) return null;
 
   let task = Task.fromJSON(rsp.data);
@@ -41,7 +41,7 @@ async function getTask(uid: string): Promise<Task | null> {
 
 async function getClaim(uid: string): Promise<Claim | null> {
   // first get the current task
-  let rsp = await Indexer.query("get_claim_by_uid", { uid: uid });
+  let rsp = await apiClient.query("get_claim_by_uid", { uid: uid });
   if (rsp.error) return null;
 
   let claim = Claim.fromJSON(rsp.data);
@@ -58,7 +58,7 @@ async function getClaim(uid: string): Promise<Claim | null> {
 async function getMasterPlan(uid: string): Promise<MasterPlan | null> {
   return aMasterPlan;   
   /*
-  let rsp = await Indexer.query("get_plan_by_uid", { uid: uid });
+  let rsp = await apiClient.query("get_plan_by_uid", { uid: uid });
   if (rsp.error) return null;
 
   let plan = MasterPlan.fromJSON(rsp.data);
@@ -80,7 +80,7 @@ async function getCommunity(uid: string): Promise<any | null> {
   return o;
 
   // first get the current task
-  let rsp = await Indexer.query("get_community_by_uid", { uid: uid });
+  let rsp = await apiClient.query("get_community_by_uid", { uid: uid });
   if (rsp.error) return null;
 
 //   /let community = Community.fromJSON(rsp.data);
