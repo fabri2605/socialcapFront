@@ -21,7 +21,7 @@ async function queryRoutes(
     
     // extract call "params" from queryString "?params=JSON.stringified(...)"
     const query = (request.query as any);
-    let params = {}; 
+    let params: any = {}; 
     try { 
       params = JSON.parse(query.params); }
     catch (err) { 
@@ -40,6 +40,14 @@ async function queryRoutes(
     const needsAuthorized = handler['authorize'];
     if (needsAuthorized) {
       fastify.log.info(`Handler ${method} needs authorization`)
+      try {
+        const jwt: any = await request.jwtVerify(); 
+        console.log(jwt);
+        // add to the received params
+        params.user = { uid: jwt.uid?.replace(/-/g,'') }
+      } catch (err: any) {
+        return hasError.UnauthorizedError(err);
+      }      
     }
 
     // call the registered 'method' with given 'params'

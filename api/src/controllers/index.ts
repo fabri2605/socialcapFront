@@ -1,6 +1,6 @@
 import { noActions } from "./no-actions.js";
 import { requestOtp, login } from "./sessions-controller.js";
-import { signUp, updateProfile } from "./persons-controller.js";
+import { signUp, updateProfile, getProfile } from "./persons-controller.js";
 import { updateCommunity } from "./communities-controller.js";
 import { queryEmptySet } from "./empty-set.js"
 
@@ -19,6 +19,7 @@ const mutationHandlers = {
 }
 
 const queryHandlers = {
-  'get_empty_set': { fn: queryEmptySet, authorize: false }
+  'get_empty_set': { fn: queryEmptySet, authorize: false },
+  'get_profile': { fn: getProfile, authorize: true }
 };
 

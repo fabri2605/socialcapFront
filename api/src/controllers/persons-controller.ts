@@ -4,7 +4,7 @@ import { i18n as _ } from "../i18n/messages.js";
 import { hasError, hasResult } from "../responses.js";
 import { PERSONS_MERKLE_MAP } from "../dbs/index.js";
 import { updateMerkleMapOrRaise } from "../dbs/merkle-map-helpers.js";
-import { updatePersonOrRaise } from "../dbs/person-helpers.js";
+import { updatePersonOrRaise, getPersonOrRaise } from "../dbs/person-helpers.js";
 import { MinaService } from "../services/mina-service.js";
 
 /**
@@ -60,6 +60,13 @@ export async function signUp(params: {
 
   // 7. Return the fully created Person data
   return hasResult(person);
+}
+
+
+export async function getProfile(params: any) {
+  const uid = params.user.uid; // received from the JWT token
+  const person = await getPersonOrRaise(uid);
+  return hasResult(person); 
 }
 
 
