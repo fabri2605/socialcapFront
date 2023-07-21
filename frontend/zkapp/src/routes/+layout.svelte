@@ -5,7 +5,6 @@
   import { page } from "$app/stores";
 
   // local imports ...
-  import { Styles } from "sveltestrap";
   import RootHeader from "@components/RootHeader.svelte";
 
   // Hexui

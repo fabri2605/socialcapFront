@@ -40,7 +40,7 @@
   color="white"
   light
   expand="md"
-  class="fixed-top navbar-expand-lg top-0 z-index-3 w-100 shadow-sm navbar-transparent align-items-center"
+  class="fixed-top navbar-expand-lg top-0 z-index-3 w-100 border-bottom border-1 py-2 align-items-center"
 >
   <NavbarBrand class="w-auto ms-4" href="/">
     <img alt="Socialcap logo" src="/img/socialcap/socialcap-icon.svg" />
@@ -86,10 +86,10 @@
           <DropdownToggle
             nav
             caret
-            class="d-flex align-items-center justify-content-end text-secondary"
+            class="text-black d-flex align-items-center justify-content-end text-secondary"
           >
             <!-- <span class="d-inline-block fs-xs me-3 text-wrap lh-1 text-end" style="max-width:6rem;">{user.fullName}</span> -->
-            <Icon name="person-circle" class="fs-2" />
+            <Icon name="person-circle" class="fs-1 px-2 text-black" />
           </DropdownToggle>
           <DropdownMenu end>
             <DropdownItem><a href="/profile">Profile</a></DropdownItem>
