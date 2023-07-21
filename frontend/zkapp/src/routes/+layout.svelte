@@ -33,10 +33,6 @@
   <slot />
 </div>
 
-<!-- MUST include here Bootstrap styling 
--->
-<!-- <Styles /> -->
-
 <!--
   MINA original not used here
 -->
@@ -45,4 +41,5 @@
   /* @import '/css/bootstrap.css'; */
   /* @import "/css/custom.css"; */
   @import "/css/custom.min.css";
+  @import "/css/patches.css";
 </style>
