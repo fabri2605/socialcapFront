@@ -1,18 +1,25 @@
-<div class="w-100 px-4">
-  <Card class="border-0 border-bottom">
+<div class="bg-light">
+  <Card class="rounded-1 shadow-sc mb-3 bg-white">
     <a href={`/credential/issued/${uid}`} class="text-decoration-none text-dark">
-      <CardBody class="ps-4">
+      <CardBody class="py-4 ps-4">
         <div class="d-flex justify-content-start align-items-center pt-0">
-          <img src={data.image} width="92px" crossorigin alt="Credential logo" />
+          <!-- <img src={data.image} width="92px" crossorigin alt="Credential logo" /> -->
+          <img src='/img/vars/BadgeGenerico.png' width="120px" crossorigin alt="Credential logo" />
+    
           <div class="ms-4 text-left">
-            <p class="fs-sm text-secondary lh-base mt-2 mb-0">
-              <b>{data.issuedBy}</b>
-            </p>
-            <h5 class="mt-0">{data.type}</h5>
-            <p class="fs-sm text-secondary lh-base mt-2 mb-0">
-              {data.description}
-            </p>
-            <Badge color="success" class="fs-sm">AWARDED</Badge>
+            
+            <Badge class='border-2 border-primary border bg-white text-primary'>{data.type}</Badge>
+            <Badge class='border-2 border-success border bg-success text-white'>AWARDED</Badge>
+     
+            <div class="d-flex flex-column mt-4">
+              <p class="fs-2 text-black lh-base mt-2 mb-0">
+                <b>{data.issuedBy}</b>
+              </p>
+              <p class="fs-sm text-black lh-base mt-2 mb-0">
+                {data.description} 
+              </p>
+            </div>
+              
           </div>
         </div>
       </CardBody>
