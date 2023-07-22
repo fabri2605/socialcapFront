@@ -40,4 +40,16 @@ export class AppStatus {
       AppStatus.update(0); // close it
     }, 1000*4) ; // 5 secs
   }
+
+  static error(message: string, code?: number) {
+    statusQueue = [{
+      code: 2,
+      message: message
+    }];
+    AppStatus.update(3);
+    setTimeout(() => {
+      statusQueue = [];
+      AppStatus.update(0); // close it
+    }, 1000*4) ; // 5 secs
+  }
 }

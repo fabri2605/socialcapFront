@@ -129,7 +129,7 @@ class CoreAPIClient {
         ...headers,
       });
       return {
-        data: response.data,
+        data: response.data.data,
         error: null,
       };
     } catch (err: any) {

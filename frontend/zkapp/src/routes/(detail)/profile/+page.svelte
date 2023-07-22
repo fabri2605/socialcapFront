@@ -171,6 +171,8 @@
     try {
       AppStatus.push("Updating profile ...");  
       let rs = await apiClient.mutate("update_profile", data);
+      if (rs.error) throw new Error(rs.error.message);
+
       AppStatus.push("Profile updated !");  
       AppStatus.push("Now waiting for MINA transaction to complete");  
       setTimeout(async () => {
@@ -179,6 +181,7 @@
       history.back();
     }
     catch (err) {
+      AppStatus.error("There is some error with the data, please review !");
       console.log(err);
     }
   }

@@ -6,7 +6,7 @@
   
   // Ui components
 	import { Spinner, Icon, TabContent, TabPane, Button } from 'sveltestrap';
-  import RootHeader from '@components/RootHeader.svelte'; 
+  import RootHeader from '@components/HubPageHeader.svelte'; 
   import HubPageContent from '@components/HubPageContent.svelte';
   import EmptyCredentials from '@components/EmptyCredentials.svelte';
   import EmptyFirstTime from '@components/EmptyFirstTime.svelte';
