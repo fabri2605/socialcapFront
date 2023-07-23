@@ -20,9 +20,9 @@ export const SessionScalarFieldEnumSchema = z.enum(['uid','otp','email','created
 
 export const PersonScalarFieldEnumSchema = z.enum(['uid','accountId','state','fullName','description','image','email','phone','telegram','preferences','createdUTC','updatedUTC','approvedUTC']);
 
-export const CommunityScalarFieldEnumSchema = z.enum(['uid','accountId','adminUid','state','name','description','image','createdUtc','updatedUtc','approvedUtc']);
+export const CommunityScalarFieldEnumSchema = z.enum(['uid','accountId','adminUid','state','name','description','image','createdUTC','updatedUTC','approvedUTC']);
 
-export const MembersScalarFieldEnumSchema = z.enum(['communityUid','personUid','role','createdUtc','approvedUtc']);
+export const MembersScalarFieldEnumSchema = z.enum(['uid','communityUid','personUid','role','createdUTC','approvedUTC']);
 
 export const SortOrderSchema = z.enum(['asc','desc']);
 
@@ -146,9 +146,9 @@ export const CommunitySchema = z.object({
   name: z.string().min(3).max(128),
   description: z.string().max(128).nullish(),
   image: z.string().url().max(128).nullish(),
-  createdUtc: z.coerce.date(),
-  updatedUtc: z.coerce.date(),
-  approvedUtc: z.coerce.date().nullish(),
+  createdUTC: z.coerce.date(),
+  updatedUTC: z.coerce.date(),
+  approvedUTC: z.coerce.date().nullish(),
 })
 
 export type Community = z.infer<typeof CommunitySchema>
@@ -166,14 +166,15 @@ export type CommunityPartial = z.infer<typeof CommunityPartialSchema>
 /////////////////////////////////////////
 
 export const MembersSchema = z.object({
+  uid: z.string(),
   communityUid: z.string().max(32),
   personUid: z.string().max(32),
   /**
    * // PLAIN, VALIDATOR, AUDITOR
    */
   role: z.string().max(32),
-  createdUtc: z.coerce.date(),
-  approvedUtc: z.coerce.date().nullish(),
+  createdUTC: z.coerce.date(),
+  approvedUTC: z.coerce.date().nullish(),
 })
 
 export type Members = z.infer<typeof MembersSchema>

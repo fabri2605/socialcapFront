@@ -42,12 +42,12 @@ CREATE TABLE "persons" (
     "account_id" TEXT,
     "state" TEXT NOT NULL,
     "full_name" TEXT NOT NULL,
-    "description" TEXT,
-    "image" TEXT,
+    "description" TEXT DEFAULT '',
+    "image" TEXT DEFAULT '',
     "email" TEXT NOT NULL,
-    "phone" TEXT,
-    "telegram" TEXT,
-    "preferences" TEXT,
+    "phone" TEXT DEFAULT '',
+    "telegram" TEXT DEFAULT '',
+    "preferences" TEXT DEFAULT '{}',
     "created_utc" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updated_utc" TIMESTAMP(3),
     "approved_utc" TIMESTAMP(3),
@@ -73,13 +73,14 @@ CREATE TABLE "communities" (
 
 -- CreateTable
 CREATE TABLE "members" (
+    "uid" TEXT NOT NULL,
     "communityUid" TEXT NOT NULL,
     "personUid" TEXT NOT NULL,
     "role" TEXT NOT NULL DEFAULT 'NONE',
     "created_utc" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    "approvedUtc" TIMESTAMP(3),
+    "approvedUTC" TIMESTAMP(3),
 
-    CONSTRAINT "members_pkey" PRIMARY KEY ("communityUid","personUid")
+    CONSTRAINT "members_pkey" PRIMARY KEY ("uid")
 );
 
 -- CreateIndex
@@ -94,11 +95,8 @@ CREATE UNIQUE INDEX "persons_email_key" ON "persons"("email");
 -- CreateIndex
 CREATE UNIQUE INDEX "communities_uid_key" ON "communities"("uid");
 
+-- CreateIndex
+CREATE UNIQUE INDEX "members_uid_key" ON "members"("uid");
+
 -- AddForeignKey
 ALTER TABLE "merkle_map_leaf" ADD CONSTRAINT "merkle_map_leaf_merkle_map_id_fkey" FOREIGN KEY ("merkle_map_id") REFERENCES "merkle_map"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
-
--- AddForeignKey
-ALTER TABLE "members" ADD CONSTRAINT "members_communityUid_fkey" FOREIGN KEY ("communityUid") REFERENCES "communities"("uid") ON DELETE RESTRICT ON UPDATE CASCADE;
-
--- AddForeignKey
-ALTER TABLE "members" ADD CONSTRAINT "members_personUid_fkey" FOREIGN KEY ("personUid") REFERENCES "persons"("uid") ON DELETE RESTRICT ON UPDATE CASCADE;

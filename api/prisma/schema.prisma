@@ -91,7 +91,7 @@ model Person {
   approvedUTC DateTime? @map("approved_utc")
 
   // roles in Communities related to this Person
-  Members Members[]
+  // Members Members[]
 
   @@map("persons")
 }
@@ -104,26 +104,26 @@ model Community {
   name        String   /// @zod.string.min(3).max(128)
   description String?  /// @zod.string.max(128)
   image       String?  /// @zod.string.url().max(128)
-  createdUtc  DateTime @default(now()) @map("created_utc")
-  updatedUtc  DateTime @updatedAt @map("updated_utc")
-  approvedUtc DateTime? @map("approved_utc")
+  createdUTC  DateTime @default(now()) @map("created_utc")
+  updatedUTC  DateTime @updatedAt @map("updated_utc")
+  approvedUTC DateTime? @map("approved_utc")
 
   // Persons related to this Community
-  Members Members[]
+  // Members Members[]
 
   @@map("communities")
 }
 
 model Members {
+  uid String  @id @unique // is [communityUid:personUid]
   // members of this community
   communityUid String   /// @zod.string.max(32)
-  community    Community @relation(fields: [communityUid], references: [uid])
+  //community    Community @relation(fields: [communityUid], references: [uid])
   personUid    String   /// @zod.string.max(32)
-  person       Person    @relation(fields: [personUid], references: [uid])
-  role         String    @default("NONE") /// @zod.string.max(32) // PLAIN, VALIDATOR, AUDITOR
-  createdUtc   DateTime  @default(now()) @map("created_utc")
-  approvedUtc  DateTime?
+  // person       Person    @relation(fields: [personUid], references: [uid])
+  role         String    @default("0") /// @zod.string.max(32) // PLAIN, VALIDATOR, AUDITOR
+  createdUTC   DateTime  @default(now()) @map("created_utc")
+  approvedUTC  DateTime?
 
-  @@id([communityUid, personUid])
   @@map("members")
 }
