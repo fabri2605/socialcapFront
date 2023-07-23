@@ -52,8 +52,17 @@ export async function getMyCommunities(params: any) {
 export async function getAllCommunities(params: any) {
   const userUid = params.user.uid;
 
+  // this are the ones where the user has joined
+  const members = await prisma.members.findMany({
+    where: { personUid: userUid }
+  })
+  const cuids  = members.map((t) => t.communityUid);
+  
+  const joined = params.notJoined ? cuids : [];
   const communities = await prisma.community.findMany({
+    where: { uid: { notIn: joined }},
     orderBy: { name: 'asc' }
   })
+
   return hasResult(communities);
 }
