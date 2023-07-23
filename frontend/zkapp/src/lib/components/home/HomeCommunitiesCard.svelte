@@ -30,11 +30,11 @@
   joined={data.joined} 
   all={data.allCommunities} />
 
-  <script>
-    import { Card, CardBody, Button, Badge } from "sveltestrap";
-    import JoinCommunityDialog from "@components/dialogs/JoinCommunityDialog.svelte";
-  
-    export let data;
-  
-    let open = false;
-  </script>
+<script>
+  import { Card, CardBody, Button, Badge } from "sveltestrap";
+  import JoinCommunityDialog from "@components/dialogs/JoinCommunityDialog.svelte";
+
+  export let data;
+
+  let open = false;
+</script>

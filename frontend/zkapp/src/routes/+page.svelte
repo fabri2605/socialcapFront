@@ -118,7 +118,7 @@
           </TabPane>
           <TabPane tabId="comns" tab="My communities" on:click={() => alert()}>
             {#each data.joined as org}
-            <CommunityCard uid={org.uid} data={org} joined={true}/>
+              <CommunityCard uid={org.uid} data={org} joined={true} user={data.user}/>
             {/each}
             <div class="p-4 m-0 px-4">
               <HomeAdminsCard />

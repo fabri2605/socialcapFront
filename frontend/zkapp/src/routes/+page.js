@@ -3,10 +3,10 @@ import { getCurrentSession } from '@models/current-session';
 import { getCurrentUser } from '@models/current-user';
 import { setApiClient } from '$lib/globals';
 import { CoreAPIClient } from '@apis/core-api-client';
+import { getMyCommunities, getAllCommunities } from "@apis/queries"
 
 // this is only for testing/mockups
-import { olClaimables, olCredentials, olSubmitedClaims, olTasks } from '@models/mockup-objects';
-import { getAllCommunities, getMyCommunities } from '@apis/clients';
+import { olClaimables, olCredentials, olMyCommunities, olSubmitedClaims, olTasks } from '@models/mockup-objects';
 
 /** @type {import('./$types').PageLoad} */
 export async function load({ params, route, url }) {
@@ -21,20 +21,19 @@ export async function load({ params, route, url }) {
       user = await getCurrentUser();
     }  
 
-    if (true) {
-      return { 
-        user: user,
-        isAuthenticated: isAuthenticated,
-        claimables: olClaimables,
-        credentials: olCredentials, 
-        submited: olSubmitedClaims,
-        joined: getMyCommunities(), 
-        allCommunities: getAllCommunities(),
-        assigned: olTasks.filter((t) => t.state==='PENDING'),
-        stats: aStats
-      }; 
-    }
-    throw error(404, 'Not found');
+    let rs = { 
+      user: user,
+      isAuthenticated: isAuthenticated,
+      claimables: olClaimables,
+      credentials: olCredentials, 
+      submited: olSubmitedClaims,
+      joined: await getMyCommunities(),
+      allCommunities: await getAllCommunities(),
+      assigned: olTasks.filter((t) => t.state==='PENDING'),
+      stats: aStats
+    }; 
+
+    return rs;
 }
 
 const aStats = {
