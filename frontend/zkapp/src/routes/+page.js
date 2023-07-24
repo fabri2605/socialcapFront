@@ -28,7 +28,7 @@ export async function load({ params, route, url }) {
       credentials: olCredentials, 
       submited: olSubmitedClaims,
       joined: await getMyCommunities(),
-      allCommunities: await getAllCommunities(),
+      allCommunities: await getAllCommunities({notJoined: true}),
       assigned: olTasks.filter((t) => t.state==='PENDING'),
       stats: aStats
     }; 

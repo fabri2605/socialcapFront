@@ -18,8 +18,8 @@ async function getMyCommunities(): Promise<any[]> {
   return rs.data;
 }
 
-async function getAllCommunities(): Promise<any[]> {
-  let rs = await apiClient.query("get_all_communities", {});
+async function getAllCommunities(params: any): Promise<any[]> {
+  let rs = await apiClient.query("get_all_communities", params);
   if (rs.error) return [];
   return rs.data;
 }
