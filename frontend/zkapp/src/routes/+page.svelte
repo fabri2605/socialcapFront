@@ -1,24 +1,15 @@
 <script>
-  // MINA original imports
-  import { isReady, Mina, PublicKey } from 'snarkyjs'
+  import { onMount } from "svelte";
+  import { goto } from "$app/navigation";
+  import { page } from "$app/stores";
+  import { isFirstTimeUser } from "@models/current-user";
   
   // Ui components
-  import { onMount, afterUpdate } from 'svelte';
-	import { goto } from '$app/navigation';
-  import { 
-    loadSnarky, 
-    berkeleyMinaStore, 
-    deployedZkAppStore, 
-	  getWalletAccount,
-	  updateAdd
-  } from '$lib/zkapp/helpers';
-	import { getItem } from '$lib/utility/localStorageController';
 	import { Spinner, Icon, TabContent, TabPane, Button } from 'sveltestrap';
-  import RootHeader from '@components/RootHeader.svelte'; 
+  import RootHeader from '@components/HubPageHeader.svelte'; 
   import HubPageContent from '@components/HubPageContent.svelte';
   import EmptyCredentials from '@components/EmptyCredentials.svelte';
   import EmptyFirstTime from '@components/EmptyFirstTime.svelte';
-  import { getCurrentUser, isFirstTimeUser } from "@models/current-user";
   import Sidenote from '@components/Sidenote.svelte';
   import CanClaimNow from '@components/CanClaimNow.svelte';
   import Section from '@components/Section.svelte';
@@ -31,20 +22,28 @@
   import CommunityCard from '@components/CommunityCard.svelte';
   import TaskCard from '@components/TaskCard.svelte';
 
+  import HomePageContent from './_HomePageContent.svelte';
+
   export let data; // this is the data for the lists
 
-  let 
-    isAuthenticated = getItem('access_token'),
-    user = null;
+  let currentPage = $page.url.pathname;
 
+  $: isAuthenticated = data.isAuthenticated;
+  $: user = data.user;
+  
   onMount(async () => {
-    if (isAuthenticated) user = getCurrentUser();
-    user = getCurrentUser();
-    // await loadSnarky();
+    console.log("+page.svelte onMount")
 
-    // let [ok, publicKey, accountExists] = await getWalletAccount();
+    if (isAuthenticated && user) 
+      goto(currentPage)
+    else
+      goto("/login");
 
-    // const res = await updateAdd();
+    setTimeout(async () => {
+      console.log("Loading Snarky ...");
+      // await loadSnarky();
+      // let [ok, publicKey, accountExists] = await getWalletAccount();
+    }, 500)
   })
 </script>
 
@@ -103,37 +102,38 @@
       </div>
     </Section>
 
-    <Section class="section-fluid mt-4 pt-4 bg-white rounded-2">
-      <TabContent class="">
-        &nbsp;&nbsp;&nbsp;&nbsp;
-        <TabPane class="pb-5" tabId="creds" tab="My credentials" active>
-          {#each data.credentials as credential}
+    <Section class="m-0 p-0 section-fluid mt-4 pt-4 bg-light">
+        <TabContent >
+          &nbsp;&nbsp;&nbsp;&nbsp;
+          <TabPane tabId="creds" tab="My credentials" active>
+            {#each data.credentials as credential}
             <CredentialCard uid={credential.uid} data={credential}/>
-          {/each}
-          <br>
-        </TabPane>
-        <TabPane class="pb-5" tabId="claims" tab="My claims">
-          {#each data.submited as submited}
+            {/each}
+            <br>
+          </TabPane>
+          <TabPane tabId="claims" tab="My claims">
+            {#each data.submited as submited}
             <ClaimCard data={submited}/>
-          {/each}
-        </TabPane>
-        <TabPane class="pb-5" tabId="comns" tab="My communities" on:click={() => alert()}>
-          {#each data.joined as org}
+            {/each}
+          </TabPane>
+          <TabPane tabId="comns" tab="My communities" on:click={() => alert()}>
+            {#each data.joined as org}
             <CommunityCard uid={org.uid} data={org} joined={true}/>
-          {/each}
-          <div class="p-4 m-0 px-4">
-            <HomeAdminsCard />
-          </div>
-        </TabPane>
-
-        {#if user && user.hasTasks}
-        <TabPane class="pb-5" tabId="tasks" tab="My tasks">
-          {#each data.assigned as task}
+            {/each}
+            <div class="p-4 m-0 px-4">
+              <HomeAdminsCard />
+            </div>
+          </TabPane>
+          
+          {#if user && user.hasTasks}
+          <TabPane tabId="tasks" tab="My tasks">
+            {#each data.assigned as task}
             <TaskCard uid={task.uid} data={task}/>
-          {/each}
-        </TabPane>
-        {/if}
-      </TabContent>      
+            {/each}
+          </TabPane>
+          {/if}
+        </TabContent>      
+      
     </Section>
 
 </HubPageContent>

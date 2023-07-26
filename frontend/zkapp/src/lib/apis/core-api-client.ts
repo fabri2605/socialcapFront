@@ -1,4 +1,4 @@
-// import axios, { AxiosResponse } from 'axios';
+import axios from 'axios';
 import type { AnyResponse } from "./responses";
 import { ErrorCode } from "./responses";
 
@@ -6,12 +6,26 @@ export { CoreAPIClient };
 
 class CoreAPIClient {
   API = {
+    protocol: "https",
     host: "",
     port: 3081, // or maybe 3038
     baseUrl: "",
-    apiKey: "",
     authorization: "",
+    apiKey: "",
   };
+
+  constructor(params?: { 
+    host: string, 
+    port: number, 
+    authorization: string,
+    protocol?: string
+  }) {
+    this.API.protocol = params?.protocol || this.API.protocol;
+    this.API.host = params?.host || "localhost";
+    this.API.port = params?.port || 3081;
+    this.API.baseUrl = `${this.API.protocol}://${this.API.host}:${this.API.port}/api`;
+    this.authorize(params?.authorization || "");
+  }
 
   /**
    * Connect to the host and set all the API options for using them
@@ -35,7 +49,7 @@ class CoreAPIClient {
    * @param jwttoken
    */
   authorize(jwttoken: string) {
-    this.API.authorization = jwttoken;
+    this.API.authorization = `Bearer ${jwttoken}`;
   }
 
   /**
@@ -45,7 +59,7 @@ class CoreAPIClient {
     try {
       const url = `${this.API.baseUrl}/status`;
       const query = params?.metrics ? `?metrics` : "";
-      const response: AxiosResponse = await axios.get(url + query);
+      const response = await axios.get(url + query);
       return {
         data: response.data,
         error: null,
@@ -76,11 +90,11 @@ class CoreAPIClient {
           Authorization: this.API.authorization,
         },
       };
-      const response: AxiosResponse = await axios.get(url + query, {
+      const response = await axios.get(url + query, {
         ...headers,
       });
       return {
-        data: response.data,
+        data: response.data.data,
         error: null,
       };
     } catch (err: any) {
@@ -111,11 +125,11 @@ class CoreAPIClient {
           Authorization: this.API.authorization,
         },
       };
-      const response: AxiosResponse = await axios.post(url, payload, {
+      const response = await axios.post(url, payload, {
         ...headers,
       });
       return {
-        data: response.data,
+        data: response.data.data,
         error: null,
       };
     } catch (err: any) {

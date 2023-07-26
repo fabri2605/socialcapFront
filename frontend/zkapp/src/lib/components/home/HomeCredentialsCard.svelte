@@ -1,13 +1,4 @@
-<script>
-  import { Card, CardBody, Button, Badge } from "sveltestrap";
-  import ClaimCredentialDialog from "@components/dialogs/ClaimCredentialDialog.svelte";
-
-  export let data;
-
-  let open = false;
-</script>
-
-<Card class="rounded-4 border border-4 border-primary text-white bg-primary">
+<Card class="rounded-4 border border-4 border-primary text-white bg-primary shadow-sc">
   <div class="position-absolute bottom-0 end-0 opacity-85">
     <img class="svg" alt="" width="auto" src={"/img/svg/ClaimCard.svg"} />
   </div>
@@ -37,3 +28,13 @@
 </Card>
 
 <ClaimCredentialDialog bind:open claimables={data.claimables} />
+
+
+<script>
+  import { Card, CardBody, Button, Badge } from "sveltestrap";
+  import ClaimCredentialDialog from "@components/dialogs/ClaimCredentialDialog.svelte";
+
+  export let data;
+
+  let open = false;
+</script>

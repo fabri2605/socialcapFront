@@ -1,17 +1,26 @@
-<Card class="bg-info" style="min-height:220px">
-  <div class="position-absolute bottom-0 end-0" style="opacity: 0.85;">
-    <img class="svg" alt="" width="200px" src={'/img/svg/banne-group21.svg'} />
+<Card class="rounded-4 border border-2 border-gray text-black bg-white shadow-sc">
+  <div class="position-absolute mb-4 me-2 bottom-0 end-0 opacity-85">
+    <img class="svg" alt="" width="90%" src={'/img/svg/JoinCard.svg'} />
   </div>
-  <div class="d-flex justify-content-center p-3 position-relative">
-    <CardBody>
-      <h1 class="fs-2">Join</h1>
-      <p class="banner-feature__para color-white">
-        <b>{data.stats.countCommunities}</b> awesome communities
+  <div class="p-3 position-relative">
+    <CardBody  class="d-flex flex-column align-items-start justify-items-between gap-4"
+    >
+      <div>
+      <h1 class="fs-1">Join</h1>
+      <p class="fs-6 color-white">
+      <Badge class="bg-black me-2">
+        <b class='fs-6'>{data.stats.countCommunities}</b>
+      </Badge>
+      awesome communities
       </p>
-      <Button size="md" color="light" class="px-3 py-2 rounded-1"
-        on:click={() => open = true}
-        >Join one</Button
-      >
+    </div>
+    <Button
+    size="md"
+    class="px-3 py-2 rounded-3 bg-primary text-white border-0"
+    on:click={() => (open = true)}
+  >
+    Join a community
+  </Button>
     </CardBody>
   </div>
 </Card>
@@ -21,11 +30,11 @@
   joined={data.joined} 
   all={data.allCommunities} />
 
-<script>
-  import { Card, CardBody, Button } from "sveltestrap";
-  import JoinCommunityDialog from "@components/dialogs/JoinCommunityDialog.svelte";
-
-  export let data;
-
-  let open = false;
-</script>
+  <script>
+    import { Card, CardBody, Button, Badge } from "sveltestrap";
+    import JoinCommunityDialog from "@components/dialogs/JoinCommunityDialog.svelte";
+  
+    export let data;
+  
+    let open = false;
+  </script>

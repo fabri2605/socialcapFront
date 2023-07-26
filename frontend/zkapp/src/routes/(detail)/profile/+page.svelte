@@ -14,7 +14,7 @@
     <div class="d-flex align-items-center justify-content-between pt-4">
       <div class="w-25 me-4 pe-2 position-relative">
         <Button color="" class="p-0 m-0 rounded-circle" >
-          <img src={data.avatar} class="img-thumbnail rounded-circle" alt="Profile" height="120px" crossorigin/>
+          <img src={data.image} class="img-thumbnail rounded-circle" alt="Profile" height="120px" crossorigin/>
         </Button>
       </div>
 
@@ -85,6 +85,18 @@
       </FormGroup>
 
       <FormGroup class="mt-3">
+        <Label for="image" class="fw-bold fs-6 text-secondary ps-1 mb-1">Your photo or avatar</Label>
+        <Input 
+          bind:value={data.image} 
+          type="input" name="image" id="image" 
+          invalid={data.image?.trim().length > 127} 
+          feedback="Image url too long (max is 128 chars)."
+          class="rounded-1 p-2 mb-1"/>
+        <FormText color="muted ps-1">
+        </FormText>
+      </FormGroup>
+
+      <FormGroup class="mt-3">
         <Label for="accountId" class="fw-bold fs-6 text-secondary ps-1 mb-1">Your MINA account</Label>
         <Input 
           bind:value={data.accountId} 
@@ -111,14 +123,15 @@
         <Input 
           bind:value={data.phone} 
           type="input" name="phone" id="phone" 
-          class="rounded-1 p-2 mb-1"/>
+          class="rounded-1 p-2 mb-1"
+          />
         <FormText color="muted ps-1">
           If available we may use it to secure your account. We will never share it with others. Is optional. 
         </FormText>
       </FormGroup>
 
       <div class="mt-5 mb-5 px-2 d-flex justify-content-center align-items-center">
-          <SubmitButton on:click={() => saveDraft()}
+          <SubmitButton on:click={() => saveProfile()}
             color="primary" label="Save changes !" />
       </div>
     </Form>
@@ -138,23 +151,38 @@
   import DetailPageContent from "@components/DetailPageContent.svelte";
   import DetailPageHeader from "@components/DetailPageHeader.svelte";
   import { getCurrentUser, isFirstTimeUser } from "$lib/models/current-user";
-    import { object_without_properties } from "svelte/internal";
+  import { apiClient, AppStatus } from "$lib/globals";
 
   export let data; // this is the data for this MasterPlan and empty Claim
 
   let 
-    user = getCurrentUser(), 
+    user, 
     firstTime = false;
 
-  onMount(() => {
-    user = getCurrentUser();
+  onMount(async () => {
+    user = await getCurrentUser();
     firstTime = false; //isFirstTimeUser(user); 
   })
 
   const required = (t) => 
     `<span class="text-warning fw-bold">${t ? `Required` : ``}</span>.`;
 
-  async function saveDraft() {
-    alert(JSON.stringify(data.claim, null, 4));
+  async function saveProfile() {
+    try {
+      AppStatus.push("Updating profile ...");  
+      let rs = await apiClient.mutate("update_profile", data);
+      if (rs.error) throw new Error(rs.error.message);
+
+      AppStatus.push("Profile updated !");  
+      AppStatus.push("Now waiting for MINA transaction to complete");  
+      setTimeout(async () => {
+        AppStatus.done("MINA transaction #123456 completed !");  
+      }, 15000);
+      history.back();
+    }
+    catch (err) {
+      AppStatus.error("There is some error with the data, please review !");
+      console.log(err);
+    }
   }
-</script>
+</script>npm run de

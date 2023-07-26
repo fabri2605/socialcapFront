@@ -1,5 +1,5 @@
 <script>
-  import RootHeader from '@components/RootHeader.svelte';
+  import RootHeader from '@components/HubPageHeader.svelte';
   import HubPageContent from '@components/HubPageContent.svelte';
 </script>
 
