@@ -1,5 +1,5 @@
 import { Mina, PrivateKey, PublicKey, Field } from 'snarkyjs';
-import { ClaimsVotingFactory } from "../claims-voting-factory.js";
+import { ClaimsVotingFactory } from "../claims-factory.js";
 import { rollupClaims } from "./claims-roller.js";
 import { sendVote, addElectorsToNullifier, getNullifierProxy } from './claim-tests-helpers.js';
 
@@ -40,7 +40,7 @@ let zkClaim2 = await ClaimsVotingFactory.deploy(
 );
 
 // now deploy THREE Claims
-let zkClaim3 = await ClaimsVotingFactory.deploy(
+let zkClaim3 = await ClaimsFactory.deploy(
   Field(1003), Field(100), Field(51), 
   deployerAccount, deployerKey
 );

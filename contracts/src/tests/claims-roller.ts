@@ -1,5 +1,5 @@
 import { Mina, Field, PrivateKey, PublicKey } from 'snarkyjs';
-import { VotingInstance, ClaimsVotingFactory } from "../claims-voting-factory.js";
+import { VotingInstance, ClaimsVotingFactory } from "../claims-factory.js";
 
 export { rollupClaims };
 

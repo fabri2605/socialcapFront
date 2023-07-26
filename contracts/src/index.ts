@@ -15,7 +15,7 @@ import { CommunitiesContract } from "./CommunitiesContract.js";
 import { ClaimingsContract } from "./ClaimingsContract.js";
 import { ElectionsContract } from "./ElectionsContract.js";
 import { VotingContract, NullifierProxy } from "./VotingContract.js";
-import { VotingInstance, ClaimsVotingFactory } from "./claims-voting-factory.js";
+import { VotingInstance, ClaimsVotingFactory } from "./claims-factory.js";
 
 import {
   ALL_STATES, COMMUNITY_STATES, CLAIM_STATES, PERSON_STATES, 
