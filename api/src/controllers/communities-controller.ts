@@ -34,6 +34,32 @@ export async function updateCommunity(params: any) {
 }
 
 
+export async function joinCommunity(params: any) {
+  const { communityUid, personUid} = params;
+
+  const members = await prisma.members.findFirst({
+    where: { AND: [
+      { personUid: { equals: personUid }},
+      { communityUid: { equals: communityUid }}
+    ]},    
+  })
+  params.new = members == null;
+
+  let memberUid = communityUid+personUid;
+  let rsm = await updateEntity("members", memberUid, {
+    communityUid: communityUid,
+    personUid: personUid,
+    role: "1", // PLAIN,
+    new: params.new
+  })
+
+  return hasResult({
+    member: rsm.proved,
+    transaction: rsm.transaction
+  }); 
+}
+
+
 export async function getMyCommunities(params: any) {
   const userUid = params.user.uid;
 
@@ -48,6 +74,7 @@ export async function getMyCommunities(params: any) {
   })
   return hasResult(communities);
 }
+
 
 export async function getAllCommunities(params: any) {
   const userUid = params.user.uid;

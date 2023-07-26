@@ -1,7 +1,7 @@
 import { noActions } from "./no-actions.js";
 import { requestOtp, login } from "./sessions-controller.js";
 import { signUp, updateProfile, getProfile } from "./persons-controller.js";
-import { updateCommunity, getCommunity, getMyCommunities, getAllCommunities } from "./communities-controller.js";
+import { updateCommunity, getCommunity, getMyCommunities, getAllCommunities, joinCommunity } from "./communities-controller.js";
 import { queryEmptySet } from "./empty-set.js"
 
 export { 
@@ -16,6 +16,7 @@ const mutationHandlers = {
   'sign_up': { fn: signUp, authorize: false },
   'update_profile': { fn: updateProfile, authorize: true },
   'update_community': { fn: updateCommunity, authorize: true },
+  'join_community': { fn: joinCommunity, authorize: true },
 }
 
 const queryHandlers = {
