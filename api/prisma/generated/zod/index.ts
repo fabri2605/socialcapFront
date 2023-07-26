@@ -32,6 +32,8 @@ export const CredentialScalarFieldEnumSchema = z.enum(['uid','communityUid','cla
 
 export const TaskScalarFieldEnumSchema = z.enum(['uid','claimUid','assigneeUid','state','assignedUTC','completedUTC','dueUTC','rewarded','reason']);
 
+export const ProposedScalarFieldEnumSchema = z.enum(['uid','as','personUid','communityUid','createdUTC']);
+
 export const SortOrderSchema = z.enum(['asc','desc']);
 
 export const QueryModeSchema = z.enum(['default','insensitive']);
@@ -323,3 +325,25 @@ export type Task = z.infer<typeof TaskSchema>
 export const TaskPartialSchema = TaskSchema.partial()
 
 export type TaskPartial = z.infer<typeof TaskPartialSchema>
+
+/////////////////////////////////////////
+// PROPOSED SCHEMA
+/////////////////////////////////////////
+
+export const ProposedSchema = z.object({
+  uid: z.string(),
+  as: z.string(),
+  personUid: z.string(),
+  communityUid: z.string(),
+  createdUTC: z.coerce.date(),
+})
+
+export type Proposed = z.infer<typeof ProposedSchema>
+
+/////////////////////////////////////////
+// PROPOSED PARTIAL SCHEMA
+/////////////////////////////////////////
+
+export const ProposedPartialSchema = ProposedSchema.partial()
+
+export type ProposedPartial = z.infer<typeof ProposedPartialSchema>

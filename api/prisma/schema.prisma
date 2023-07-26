@@ -200,3 +200,11 @@ model Task {
   rewarded     Int?      @default(0)
   reason       Int?      @default(0)
 }
+
+model Proposed {
+  uid          String   @id @unique
+  as           String // Validator, Auditor,
+  personUid    String   @map("person_uid")
+  communityUid String   @map("community_uid")
+  createdUTC   DateTime @default(now()) @map("created_utc")
+}

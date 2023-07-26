@@ -1,7 +1,16 @@
 import { CircuitString, Field, UInt32 } from "snarkyjs";
-import { LeafInstance, MerkleMapProxy, MerkleMapUpdate, ProvableCommunity, ProvableMember, ProvablePerson, UID } from "@socialcap/contracts";
-import { prisma, pgPool } from "../global.js";
-import { PersonPartialSchema, CommunityPartialSchema, MembersPartialSchema } from "../../prisma/generated/zod/index.js";
+import { prisma } from "../global.js";
+import { 
+  PersonPartialSchema, CommunityPartialSchema, MembersPartialSchema,
+  ClaimPartialSchema, CredentialPartialSchema, PlanPartialSchema, 
+  TaskPartialSchema 
+} from "../../prisma/generated/zod/index.js";
+import { 
+  LeafInstance, MerkleMapProxy, MerkleMapUpdate, ProvableCommunity, ProvableMember, 
+  ProvablePerson, ProvableClaim, ProvablePlan, ProvableCredential, ProvableTask,
+  UID 
+} from "@socialcap/contracts";
+
 import { raiseError } from "../responses.js";
 import { OffchainMerkleStorage } from "./offchain-merkle-storage.js";
 import { OffchainMerkleMap } from "./offchain-merkle-map.js";
@@ -13,31 +22,52 @@ export { updateEntity, getEntity };
 const prismaHandler: any = {
   "person": prisma.person,
   "community": prisma.community,
-  "members": prisma.members
+  "members": prisma.members,
+  "plan": prisma.plan,
+  "claim": prisma.claim,
+  "credential": prisma.credential,
+  "task": prisma.task
 }
 
 const zodHandler: any = {
   "person": PersonPartialSchema,
   "community": CommunityPartialSchema,
-  "members": MembersPartialSchema
+  "members": MembersPartialSchema,
+  "plan": PlanPartialSchema,
+  "claim": ClaimPartialSchema,
+  "credential": CredentialPartialSchema,
+  "task": TaskPartialSchema
 }
 
 const merkleId: any = {
   "person": 1,
   "community": 2,
   "members": 3,
+  "plan": 4,
+  "claim": 5,
+  "credential": 7,
+  "task": 6
 }
 
 const provableHandler: any = {
   "person": ProvablePerson,
   "community": ProvableCommunity,
-  "members": ProvableMember
+  "members": ProvableMember,
+  "plan": ProvablePlan,
+  "claim": ProvableClaim,
+  "credential": ProvableCredential,
+  "task": ProvableTask 
 }
 
 const minaService: any = {
   "person": MinaService.updatePersonsRootOrRaise,
   "community": MinaService.updateCommunitiesRootOrRaise,
   "members": MinaService.updateCommunitiesRootOrRaise,
+  "plan": MinaService.updateCommunitiesRootOrRaise,
+  "claim": MinaService.updateCommunitiesRootOrRaise,
+  "credential": MinaService.updateCommunitiesRootOrRaise,
+  "task": MinaService.updateCommunitiesRootOrRaise,
+  "nullifier": MinaService.updateCommunitiesRootOrRaise,
 }
 
 
@@ -82,7 +112,10 @@ async function updateEntity(
   // we let it run in the background. The client needs to check if the 
   // transactions has finished buy polling the txId and using the API 
   // method "get_mina_transaction_state(txId)"
-  let tx = await updateMINA(entityType, uid, provable, map, updated, txId) ;
+  let tx = await updateMINA(
+    entityType, uid, 
+    provable, map, updated, txId,
+      ) ;
 
   return {
     proved: data,

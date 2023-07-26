@@ -17,6 +17,10 @@ const mutationHandlers = {
   'update_profile': { fn: updateProfile, authorize: true },
   'update_community': { fn: updateCommunity, authorize: true },
   'join_community': { fn: joinCommunity, authorize: true },
+  //'update_admined_community': { fn: updateAdminedCommunity, authorize: true },
+  //'update_plan': {}
+  //'update_claim': {}
+  //'submit_claim': {}
 }
 
 const queryHandlers = {
@@ -24,6 +28,9 @@ const queryHandlers = {
   'get_profile': { fn: getProfile, authorize: true },
   'get_community': { fn: getCommunity, authorize: true },
   'get_my_communities': { fn: getMyCommunities, authorize: true },
-  'get_all_communities': { fn: getAllCommunities, authorize: true }
+  'get_all_communities': { fn: getAllCommunities, authorize: true },
+  // 'get_my_credentials': {  fn: getClaimables, authorize: true },
+  // 'get_my_claims': {  fn: getClaimables, authorize: true },
+  // 'get_my_claimables': {  fn: getClaimables, authorize: true },
+  // 'get_admined_community':  {  fn: getAdminedCommunity, authorize: true }
 };
-
