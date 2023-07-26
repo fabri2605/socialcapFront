@@ -24,6 +24,14 @@ export const CommunityScalarFieldEnumSchema = z.enum(['uid','accountId','adminUi
 
 export const MembersScalarFieldEnumSchema = z.enum(['uid','communityUid','personUid','role','createdUTC','approvedUTC']);
 
+export const ClaimScalarFieldEnumSchema = z.enum(['uid','communityUid','applicantUid','planUid','state','accountId','alias','createdUTC','updatedUTC','votedUTC','issuedUTC','dueUTC','requiredVotes','requiredPositives','positiveVotes','negativeVotes','ignoredVotes','evidenceData']);
+
+export const PlanScalarFieldEnumSchema = z.enum(['uid','communityUid','state','name','alias','description','image','template','evidence','strategy','createdUTC','updatedUTC','approvedUTC','fee','rewardsShare','communityShare','protocolShare','total','expiration','revocable','startsUTC','endsUTC']);
+
+export const CredentialScalarFieldEnumSchema = z.enum(['uid','communityUid','claimId','applicantId','type','description','image','alias','starts','metadata','issuedUTC','expiresUTC']);
+
+export const TaskScalarFieldEnumSchema = z.enum(['uid','claimUid','assigneeUid','state','assignedUTC','completedUTC','dueUTC','rewarded','reason']);
+
 export const SortOrderSchema = z.enum(['asc','desc']);
 
 export const QueryModeSchema = z.enum(['default','insensitive']);
@@ -186,3 +194,132 @@ export type Members = z.infer<typeof MembersSchema>
 export const MembersPartialSchema = MembersSchema.partial()
 
 export type MembersPartial = z.infer<typeof MembersPartialSchema>
+
+/////////////////////////////////////////
+// CLAIM SCHEMA
+/////////////////////////////////////////
+
+export const ClaimSchema = z.object({
+  uid: z.string(),
+  communityUid: z.string(),
+  applicantUid: z.string(),
+  planUid: z.string(),
+  state: z.number().int(),
+  accountId: z.string().nullish(),
+  alias: z.string().nullish(),
+  createdUTC: z.coerce.date(),
+  updatedUTC: z.coerce.date(),
+  votedUTC: z.coerce.date().nullish(),
+  issuedUTC: z.coerce.date().nullish(),
+  dueUTC: z.coerce.date().nullish(),
+  requiredVotes: z.number().int().nullish(),
+  requiredPositives: z.number().int().nullish(),
+  positiveVotes: z.number().int().nullish(),
+  negativeVotes: z.number().int().nullish(),
+  ignoredVotes: z.number().int().nullish(),
+  evidenceData: z.string().nullish(),
+})
+
+export type Claim = z.infer<typeof ClaimSchema>
+
+/////////////////////////////////////////
+// CLAIM PARTIAL SCHEMA
+/////////////////////////////////////////
+
+export const ClaimPartialSchema = ClaimSchema.partial()
+
+export type ClaimPartial = z.infer<typeof ClaimPartialSchema>
+
+/////////////////////////////////////////
+// PLAN SCHEMA
+/////////////////////////////////////////
+
+export const PlanSchema = z.object({
+  uid: z.string(),
+  communityUid: z.string(),
+  state: z.number().int(),
+  name: z.string(),
+  alias: z.string().nullish(),
+  description: z.string().nullish(),
+  image: z.string().nullish(),
+  template: z.string().nullish(),
+  evidence: z.string().nullish(),
+  strategy: z.string().nullish(),
+  createdUTC: z.coerce.date(),
+  updatedUTC: z.coerce.date(),
+  approvedUTC: z.coerce.date().nullish(),
+  fee: z.number().int().nullish(),
+  rewardsShare: z.number().int().nullish(),
+  communityShare: z.number().int().nullish(),
+  protocolShare: z.number().int().nullish(),
+  total: z.number().int().nullish(),
+  expiration: z.number().int().nullish(),
+  revocable: z.boolean().nullish(),
+  startsUTC: z.coerce.date().nullish(),
+  endsUTC: z.coerce.date().nullish(),
+})
+
+export type Plan = z.infer<typeof PlanSchema>
+
+/////////////////////////////////////////
+// PLAN PARTIAL SCHEMA
+/////////////////////////////////////////
+
+export const PlanPartialSchema = PlanSchema.partial()
+
+export type PlanPartial = z.infer<typeof PlanPartialSchema>
+
+/////////////////////////////////////////
+// CREDENTIAL SCHEMA
+/////////////////////////////////////////
+
+export const CredentialSchema = z.object({
+  uid: z.string(),
+  communityUid: z.string(),
+  claimId: z.string(),
+  applicantId: z.string(),
+  type: z.string().nullish(),
+  description: z.string().nullish(),
+  image: z.string().nullish(),
+  alias: z.string().nullish(),
+  starts: z.number().int().nullish(),
+  metadata: z.string().nullish(),
+  issuedUTC: z.coerce.date().nullish(),
+  expiresUTC: z.coerce.date().nullish(),
+})
+
+export type Credential = z.infer<typeof CredentialSchema>
+
+/////////////////////////////////////////
+// CREDENTIAL PARTIAL SCHEMA
+/////////////////////////////////////////
+
+export const CredentialPartialSchema = CredentialSchema.partial()
+
+export type CredentialPartial = z.infer<typeof CredentialPartialSchema>
+
+/////////////////////////////////////////
+// TASK SCHEMA
+/////////////////////////////////////////
+
+export const TaskSchema = z.object({
+  uid: z.string(),
+  claimUid: z.string(),
+  assigneeUid: z.string(),
+  state: z.number().int(),
+  assignedUTC: z.coerce.date().nullish(),
+  completedUTC: z.coerce.date().nullish(),
+  dueUTC: z.coerce.date().nullish(),
+  rewarded: z.number().int().nullish(),
+  reason: z.number().int().nullish(),
+})
+
+export type Task = z.infer<typeof TaskSchema>
+
+/////////////////////////////////////////
+// TASK PARTIAL SCHEMA
+/////////////////////////////////////////
+
+export const TaskPartialSchema = TaskSchema.partial()
+
+export type TaskPartial = z.infer<typeof TaskPartialSchema>
