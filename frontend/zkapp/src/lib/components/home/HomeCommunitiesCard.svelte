@@ -9,7 +9,7 @@
       <h1 class="fs-1">Join</h1>
       <p class="fs-4 color-white">
       <Badge class="bg-black me-2">
-        <b class='fs-4'>{data.stats.countCommunities}</b>
+        <b class='fs-4'>{allCount}</b>
       </Badge>
       awesome communities
       </p>
@@ -28,7 +28,7 @@
 <JoinCommunityDialog 
   bind:open={open}
   joined={data.joined} 
-  all={data.allCommunities} />
+  all={data.joinables} />
 
 <script>
   import { Card, CardBody, Button, Badge } from "sveltestrap";
@@ -37,4 +37,9 @@
   export let data;
 
   let open = false;
+
+  const 
+    joinablesCount = data.joinables.length,
+    allCount = data.allCommunities.length;
+
 </script>
