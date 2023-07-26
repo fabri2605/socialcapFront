@@ -1,22 +1,44 @@
 import { UID } from "./lib/uid.js";
 import { UTCDateTime } from "./lib/datetime.js";
+
 import { ProvableCommunity, CommunityState } from "./models/provable-community.js";
 import { ProvablePerson, PersonState } from "./models/provable-person.js";
 import { ProvableMember, MemberRole } from "./models/provable-member.js";
-import { RootContract, MerkleMapProxy, MerkleMapUpdate, LeafInstance } from "./RootContract.js"
-import { ClaimContract, NullifierProxy } from "./ClaimContract.js";
-import { ClaimInstance, ClaimsFactory } from "./claims-factory.js";
+import { ProvableClaim } from "./models/provable-claims.js";
+import { ProvablePlan } from "./models/provable-plans.js";
+import { ProvableTask } from "./models/provable-tasks.js";
+import { ProvableCredential } from "./models/provable-credentials.js";
+import { ProvableElector } from "./models/nullifier.js";
+
+import { MerkleMapProxy, MerkleMapUpdate, LeafInstance } from "./CommunitiesContract.js"
+import { CommunitiesContract } from "./CommunitiesContract.js";
+import { ClaimingsContract } from "./ClaimingsContract.js";
+import { ElectionsContract } from "./ElectionsContract.js";
+import { VotingContract, NullifierProxy } from "./VotingContract.js";
+import { VotingInstance, ClaimsVotingFactory } from "./claims-voting-factory.js";
+
+import {
+  ALL_STATES, COMMUNITY_STATES, CLAIM_STATES, PERSON_STATES, 
+  ELECTOR_STATES, PLAN_STATES, TASK_STATES 
+} from "./models/states.js";
 
 export { 
-  RootContract, 
-  ClaimContract,
-  ClaimInstance,
-  ClaimsFactory,
+  CommunitiesContract,
+  ClaimingsContract,
+  ElectionsContract,
+  VotingContract,
+  VotingInstance,
+  ClaimsVotingFactory,
   ProvableCommunity, 
   CommunityState,
   ProvablePerson,
   PersonState,
   ProvableMember,
+  ProvableClaim,
+  ProvableCredential,
+  ProvablePlan,
+  ProvableTask,
+  ProvableElector,
   MemberRole,
   UID,
   UTCDateTime,
@@ -24,4 +46,11 @@ export {
   MerkleMapUpdate,
   LeafInstance,
   NullifierProxy,
+  ALL_STATES,
+  COMMUNITY_STATES,
+  CLAIM_STATES,
+  PERSON_STATES,
+  ELECTOR_STATES,
+  PLAN_STATES,
+  TASK_STATES
 };

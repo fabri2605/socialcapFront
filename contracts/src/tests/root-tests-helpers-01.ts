@@ -8,21 +8,18 @@ import {
   PublicKey
 } from 'snarkyjs';
 
-import { 
-  MerkleMapUpdate,
-  LeafInstance,
-  MerkleMapProxy
-} from '../RootContract.js';
+import { MerkleMapUpdate, LeafInstance, MerkleMapProxy} from "../CommunitiesContract.js";
+import { CommunitiesContract } from "../CommunitiesContract.js";
 
 import { ProvableCommunity } from "../models/provable-community.js";
 import { ProvablePerson } from "../models/provable-person.js";
 import { ProvableMember } from "../models/provable-member.js";
+
 import { aCommunity, aPerson, aMember } from "./mockups.js";
-import { RootContract } from "../RootContract.js";
 
 
 export async function testUpdateCommunity(
-  zkApp: RootContract,
+  zkApp: CommunitiesContract,
   senderAccount: PublicKey,
   senderKey: PrivateKey
 ) {
@@ -83,7 +80,7 @@ export async function testUpdateCommunity(
 }
 
 export async function testUpdatePerson(
-  zkApp: RootContract,
+  zkApp: CommunitiesContract,
   senderAccount: PublicKey,
   senderKey: PrivateKey
 ) {
@@ -144,7 +141,7 @@ export async function testUpdatePerson(
 }
 
 export async function testUpdateMember(
-    zkApp: RootContract,
+    zkApp: CommunitiesContract,
     senderAccount: PublicKey,
     senderKey: PrivateKey
   ) {
@@ -174,7 +171,7 @@ export async function testUpdateMember(
     // prepare the Update transition 
     let updated: MerkleMapUpdate = {
       mapId: map.id,
-      txId: Field(11),
+      txId: Field(12),
       beforeRoot: zeroRoot,
       beforeLeaf: {
         key: key,
@@ -202,4 +199,3 @@ export async function testUpdateMember(
     console.log(JSON.stringify(updated, null, 2));
     console.log("updatedRoot=", updatedRoot);
 }
-

@@ -1,9 +1,15 @@
-import { SmartContract, state, State, method, } from "snarkyjs";
+import { SmartContract, state, State, method, PublicKey, Bool} from "snarkyjs";
 import { Field, UInt32, MerkleMap, MerkleMapWitness, Circuit, CircuitString, Struct } from "snarkyjs";
 import { ProvableCommunity } from "./models/provable-community.js";
 import { ProvablePerson } from "./models/provable-person.js";
 import { ProvableMember } from "./models/provable-member.js";
-
+/*
+import { ProvableClaim } from "./models/provable-claims.js";
+import { ProvablePlan } from "./models/provable-plans.js";
+import { ProvableTask } from "./models/provable-tasks.js";
+import { ProvableCredential } from "./models/provable-credentials.js";
+import { ProvableElector } from "./models/nullifier.js";
+*/
 
 /**
  * LeafInstance
@@ -59,7 +65,7 @@ const zeroRoot = ((): Field => {
 })();
 
 
-export class RootContract extends SmartContract {
+export class CommunitiesContract extends SmartContract {
   // the Communities dataset, binded to the Provable Community entity
   // key: community.uid, value: community.hash()
   @state(Field) communitiesRoot = State<Field>();
@@ -74,41 +80,29 @@ export class RootContract extends SmartContract {
   // NOTE that all validators are members, and all auditors are validators
   @state(Field) membersRoot = State<Field>();
 
-  // the MasterPlans dataset, binded to the Provable MasterPlan entity
-  // key: plan.uid, value: plan.hash()
-  @state(Field) plansRoot = State<Field>();
-
-  // the Claims dataset, binded to the Provable Claim entity
-  // key: claim.uid, value: claim.hash()
-  @state(Field) claimsRoot = State<Field>();
-
-  // the Approved Credentials dataset, binded to the Provable Credential entity
-  // key: credential.uid, value: credential.hash()
-  // NOTE that the the credential uid === the claim uid that claimed it
-  @state(Field) credentialsRoot = State<Field>();
-
-  // the tasks dataset, binded to the Provable Task entity
-  // key: task.uid, value: task.hash()
-  @state(Field) tasksRoot = State<Field>();
-
-  // a common nullifier we will use in all the voting processes 
-  // to avoid double voting and unassigned electors
-  // key: hash([personUid,claimUid,nonce?]) value: State
-  // where State is 0=UNASSIGNED, 1=ASSIGNED (but not voted), 2=VOTED
-  @state(Field) nullifierRoot = State<Field>();
-
   init() {
     super.init();
     this.communitiesRoot.set(zeroRoot);
     this.personsRoot.set(zeroRoot);
-    this.plansRoot.set(zeroRoot);
-    this.claimsRoot.set(zeroRoot);
     this.membersRoot.set(zeroRoot);
-    this.credentialsRoot.set(zeroRoot);
-    this.tasksRoot.set(zeroRoot);
-    this.nullifierRoot.set(zeroRoot);
   }
 
+  /**
+   * Check that only the contract deployer can call the method.
+   * The deployer will be the Socialcap main account, which will also act
+   * as fee payer for most method calls that imply commited roots bookeeping.
+   * WARNING: If the Socialcap account changes we need to redeploy the contract.
+   */
+  @method assertOnlyDeployer() {
+    const DEPLOYER_ADDR = "B62qo1gZFRgGhsozfGeqHv9bbkACr2sHA7qRsf4r9Tadk3dHH3Fwwmy";
+    let deployer = PublicKey.fromBase58(DEPLOYER_ADDR);
+    this.sender.assertEquals(deployer);
+  }
+
+  /**
+   * Checks that the given update (key and leaf data after and before) 
+   * efectively belong to the commited Merkle Map.
+   */
   @method checkMerkleUpdate(
     // map: MerkleMapProxy,
     key: Field, hashed: Field,
@@ -191,7 +185,7 @@ export class RootContract extends SmartContract {
     Circuit.log("Circuit.log newRoot=", updated.afterRoot);
   }
 
-  updateMember(
+  @method updateMember(
     member: ProvableMember,
     map: MerkleMapProxy,
     witness: MerkleMapWitness,
@@ -210,8 +204,4 @@ export class RootContract extends SmartContract {
     this.membersRoot.set(updated.afterRoot);
     Circuit.log("Circuit.log newRoot=", updated.afterRoot);
   }
-
-  //updateClaim(...)
-
-  //updateTask(...)
 }

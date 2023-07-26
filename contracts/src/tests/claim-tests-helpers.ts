@@ -1,8 +1,8 @@
 import { Mina, PrivateKey, PublicKey, Field, MerkleMapWitness, MerkleMap, Poseidon } from 'snarkyjs';
-import { ClaimContract, NullifierProxy } from '../ClaimContract.js';
+import { VotingContract, NullifierProxy } from '../VotingContract.js';
 
 export async function sendVote(
-  zkClaim: ClaimContract,
+  zkClaim: VotingContract,
   sender: {puk: PublicKey, prk: PrivateKey}, // sender and voter MUST be the same!
   vote: Field,
   nullifier: NullifierProxy

@@ -53,7 +53,7 @@ const
   CANCELED = Field(3); // TODO: not sure how can we change this state ?
 
 
-export class ClaimContract extends SmartContract {
+export class VotingContract extends SmartContract {
   // events to update Nullifier
   events = {
     'elector-has-voted': Field,
@@ -233,7 +233,7 @@ export class ClaimContract extends SmartContract {
     });
     Circuit.log("rollupVotes pendingVotes.length=", pendingVotes.length);
 
-    // build Voting state for Reducer
+    // build Voting initial state for Reducer
     let votingState: Votes = {
       total: votes,
       positive: positives,

@@ -1,45 +1,46 @@
 import { PrivateKey, PublicKey, Mina, Field, AccountUpdate, fetchAccount } from "snarkyjs";
-import { ClaimContract } from "./ClaimContract.js";
+import { VotingContract } from "./VotingContract.js";
 
-export { ClaimsFactory, ClaimInstance };
+export { ClaimsVotingFactory, VotingInstance };
 
 let proofsEnabled = true;
 
-const ClaimsFactory = {
-  compile: compileClaimContract, 
-  deploy: deployClaimContract,
-  getInstance: getClaimInstance
+const ClaimsVotingFactory = {
+  compile: compileVotingContract, 
+  deploy: deployVotingContract,
+  getInstance: getVotingInstance
 }
 
-type ClaimInstance = {
+type VotingInstance = {
   instance: any,
   address: PublicKey,
   secret?: PrivateKey
 }
 
 
-async function compileClaimContract() {
+async function compileVotingContract(proofsEnabled?: boolean) {
   // compile Contract
+  proofsEnabled = proofsEnabled === undefined ? true : proofsEnabled;
   console.log("proofs enabled=", proofsEnabled);
   console.log("compiling Contract ...");
-  if (proofsEnabled) await ClaimContract.compile();
+  if (proofsEnabled) await VotingContract.compile();
   console.log("compiled !");
 }
 
 
-async function deployClaimContract(
+async function deployVotingContract(
   claimUid: Field,
   requiredVotes: Field,
   requiredPositives: Field,
   deployerAccount: PublicKey,
   deployerKey: PrivateKey,
-): Promise<ClaimInstance> {
+): Promise<VotingInstance> {
   // we need to generate a new key pair for each deploy !
   const zkAppKey = PrivateKey.random();
   const zkAppAddr = zkAppKey.toPublicKey();
   console.log(`\nzkApp instance address=${zkAppAddr.toBase58()}`);
 
-  let zkApp = new ClaimContract(zkAppAddr);
+  let zkApp = new VotingContract(zkAppAddr);
   console.log("zkApp instance created!");
   
   // deploy it 
@@ -73,7 +74,7 @@ async function deployClaimContract(
   let actionsState = zkApp.actionsState.get(); 
   console.log("zkApp instance actionsState=", actionsState.toString())
 
-  const instance: ClaimInstance = {
+  const instance: VotingInstance = {
     instance: zkApp, 
     address: zkAppAddr, 
     secret: zkAppKey 
@@ -84,20 +85,20 @@ async function deployClaimContract(
 }
 
 
-async function getClaimInstance(
+async function getVotingInstance(
   address: PublicKey
-): Promise<ClaimInstance> {
+): Promise<VotingInstance> {
   // we need to create an instance of an already deployed contract
   console.log(`\nzkApp instance address=${address.toBase58()}`);
 
-  let zkApp = new ClaimContract(address);
+  let zkApp = new VotingContract(address);
   console.log("zkApp instance created!");
   
   // get some value after creating just for checking
   let actionsState = zkApp.actionsState.get(); 
   console.log("zkApp instance actionsState=", actionsState.toString())
 
-  const instance: ClaimInstance = {
+  const instance: VotingInstance = {
     instance: zkApp, 
     address: address
   };

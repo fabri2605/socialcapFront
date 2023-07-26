@@ -1,5 +1,5 @@
 import { Mina, Field, PrivateKey, PublicKey } from 'snarkyjs';
-import { ClaimInstance, ClaimsFactory } from "../claims-factory.js";
+import { VotingInstance, ClaimsVotingFactory } from "../claims-voting-factory.js";
 
 export { rollupClaims };
 
@@ -7,10 +7,10 @@ const TX_FEE = 100_000_000;
 
 
 async function rollupClaims(
-  running: ClaimInstance[],
+  running: VotingInstance[],
   payerAccount: PublicKey,
   payerSecret: PrivateKey
-): Promise<ClaimInstance[]> {
+): Promise<VotingInstance[]> {
   let updatedQueue = [];
 
   for (let j=0; j < running.length; j++) {
@@ -89,14 +89,14 @@ async function runRollerService(
   let isRolling = false;
   const ROLLUP_EVERY = (60*1000*1); // 1 min
 
-  let running: ClaimInstance[] = [];
+  let running: VotingInstance[] = [];
   // we should load the list of open claims from the database and then
   // instantiate them here to fill the runningClaims queue
   // TODO ...
   let openClaims: any[] = [];// await API.query("get_open_claims");
   (openClaims || []).forEach(async (claim: any) => {
     // const address = claims.accountId.toPublicKey();
-    // const instance = await ClaimsFactory.getInstance(address);
+    // const instance = await ClaimsVotingFactory.getInstance(address);
     // running.push(instance); 
   })
 
