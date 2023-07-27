@@ -8,11 +8,14 @@ import {
   testUpdatePerson, 
   testUpdateMember,
 } from "./root-tests-helpers-01.js"
+import { startTest } from './helpers.js';
 
 let Contract = CommunitiesContract;
 
+startTest("CommunitiesContract");
+
 let proofsEnabled = true;
-console.log("Proofs enabled=", proofsEnabled);
+console.log("\nProofs enabled=", proofsEnabled);
 
 let 
   deployerAccount: PublicKey,
@@ -23,7 +26,7 @@ let
   zkAppKey: PrivateKey;
 
 // compile Contract
-console.log("compiling Contract ...", Contract);
+console.log("\nCompiling Contract ...", Contract);
 if (proofsEnabled) 
   await Contract.compile();
 console.log("compiled !");
@@ -33,6 +36,7 @@ const Local = Mina.LocalBlockchain({ proofsEnabled });
 Mina.setActiveInstance(Local);
 
 // get some accounts
+console.log("\nDeploy");
 ({ privateKey: deployerKey, publicKey: deployerAccount } = Local.testAccounts[0]);
 ({ privateKey: senderKey, publicKey: senderAccount } = Local.testAccounts[1]);
 console.log("deployer Addr=", deployerAccount);
@@ -58,21 +62,18 @@ console.log("Deployed")
 
 // testing CommunitiesContract now ...
 
-console.log("begin testing contract ... updateCommunity");
 await testUpdateCommunity(
   zkApp, 
   senderAccount, 
   senderKey
 )
 
-console.log("begin testing contract ... updatePerson");
 await testUpdatePerson(
   zkApp, 
   senderAccount, 
   senderKey
 )
 
-console.log("begin testing contract ... updateMember");
 await testUpdateMember(
   zkApp, 
   senderAccount, 

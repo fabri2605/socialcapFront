@@ -54,7 +54,7 @@ export async function signUp(params: {
   console.log(`sign_up params=`, params);
   console.log(`sign_up result=`, person);
 
-  // 5. Add to ProvablePerson MerkleMap and updatePerson() on RootContract ...
+  // 5. Add to ProvablePerson MerkleMap and updatePerson() on RootsContract ...
   // this is just a Promise call and we do not wait for response !!!
   // updateProvablePerson(person);
 

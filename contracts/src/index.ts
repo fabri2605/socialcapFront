@@ -13,7 +13,7 @@ import { ProvableElector } from "./models/nullifier.js";
 import { MerkleMapProxy, MerkleMapUpdate, LeafInstance } from "./CommunitiesContract.js"
 import { CommunitiesContract } from "./CommunitiesContract.js";
 import { ClaimingsContract } from "./ClaimingsContract.js";
-import { ElectionsContract } from "./ElectionsContract.js";
+import { ElectorsContract } from "./ElectorsContract.js";
 import { VotingContract, NullifierProxy } from "./VotingContract.js";
 import { VotingInstance, ClaimsVotingFactory } from "./claims-voting-factory.js";
 
@@ -25,7 +25,7 @@ import {
 export { 
   CommunitiesContract,
   ClaimingsContract,
-  ElectionsContract,
+  ElectorsContract,
   VotingContract,
   VotingInstance,
   ClaimsVotingFactory,

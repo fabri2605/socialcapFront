@@ -16,6 +16,7 @@ import { ProvablePerson } from "../models/provable-person.js";
 import { ProvableMember } from "../models/provable-member.js";
 
 import { aCommunity, aPerson, aMember } from "./mockups.js";
+import { startTest, assertTest } from './helpers.js';
 
 
 export async function testUpdateCommunity(
@@ -23,6 +24,8 @@ export async function testUpdateCommunity(
   senderAccount: PublicKey,
   senderKey: PrivateKey
 ) {
+    startTest("testUpdateCommunity");
+
     // create a Community obj
     let org: ProvableCommunity = new ProvableCommunity(aCommunity);
     console.log(org);
@@ -75,8 +78,7 @@ export async function testUpdateCommunity(
     await txn.sign([senderKey]).send();
 
     const updatedRoot = zkApp.communitiesRoot.get();
-    console.log(JSON.stringify(updated, null, 2));
-    console.log("updatedRoot=", updatedRoot);
+    assertTest(updated, updatedRoot);
 }
 
 export async function testUpdatePerson(
@@ -84,6 +86,8 @@ export async function testUpdatePerson(
   senderAccount: PublicKey,
   senderKey: PrivateKey
 ) {
+    startTest("testUpdatePerson");
+
     // create a Community obj
     let o: ProvablePerson = new ProvablePerson(aPerson);
     console.log(o);
@@ -136,8 +140,7 @@ export async function testUpdatePerson(
     await txn.sign([senderKey]).send();
 
     const updatedRoot = zkApp.personsRoot.get();
-    console.log(JSON.stringify(updated, null, 2));
-    console.log("updatedRoot=", updatedRoot);
+    assertTest(updated, updatedRoot);
 }
 
 export async function testUpdateMember(
@@ -145,6 +148,8 @@ export async function testUpdateMember(
     senderAccount: PublicKey,
     senderKey: PrivateKey
   ) {
+    startTest("testUpdateMember");
+
     let o: ProvableMember = new ProvableMember(aMember);
     console.log(o);
 
@@ -196,6 +201,5 @@ export async function testUpdateMember(
     await txn.sign([senderKey]).send();
 
     const updatedRoot = zkApp.membersRoot.get();
-    console.log(JSON.stringify(updated, null, 2));
-    console.log("updatedRoot=", updatedRoot);
+    assertTest(updated, updatedRoot);
 }

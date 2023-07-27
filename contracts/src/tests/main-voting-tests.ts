@@ -1,5 +1,5 @@
 import { Mina, PrivateKey, PublicKey, Field } from 'snarkyjs';
-import { ClaimsVotingFactory } from "../claims-factory.js";
+import { ClaimsVotingFactory } from "../claims-voting-factory.js";
 import { rollupClaims } from "./claims-roller.js";
 import { sendVote, addElectorsToNullifier, getNullifierProxy } from './claim-tests-helpers.js';
 

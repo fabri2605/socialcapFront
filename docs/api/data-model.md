@@ -12,7 +12,7 @@ This are strict MINA accounts which hold on-chain state. All state referenced he
 
 **The Root Account**
 
-This is the main account, managed by the `RootContract` SmartContract, with the following state fields:
+This is the main account, managed by the `RootsContract` SmartContract, with the following state fields:
 ~~~
   // the Communities dataset, binded to the Provable Community entity
   // key: community.uid, value: community.hash()
@@ -62,7 +62,7 @@ A standard MINA account binded to a `Person` (user) entity in the system. They c
 
 **Claim Account** 
 
-Each Claim has its own account, created by the Mediator Service when someone submites a new claim. This Claim is maneged by the `ClaimContract` SmartContract which implements the voting process, and has the following state fields:
+Each Claim has its own account, created by the Mediator Service when someone submites a new claim. This Claim is maneged by the `VotingContract` SmartContract which implements the voting process, and has the following state fields:
 
 ~~~
   // associated claim (referenced in Root contract on claimsRoots dataset)
@@ -104,7 +104,7 @@ NOTES: who will be the deployer ? Socialcap or the applicant.
 
 ## Merkle Maps (offchain)
 
-We use the following MerkleMaps linked to the `RootContract` states:
+We use the following MerkleMaps linked to the `RootsContract` states:
 ~~~
   @state(Field) communitiesRoot = State<Field>();
   @state(Field) personsRoot = State<Field>();
@@ -194,7 +194,7 @@ Each leaf in this MerkleMap contains:
     ~~~
       uid: Field,
       state: CircuitString, 
-      accountId: PublicKey, // the address of the deployed ClaimContract for this claim
+      accountId: PublicKey, // the address of the deployed VotingContract for this claim
       fullName: CircuitString,
       description: CircuitString,
       image: CircuitString,

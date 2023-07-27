@@ -9,18 +9,21 @@ import {
 } from 'snarkyjs';
 
 import { MerkleMapUpdate, LeafInstance, MerkleMapProxy } from "../CommunitiesContract.js";
-import { ElectionsContract } from "../ElectionsContract.js"
+import { ElectorsContract } from "../ElectorsContract.js"
 
 import { ProvableTask } from "../models/provable-tasks.js";
 import { ProvableElector } from "../models/nullifier.js";
 import { aTask, aElector } from "./mockups.js";
+import { startTest, assertTest } from './helpers.js';
 
 
 export async function testUpdateTask(
-  zkApp: ElectionsContract,
+  zkApp: ElectorsContract,
   senderAccount: PublicKey,
   senderKey: PrivateKey
 ) {
+    startTest("testUpdateTask");
+
     // create a Community obj
     let o: ProvableTask = new ProvableTask(aTask);
     console.log(o);
@@ -73,16 +76,17 @@ export async function testUpdateTask(
     await txn.sign([senderKey]).send();
 
     const updatedRoot = zkApp.tasksRoot.get();
-    console.log(JSON.stringify(updated, null, 2));
-    console.log("updatedRoot=", updatedRoot);
+    assertTest(updated, updatedRoot);
 }
 
 
 export async function testUpdateNullifier(
-  zkApp: ElectionsContract,
+  zkApp: ElectorsContract,
   senderAccount: PublicKey,
   senderKey: PrivateKey
 ) {
+    startTest("testUpdateNullifier");
+
     // create a Community obj
     let o: ProvableElector = new ProvableElector(aElector);
     console.log(o);
@@ -135,6 +139,5 @@ export async function testUpdateNullifier(
     await txn.sign([senderKey]).send();
 
     const updatedRoot = zkApp.nullifierRoot.get();
-    console.log(JSON.stringify(updated, null, 2));
-    console.log("updatedRoot=", updatedRoot);
+    assertTest(updated, updatedRoot);
 }

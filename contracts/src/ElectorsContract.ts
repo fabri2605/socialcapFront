@@ -13,7 +13,7 @@ const zeroRoot = ((): Field => {
 })();
 
 
-export class ElectionsContract extends SmartContract {
+export class ElectorsContract extends SmartContract {
   // the tasks dataset, binded to the Provable Task entity
   // key: task.uid, value: task.hash()
   @state(Field) tasksRoot = State<Field>();

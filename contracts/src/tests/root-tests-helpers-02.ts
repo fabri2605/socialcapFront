@@ -14,6 +14,7 @@ import { ClaimingsContract } from "../ClaimingsContract.js"
 import { ProvableClaim } from "../models/provable-claims.js";
 import { ProvablePlan } from "../models/provable-plans.js";
 import { aClaim, aPlan } from "./mockups.js";
+import { startTest, assertTest } from './helpers.js';
 
 
 export async function testUpdateClaim(
@@ -21,6 +22,8 @@ export async function testUpdateClaim(
   senderAccount: PublicKey,
   senderKey: PrivateKey
 ) {
+    startTest("testUpdateClaim");
+
     // create a Community obj
     let o: ProvableClaim = new ProvableClaim(aClaim);
     console.log(o);
@@ -73,8 +76,7 @@ export async function testUpdateClaim(
     await txn.sign([senderKey]).send();
 
     const updatedRoot = zkApp.claimsRoot.get();
-    console.log(JSON.stringify(updated, null, 2));
-    console.log("updatedRoot=", updatedRoot);
+    assertTest(updated, updatedRoot);
 }
 
 export async function testUpdatePlan(
@@ -82,6 +84,8 @@ export async function testUpdatePlan(
   senderAccount: PublicKey,
   senderKey: PrivateKey
 ) {
+    startTest("testUpdatePlan");
+
     // create a Community obj
     let o: ProvablePlan = new ProvablePlan(aPlan);
     console.log(o);
@@ -134,6 +138,5 @@ export async function testUpdatePlan(
     await txn.sign([senderKey]).send();
 
     const updatedRoot = zkApp.plansRoot.get();
-    console.log(JSON.stringify(updated, null, 2));
-    console.log("updatedRoot=", updatedRoot);
+    assertTest(updated, updatedRoot);
 }

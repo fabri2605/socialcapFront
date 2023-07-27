@@ -64,7 +64,7 @@ class ProvablePlan extends Struct({
     //
     strategyHash?: string,
     expiration: number,
-    revocale: boolean,
+    revocable: boolean,
     total: number,
     available: number,
     startsUTC?: string,
@@ -95,7 +95,7 @@ class ProvablePlan extends Struct({
     //    
     this.strategyHash = Field(json.strategyHash || this.strategyHash || 0);
     this.expiration = Field(json.expiration || this.expiration || 0);
-    this.revocable = Bool(json.revocale || this.revocable || false);
+    this.revocable = Bool(json.revocable || this.revocable || false);
     this.total = Field(json.total || this.total || 0);
     this.available = Field(json.available || this.available || 0);
     this.startsUTC = UTCDateTime.fromString((json.startsUTC || this.startsUTC || 0).toString());

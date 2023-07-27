@@ -1,17 +1,20 @@
 import { Mina, PrivateKey, PublicKey, AccountUpdate,} from 'snarkyjs';
 import { UID } from "../lib/uid.js";
 
-import { ElectionsContract } from "../ElectionsContract.js";
+import { ElectorsContract } from "../ElectorsContract.js";
 
 import { 
   testUpdateTask,
   testUpdateNullifier
 } from "./root-tests-helpers-03.js"
+import { startTest } from './helpers.js';
 
-let Contract = ElectionsContract;
+let Contract = ElectorsContract;
+
+startTest("ElectorsContract");
 
 let proofsEnabled = true;
-console.log("Proofs enabled=", proofsEnabled);
+console.log("\nProofs enabled=", proofsEnabled);
 
 let 
   deployerAccount: PublicKey,
@@ -22,7 +25,7 @@ let
   zkAppKey: PrivateKey;
 
 // compile Contract
-console.log("compiling Contract ...", Contract);
+console.log("\nCompiling Contract ...", Contract);
 if (proofsEnabled) 
   await Contract.compile();
 console.log("compiled !");
@@ -32,6 +35,7 @@ const Local = Mina.LocalBlockchain({ proofsEnabled });
 Mina.setActiveInstance(Local);
 
 // get some accounts
+console.log("\nDeploy");
 ({ privateKey: deployerKey, publicKey: deployerAccount } = Local.testAccounts[0]);
 ({ privateKey: senderKey, publicKey: senderAccount } = Local.testAccounts[1]);
 console.log("deployer Addr=", deployerAccount);
@@ -55,16 +59,14 @@ await txn.prove();
 await txn.sign([deployerKey, zkAppKey]).send();
 console.log("Deployed")
 
-// testing ElectionsContract now ...
+// testing ElectorsContract now ...
 
-console.log("begin testing contract ... updateTask");
 await testUpdateTask(
   zkApp, 
   senderAccount, 
   senderKey
 )
 
-console.log("begin testing contract ... updateNullifier");
 await testUpdateNullifier(
   zkApp, 
   senderAccount, 
