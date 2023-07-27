@@ -4,7 +4,7 @@
   ]} />
 
 <DetailPageContent>
-  <Section class="section-sm pb-5">
+  <Section class="section-sm pb-5 text-start">
         <!-- <Alert color="nolight mb-4"> -->
       <div class="mt-4">
         <!-- <h4 class="alert-heading text-capitalize">

@@ -4,7 +4,9 @@ import { monitorMINATransaction } from "./monitors";
 export { 
   updateProfile, 
   updateCommunity, 
-  joinCommunity 
+  joinCommunity,
+  attachPlan,
+  updatePlan 
 }
 
 
@@ -60,4 +62,39 @@ async function joinCommunity(data: any): Promise<any> {
   monitorMINATransaction(rs.data.transaction.id);
 
   return rs.data.member;
+}
+
+/**
+ * Attachs a new plan to a given community
+ */
+async function attachPlan(data: any): Promise<any> {
+  AppStatus.push("Adding a Master plan to this community ...");  
+
+  let rs = await apiClient.mutate("add_plan", data);
+  if (rs.error) {
+    AppStatus.error("There is some error with the data, please review !");
+    return null;
+  }  
+  AppStatus.push("Profile updated !");  
+  
+  AppStatus.push("Now waiting for MINA transaction to complete");  
+  monitorMINATransaction(rs.data.transaction.id);
+
+  return rs.data.plan;
+}
+
+async function updatePlan(data: any): Promise<any> {
+  AppStatus.push("Updating the master plan ...");  
+
+  let rs = await apiClient.mutate("update_plan", data);
+  if (rs.error) {
+    AppStatus.error("There is some error with the data, please review !");
+    return null;
+  }  
+  AppStatus.push("Profile updated !");  
+  
+  AppStatus.push("Now waiting for MINA transaction to complete");  
+  monitorMINATransaction(rs.data.transaction.id);
+
+  return rs.data.plan;
 }
