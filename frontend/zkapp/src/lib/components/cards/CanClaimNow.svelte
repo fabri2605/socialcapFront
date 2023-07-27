@@ -4,7 +4,7 @@
      
       <div class="m-4 d-flex justify-content-start align-items-between position-relative">
         <!-- <img src={data.image} width="110px" class="mt-0" alt="..." crossorigin>   -->
-        <img src="/img/vars/BadgeGenerico.png" width="auto" class="img-thumbnail img-fluid mt-0" alt="..." crossorigin>  
+        <img src={data.image} style="max-width:120px;" width="auto" class="img-thumbnail img-fluid mt-0" alt="..." crossorigin>  
         
         <div class="ps-4 container-fluid w-100 h-100">
          
@@ -44,10 +44,10 @@
         </div> -->
 
 
-        <span>Only <Badge color="danger"  pill class="opacity-85 fs-2">4</Badge> left</span>
+        <span>Only <Badge color="danger"  pill class="opacity-85 fs-4">{data.available}</Badge> left</span>
+        &nbsp;
         <a href={`/credential/new/${uid}`} class="text-white text-decoration-none fs-sm">
-          
-          <Button class="px-4 fs-2 py-3 rounded-3 bg-primary text-white border-0" color="primary" size="sm">
+          <Button class="px-4 fs-2 py-2 rounded-3 bg-primary text-white border-0" color="primary" size="sm">
             Claim it now
           </Button>
         </a>
@@ -58,6 +58,7 @@
 
 <script>
   import { Badge, Button, Card, CardBody, CardHeader } from "sveltestrap";
+  //import 
 
   export let uid, data={};
 </script>

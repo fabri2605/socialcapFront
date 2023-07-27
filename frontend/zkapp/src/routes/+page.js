@@ -4,9 +4,10 @@ import { getCurrentUser } from '@models/current-user';
 import { setApiClient } from '$lib/globals';
 import { CoreAPIClient } from '@apis/core-api-client';
 import { getMyCommunities, getAllCommunities } from "@apis/queries"
+import { getMyClaimables } from '@apis/queries';
 
 // this is only for testing/mockups
-import { olClaimables, olCredentials, olMyCommunities, olSubmitedClaims, olTasks } from '@models/mockup-objects';
+import { olCredentials, olMyCommunities, olSubmitedClaims, olTasks } from '@models/mockup-objects';
 
 /** @type {import('./$types').PageLoad} */
 export async function load({ params, route, url }) {
@@ -24,7 +25,7 @@ export async function load({ params, route, url }) {
     let rs = { 
       user: user,
       isAuthenticated: isAuthenticated,
-      claimables: olClaimables,
+      claimables: await getMyClaimables(),
       credentials: olCredentials, 
       submited: olSubmitedClaims,
       joined: await getMyCommunities(),
@@ -33,6 +34,7 @@ export async function load({ params, route, url }) {
       assigned: olTasks.filter((t) => t.state==='PENDING'),
       stats: aStats
     }; 
+    console.log("main page data=", rs);
 
     return rs;
 }
