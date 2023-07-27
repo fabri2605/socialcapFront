@@ -102,7 +102,7 @@
       {/each}
 
       <div class="mt-5 mb-5 px-2 d-flex justify-content-center align-items-center">
-        <SubmitButton on:click={() => saveDraft()}
+        <SubmitButton on:click={saveDraft}
           color="secondary" label="Save draft ..."/>
         &nbsp;&nbsp;
         <SubmitButton on:click={() => saveDraftAndSubmit()}
@@ -127,6 +127,8 @@
   import { getCurrentUser, isFirstTimeUser } from "$lib/models/current-user";
   import StateBadge from "@components/StateBadge.svelte";
   import { prettyDate } from "@utilities/datetime";
+  import { AppStatus } from "@utilities/app-status";
+  import { addClaim, updateClaim } from "@apis/mutations";
 
   export let data; // this is the data for this MasterPlan and empty Claim
 
@@ -142,8 +144,33 @@
   const required = (t) => 
     `<span class="text-warning fw-bold">${t ? `Required` : ``}</span>.`;
 
+  function dataIsOk(data) {
+    if (!data.claim.alias.trim())
+      return false;
+
+    (data.claim.evidenceData || []).forEach((f) => {
+      if (f.required && f.value.trim().length ===0)
+        return false;
+    })
+    
+    return true;
+  }
+
   async function saveDraft() {
-    alert(JSON.stringify(data.claim, null, 4));
+    if (!dataIsOk(data)) {
+      AppStatus.error("Please fill all required fields !")
+      return;
+    }
+
+    let updated;
+    if (data.isNew) {
+      updated = await addClaim(data.claim);
+    }
+    else {
+      updated = await updateClaim(data.claim);
+    }
+    if (updated) 
+      history.back();
   }
 
   async function saveDraftAndSubmit() {

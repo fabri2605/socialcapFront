@@ -6,7 +6,10 @@ export {
   updateCommunity, 
   joinCommunity,
   attachPlan,
-  updatePlan 
+  updatePlan,
+  addClaim,
+  updateClaim,
+  submitClaim 
 }
 
 

@@ -108,8 +108,8 @@
             <br>
           </TabPane>
           <TabPane tabId="claims" tab="My claims">
-            {#each data.submited as submited}
-            <ClaimCard data={submited}/>
+            {#each data.claimed as claimed}
+            <ClaimCard data={claimed}/>
             {/each}
           </TabPane>
           <TabPane tabId="comns" tab="My communities" on:click={() => alert()}>

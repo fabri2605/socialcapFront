@@ -46,7 +46,7 @@
 
         <span>Only <Badge color="danger"  pill class="opacity-85 fs-4">{data.available}</Badge> left</span>
         &nbsp;
-        <a href={`/credential/new/${data.uid}`} class="text-white text-decoration-none fs-sm">
+        <a href={`/credential/edit/${data.uid}?isnew`} class="text-white text-decoration-none fs-sm">
           <Button class="px-4 fs-2 py-2 rounded-3 bg-primary text-white border-0" color="primary" size="sm">
             Claim it now
           </Button>

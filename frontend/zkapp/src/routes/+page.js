@@ -4,7 +4,7 @@ import { getCurrentUser } from '@models/current-user';
 import { setApiClient } from '$lib/globals';
 import { CoreAPIClient } from '@apis/core-api-client';
 import { getMyCommunities, getAllCommunities } from "@apis/queries"
-import { getMyClaimables } from '@apis/queries';
+import { getMyClaimables, getMyClaims } from '@apis/queries';
 
 // this is only for testing/mockups
 import { olCredentials, olMyCommunities, olSubmitedClaims, olTasks } from '@models/mockup-objects';
@@ -27,7 +27,7 @@ export async function load({ params, route, url }) {
       isAuthenticated: isAuthenticated,
       claimables: await getMyClaimables(),
       credentials: olCredentials, 
-      submited: olSubmitedClaims,
+      claimed: await getMyClaims(),
       joined: await getMyCommunities(),
       joinables: await getAllCommunities({notJoined: true}),
       allCommunities: await getAllCommunities(),

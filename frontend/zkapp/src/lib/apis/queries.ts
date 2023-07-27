@@ -7,7 +7,8 @@ export {
   getAdminedCommunity,
   getPlan,
   getMyClaimables,
-  getMyClaims
+  getMyClaims,
+  getClaim
 }
 
 
@@ -55,6 +56,12 @@ async function getMyClaimables(params: any): Promise<any[]> {
 async function getMyClaims(params: any): Promise<any[]> {
   let rs = await apiClient.query("get_my_claims", params);
   if (rs.error) return [];
+  return rs.data;
+}
+
+async function getClaim(uid: string): Promise<any> {
+  let rs = await apiClient.query("get_claim", { uid: uid });
+  if (rs.error) return null;
   return rs.data;
 }
 
