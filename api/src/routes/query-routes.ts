@@ -5,6 +5,7 @@ import { FastifyInstance } from "fastify";
 import { hasError, UNKNOWN_ERROR } from '../errors.js';
 import { i18n as _ } from "../i18n/messages.js";
 import { queryHandlers } from "../controllers/index.js";
+import { logger } from "../global.js";
 
 /**
  * A plugin that provide encapsulated routes
@@ -56,6 +57,7 @@ async function queryRoutes(
       return await callFn(params);
     }
     catch (err) {
+      logger.error(`queryRoutes ${method} Error=${err}`);
       reply.code(UNKNOWN_ERROR).send(hasError.Unknown(
         _.unknown_error(method, `params=${JSON.stringify(params)}`)
       ));

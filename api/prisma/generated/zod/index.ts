@@ -26,13 +26,13 @@ export const MembersScalarFieldEnumSchema = z.enum(['uid','communityUid','person
 
 export const ClaimScalarFieldEnumSchema = z.enum(['uid','communityUid','applicantUid','planUid','state','accountId','alias','createdUTC','updatedUTC','votedUTC','issuedUTC','dueUTC','requiredVotes','requiredPositives','positiveVotes','negativeVotes','ignoredVotes','evidenceData']);
 
-export const PlanScalarFieldEnumSchema = z.enum(['uid','communityUid','state','name','alias','description','image','template','evidence','strategy','createdUTC','updatedUTC','approvedUTC','fee','rewardsShare','communityShare','protocolShare','total','expiration','revocable','startsUTC','endsUTC']);
+export const PlanScalarFieldEnumSchema = z.enum(['uid','communityUid','state','name','alias','description','image','template','evidence','strategy','createdUTC','updatedUTC','approvedUTC','fee','rewardsShare','communityShare','protocolShare','total','available','expiration','revocable','startsUTC','endsUTC']);
 
 export const CredentialScalarFieldEnumSchema = z.enum(['uid','communityUid','claimId','applicantId','type','description','image','alias','starts','metadata','issuedUTC','expiresUTC']);
 
 export const TaskScalarFieldEnumSchema = z.enum(['uid','claimUid','assigneeUid','state','assignedUTC','completedUTC','dueUTC','rewarded','reason']);
 
-export const ProposedScalarFieldEnumSchema = z.enum(['uid','as','personUid','communityUid','createdUTC']);
+export const ProposedScalarFieldEnumSchema = z.enum(['uid','role','personUid','communityUid','createdUTC']);
 
 export const SortOrderSchema = z.enum(['asc','desc']);
 
@@ -180,7 +180,7 @@ export const MembersSchema = z.object({
   communityUid: z.string().max(32),
   personUid: z.string().max(32),
   /**
-   * // PLAIN, VALIDATOR, AUDITOR
+   * // 1:PLAIN, 2:VALIDATOR, 3:AUDITOR
    */
   role: z.string().max(32),
   createdUTC: z.coerce.date(),
@@ -255,6 +255,7 @@ export const PlanSchema = z.object({
   communityShare: z.number().int().nullish(),
   protocolShare: z.number().int().nullish(),
   total: z.number().int().nullish(),
+  available: z.number().int().nullish(),
   expiration: z.number().int().nullish(),
   revocable: z.boolean().nullish(),
   startsUTC: z.coerce.date().nullish(),
@@ -332,7 +333,7 @@ export type TaskPartial = z.infer<typeof TaskPartialSchema>
 
 export const ProposedSchema = z.object({
   uid: z.string(),
-  as: z.string(),
+  role: z.string(),
   personUid: z.string(),
   communityUid: z.string(),
   createdUTC: z.coerce.date(),

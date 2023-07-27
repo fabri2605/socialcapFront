@@ -177,7 +177,7 @@ async function checkParams(
 
   if (!params.success) raiseError.BadRequest(
     `Some received params for '${entityType}' uid=${uid} are invalid`+
-    `, params=${JSON.stringify(unsafeParams)} `
+    `, params=${JSON.stringify(unsafeParams)}, errors=${params.error} `
   )
 
   return params.data;
@@ -234,7 +234,7 @@ async function updateIndexer(
     `Could not found ${entityType} uid=${uid}`
   )
 
-  let data: any = {};
+  let data: any = params;
   try {
     Object.keys(p).map((k) => {
       data[k] = data[k] || p[k] ;
@@ -242,7 +242,8 @@ async function updateIndexer(
   } catch(err) { raiseError.DatabaseEngine(
     `Could not validate '${entityType}' uid=${uid} params=${JSON.stringify(params)}`
   )}
-
+  delete data.new;
+    
   const rs = await db.upsert({
     where: { uid: uid },
     update: { ...data },

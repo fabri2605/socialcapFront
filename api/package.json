@@ -50,9 +50,6 @@
     "typedoc": "^0.24.8",
     "typescript": "^4.7.2"
   },
-  "peerDependencies": {
-    "snarkyjs": "0.11.*"
-  },
   "dependencies": {
     "@fastify/cors": "^8.3.0",
     "@fastify/jwt": "^7.0.0",
@@ -60,6 +57,7 @@
     "@prisma/client": "^5.0.0",
     "@socialcap/contracts": "^0.1.6",
     "fastify": "^4.17.0",
-    "module-alias": "^2.2.2"
+    "module-alias": "^2.2.2",
+    "snarkyjs": "^0.12.1"
   }
 }

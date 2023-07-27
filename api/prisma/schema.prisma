@@ -108,9 +108,6 @@ model Community {
   updatedUTC  DateTime  @default(now()) @map("updated_utc")
   approvedUTC DateTime? @map("approved_utc")
 
-  // Persons related to this Community
-  // Members Members[]
-
   @@map("communities")
 }
 
@@ -118,10 +115,8 @@ model Members {
   uid          String    @id @unique // is [communityUid:personUid]
   // members of this community
   communityUid String /// @zod.string.max(32)
-  //community    Community @relation(fields: [communityUid], references: [uid])
   personUid    String /// @zod.string.max(32)
-  // person       Person    @relation(fields: [personUid], references: [uid])
-  role         String    @default("0") /// @zod.string.max(32) // PLAIN, VALIDATOR, AUDITOR
+  role         String    @default("0") /// @zod.string.max(32) // 1:PLAIN, 2:VALIDATOR, 3:AUDITOR
   createdUTC   DateTime  @default(now()) @map("created_utc")
   approvedUTC  DateTime?
 
@@ -147,6 +142,8 @@ model Claim {
   negativeVotes     Int?      @default(0) @map("negative_votes")
   ignoredVotes      Int?      @default(0) @map("ignored_votes")
   evidenceData      String?   @default("") @map("evidence_data")
+
+  @@map("claims")
 }
 
 model Plan {
@@ -167,11 +164,14 @@ model Plan {
   rewardsShare   Int?      @default(0) @map("rewards_share")
   communityShare Int?      @default(0) @map("community_share")
   protocolShare  Int?      @default(0) @map("protocol_share")
-  total          Int?      @default(0)
+  total          Int?      @default(1)
+  available      Int?      @default(1)
   expiration     Int?      @default(0)
   revocable      Boolean?  @default(false)
   startsUTC      DateTime? @map("starts_utc")
   endsUTC        DateTime? @map("ends_utc")
+
+  @@map("plans")
 }
 
 model Credential {
@@ -187,6 +187,8 @@ model Credential {
   metadata     String?   @default("{}")
   issuedUTC    DateTime? @map("issued_utc")
   expiresUTC   DateTime? @map("expires _utc")
+
+  @@map("credentials")
 }
 
 model Task {
@@ -199,12 +201,16 @@ model Task {
   dueUTC       DateTime? @map("due_utc")
   rewarded     Int?      @default(0)
   reason       Int?      @default(0)
+
+  @@map("tasks")
 }
 
 model Proposed {
   uid          String   @id @unique
-  as           String // Validator, Auditor,
+  role         String // "2": Validator, "3": Auditor
   personUid    String   @map("person_uid")
   communityUid String   @map("community_uid")
   createdUTC   DateTime @default(now()) @map("created_utc")
+
+  @@map("proposeds")
 }
