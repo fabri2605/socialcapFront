@@ -8,21 +8,17 @@
 	import { Spinner, Icon, TabContent, TabPane, Button } from 'sveltestrap';
   import RootHeader from '@components/HubPageHeader.svelte'; 
   import HubPageContent from '@components/HubPageContent.svelte';
-  import EmptyCredentials from '@components/EmptyCredentials.svelte';
   import EmptyFirstTime from '@components/EmptyFirstTime.svelte';
-  import Sidenote from '@components/Sidenote.svelte';
-  import CanClaimNow from '@components/CanClaimNow.svelte';
   import Section from '@components/Section.svelte';
   import HomeAdminsCard from '@components/home/HomeAdminsCard.svelte';
   import HomeCredentialsCard from '@components/home/HomeCredentialsCard.svelte';
   import HomeCommunitiesCard from '@components/home/HomeCommunitiesCard.svelte';
-  import HomeValidatorsCard from '@components/home/HomeValidatorsCard.svelte';
   import CredentialCard from '@components/CredentialCard.svelte';
   import ClaimCard from "@components/ClaimCard.svelte";
   import CommunityCard from '@components/CommunityCard.svelte';
   import TaskCard from '@components/TaskCard.svelte';
 
-  import HomePageContent from './_HomePageContent.svelte';
+  // import HomePageContent from './_HomePageContent.svelte';
 
   export let data; // this is the data for the lists
 

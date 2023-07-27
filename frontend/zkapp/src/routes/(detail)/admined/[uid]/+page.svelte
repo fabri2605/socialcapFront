@@ -44,10 +44,10 @@
     <hr/>
   </Section>
   
-  <Section class="section-lg">
+  <Section class="section-md">
     <TabContent>
       <span style="width:1rem;">&nbsp;</span>
-      <TabPane tabId="name" tab="General">
+      <TabPane tabId="name" tab="General" class="text-start" active>
         <FormGroup>
           <Label>Name</Label>
           <Input type="text" bind:value={data.name} />
@@ -63,7 +63,7 @@
         </FormGroup>
       </TabPane>
 
-      <TabPane tabId="plans" tab="Master Plans" active>
+      <TabPane tabId="plans" tab="Master Plans">
         {#each data.plans as plan}
           <MasterPlanItem plan={plan} />
         {/each}
@@ -104,7 +104,6 @@
   import { FormGroup, Label, Input } from "sveltestrap";
   // import { Modal, ModalBody, ModalFooter, ModalHeader } from 'sveltestrap';
   import Filler from "@components/Filler.svelte";
-  import CanClaimNow from "@components/CanClaimNow.svelte";
   import Section from "@components/Section.svelte";
   import DetailPageContent from "@components/DetailPageContent.svelte";
   import DetailPageHeader from "@components/DetailPageHeader.svelte";

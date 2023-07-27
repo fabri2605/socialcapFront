@@ -98,3 +98,56 @@ async function updatePlan(data: any): Promise<any> {
 
   return rs.data.plan;
 }
+
+
+/**
+ * Claim mutations: addClaim, updateClaim, submitClaim
+ */
+async function addClaim(data: any): Promise<any> {
+  AppStatus.push("Creating the Claim #"+data.uid);  
+
+  let rs = await apiClient.mutate("add_claim", data);
+  if (rs.error) {
+    AppStatus.error("There is some error with the data, please review !");
+    return null;
+  }  
+  AppStatus.push("Claim created !");  
+  
+  AppStatus.push("Now waiting for MINA transaction to complete");  
+  monitorMINATransaction(rs.data.transaction.id);
+
+  return rs.data.claim;
+}
+
+async function updateClaim(data: any): Promise<any> {
+  AppStatus.push("Updating the Claim #"+data.uid);  
+
+  let rs = await apiClient.mutate("update_claim", data);
+  if (rs.error) {
+    AppStatus.error("There is some error with the data, please review !");
+    return null;
+  }  
+  AppStatus.push("Claim updated !");  
+  
+  AppStatus.push("Now waiting for MINA transaction to complete");  
+  monitorMINATransaction(rs.data.transaction.id);
+
+  return rs.data.claim;
+}
+
+/** This really starts the voting process */
+async function submitClaim(data: any): Promise<any> {
+  AppStatus.push("Submitting the Claim #"+data.uid);  
+
+  let rs = await apiClient.mutate("submit_claim", data);
+  if (rs.error) {
+    AppStatus.error("There is some error with the data, please review !");
+    return null;
+  }  
+  AppStatus.push("Claim submitted. The voting process will start soon ...");  
+  
+  AppStatus.push("Now waiting for MINA transaction to complete");  
+  monitorMINATransaction(rs.data.transaction.id);
+
+  return rs.data.claim;
+}

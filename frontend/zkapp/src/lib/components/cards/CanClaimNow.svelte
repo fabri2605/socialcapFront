@@ -24,12 +24,12 @@
 
         <div class="d-flex flex-column justify-start">
           <small class="m-0 fs-6 color-dark text-uppercase letter-spacing-sc-1">Start Date</small>
-          <p class="fs-sm fw-bold">{data.startsUTC}</p>
+          <p class="fs-sm fw-bold">{prettyDate(data.startsUTC)}</p>
         </div>
 
         <div class="d-flex flex-column justify-start">
           <small class="m-0 fs-6 color-dark text-uppercase letter-spacing-sc-1">Ends Date</small>
-          <p class="fs-sm fw-bold">{data.endsUTC}</p>
+          <p class="fs-sm fw-bold">{prettyDate(data.endsUTC)}</p>
         </div>
 
       </div>
@@ -46,7 +46,7 @@
 
         <span>Only <Badge color="danger"  pill class="opacity-85 fs-4">{data.available}</Badge> left</span>
         &nbsp;
-        <a href={`/credential/new/${uid}`} class="text-white text-decoration-none fs-sm">
+        <a href={`/credential/new/${data.uid}`} class="text-white text-decoration-none fs-sm">
           <Button class="px-4 fs-2 py-2 rounded-3 bg-primary text-white border-0" color="primary" size="sm">
             Claim it now
           </Button>
@@ -58,7 +58,7 @@
 
 <script>
   import { Badge, Button, Card, CardBody, CardHeader } from "sveltestrap";
-  //import 
+  import { prettyDate } from "@utilities/datetime";
 
-  export let uid, data={};
+  export let data={};
 </script>

@@ -52,3 +52,10 @@ async function getMyClaimables(params: any): Promise<any[]> {
   return rs.data;
 }
 
+async function getMyClaims(params: any): Promise<any[]> {
+  let rs = await apiClient.query("get_my_claims", params);
+  if (rs.error) return [];
+  return rs.data;
+}
+
+

@@ -276,7 +276,6 @@
   import { FormGroup, Label, Input, FormText } from "sveltestrap";
   // import { Modal, ModalBody, ModalFooter, ModalHeader } from 'sveltestrap';
   import Filler from "@components/Filler.svelte";
-  import CanClaimNow from "@components/CanClaimNow.svelte";
   import Section from "@components/Section.svelte";
   import DetailPageContent from "@components/DetailPageContent.svelte";
   import DetailPageHeader from "@components/DetailPageHeader.svelte";
