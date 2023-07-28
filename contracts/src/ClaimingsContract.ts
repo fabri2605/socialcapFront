@@ -6,12 +6,6 @@ import { ProvableClaim } from "./models/provable-claims.js";
 import { ProvablePlan } from "./models/provable-plans.js";
 import { ProvableCredential } from "./models/provable-credentials.js";
 
-const zeroRoot = ((): Field => {
-  const mt = new MerkleMap();
-  mt.set(Field(0), Field(0)); // we set a first NULL key, with a NULL value
-  return mt.getRoot(); 
-})();
-
 
 export class ClaimingsContract extends SmartContract {
   // the MasterPlans dataset, binded to the Provable MasterPlan entity
@@ -29,9 +23,16 @@ export class ClaimingsContract extends SmartContract {
 
   init() {
     super.init();
-    this.plansRoot.set(zeroRoot);
-    this.claimsRoot.set(zeroRoot);
-    this.credentialsRoot.set(zeroRoot);
+    const zero = this.zeroRoot(); 
+    this.plansRoot.set(zero);
+    this.claimsRoot.set(zero);
+    this.credentialsRoot.set(zero);
+  }
+
+  zeroRoot(): Field {
+    const mt = new MerkleMap();
+    mt.set(Field(0), Field(0)); // we set a first NULL key, with a NULL value
+    return mt.getRoot(); 
   }
 
   /**

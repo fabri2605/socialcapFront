@@ -1,5 +1,6 @@
 import { PrivateKey, PublicKey, Mina, Field, AccountUpdate, fetchAccount } from "snarkyjs";
 import { VotingContract } from "./VotingContract.js";
+import { checkTransaction } from "./tests/helpers.js";
 
 export { ClaimsVotingFactory, VotingInstance };
 
@@ -16,6 +17,8 @@ type VotingInstance = {
   address: PublicKey,
   secret?: PrivateKey
 }
+
+const DEPLOY_TX_FEE = 300_000_000;
 
 
 async function compileVotingContract(proofsEnabled?: boolean) {
@@ -44,7 +47,8 @@ async function deployVotingContract(
   console.log("zkApp instance created!");
   
   // deploy it 
-  let txn = await Mina.transaction(deployerAccount, () => {
+  let txn = await Mina.transaction(
+    { sender:deployerAccount, fee: DEPLOY_TX_FEE }, () => {
     // IMPORTANT: the deployer account must already be funded 
     // or this will fail miserably ughhh
     AccountUpdate.fundNewAccount(deployerAccount);
@@ -54,21 +58,35 @@ async function deployVotingContract(
 
   // this tx needs .sign(), because `deploy()` adds an account update 
   // that requires signature authorization
-  await txn.sign([deployerKey, zkAppKey]).send();
+  txn.sign([deployerKey, zkAppKey]);
+  let pendingTx = await txn.send();
   console.log("zkApp instance deployed !")
   
+  checkTransaction(pendingTx);
+
   // wait for account ...
   await fetchAccount({ publicKey: zkAppAddr });
+
+  await loopUntilAccountExists({
+    account: zkAppAddr,
+    eachTimeNotExist: () => {
+      console.log('Waiting for zkApp account to be fully available ...');
+    },
+    isZkAppAccount: true,
+  });
 
   // initialize it !
   // we can only call setup() AFTER we are sure the deployed account exists
   // otherwise we have failures when initializing ...
-  txn = await Mina.transaction(deployerAccount, () => {
+  txn = await Mina.transaction(
+    { sender:deployerAccount, fee: DEPLOY_TX_FEE }, () => {
     zkApp.setup(claimUid, requiredVotes, requiredPositives);
   });
   await txn.prove();
-  await txn.sign([deployerKey]).send();
+  let pndTx2 = await txn.sign([deployerKey]).send();
   console.log("zkApp instance initialized !")
+
+  checkTransaction(pndTx2);
 
   // get some value after deploy
   let actionsState = zkApp.actionsState.get(); 
@@ -86,12 +104,16 @@ async function deployVotingContract(
 
 
 async function getVotingInstance(
-  address: PublicKey
+  publicKey: PublicKey
 ): Promise<VotingInstance> {
   // we need to create an instance of an already deployed contract
-  console.log(`\nzkApp instance address=${address.toBase58()}`);
+  console.log(`\nzkApp instance address=${publicKey.toBase58()}`);
 
-  let zkApp = new VotingContract(address);
+  let response = await fetchAccount({ publicKey: publicKey });
+  console.log("zkApp account exists ?", response);
+  console.log("zkApp status=", response.account?.zkapp?.appState);
+
+  let zkApp = new VotingContract(publicKey);
   console.log("zkApp instance created!");
   
   // get some value after creating just for checking
@@ -100,7 +122,7 @@ async function getVotingInstance(
 
   const instance: VotingInstance = {
     instance: zkApp, 
-    address: address
+    address: publicKey
   };
 
   logIt(instance);
@@ -114,4 +136,34 @@ function logIt(zkapp: any) {
     +`\naddress= ${zkapp.address.toBase58()}`
     +`\nsecret= ${zkapp?.secret?.toBase58() || ''}`  
   );
+}
+
+
+async function loopUntilAccountExists({
+  account,
+  eachTimeNotExist,
+  isZkAppAccount,
+}: {
+  account: PublicKey;
+  eachTimeNotExist: () => void;
+  isZkAppAccount: boolean;
+}) {
+  for (;;) {
+    let response = await fetchAccount({ publicKey: account });
+    let accountExists = response.account !== undefined;
+    //console.log(response.account);
+
+    if (isZkAppAccount) {
+      // CHANGED: accountExists = response.account?.appState !== undefined;
+      accountExists = response.account?.zkapp?.appState !== undefined;
+    }
+
+    if (!accountExists) {
+      eachTimeNotExist();
+      await new Promise((resolve) => setTimeout(resolve, 5000));
+    } else {
+      // TODO add optional check that verification key is correct once this is available in SnarkyJS
+      return response.account!;
+    }
+  }
 }

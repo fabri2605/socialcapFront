@@ -6,13 +6,6 @@ import { ProvableTask } from "./models/provable-tasks.js";
 import { ProvableElector } from "./models/nullifier.js";
 
 
-const zeroRoot = ((): Field => {
-  const mt = new MerkleMap();
-  mt.set(Field(0), Field(0)); // we set a first NULL key, with a NULL value
-  return mt.getRoot(); 
-})();
-
-
 export class ElectorsContract extends SmartContract {
   // the tasks dataset, binded to the Provable Task entity
   // key: task.uid, value: task.hash()
@@ -26,10 +19,17 @@ export class ElectorsContract extends SmartContract {
 
   init() {
     super.init();
-    this.tasksRoot.set(zeroRoot);
-    this.nullifierRoot.set(zeroRoot);
+    const zero = this.zeroRoot(); 
+    this.tasksRoot.set(zero);
+    this.nullifierRoot.set(zero);
   }
 
+  zeroRoot(): Field {
+    const mt = new MerkleMap();
+    mt.set(Field(0), Field(0)); // we set a first NULL key, with a NULL value
+    return mt.getRoot(); 
+  }
+  
   /**
    * Check that only the contract deployer can call the method.
    * The deployer will be the Socialcap main account, which will also act
@@ -58,6 +58,8 @@ export class ElectorsContract extends SmartContract {
     const [ previousRoot, previousKey ] = witness.computeRootAndKey(
       updated.beforeLeaf.hash
     );
+    Circuit.log("Circuit.log previousRoot=", previousRoot);
+    Circuit.log("Circuit.log currentRoot=", currentRoot);
 
     // check root is correct and match the Witness
     previousRoot.assertEquals(currentRoot);
@@ -109,7 +111,9 @@ export class ElectorsContract extends SmartContract {
     
     // set the new root
     this.tasksRoot.set(updated.afterRoot);
-    Circuit.log("Circuit.log newRoot=", updated.afterRoot);
+    Circuit.log("Circuit.log newTasksRoot=", updated.afterRoot);
+    const changedRoot = this.tasksRoot.get();
+    this.tasksRoot.assertEquals(changedRoot);
   }
 
 

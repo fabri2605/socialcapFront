@@ -1,74 +1,68 @@
-import { Mina, PrivateKey, PublicKey, AccountUpdate,} from 'snarkyjs';
+import 'dotenv/config';
+import { Mina, PrivateKey, PublicKey, AccountUpdate, fetchAccount} from 'snarkyjs';
 import { UID } from "../lib/uid.js";
-
 import { ElectorsContract } from "../ElectorsContract.js";
-
 import { 
   testUpdateTask,
   testUpdateNullifier
 } from "./root-tests-helpers-03.js"
-import { startTest } from './helpers.js';
-
-let Contract = ElectorsContract;
+import { 
+  startTest, 
+  getAccountsForTesting, 
+  deployContract, 
+  useContract, 
+getArgvs 
+} from './helpers.js';
 
 startTest("ElectorsContract");
 
-let proofsEnabled = true;
-console.log("\nProofs enabled=", proofsEnabled);
+let Contract = ElectorsContract;
 
-let 
-  deployerAccount: PublicKey,
-  deployerKey: PrivateKey,
-  senderAccount: PublicKey,
-  senderKey: PrivateKey,
-  zkAppAddr: PublicKey,
-  zkAppKey: PrivateKey;
+let [netw, proofsEnabled] = getArgvs();
+
+// set network and some accounts
+let { 
+  deployerAccount, deployerKey, 
+  senderAccount, senderKey 
+} = await getAccountsForTesting(netw, proofsEnabled);
 
 // compile Contract
 console.log("\nCompiling Contract ...", Contract);
-if (proofsEnabled) 
-  await Contract.compile();
+console.log("with proofsEnabled=", proofsEnabled);
+if (proofsEnabled) await ElectorsContract.compile();
 console.log("compiled !");
 
-// set instance
-const Local = Mina.LocalBlockchain({ proofsEnabled });
-Mina.setActiveInstance(Local);
-
-// get some accounts
-console.log("\nDeploy");
-({ privateKey: deployerKey, publicKey: deployerAccount } = Local.testAccounts[0]);
-({ privateKey: senderKey, publicKey: senderAccount } = Local.testAccounts[1]);
-console.log("deployer Addr=", deployerAccount);
-console.log("sender Addr=", senderAccount);
-
 // create zkapp keys and instance 
-zkAppKey = PrivateKey.random();
-zkAppAddr = zkAppKey.toPublicKey();
-let zkApp = new Contract(zkAppAddr);
-console.log("zkApp Addr=", zkAppAddr.toBase58());
-console.log("zkApp=", zkApp);
+/*
+let zkApp = await deployContract(
+  "Electors", 
+  deployerAccount, 
+  deployerKey
+); 
+*/
 
-// deploy it 
-const txn = await Mina.transaction(deployerAccount, () => {
-  AccountUpdate.fundNewAccount(deployerAccount);
-  zkApp.deploy();
-});
-await txn.prove();
-// this tx needs .sign(), because `deploy()` adds an account update 
-// that requires signature authorization
-await txn.sign([deployerKey, zkAppKey]).send();
-console.log("Deployed")
+let zkAppAddr = process.env.ELECTORS_CONTRACT_ID as string;
+let zkApp = await useContract(
+  "Electors", 
+  zkAppAddr
+);
+
+console.log("tasksRoot.get=", zkApp.tasksRoot.get().toString());
+console.log("nullifierRoot.get=", zkApp.nullifierRoot.get().toString());
 
 // testing ElectorsContract now ...
 
+/*
 await testUpdateTask(
   zkApp, 
   senderAccount, 
   senderKey
 )
+*/
 
 await testUpdateNullifier(
   zkApp, 
   senderAccount, 
   senderKey
 )
+

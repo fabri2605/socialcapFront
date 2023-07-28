@@ -1,9 +1,9 @@
 import { Mina, Field, PrivateKey, PublicKey } from 'snarkyjs';
-import { VotingInstance, ClaimsVotingFactory } from "../claims-voting-factory.js";
+import { VotingInstance, ClaimsVotingFactory } from "./claims-voting-factory.js";
 
 export { rollupClaims };
 
-const TX_FEE = 100_000_000;
+const ROLLUP_TX_FEE = 300_000_000;
 
 
 async function rollupClaims(
@@ -32,7 +32,9 @@ async function rollupClaims(
     // CAUTION: we must be sure about what does reducer.getActions() really
     // returns because it may be misgiding
     let actionsState: Field = instance.actionsState.get();
-    let pending = instance.reducer.getActions({
+    console.log("actionsState=", actionsState.toString());
+
+/*     let pending = instance.reducer.getActions({
       fromActionState: actionsState,
     });
     console.log("rollingClaims pending votes= ", pending.length);
@@ -40,14 +42,14 @@ async function rollupClaims(
     // if no pending votes we just go to the next instance ...
     // we run rollup ONLY when we have something to rollup
     if (pending.length === 0) continue;
-    
+ */    
     // we should check here if payer has funds for TX fees
     // ...
 
     // run the rollup now
     try {
       let tx = await Mina.transaction(
-        { sender: payerAccount, fee: TX_FEE }, 
+        { sender: payerAccount, fee: ROLLUP_TX_FEE }, 
         () => { instance.rollupVotes(); }
       );
       await tx.prove();

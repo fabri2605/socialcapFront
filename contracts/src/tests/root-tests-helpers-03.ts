@@ -16,6 +16,7 @@ import { ProvableElector } from "../models/nullifier.js";
 import { aTask, aElector } from "./mockups.js";
 import { startTest, assertTest } from './helpers.js';
 
+const UPDATE_TX_FEE = 300_000_000;
 
 export async function testUpdateTask(
   zkApp: ElectorsContract,
@@ -69,11 +70,26 @@ export async function testUpdateTask(
     let witness = mt.getWitness(key);
 
     // update transaction
-    const txn = await Mina.transaction(senderAccount, () => {
-      zkApp.updateTask(o, map, witness, updated);
-    });
+    const txn = await Mina.transaction(
+      {sender: senderAccount, fee: UPDATE_TX_FEE}, 
+      () => {
+        zkApp.updateTask(o, map, witness, updated);
+      }
+    );
     await txn.prove();
-    await txn.sign([senderKey]).send();
+
+    txn.sign([senderKey]);
+    let pendingTx = await txn.send();
+
+    // check if Tx was success or failed
+    if (!pendingTx.isSuccess) {
+      console.log('Error sending transaction (see above)');
+      // process.exit(0); // we will NOT exit here, but retry latter !!!
+    }
+    console.log(
+      `See transaction at https://berkeley.minaexplorer.com/transaction/${pendingTx.hash()}
+      Waiting for transaction to be included...`
+    );
 
     const updatedRoot = zkApp.tasksRoot.get();
     assertTest(updated, updatedRoot);
@@ -132,11 +148,26 @@ export async function testUpdateNullifier(
     let witness = mt.getWitness(key);
 
     // update transaction
-    const txn = await Mina.transaction(senderAccount, () => {
-      zkApp.updateNullifier(o, map, witness, updated);
-    });
+    const txn = await Mina.transaction(
+      {sender: senderAccount, fee: UPDATE_TX_FEE}, 
+      () => {
+        zkApp.updateNullifier(o, map, witness, updated);
+      }
+    );
     await txn.prove();
-    await txn.sign([senderKey]).send();
+
+    txn.sign([senderKey]);
+    let pendingTx = await txn.send();
+
+    // check if Tx was success or failed
+    if (!pendingTx.isSuccess) {
+      console.log('Error sending transaction (see above)');
+      // process.exit(0); // we will NOT exit here, but retry latter !!!
+    }
+    console.log(
+      `See transaction at https://berkeley.minaexplorer.com/transaction/${pendingTx.hash()}
+      Waiting for transaction to be included...`
+    );
 
     const updatedRoot = zkApp.nullifierRoot.get();
     assertTest(updated, updatedRoot);

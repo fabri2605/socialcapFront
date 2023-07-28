@@ -58,13 +58,6 @@ export class MerkleMapProxy extends Struct({
 }) {}
 
 
-const zeroRoot = ((): Field => {
-  const mt = new MerkleMap();
-  mt.set(Field(0), Field(0)); // we set a first NULL key, with a NULL value
-  return mt.getRoot(); 
-})();
-
-
 export class CommunitiesContract extends SmartContract {
   // the Communities dataset, binded to the Provable Community entity
   // key: community.uid, value: community.hash()
@@ -82,9 +75,16 @@ export class CommunitiesContract extends SmartContract {
 
   init() {
     super.init();
-    this.communitiesRoot.set(zeroRoot);
-    this.personsRoot.set(zeroRoot);
-    this.membersRoot.set(zeroRoot);
+    const zero = this.zeroRoot(); 
+    this.communitiesRoot.set(zero);
+    this.personsRoot.set(zero);
+    this.membersRoot.set(zero);
+  }
+
+  zeroRoot(): Field {
+    const mt = new MerkleMap();
+    mt.set(Field(0), Field(0)); // we set a first NULL key, with a NULL value
+    return mt.getRoot(); 
   }
 
   /**

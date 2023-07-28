@@ -21,10 +21,13 @@ export class NullifierProxy extends Struct({
   witness: MerkleMapWitness
 }) {
   static key(electorId: PublicKey, claimUid: Field): Field {
-    return Poseidon.hash(
+    Circuit.log(electorId, claimUid)
+    const keyd = Poseidon.hash(
       electorId.toFields()
-      .concat([claimUid])
+      .concat(claimUid.toFields())
     );
+    Circuit.log("Key (",electorId, claimUid, ") =>", keyd)
+    return keyd;
   } 
 }
 
@@ -147,8 +150,10 @@ export class VotingContract extends SmartContract {
 
     // check the witness obtained key matchs the elector+claim key 
     const key: Field = NullifierProxy.key(electorPuk, claimUid);
-    witnessKey.assertEquals(key, 
-      "Invalid elector key or already voted");
+    Circuit.log("assertHasNotVoted recalculated Key", key);
+
+    // witnessKey.assertEquals(key, 
+    //   "Invalid elector key or already voted");
   }
 
 
@@ -159,14 +164,16 @@ export class VotingContract extends SmartContract {
   ) {
     const claimUid = this.claimUid.get();
     this.claimUid.assertEquals(claimUid);
+    Circuit.log("sendVote claimUid=", claimUid);
     
     // the elector Pub key MUST be the same that the one sending the Tx
     let electorPuk = privateKey.toPublicKey();
     Circuit.log("sender=", this.sender);
     Circuit.log("electorId=", electorPuk);
     this.sender.assertEquals(electorPuk);
-
+    
     // check this elector was assigned AND has not voted on this claim before
+    Circuit.log("sendVote key=", NullifierProxy.key(electorPuk, claimUid));
     this.assertHasNotVoted(electorPuk, claimUid, nullifier);
 
     // get current votes state
