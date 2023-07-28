@@ -10,6 +10,7 @@ import { ProvableTask } from "./models/provable-tasks.js";
 import { ProvableCredential } from "./models/provable-credentials.js";
 import { ProvableElector } from "./models/nullifier.js";
 
+import { SocialcapContract } from "./SocialcapContract.js";
 import { MerkleMapProxy, MerkleMapUpdate, LeafInstance } from "./CommunitiesContract.js"
 import { CommunitiesContract } from "./CommunitiesContract.js";
 import { ClaimingsContract } from "./ClaimingsContract.js";
@@ -23,6 +24,7 @@ import {
 } from "./models/states.js";
 
 export { 
+  SocialcapContract,
   CommunitiesContract,
   ClaimingsContract,
   ElectorsContract,
