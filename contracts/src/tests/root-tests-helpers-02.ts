@@ -14,7 +14,7 @@ import { ClaimingsContract } from "../ClaimingsContract.js"
 import { ProvableClaim } from "../models/provable-claims.js";
 import { ProvablePlan } from "../models/provable-plans.js";
 import { aClaim, aPlan } from "./mockups.js";
-import { startTest, assertTest } from './helpers.js';
+import { startTest, assertTest } from './test-helpers.js';
 
 
 export async function testUpdateClaim(

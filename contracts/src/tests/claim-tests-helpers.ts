@@ -1,6 +1,6 @@
 import { Mina, PrivateKey, PublicKey, Field, MerkleMapWitness, MerkleMap, Poseidon } from 'snarkyjs';
 import { VotingContract, NullifierProxy } from '../VotingContract.js';
-import { checkTransaction } from './helpers.js';
+import { checkTransaction } from './test-helpers.js';
 
 export async function sendVote(
   zkClaim: VotingContract,

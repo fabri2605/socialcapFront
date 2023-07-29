@@ -16,7 +16,7 @@ import { ProvablePerson } from "../models/provable-person.js";
 import { ProvableMember } from "../models/provable-member.js";
 
 import { aCommunity, aPerson, aMember } from "./mockups.js";
-import { startTest, assertTest } from './helpers.js';
+import { startTest, assertTest } from './test-helpers.js';
 
 
 export async function testUpdateCommunity(

@@ -7,7 +7,7 @@ import {
   testUpdateClaim,
   testUpdatePlan, 
 } from "./root-tests-helpers-02.js"
-import { startTest } from './helpers.js';
+import { startTest } from './test-helpers.js';
 
 let Contract = ClaimingsContract;
 

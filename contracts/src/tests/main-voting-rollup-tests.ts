@@ -4,13 +4,8 @@ import { ClaimsVotingFactory } from "../claims-voting-factory.js";
 import { rollupClaims } from "../claims-roller.js";
 import { sendVote, addElectorsToNullifier, getNullifierProxy } from './claim-tests-helpers.js';
 
-import { 
-  startTest, 
-  getAccountsForTesting, 
-  deployContract, 
-  useContract, 
-getArgvs 
-} from './helpers.js';
+import { startTest, getAccountsForTesting, getArgvs } from './test-helpers.js';
+import { deployContract, useContract } from '../deploy/deploy-helpers.js';
 
 startTest("VotingContract");
 

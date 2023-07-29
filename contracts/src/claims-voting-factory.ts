@@ -1,6 +1,6 @@
 import { PrivateKey, PublicKey, Mina, Field, AccountUpdate, fetchAccount } from "snarkyjs";
 import { VotingContract } from "./VotingContract.js";
-import { checkTransaction } from "./tests/helpers.js";
+import { checkTransaction } from "./tests/test-helpers.js";
 
 export { ClaimsVotingFactory, VotingInstance };
 

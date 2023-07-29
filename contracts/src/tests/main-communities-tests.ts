@@ -8,7 +8,7 @@ import {
   testUpdatePerson, 
   testUpdateMember,
 } from "./root-tests-helpers-01.js"
-import { startTest } from './helpers.js';
+import { startTest } from './test-helpers.js';
 
 let Contract = CommunitiesContract;
 

@@ -6,13 +6,8 @@ import {
   testUpdateTask,
   testUpdateNullifier
 } from "./root-tests-helpers-03.js"
-import { 
-  startTest, 
-  getAccountsForTesting, 
-  deployContract, 
-  useContract, 
-getArgvs 
-} from './helpers.js';
+import { startTest, getAccountsForTesting, getArgvs } from './test-helpers.js';
+import { deployContract, useContract } from '../deploy/deploy-helpers.js';
 
 startTest("ElectorsContract");
 

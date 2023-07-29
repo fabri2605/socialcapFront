@@ -14,7 +14,7 @@ import { ElectorsContract } from "../ElectorsContract.js"
 import { ProvableTask } from "../models/provable-tasks.js";
 import { ProvableElector } from "../models/nullifier.js";
 import { aTask, aElector } from "./mockups.js";
-import { startTest, assertTest } from './helpers.js';
+import { startTest, assertTest } from './test-helpers.js';
 
 const UPDATE_TX_FEE = 300_000_000;
 
