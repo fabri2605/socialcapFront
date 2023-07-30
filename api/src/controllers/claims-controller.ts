@@ -158,6 +158,11 @@ export async function submitClaim(params: any) {
 
   params.evidenceData = JSON.stringify(params.evidenceData || "[]");
   params.state = parseInt(params.state || 1);
+
+  // remove extras BEFORE updating entities or it will fail
+  let extras = { ...params.extras };
+  if (params.extras) delete params.extras;
+
   let rs = await updateEntity("claim", uid, params);
 
   return hasResult({
