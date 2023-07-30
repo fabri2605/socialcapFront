@@ -120,7 +120,7 @@ export type SessionPartial = z.infer<typeof SessionPartialSchema>
 
 export const PersonSchema = z.object({
   uid: z.string().max(32),
-  accountId: z.string().max(32).nullish(),
+  accountId: z.string().max(64).nullish(),
   state: z.string().min(1).max(12),
   fullName: z.string().min(3).max(128),
   description: z.string().max(128).nullish(),
@@ -150,8 +150,8 @@ export type PersonPartial = z.infer<typeof PersonPartialSchema>
 
 export const CommunitySchema = z.object({
   uid: z.string().max(32),
-  accountId: z.string().max(32).nullish(),
-  adminUid: z.string().max(32),
+  accountId: z.string().max(64).nullish(),
+  adminUid: z.string().max(64),
   state: z.string().min(1).max(12),
   name: z.string().min(3).max(128),
   description: z.string().max(128).nullish(),
