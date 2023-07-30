@@ -104,9 +104,9 @@
     </Section>
 
     <Section class="m-0 p-0 section-fluid mt-4 pt-4 bg-light">
-        <TabContent >
-          &nbsp;&nbsp;&nbsp;&nbsp;
-          <TabPane tabId="creds" tab="My credentials" active>
+        <TabContent>
+           
+          <TabPane tabId="creds" tab="My credentials" active >
             {#each data.credentials as credential}
             <CredentialCard uid={credential.uid} data={credential}/>
             {/each}
