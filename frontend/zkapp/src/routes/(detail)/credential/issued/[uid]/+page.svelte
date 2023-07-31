@@ -10,6 +10,7 @@
     <p>This is an already issued credential where that he/she can min on his/her own wallet.</p>
     <p>We only arrive here if the user already has an approved cerdential.</p>
   </Sidenote> -->
+
   <Alert color="warning" class="w-50 m-auto mb-4">
 
     <Section class="section-sm">
@@ -37,18 +38,27 @@
         </div>
       </div>
         
-        <div class="mt-4">
+        <div class="mt-4 d-flex flex-column">
           <h1 class="d-inline-block">{data.alias}</h1>
-          <span>
+          <!-- <span>
             | {data.stars} Stars 
-          </span>
+          </span> -->
+          
+          <div>
+
+            {#each Array(5) as _, index (index)}
+            <i class="bi bi-star-fill"></i>
+            {/each}
+          </div>
+          
+          
         </div>
         
         <div class="mt-0 lh-lg d-flex justify-content-center gap-4">
           
           <div>
 
-            <p>Issued</p> 
+            <p class=' mt-4 m-0 '>Issued</p>
             <Badge class='text-black bg-white border border-2 border-gray'>
               {data.issuedUTC}
             </Badge> 
@@ -56,7 +66,7 @@
           
           <div>
 
-            <p>Valid</p> 
+            <p class=' mt-4 m-0'>Valid</p> 
 
             <Badge class='text-black bg-white border border-2 border-gray'>
               {data.expiresUTC ? data.expiresUTC : "Forever"}

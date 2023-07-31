@@ -6,25 +6,32 @@
 <DetailPageContent>
   <Section class="section-md">
 
-    <div class="d-flex align-items-center justify-content-start">
-      <img src={data.image} alt="Badge" width="22.5%" crossorigin/>
+    <div class="p-4 d-flex justify-content-start border-sc border border-1 border-gray rounded-4 bg-white">
+      <!-- <img src={data.image} alt="Badge" width="22.5%" crossorigin/> -->
+      <div class="w-25">
+
+        <img src="/img/vars/BadgeGenerico.png" alt="Badge" width="100%" crossorigin/>
+      </div>
 
       <div class="ps-4 w-100">
         <div class="header">
           <h3 class="text-black d-flex justify-content-between align-items-center">
             <span>{data.type}</span>
-            <span class="fs-5">
+            <span class="fs-3">
               <Badge color="warning">{data.state}</Badge>
             </span>
           </h3>
-          <p class="fs-sm text-secondary lh-lg">
-            {@html data.description}
-            <br>
-            <b class="">{data.community}</b>
-          </p>
-          <p class="fs-6">
-            Claimed by <b class="d-inline-block text-bg-dark py-1 px-2 rounded-2 fs-6">{data.alias}</b>
-          </p>
+          <div class="text-start">
+
+            <p class="fs-sm text-secondary lh-lg">
+              {@html data.description}
+              <br>
+              <b class="">{data.community}</b>
+            </p>
+            <p class="fs-6">
+              Claimed by <b class="d-inline-block py-1 border border-2 border-black px-2 rounded-2 fs-6">{data.alias}</b>
+            </p>
+          </div>
         </div>
   
         <div class="d-flex justify-content-start w-100">
@@ -44,41 +51,43 @@
       </div>
     </div>
 
-    <hr>
+    
   </Section>
 
-  <Section class="section-sm">
+  <Section class="section-sm m-auto bg-black text-center rounded-4 mt-4">
     <Form>
-      <div class="d-flex align-items-center justify-content-between">
-        <FormGroup class="mt-3 me-2 w-75">
-          <Label for="alias" class="fw-bold fs-6 text-secondary ps-1 mb-1">Your vote</Label>
+      <div class="d-flex justify-content-center bg-black rounded-4">
+        <FormGroup class="p-4 text-center">
+          <Label for="alias"class="fs-1 text-white ps-1 mb-1">Your vote</Label>
           <Input 
             bind:value={vote} 
             type="select" name="vote" id="vote" 
-            class="rounded-1 p-2 mb-1">
+            class="rounded-2 p-3 mb-1 w-100">
             <option value="Y">Positive</option>
             <option value="N">Negative</option>
             <option value="A">Abstain</option>
             <option value="ND">Will not do</option>
           </Input>          
-          <FormText color="muted ps-1">
+          <FormText color="ps-1 text-white">
             Please submit your vote before ({data.dueUTC}).
           </FormText>
         </FormGroup>
-        {#if vote}
+        <!-- {#if vote}
           <SubmitButton 
             on:click={() => submitVote()}
             color="primary" label="Submit it !" />
-        {/if}
+        {/if} -->
       </div>
 
       {#if vote==="N" || vote==="A" || vote==="ND"}
-      <FormGroup class="mt-3">
-        <Label for="alias" class="fw-bold fs-6 text-secondary ps-1 mb-1">Why ?</Label>
-        <Input 
+      <div class="d-flex justify-content-center bg-black rounded-4">
+        
+        <FormGroup class="mt-3 d-flex flex-column justify-content-center p-4">
+          <Label for="alias" class="fs-1 text-white ps-1 mb-1">Why?</Label>
+          <Input 
           bind:value={data.reason} 
           type="select" name="vote" id="vote" 
-          class="rounded-1 p-2 mb-1">
+          class="rounded-2 p-3 mb-1 w-100">
           <option value="N1">Does not match requirements</option>
           <option value="N2">Not enough evidence</option>
           <option value="A1">Conflict of interests</option>
@@ -92,31 +101,46 @@
           Please select the reason why you are voting in this way.
         </FormText>
       </FormGroup>
+    </div>
       {/if}
     </Form>
   </Section>
 
-  <Section class="section-sm">
-      <p class="mt-4 mb-2 pt-2 hl-base">
-        <b>Here you can find the evidence provided by the claimer</b>. This 
-        evidence will be deleted as soon as the claim has been approved.
-      </p>
+  <Section class="section-sm mb-4 pb-4">
+      <div class="mt-4 mb-4 pt-2 hl-base">
+        <h2>
+
+          Here you can find the evidence provided by the claimer. 
+        </h2>
+        <p>
+
+          This evidence will be deleted as soon as the claim has been approved.
+        </p>
+      </div>
       {#each data.evidence as field}
-        <div class="d-flex justify-content-start align-items-start border-top mt-0 pt-3 pb-0">
+        <div class="d-flex justify-content-center align-items-center border-bottom m-auto pt-3 pb-0 w-50 text-center">
           <p class="ps-0 py-0 fw-bold fs-sm w-25 text-start">{field.label}</p>
           <p class="px-2 py-0 fs-6 w-75 text-start">{field.value}</p>
         </div>
       {/each}
 
-      <div class="mt-5 mb-5 px-2 d-flex justify-content-center align-items-center">
+      <div class="position-fixed bottom-0 end-0 bg-white w-100 p-4">
+
+      <div class=" d-flex justify-content-end align-items-end">
           <!-- <SubmitButton 
             on:click={() => saveDraft()}
             color="secondary" label="Save draft ..."/>
           &nbsp;&nbsp; -->
-          <SubmitButton             
+
+          
+
+       
+         <SubmitButton             
             on:click={() => submitVote()}
-            color="primary" label="Submit your vote !" />
+            color="primary" label="Submit your vote" />
+          
       </div>
+    </div>
   </Section>        
 
   <!-- <Filler n=40/> -->
