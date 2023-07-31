@@ -1,4 +1,5 @@
 import sgMail from "@sendgrid/mail";
+import { logger } from "../global.js";
 
 sgMail.setApiKey(process.env.SENDGRID_API_KEY as string);
 
@@ -6,7 +7,7 @@ interface SendEmailParams {
   email: string;
   subject: string;
   text: string;
-  content: string;
+  content?: string;
 }
 
 export async function sendEmail ({
@@ -23,5 +24,6 @@ export async function sendEmail ({
     html: content,
   };
 
-  return sgMail.send(msg);
-};
+  console.log("Email ", msg);
+  // return sgMail.send(msg);
+}

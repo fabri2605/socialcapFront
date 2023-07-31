@@ -37,6 +37,7 @@
     "@babel/preset-typescript": "^7.16.0",
     "@sendgrid/mail": "^7.7.0",
     "@types/jest": "^27.0.3",
+    "@types/nodemailer": "^6.4.9",
     "@typescript-eslint/eslint-plugin": "^5.5.0",
     "@typescript-eslint/parser": "^5.5.0",
     "eslint": "^8.7.0",
@@ -55,10 +56,11 @@
     "@fastify/jwt": "^7.0.0",
     "@fastify/routes": "^5.1.0",
     "@prisma/client": "^5.0.0",
-    "@socialcap/contracts": "^0.1.10",
+    "@socialcap/contracts": "^0.1.11",
     "axios": "^1.4.0",
     "fastify": "^4.17.0",
     "module-alias": "^2.2.2",
+    "nodemailer": "^6.9.4",
     "snarkyjs": "^0.12.1"
   }
 }

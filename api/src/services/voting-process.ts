@@ -6,12 +6,15 @@
  * - Assign tasks to validators and send mails ...
  * - ... wait for votes ...
  */
-import { Field, PublicKey, PrivateKey } from "snarkyjs";
+import { Field, PublicKey, PrivateKey, Mina } from "snarkyjs";
 import { UID, VotingInstance, ClaimsVotingFactory } from "@socialcap/contracts";
 import { VOTING, CLAIMED } from "@socialcap/contracts";
+import { logger } from "../global.js";
 import { getValidators, getAuditors } from "../dbs/members-helpers.js";
 import { getEntity, updateEntity } from "../dbs/any-entity-helpers.js"
-import { strategyElectorsSelection } from "./voting-strategy.js";
+import { setMinaNetwork } from "./mina-service.js";
+import { ClaimPlanStrategy, strategyElectorsSelection } from "./voting-strategy.js";
+import { assignTaskToElectors } from "./voting-assignments.js";
 
 export {
   startClaimVotingProcess
@@ -19,48 +22,51 @@ export {
 
 
 async function startClaimVotingProcess(params: any) {
-
-  let claim = await getEntity("claim", params.uid);
-  if (claim.state !== CLAIMED)
-    return;
-
-  let plan = await getEntity("plan", claim.planUid);
-
-  let deployed: VotingInstance = await ClaimsVotingFactory.deploy(
-    UID.toField(params.uid), 
-    Field(plan.requiredVotes),
-    Field(plan.requiredPositives),
-    PublicKey.fromBase58(process.env.DEPLOYER_ID as string),
-    PrivateKey.fromBase58(process.env.DEPLOYER_ID as string),
-  );
-
-  // once deployed we need ths accountId of this new instance
-  params.accountId = deployed.address.toBase58();
-  params.state = VOTING; 
+  try {
+    let claim = await getEntity("claim", params.uid);
+    if (claim.state !== CLAIMED)
+      return;
   
-  let electors = await selectElectors(claim, plan);
+    let plan = await getEntity("plan", claim.planUid);
+    let strategy = JSON.parse(plan.strategy);
   
-  /*
-  let assignments = await assignTaskToElectors(claim, electors); 
+    // MUST be do it before deploying ...
+    setMinaNetwork();
+    /*
+    let deployed: VotingInstance = await ClaimsVotingFactory.deploy(
+      UID.toField(params.uid), 
+      Field(strategy.minVotes),
+      Field(strategy.minPositives),
+      PublicKey.fromBase58(process.env.DEPLOYER_ID as string),
+      PrivateKey.fromBase58(process.env.DEPLOYER_KEY as string),
+    );
   
-  let nullifier = await getEntity("nullifier", "1"); // only one nullifier
-  nullifier = await  addToNullifier(nullifier, claim, electors) ;
-
-  await updateEntity("nullifier", "1", nullifier);
-  */
-}
-
-
-async function selectElectors(claim: any, plan: any) {
-  let validators = await getValidators(claim.communityUid);
-
-  let auditors = await getAuditors(claim.communityUid);
-
-  let selected = strategyElectorsSelection(
-    validators,
-    auditors,
-    plan
-  )
-
-  return selected;
+    // once deployed we need the accountId of this new instance
+    params.accountId = deployed.address.toBase58();
+    params.state = VOTING; 
+    claim = await updateEntity("claim", params.uid, params);
+    */
+  
+    // get validators and auditors set  
+    let validators = await getValidators(claim.communityUid);
+    let auditors = await getAuditors(claim.communityUid);
+  
+    // now select the electors using the strategy binded to this plan
+    let electors = strategyElectorsSelection(
+      validators,
+      auditors,
+      strategy
+    );
+  
+    // we can now assign the task to each one
+    let assignments = await assignTaskToElectors(claim, electors); 
+  
+    // now prepare the Nullifier to avoid invalid/double voting 
+    let nullifier = await getEntity("nullifier", "1"); // only one nullifier
+    //nullifier = await  addToNullifier(nullifier, claim, electors) ;
+    await updateEntity("nullifier", "1", nullifier);
+  }
+  catch (err: any) {
+    logger.error("Could not startClaimVotingProcess err="+err.toString());
+  }
 }

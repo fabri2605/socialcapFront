@@ -18,13 +18,27 @@ import {
   MerkleMapUpdate,
 } from "@socialcap/contracts";
 
-export { MinaService } ;
+export { MinaService, setMinaNetwork } ;
 
 const TX_FEE = 100_000_000;
 
 let sender = {
   accountId: PublicKey.fromBase58("B62qpffbtmeU3L2xt2k6X4WPP54uA4fSkkqsV99ZD39Y8nJ8N6eRgUa"),
   key: null
+}
+
+
+function setMinaNetwork() {
+  const   
+    BERKELEY_URL = 'https://proxy.berkeley.minaexplorer.com/graphql',
+    ARCHIVE_URL = 'https://archive.berkeley.minaexplorer.com/';
+
+  const Berkeley = Mina.Network({
+    mina: BERKELEY_URL, 
+    archive: ARCHIVE_URL
+  });
+
+  Mina.setActiveInstance(Berkeley);
 }
 
 

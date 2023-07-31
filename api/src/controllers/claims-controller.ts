@@ -180,7 +180,7 @@ export async function submitClaim(params: any) {
 
       console.log("Succcess !!!! start voting ");
       // we dont await for it, we just let it start whenever it can
-      //startClaimVotingProcess(params);
+      startClaimVotingProcess(params);
     }, 
     async (params: any, err: any) => {
       logger.error(err);

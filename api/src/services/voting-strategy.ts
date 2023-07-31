@@ -5,7 +5,8 @@ import { logger } from "../global.js";
 import { randomInt } from "crypto";
 
 export {
-  strategyElectorsSelection
+  strategyElectorsSelection,
+  ClaimPlanStrategy
 }
 
 // Strategies
@@ -33,7 +34,7 @@ type ClaimPlanStrategy = {
 function strategyElectorsSelection(
   validators: any[], 
   auditors: any[],
-  plan: any
+  strategy: ClaimPlanStrategy
 ): any[] {
   const strategyRunner: any = {
     "RandomAnonyomusValidators": runRandomAnonyomusValidators,
@@ -41,8 +42,8 @@ function strategyElectorsSelection(
     "NominatedValidators": NominatedValidators
   }  
 
-  return strategyRunner[plan.strategy.variant](
-    plan.strategy,
+  return strategyRunner[strategy.variant](
+    strategy,
     validators,
     auditors
   );

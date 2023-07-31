@@ -34,7 +34,7 @@ async function assignTaskToElectors(
     params.new = true;
     let tp = await updateEntity("task", task.uid, task);
 
-    logger.debug("Assigned to=", elector.email, "task=", task)
+    logger.info(`Assigned to=${elector.email} task=${task.uid} claim=${claim.uid}`);
 
     // send notifications
     const mailBody = `
@@ -51,8 +51,7 @@ async function assignTaskToElectors(
     await sendEmail ({
       email: elector.email,
       subject: "SocialCap is requesting your vote",
-      text: "We need you to complete this task",
-      content: mailBody,
+      text: mailBody
     });
   })
 } 

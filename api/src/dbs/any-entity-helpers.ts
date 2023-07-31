@@ -8,7 +8,7 @@ import {
 import { 
   LeafInstance, MerkleMapProxy, MerkleMapUpdate, ProvableCommunity, ProvableMember, 
   ProvablePerson, ProvableClaim, ProvablePlan, ProvableCredential, ProvableTask,
-  UID 
+  UID, ProvableElector
 } from "@socialcap/contracts";
 
 import { raiseError } from "../responses.js";
@@ -56,7 +56,8 @@ const provableHandler: any = {
   "plan": ProvablePlan,
   "claim": ProvableClaim,
   "credential": ProvableCredential,
-  "task": ProvableTask 
+  "task": ProvableTask,
+  "nullifier": ProvableElector
 }
 
 const minaService: any = {
