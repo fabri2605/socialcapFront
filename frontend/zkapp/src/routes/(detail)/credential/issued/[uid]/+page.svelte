@@ -10,38 +10,62 @@
     <p>This is an already issued credential where that he/she can min on his/her own wallet.</p>
     <p>We only arrive here if the user already has an approved cerdential.</p>
   </Sidenote> -->
+  <Alert color="warning" class="w-50 m-auto mb-4">
 
+    <Section class="section-sm">
+        
+        <div class="d-flex gap-4 justify-items-center align-items-center justify-content-center align-content-between">
+          <p class="fs-5 mt-2">Not minted yet?</p>
+          <Button size="md" class="px-3 py-2 rounded-3 bg-primary text-white border-0">Mint it now</Button>
+        </div>
+      
+    </Section>
+  </Alert>
   <Section class="section-sm d-flex justify-content-center">
-    <div class="bg-white header text-center border border-1 rounded-3 p-4 border-sc shadow-sc w-50 text-center align-center d-flex flex-column">
-      <div>
-        <img src={data.image} height="240px" crossorigin/>
-        <br/>
-        <span class="fw-bold fs-sm">{data.issuedBy}</span>
-        <h4 class="text-black mt-2">
-          <span>{data.type}</span>
-        </h4>
-        <p class="fs-6 text-secondary lh-base">{@html data.description}</p>
-      </div>
-      
-      <div class="mt-4">
-        <h3 class="d-inline-block">{data.alias}</h3>
-        <span>
-          | {data.stars} Stars 
-        </span>
-      </div>
 
-      <div class="mt-0 lh-lg">
-        Issued: <Badge color="secondary">
-          {data.issuedUTC}
-        </Badge> 
-        &nbsp;
-        Valid: <Badge color="secondary">
-          {data.expiresUTC ? data.expiresUTC : "forever"}
-        </Badge> 
+    <div class="bg-white header border border-1 rounded-3 p-4 border-sc shadow-sc w-50 text-center align-center d-flex flex-column">
+      <div class="d-flex border p-4 rounded-2 border-2 border-gray gap-4">
+        <!-- <img src={data.image} height="240px" crossorigin/> -->
+        <img src="/img/vars/BadgeGenerico.png" height="auto" crossorigin/>
+        <div class="d-flex flex-column text-start">
+          
+          <span class="fw-bold fs-sm">{data.issuedBy}</span>
+          <h4 class="text-black mt-2">
+            <span>{data.type}</span>
+          </h4>
+          <p class="fs-6 text-secondary lh-base">{@html data.description}</p>
+        </div>
       </div>
-      
+        
+        <div class="mt-4">
+          <h1 class="d-inline-block">{data.alias}</h1>
+          <span>
+            | {data.stars} Stars 
+          </span>
+        </div>
+        
+        <div class="mt-0 lh-lg d-flex justify-content-center gap-4">
+          
+          <div>
+
+            <p>Issued</p> 
+            <Badge class='text-black bg-white border border-2 border-gray'>
+              {data.issuedUTC}
+            </Badge> 
+          </div>
+          
+          <div>
+
+            <p>Valid</p> 
+
+            <Badge class='text-black bg-white border border-2 border-gray'>
+              {data.expiresUTC ? data.expiresUTC : "Forever"}
+            </Badge> 
+          </div>
+        </div>
+        
       <div class="mt-4">
-        <p class="m-0 p-0 lh-1 mt-2 fs-sm"><a href="https://...">Link to transaction/metadata</a></p>
+        <p class="m-0 p-0 lh-1 mt-2 fs-sm"><a href="https://...">Transaction / Metadata</a></p>
         <p class="mt-2 fs-xs">
           <!-- <img alt="Socialcap logo" src="/img/socialcap/socialcap-logo.svg" height="24px"/> -->
           <!-- <Badge class="fs-sm" color="success">Verified</Badge>  -->
@@ -52,14 +76,7 @@
     </div>
   </Section>
 
-  <Section class="section-sm pb-4">
-    <div class="mt-3 mb-5 px-2 d-flex justify-content-center align-items-center">
-      <div>
-        Not minted yet ? &nbsp;
-        <Button color="primary" class="rounded-5 p-2 px-3">Mint it now !</Button>
-      </div>
-    </div>
-  </Section>
+  
 
   <!-- <Section form>
     <pre class="mt-5">
@@ -94,7 +111,7 @@
 
 <script>
   import { onMount } from "svelte";
-  import { Badge, Button } from 'sveltestrap';
+  import { Badge, Button, Alert } from 'sveltestrap';
   import Filler from "$lib/components/Filler.svelte";
   import Sidenote from "@components/Sidenote.svelte";
   import Section from "@components/Section.svelte";

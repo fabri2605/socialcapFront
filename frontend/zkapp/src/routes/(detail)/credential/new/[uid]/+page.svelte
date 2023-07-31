@@ -99,10 +99,10 @@
 
       <div class="mt-5 mb-5 px-2 d-flex justify-content-center align-items-center">
           <SubmitButton on:click={() => saveDraft()}
-            color="secondary" label="Save draft ..."/>
+            color="secondary" label="Save as draft..."/>
           &nbsp;&nbsp;
           <SubmitButton on:click={() => saveDraft()}
-            color="primary" label="Claim now !" />
+            color="primary" label="Claim now" />
       </div>
     </Form>
   </Section>        

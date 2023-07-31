@@ -43,7 +43,7 @@
   class="fixed-top navbar-expand-lg top-0 z-index-3 w-100 border-bottom border-1 py-2 align-items-center"
 >
   <NavbarBrand class="w-auto ms-4" href="/">
-    <img alt="Socialcap logo" src="/img/socialcap/socialcap-icon.svg" />
+    <img alt="Socialcap logo" src="/img/socialcap/socialcap-logo-blue.svg" />
   </NavbarBrand>
 
   <NavbarToggler on:click={() => (isOpen = !isOpen)} />
