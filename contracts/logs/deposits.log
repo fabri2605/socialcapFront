@@ -53,3 +53,8 @@ zkApp instance for SocialcapContract at ADDR=B62qmkZq3jJJDyq7kW5Q4sEEq6CbdpzZTw8
 sendDeposit from= B62qixo7ZaNjibjRh3dhU1rNLVzNUqDtgwyUB6n9xxYFrHEHmfJXbBf  amount= UInt64 { value: Field { value: [ 0, [Uint8Array] ] } }
 Transaction at https://berkeley.minaexplorer.com/transaction/5Jus6peot4DWdh2q1gfcKHtG8Wu54B5rVgknxDK8gyvzue6V4nD1
 ... waiting for transaction to be included...
+
+sendDeposit from= B62qixo7ZaNjibjRh3dhU1rNLVzNUqDtgwyUB6n9xxYFrHEHmfJXbBf  amount= UInt64 { value: Field { value: [ 0, [Uint8Array] ] } }
+Transaction at https://berkeley.minaexplorer.com/transaction/5Ju7Ngz7bk5C5hadZXASngmh4z5qFdArvjJuNZ9wCsEZbBx9xtFq
+... waiting for transaction to be included...
+Socialcap totalDeposits= UInt64 { value: Field { value: [ 0, [Uint8Array] ] } }

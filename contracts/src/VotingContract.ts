@@ -152,13 +152,12 @@ export class VotingContract extends SmartContract {
     const key: Field = NullifierProxy.key(electorPuk, claimUid);
     Circuit.log("assertHasNotVoted recalculated Key", key);
 
-    // witnessKey.assertEquals(key, 
-    //   "Invalid elector key or already voted");
+    witnessKey.assertEquals(key, 
+      "Invalid elector key or already voted");
   }
 
 
   @method sendVote(
-    privateKey: PrivateKey, // voter private key
     vote: Field, // +1 positive, -1 negative or 0 ignored
     nullifier: NullifierProxy
   ) {
@@ -166,11 +165,8 @@ export class VotingContract extends SmartContract {
     this.claimUid.assertEquals(claimUid);
     Circuit.log("sendVote claimUid=", claimUid);
     
-    // the elector Pub key MUST be the same that the one sending the Tx
-    let electorPuk = privateKey.toPublicKey();
-    Circuit.log("sender=", this.sender);
-    Circuit.log("electorId=", electorPuk);
-    this.sender.assertEquals(electorPuk);
+    // the elector Pub key is the one sending the Tx
+    let electorPuk = this.sender;
     
     // check this elector was assigned AND has not voted on this claim before
     Circuit.log("sendVote key=", NullifierProxy.key(electorPuk, claimUid));

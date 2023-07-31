@@ -5,6 +5,7 @@ import { checkTransaction } from "./tests/test-helpers.js";
 export { ClaimsVotingFactory, VotingInstance };
 
 let proofsEnabled = true;
+let isCompiled = false;
 
 const ClaimsVotingFactory = {
   compile: compileVotingContract, 
@@ -15,7 +16,8 @@ const ClaimsVotingFactory = {
 type VotingInstance = {
   instance: any,
   address: PublicKey,
-  secret?: PrivateKey
+  secret?: PrivateKey,
+  txn?: string
 }
 
 const DEPLOY_TX_FEE = 300_000_000;
@@ -26,8 +28,10 @@ async function compileVotingContract(proofsEnabled?: boolean) {
   proofsEnabled = proofsEnabled === undefined ? true : proofsEnabled;
   console.log("proofs enabled=", proofsEnabled);
   console.log("compiling Contract ...");
-  if (proofsEnabled) await VotingContract.compile();
+  if (proofsEnabled) 
+    await VotingContract.compile();
   console.log("compiled !");
+  isCompiled = true;
 }
 
 
@@ -38,7 +42,10 @@ async function deployVotingContract(
   deployerAccount: PublicKey,
   deployerKey: PrivateKey,
 ): Promise<VotingInstance> {
-  // we need to generate a new key pair for each deploy !
+  // we ALWAYS compile it
+  await VotingContract.compile();
+
+  // we need to generate a new key pair for each deploy
   const zkAppKey = PrivateKey.random();
   const zkAppAddr = zkAppKey.toPublicKey();
   console.log(`\nzkApp instance address=${zkAppAddr.toBase58()}`);
@@ -95,7 +102,8 @@ async function deployVotingContract(
   const instance: VotingInstance = {
     instance: zkApp, 
     address: zkAppAddr, 
-    secret: zkAppKey 
+    secret: zkAppKey,
+    txn: pndTx2.hash() 
   };
 
   logIt(instance);

@@ -15,7 +15,7 @@ export async function sendVote(
   try {
     let tx = await Mina.transaction(
       { sender: sender.puk, fee: VOTING_TX_FEE }, 
-      () => { zkClaim.sendVote(sender.prk, vote, nullifier); }
+      () => { zkClaim.sendVote(vote, nullifier); }
     );
     await tx.prove();
     tx.sign([sender.prk]);
