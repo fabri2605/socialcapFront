@@ -12,6 +12,7 @@ export const
   WAITING = 9,
   DONE =  10,
   IGNORED = 11, // will not do this 
+  UNPAID = 12, // payment transaction failed and needs repayment !
   REJECTED = 19,   
   APPROVED = 20
 ;

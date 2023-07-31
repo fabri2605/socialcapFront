@@ -1,9 +1,6 @@
 <div class="w-100 px-4">
   <Card class="border-0 border-bottom">
-    <a href={(data.state === 1) 
-        ? `/credential/edit/${data.uid}`
-        : `/credential/claimed/${data.uid}`
-      } class="text-decoration-none text-dark">
+    <a href={nextUrl} class="text-decoration-none text-dark">
     <CardBody class="ps-4">
         <div class="d-flex justify-content-start align-items-center pt-0">
           <img src={data.image} width="92px" crossorigin alt="Credential logo" />
@@ -31,7 +28,12 @@
     import { Badge, Button, Card, CardBody, CardHeader } from "sveltestrap";
     import StateBadge from "./StateBadge.svelte";
     import { prettyDate } from "@utilities/datetime";
-
+    import { DRAFT, CLAIMED, VOTING, UNPAID } from "@socialcap/contracts";
 
     export let data;
+
+    $: canEdit = (data.state === DRAFT || data.state === UNPAID);
+    $: nextUrl = canEdit 
+        ? `/credential/edit/${data.uid}`
+        : `/credential/claimed/${data.uid}`;
 </script>
