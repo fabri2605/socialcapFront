@@ -2,7 +2,7 @@
 >
 
   <NavbarBrand class="w-auto ms-4" href="/">
-    <img alt="Socialcap logo" src="/img/socialcap/socialcap-icon.svg" />
+    <img alt="Socialcap logo" src="/img/socialcap/socialcap-logo-blue.svg" />
   </NavbarBrand>
   
   <NavbarToggler on:click={() => (isOpen = !isOpen)} />
