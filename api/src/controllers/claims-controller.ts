@@ -1,7 +1,10 @@
 import { UID } from "@socialcap/contracts";
-import { fastify, prisma } from "../global.js";
+import { CLAIMED, WAITING, UNPAID, VOTING } from "@socialcap/contracts";
+import { fastify, prisma, logger } from "../global.js";
 import { hasError, hasResult, raiseError } from "../responses.js";
+import { waitForTransaction } from "../services/mina-transactions.js";
 import { updateEntity, getEntity } from "../dbs/any-entity-helpers.js";
+import { startClaimVotingProcess } from "../services/voting-process.js";
 
 type Claimable = {
   uid: string, // the UID of the MasterPlan ...
@@ -162,8 +165,29 @@ export async function submitClaim(params: any) {
   // remove extras BEFORE updating entities or it will fail
   let extras = { ...params.extras };
   if (params.extras) delete params.extras;
+  let transaction = JSON.parse(extras.transaction);
 
+  params.state = WAITING; // waiting before not yet paid ...
   let rs = await updateEntity("claim", uid, params);
+
+  // we dont await it, just start the scheduler
+  waitForTransaction(
+    transaction.hash, 
+    params, 
+    async (params: any) => {
+      params.state = CLAIMED;
+      await updateEntity("claim", params.uid, params);
+
+      console.log("Succcess !!!! start voting ");
+      // we dont await for it, we just let it start whenever it can
+      //startClaimVotingProcess(params);
+    }, 
+    async (params: any, err: any) => {
+      logger.error(err);
+      params.state = UNPAID; // Payment failed, must repay and resend
+      await updateEntity("claim", params.uid, params);
+    }
+  );
 
   return hasResult({
     claim: rs.proved,
