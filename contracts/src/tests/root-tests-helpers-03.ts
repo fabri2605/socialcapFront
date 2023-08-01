@@ -151,7 +151,7 @@ export async function testUpdateNullifier(
     const txn = await Mina.transaction(
       {sender: senderAccount, fee: UPDATE_TX_FEE}, 
       () => {
-        zkApp.updateNullifier(o, map, witness, updated);
+        zkApp.updateNullifier(map, witness, updated);
       }
     );
     await txn.prove();

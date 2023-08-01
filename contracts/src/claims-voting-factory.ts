@@ -85,6 +85,9 @@ async function deployVotingContract(
   // initialize it !
   // we can only call setup() AFTER we are sure the deployed account exists
   // otherwise we have failures when initializing ...
+  console.log(`\nInitializing instance for claim='${claimUid.toString()}'`);
+  console.log(`...requiredVotes='${requiredVotes}'`);
+  console.log(`...requiredPositives='${requiredPositives}'`);
   txn = await Mina.transaction(
     { sender:deployerAccount, fee: DEPLOY_TX_FEE }, () => {
     zkApp.setup(claimUid, requiredVotes, requiredPositives);

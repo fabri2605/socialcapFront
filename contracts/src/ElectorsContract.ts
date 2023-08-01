@@ -118,26 +118,31 @@ export class ElectorsContract extends SmartContract {
 
 
   @method updateNullifier(
-    endKey: Field,
-    endHash: Field,
     map: MerkleMapProxy,
-    witness: MerkleMapWitness
+    witness: MerkleMapWitness,
+    updated: MerkleMapUpdate
   ) {
     const currentRoot = this.nullifierRoot.get();
     this.nullifierRoot.assertEquals(currentRoot);
 
     // assertOnlyDeployer();
-
-    // just assert the map we are commiting now, which is the final 
-    // map after a series of insertions ... 
-    const [ theRoot, theKey ] = witness.computeRootAndKey(
-      endHash
-    );
-    theRoot.assertEquals(map.root);
-    theKey.assertEquals(endKey);
+//     const [ newRoot, newKey ] = witness.computeRootAndKey(
+//       updated.afterLeaf.hash
+//     );
+//     Circuit.log("Circuit.log newRoot=", newRoot);
+//     Circuit.log("Circuit.log newKey=", newKey);
+// 
+//     // assert the received update is consistent with the newRoot
+//     newRoot.assertEquals(updated.afterRoot);
+//     Circuit.log("Circuit.log asserted newRoot");
+//     newKey.assertEquals(updated.afterLeaf.key);
+//     Circuit.log("Circuit.log asserted newKey");
 
     // set the new root
-    this.nullifierRoot.set(map.root);
-    Circuit.log("Circuit.log newRoot=", map.root);
+    let newRoot = updated.afterRoot;
+    newRoot.assertEquals(updated.afterRoot);
+
+    this.nullifierRoot.set(newRoot);
+    Circuit.log("Circuit.log nullifierRoot=", newRoot);
   }
 }

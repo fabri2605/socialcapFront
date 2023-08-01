@@ -2,10 +2,7 @@ import 'dotenv/config';
 import { Mina, PrivateKey, PublicKey, AccountUpdate, fetchAccount} from 'snarkyjs';
 import { UID } from "../lib/uid.js";
 import { ElectorsContract } from "../ElectorsContract.js";
-import { 
-  testUpdateTask,
-  testUpdateNullifier
-} from "./root-tests-helpers-03.js"
+import { testUpdateTask, testUpdateNullifier } from "./root-tests-helpers-03.js"
 import { startTest, getAccountsForTesting, getArgvs } from './test-helpers.js';
 import { deployContract, useContract } from '../deploy/deploy-helpers.js';
 

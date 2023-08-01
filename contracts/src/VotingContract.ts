@@ -157,7 +157,7 @@ export class VotingContract extends SmartContract {
   }
 
 
-  @method sendVote(
+  @method confirmTaskDone(
     vote: Field, // +1 positive, -1 negative or 0 ignored
     nullifier: NullifierProxy
   ) {
@@ -167,6 +167,7 @@ export class VotingContract extends SmartContract {
     
     // the elector Pub key is the one sending the Tx
     let electorPuk = this.sender;
+    electorPuk.assertEquals(this.sender);
     
     // check this elector was assigned AND has not voted on this claim before
     Circuit.log("sendVote key=", NullifierProxy.key(electorPuk, claimUid));

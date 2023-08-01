@@ -3,13 +3,16 @@ import { Mina, PrivateKey, PublicKey, Field } from 'snarkyjs';
 import { ClaimsVotingFactory } from "../claims-voting-factory.js";
 import { rollupClaims } from "../claims-roller.js";
 import { sendVote, addElectorsToNullifier, getNullifierProxy } from './claim-tests-helpers.js';
-
+import { UID }  from "../lib/uid.js";
 import { startTest, getAccountsForTesting, getArgvs } from './test-helpers.js';
 import { deployContract, useContract } from '../deploy/deploy-helpers.js';
 
+console.log(
+"\n=============================================================================\n"
+);
 startTest("VotingContract");
 
-let [netw, proofsEnabled] = getArgvs();
+let [netw, proofsEnabled, claimUid] = getArgvs();
 
 // set network and some accounts
 let { 
@@ -22,11 +25,8 @@ await ClaimsVotingFactory.compile();
 
 // now deploy  ONE Claim
 let zkClaim1 = await ClaimsVotingFactory.deploy(
-  Field(1001), // claimUid (simulated)
+  UID.toField(claimUid), // claimUid (simulated)
   Field(3), // 3 total votes required
   Field(2),  // 2 positives is approved
   deployerAccount, deployerKey
 );
-
-
-
