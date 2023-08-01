@@ -18,7 +18,7 @@
   import CredentialCard from '@components/CredentialCard.svelte';
   import ClaimCard from "@components/ClaimCard.svelte";
   import CommunityCard from '@components/CommunityCard.svelte';
-  import TaskCard from '@components/TaskCard.svelte';
+  import TaskCard from '@components/cards/TaskCard.svelte';
 
   export let data, user; // this is the data for the lists
 </script>

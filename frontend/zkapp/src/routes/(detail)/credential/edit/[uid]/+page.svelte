@@ -308,7 +308,7 @@
 
     let isSnarkyLoaded = get(deployedSocialcap$) ;
     if (!isSnarkyLoaded) {
-      isSnarkyLoaded = await loadSnarky();
+      isSnarkyLoaded = await loadSnarky("Socialcap");
     }
 
     let hasWallet = false;

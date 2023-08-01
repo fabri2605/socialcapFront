@@ -1,44 +1,48 @@
 <DetailPageHeader items={[
     { href: "/", text: 'Home'},
-    { href: "/", text: 'Submit your vote'},
+    { href: "/", text: 'Submit your vote'}
   ]} />
 
 <DetailPageContent>
-  <Section class="section-md">
+  <Section class="section-md text-start">
 
     <div class="d-flex align-items-center justify-content-start">
-      <img src={data.image} alt="Badge" width="22.5%" crossorigin/>
+      <img src={data.plan.image} alt="Badge" width="22.5%" crossorigin/>
 
       <div class="ps-4 w-100">
         <div class="header">
+          <p class="p-0 m-0 mb-1">Claim: {claimIdn}</p>
           <h3 class="text-black d-flex justify-content-between align-items-center">
-            <span>{data.type}</span>
+            <span>{data.plan.name}</span>
             <span class="fs-5">
-              <Badge color="warning">{data.state}</Badge>
+              <StateBadge state={data.state} />
             </span>
           </h3>
           <p class="fs-sm text-secondary lh-lg">
-            {@html data.description}
+            {@html data.plan.description}
             <br>
-            <b class="">{data.community}</b>
+            <b class="">{data.community.name}</b>
           </p>
           <p class="fs-6">
-            Claimed by <b class="d-inline-block text-bg-dark py-1 px-2 rounded-2 fs-6">{data.alias}</b>
+            Claimed by <b class="d-inline-block text-bg-gray py-1 px-2 rounded-2 fs-4">{data.claim.alias}</b>
           </p>
         </div>
   
         <div class="d-flex justify-content-start w-100">
-          <p class="pe-2">
+          <p class="pe-2 w-25">
             <span class="fs-xs">Started</span>
-            <br/><b class="fs-sm">{data.assignedUTC}</b>
+            <br/><b class="fs-sm">{prettyDate(data.assignedUTC)}</b>
           </p>
-          <p class="pe-4">
+          <p class="pe-4 w-25">
             <span class="fs-xs">Ends</span>
-            <br/><b class="fs-sm">{data.dueUTC}</b>
+            <br/><b class="fs-sm">{prettyDate(data.dueUTC)}</b>
           </p>
-          <p class="pe-4">
+          <p class="pe-4 w-25">
             <span class="fs-xs">Voting ...</span>
-            <br/><b class="fs-sm">{data.currentVotes}/{data.requiredVotes}</b>
+            <br/><b class="fs-sm">
+              <!-- <pre>{JSON.stringify(data.claim,null,4)}</pre> -->
+              {data.claim.positiveVotes+data.claim.negativeVotes+data.claim.ignoredVotes} 
+              / {data.claim.requiredVotes}
           </p>
         </div>
       </div>
@@ -47,30 +51,30 @@
     <hr>
   </Section>
 
-  <Section class="section-sm">
+  <Section class="section-sm text-start">
     <Form>
-      <div class="d-flex align-items-center justify-content-between">
+      <div class="d-flex align-items-center justify-content-start">
         <FormGroup class="mt-3 me-2 w-75">
           <Label for="alias" class="fw-bold fs-6 text-secondary ps-1 mb-1">Your vote</Label>
           <Input 
             bind:value={vote} 
             type="select" name="vote" id="vote" 
-            class="rounded-1 p-2 mb-1">
+            class="rounded-1 p-2 mb-1" style="width:12rem;">
             <option value="Y">Positive</option>
             <option value="N">Negative</option>
             <option value="A">Abstain</option>
             <option value="ND">Will not do</option>
           </Input>          
-          <FormText color="muted ps-1">
-            Please submit your vote before ({data.dueUTC}).
-          </FormText>
         </FormGroup>
         {#if vote}
-          <SubmitButton 
-            on:click={() => submitVote()}
+          <SubmitButton
+            on:click={() => voteNow()}
             color="primary" label="Submit it !" />
         {/if}
       </div>
+      <p>
+        Please submit your vote before <b>{prettyDate(data.dueUTC)}</b>.
+      </p>
 
       {#if vote==="N" || vote==="A" || vote==="ND"}
       <FormGroup class="mt-3">
@@ -96,12 +100,12 @@
     </Form>
   </Section>
 
-  <Section class="section-sm">
+  <Section class="section-sm text-start">
       <p class="mt-4 mb-2 pt-2 hl-base">
-        <b>Here you can find the evidence provided by the claimer</b>. This 
-        evidence will be deleted as soon as the claim has been approved.
+        <b>Here you can find the evidence provided by the claimer</b>. 
+        This evidence will be deleted as soon as the claim has been approved.
       </p>
-      {#each data.evidence as field}
+      {#each data.claim.evidenceData as field}
         <div class="d-flex justify-content-start align-items-start border-top mt-0 pt-3 pb-0">
           <p class="ps-0 py-0 fw-bold fs-sm w-25 text-start">{field.label}</p>
           <p class="px-2 py-0 fs-6 w-75 text-start">{field.value}</p>
@@ -114,7 +118,7 @@
             color="secondary" label="Save draft ..."/>
           &nbsp;&nbsp; -->
           <SubmitButton             
-            on:click={() => submitVote()}
+            on:click={() => voteNow()}
             color="primary" label="Submit your vote !" />
       </div>
   </Section>        
@@ -122,9 +126,89 @@
   <!-- <Filler n=40/> -->
 </DetailPageContent>
 
+<div>
+  <Modal isOpen={open} {toggle} backdrop="static">
+    <ModalHeader {toggle}>
+      You need to confirm your vote 
+    </ModalHeader>
+
+    <ModalBody>
+      <p class="p-2">
+        Account: <b>
+          {voterAccountId.slice(0,6)}...{voterAccountId.slice(-6)}
+        </b>
+      </p>
+      {#if !$deployedVoting$}
+        <p class="p-2"> 
+          Please wait ... loading Snarky contracts ...
+        </p>
+      {/if}
+      {#if $deployedVoting$}
+        <p class="p-1">Snarky SocialcapContract is ready !</p>
+      {/if}
+
+      {#if $deployedVoting$ && !$auroWallet$?.connected}
+        <p class="p-1">Connecting the wallet ...</p>
+      {/if}
+
+      {#if $deployedVoting$ && $auroWallet$?.connected && $auroWallet$?.publicKey && paymentStatus===0}
+        <p class="p-1">AuroWallet is connected !</p>
+        <p class="p-1">Account: {$auroWallet$?.publicKey.slice(0,6)}...{$auroWallet$?.publicKey.slice(-6)}</p>
+        <p class="p-2">
+          Are you ready to send your vote ?
+        </p>
+      {/if}
+
+      {#if paymentStatus===1}
+        <p class="p-2">
+          {paymentMessage}
+        </p>
+      {/if}
+
+      {#if paymentStatus===2}
+        <p class="p-2 text-wrap">
+          Vote was sent !
+          <br>
+          <br>Please wait for transaction to be included... it takes some time.
+          <br>
+          <br>Transaction Id: <a href={`${MINAExplorer}/transaction/${pendingTxn?.hash}`}>
+              {pendingTxn?.hash}
+            </a>
+        </p>
+      {/if}
+    </ModalBody>
+
+    <ModalFooter class="text-center">
+      {#if canPayNow && paymentStatus===0}
+        <Button color="primary" on:click={payNow}>Send it now !</Button>
+      {/if}
+      {#if paymentStatus!==2}
+        <Button color="secondary" on:click={toggle}>Cancel</Button>
+      {/if}
+    </ModalFooter>
+  </Modal>
+</div>
+
+<div>
+  <Modal isOpen={openNoWalletDlg} toggle={toggleNoWalletDlg}>
+    <ModalHeader toggle={toggleNoWalletDlg}>
+      Auro wallet is not installed
+    </ModalHeader>
+    <ModalBody>
+      Please install the Auro wallet for paying your claims,
+    </ModalBody>
+    <ModalFooter class="text-center">
+      <Button color="secondary" on:click={toggle}>Cancel</Button>
+    </ModalFooter>
+  </Modal>
+</div>
+
+
 <script>
-  import { onMount } from "svelte";
+  import { onMount, tick } from "svelte";
+  import { get } from "svelte/store";
   import { Breadcrumb, BreadcrumbItem, Icon, Badge, Form, FormGroup, FormText, Label, Input, Button } from 'sveltestrap';
+  import { Modal, ModalBody,ModalFooter,ModalHeader } from 'sveltestrap';
   import DetailPageHeader from "@components/DetailPageHeader.svelte";
   import DetailPageContent from "@components/DetailPageContent.svelte";
   import Filler from "@components/Filler.svelte";
@@ -132,20 +216,105 @@
   import Section from "@components/Section.svelte";
   import CloseButton from "@components/CloseButton.svelte";
   import SubmitButton from "@components/SubmitButton.svelte";
+  import StateBadge from "@components/StateBadge.svelte";
   import { getCurrentUser, isFirstTimeUser } from "$lib/models/current-user";
+  import { prettyDate } from "@utilities/datetime";
+  import { submitTask } from "@apis/mutations";
+  import { getNullifier } from "@apis/queries";
+  import { NullifierProxy } from "@socialcap/contracts";
+
+
+  import { 
+    MINAExplorer, connectWallet, payForVoting,
+    auroWallet$, deployedVoting$, loadVotingZkapp 
+  } from "$lib/contract/helpers";
 
   export let data; // this is the data for this MasterPlan and empty Claim
 
-  let user = getCurrentUser();
+  let user ;
   let vote = null;
+  let voterAccountId;
+  let claimIdn = "";
 
-  onMount(() => {
-    user = getCurrentUser();
+  let open = false;
+  const toggle = () => (open = !open);
+  
+  let openNoWalletDlg = false;
+  const toggleNoWalletDlg = () => (openNoWalletDlg = !openNoWalletDlg);
+
+  let paymentMessage = "", paymentStatus = 0, canPayNow = false;
+  let pendingTxn;
+
+  onMount(async () => {
+    user = await getCurrentUser();
+    voterAccountId = user.profile.accountId;
+    claimIdn = data.claim.uid.slice(0,6)+'...'+data.claim.uid.slice(-6);
   })
 
-  async function submitVote() {
+  /**
+   * First saves the draft and then asks for payment before submiting 
+   * the claim to the API and starting the MINA transaction.
+   * The Payer is the logged user who needs to pay for the Credential, and
+   * is transfered to the Socialcap (main) account.
+   * The new Claim deployment is payed by the SocialcapFeePayer account.
+   */
+   async function voteNow() {
     let confirmed = window.confirm("are you sure ? Once submited it can not be changed !");
     if (confirmed) 
       alert(JSON.stringify({vote: vote}, null, 4));
+
+    // await ready for payment
+    canPayNow = await isReadyForPayment();
+  }
+
+  async function isReadyForPayment() {
+    paymentStatus = 0;
+    toggle(); // open dialog
+/*
+    let nullifier = await getNullifier({
+      senderAccountId: "B62qnN5uL2D9KRCrriFB8pphJNX94FQP46a6NAvYqtJX7DH1vEq7DHy",//sender.toBase58(),
+      claimUid: data.claim.uid
+    });
+    console.log(nullifier.witness)
+*/
+    let isSnarkyLoaded = get(deployedVoting$) ;
+    if (!isSnarkyLoaded) {
+      isSnarkyLoaded = await loadVotingZkapp(data.claim.accountId);
+    }
+
+    let hasWallet = false;
+    if (isSnarkyLoaded) {
+      hasWallet = await connectWallet();
+    }
+
+    if (!hasWallet) {
+      toggleNoWalletDlg();
+    }
+
+    return (hasWallet && isSnarkyLoaded) ;
+  }
+
+  async function payNow() {
+    paymentMessage = "Starting voting transaction ..."; await tick();
+    paymentStatus = 1; // started
+
+    let result = await payForVoting(data.claim, data.vote);
+
+    if (!result.success) {
+      paymentMessage= "Voting was not done: "+result.error; await tick();
+      return;
+    }
+    pendingTxn = result.pendingTxn;
+    paymentStatus = 2; // sent ;
+    await tick();
+
+    // we can now submit the Vote and continue the voting process
+    let params = data.task;
+    params.extras = {
+      transaction: JSON.stringify(pendingTxn)
+    };
+    let updated = await submitTask(params);
+    if (updated) 
+      history.back();
   }
 </script>

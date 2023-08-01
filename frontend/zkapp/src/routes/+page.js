@@ -1,13 +1,15 @@
 import { error } from '@sveltejs/kit';
+import { ASSIGNED } from '@socialcap/contracts';
 import { getCurrentSession } from '@models/current-session';
 import { getCurrentUser } from '@models/current-user';
 import { setApiClient } from '$lib/globals';
 import { CoreAPIClient } from '@apis/core-api-client';
 import { getMyCommunities, getAllCommunities } from "@apis/queries"
 import { getMyClaimables, getMyClaims } from '@apis/queries';
+import { getTask, getMyTasks } from '@apis/queries';
 
 // this is only for testing/mockups
-import { olCredentials, olMyCommunities, olSubmitedClaims, olTasks } from '@models/mockup-objects';
+import { olCredentials, olMyCommunities, olSubmitedClaims, } from '@models/mockup-objects';
 
 /** @type {import('./$types').PageLoad} */
 export async function load({ params, route, url }) {
@@ -31,7 +33,7 @@ export async function load({ params, route, url }) {
       joined: await getMyCommunities(),
       joinables: await getAllCommunities({notJoined: true}),
       allCommunities: await getAllCommunities(),
-      assigned: olTasks.filter((t) => t.state==='PENDING'),
+      assigned: ((await getMyTasks()) || []).filter((t) => t.state=== ASSIGNED),
       stats: aStats
     }; 
     console.log("main page data=", rs);

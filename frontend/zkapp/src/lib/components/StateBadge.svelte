@@ -15,7 +15,7 @@
     3: "danger", // REVISION",    
     4: "info", // CLAIMED",   
     6: "primary", // VOTING",
-    7: "primary", // ASSIGNED",
+    7: "warning", // ASSIGNED",
     8: "success", // ACTIVE",
     9: "warning", // WAITING",
     10: "primary", // DONE",

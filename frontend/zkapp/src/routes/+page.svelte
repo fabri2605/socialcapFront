@@ -16,7 +16,8 @@
   import CredentialCard from '@components/CredentialCard.svelte';
   import ClaimCard from "@components/ClaimCard.svelte";
   import CommunityCard from '@components/CommunityCard.svelte';
-  import TaskCard from '@components/TaskCard.svelte';
+  import TaskCard from '@components/cards/TaskCard.svelte';
+  import EmptyListItem from "@components/cards/EmptyListItem.svelte";
 
   // import HomePageContent from './_HomePageContent.svelte';
 
@@ -123,8 +124,11 @@
           
           {#if user && user.hasTasks}
           <TabPane tabId="tasks" tab="My tasks">
+            {#if !data?.assigned?.length}
+              <EmptyListItem notice="You have no pending tasks" />
+            {/if}
             {#each data.assigned as task}
-            <TaskCard uid={task.uid} data={task}/>
+              <TaskCard uid={task.uid} data={task}/>
             {/each}
           </TabPane>
           {/if}

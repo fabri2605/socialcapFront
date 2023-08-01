@@ -9,7 +9,8 @@ export {
   updatePlan,
   addClaim,
   updateClaim,
-  submitClaim 
+  submitClaim,
+  submitTask 
 }
 
 
@@ -153,4 +154,9 @@ async function submitClaim(data: any): Promise<any> {
   monitorMINATransaction(rs.data.transaction.id);
 
   return rs.data.claim;
+}
+
+/* here we send the vote uand update Nullifier */
+async function submitTask(data: any): Promise<any> {
+  return {}
 }

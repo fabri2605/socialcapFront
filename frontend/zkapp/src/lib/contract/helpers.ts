@@ -1,13 +1,15 @@
-import { fetchAccount, UInt64, Mina, PrivateKey, PublicKey } from "snarkyjs";
+import { fetchAccount, UInt64, Mina, PrivateKey, PublicKey, Field, MerkleMap } from "snarkyjs";
 import { SOCIALCAP_CONTRACT_ID } from "./addresses";
 import { CLAIM_TX_FEE } from "./fees";
-import { SocialcapContract } from "@socialcap/contracts";
+import { SocialcapContract, VotingContract, NullifierProxy, UID } from "@socialcap/contracts";
 import { AppStatus } from "@utilities/app-status";
+import { getNullifier } from "@apis/queries";
 
 // Svelte stores
 import { writable, get } from "svelte/store";
 export const berkeleyNetwork$ = writable();
 export const deployedSocialcap$ = writable();
+export const deployedVoting$ = writable();
 export const auroWallet$ = writable({
   connected: false,
   accountExists: false,
@@ -48,7 +50,39 @@ export async function loadSnarky() {
   AppStatus.done("We are ready NOW !");
   berkeleyNetwork$.set(true);
   deployedSocialcap$.set(zkappInstance);
+ 
+  return true;
+}
 
+
+export async function loadVotingZkapp(claimAccountId: string) {
+  console.log("loading Snarkyjs and zkApp instance ...");
+
+  Mina.setActiveInstance(Berkeley);
+
+  // create an instance of the Add contract
+  await VotingContract.compile();
+  console.log("contract compiled !");
+
+  // this is the fixed Public key of this zkApp
+  const zkappPublicKey = PublicKey.fromBase58(claimAccountId);
+  console.log("initZkapp zkappPublickKey=", claimAccountId);
+
+  // init the instance
+  const zkappInstance = new VotingContract(zkappPublicKey);
+  console.log("zkAppInstance=", zkappInstance);
+
+  // get the zkappAccount
+  const result = await fetchAccount({ publicKey: zkappPublicKey });
+  console.log(`Account exists ? `,   (result?.account !== undefined));
+  console.log("zkappInstancePublicKey(s) assertEqual ? ",
+    (claimAccountId === result?.account?.publicKey?.toBase58())
+  );
+
+  AppStatus.done("We are ready NOW !");
+  berkeleyNetwork$.set(true);
+  deployedVoting$.set(zkappInstance);
+ 
   return true;
 }
 
@@ -135,6 +169,108 @@ export async function payForCredentialClaim(fee: number, uid?: string) {
   } catch (err: any) {
     // You may want to show the error message in your UI to the user if the transaction fails.
     console.log("payForCredential Error=", err.message);
+    return {
+      success: false,
+      error: err.message
+    }
+  }
+}
+
+
+export async function payForVoting(claim: any, vote: string) {
+  try {
+    const mina = window!.mina;
+    if (mina === null) return {
+      success: false,
+      error: "MINA wallet not available !"
+    }
+    let sender  = get(auroWallet$).sender;
+
+    claim.uid = 'fc2f96d6214b4b5696bf3a00eed12215';
+    claim.accountId = "B62qoNJskZVfQVwf7jQ2vohCV1TzBgzaeTs1sayYb1ZDq6weLwV5CXP";
+
+    const publicKey = PublicKey.fromBase58(claim.accountId);
+    const zkApp = new VotingContract(publicKey);
+
+    const result = await fetchAccount({ publicKey: publicKey });
+    console.log(`Account exists ? `, (result?.account !== undefined));
+    console.log("zkappInstancePublicKey(s) assertEqual ? ",
+      (claim.accountId === result?.account?.publicKey?.toBase58())
+    );
+  
+    let cuid = zkApp.claimUid.get().toString();
+    console.log(publicKey.toBase58(), cuid, claim.uid, claim.accountId);
+
+    const val: Field = vote === "Y" ? Field(1) : (vote === "N" ? Field(-1) : Field(0));
+
+    let map = new MerkleMap();
+    let key = NullifierProxy.key(sender, UID.toField(claim.uid));
+    map.set(key, Field(1));
+    let nullifier = {
+      root: map.getRoot(),
+      witness: map.getWitness(key)
+    } as NullifierProxy
+
+    // now we send the vote
+    const txn = await Mina.transaction(
+      { sender: sender, fee: CLAIM_TX_FEE },
+      () => {
+        zkApp.confirmTaskDone(val, nullifier)
+    });
+    await txn.prove();
+
+
+/*     let nullifier: NullifierProxy = await getNullifier({
+      senderAccountId: sender.toBase58(), 
+      claimUid: claim.uid
+    });
+    console.log(nullifier.witness)
+    let map = new MerkleMap();
+    let key = NullifierProxy.key(sender, UID.toField(claim.uid));
+    map.set(key, Field(1));
+    let nulif = {
+      root: map.getRoot(),
+      witness: map.getWitness(key)
+    } as NullifierProxy
+
+    // Transform vote to Field: +1, -1 or 0
+
+    let rqv = zkApp.requiredVotes.get();
+    console.log(rqv)
+
+    const txn = await Mina.transaction(
+      { sender: sender, fee: CLAIM_TX_FEE }, 
+      () => { 
+        zkApp.sendVote;
+      }
+    );
+    await txn.prove();
+*/
+ 
+    // loged user will pay with Wallet
+    const pendingTxn = await mina.sendTransaction({
+      transaction: txn.toJSON(),
+      feePayer: {
+        fee: CLAIM_TX_FEE,
+        memo: `Confirm vote`,
+      },
+    });
+
+    console.log(
+      `Transaction at https://berkeley.minaexplorer.com/transaction/${pendingTxn?.hash}`
+      +`\n... waiting for transaction to be included...`
+    );
+
+    // if you want to inspect the transaction, you can print it out:
+    console.log(txn.toPretty());
+    
+    return {
+      success: true,
+      pendingTxn: pendingTxn
+    }
+  } catch (err: any) {
+    // You may want to show the error message in your UI to the user if the transaction fails.
+    console.log("payForVoting Error=", err.message);
     return {
       success: false,
       error: err.message
