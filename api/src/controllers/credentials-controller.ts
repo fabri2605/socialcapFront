@@ -47,7 +47,7 @@ const aCredentialMockup = {
   type: "Community Active Help", // String?   @default("")
   description: "Rewarding those who helped others in a distingished form",//  String?   @default("")
   community: "My first DAO", // String? @default("")
-  image: "https://fleek.ipfs.io/ipfs/bafybeig22bhtszvqbmenyekv7qb55hjqehriz6wmx7unsqygjieqxsc6dy", // String?   @default("")
+  image: "bafybeig22bhtszvqbmenyekv7qb55hjqehriz6wmx7unsqygjieqxsc6dy", // String?   @default("")
   alias: "Manza", // String?   @default("")
   stars: 5, //Int?      @default(0)
   metadata: {}, // String?   @default("{}")

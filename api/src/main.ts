@@ -18,7 +18,7 @@ fastify.register(helperRoutes).register(queryRoutes).register(mutationRoutes);
 // register CORS
 fastify.register(cors, {
   origin: "*",
-  methods: ["POST"],
+  methods: ["POST", "GET"],
 });
 
 /**
