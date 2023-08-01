@@ -24,7 +24,7 @@
   </Alert>
   <Section class="section-sm d-flex justify-content-center">
 
-    <div class="bg-white header border border-1 rounded-3 p-4 border-sc shadow-sc w-50 text-center align-center d-flex flex-column">
+    <div class="bg-white header border border-1 rounded-3 p-4 border-sc shadow-sc w-auto text-center align-center d-flex flex-column">
       <div class="d-flex border p-4 rounded-2 border-2 border-gray gap-4">
         <!-- <img src={data.image} height="240px" crossorigin/> -->
         <img src="/img/vars/BadgeGenerico.png" height="auto" crossorigin/>
@@ -32,7 +32,7 @@
           
           <span class="fw-bold fs-sm">{data.issuedBy}</span>
           <h4 class="text-black mt-2">
-            <span>{data.type}</span>
+            <Badge class='border-2 border-primary border bg-white text-primary'>{data.type}</Badge>
           </h4>
           <p class="fs-6 text-secondary lh-base">{@html data.description}</p>
         </div>
@@ -44,10 +44,10 @@
             | {data.stars} Stars 
           </span> -->
           
-          <div>
+          <div class="d-flex gap-1 justify-content-center">
 
             {#each Array(5) as _, index (index)}
-            <i class="bi bi-star-fill"></i>
+            <i class="star bi bi-star-fill"> </i>
             {/each}
           </div>
           
