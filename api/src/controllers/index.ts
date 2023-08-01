@@ -46,8 +46,8 @@ const queryHandlers = {
   'get_claim': {  fn: getClaim, authorize: true },
   'get_task': { fn: getTask, authorize: true },
   'get_my_tasks': { fn: getMyTasks, authorize: true },
-  'get_credentials': { fn: getCredential, authorize: true },
-  'get_my_credentialss': { fn: getMyCredentials, authorize: true },
+  'get_credential': { fn: getCredential, authorize: true },
+  'get_my_credentials': { fn: getMyCredentials, authorize: true },
 
   'get_nullifier': { fn: getNullifier, authorize: true },
 };
