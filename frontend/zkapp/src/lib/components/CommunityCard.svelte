@@ -1,5 +1,5 @@
-<div class="w-100 px-4">
-  <Card class="border-0 border-bottom">
+<div class="w-100 px-4 mb-4">
+  <Card class="border-0 border-bottom border-sc rounded-2">
     <CardBody class="ps-4">
       <div class="d-flex justify-content-start align-items-center pt-0">
         <img src={data.image} width="92px" crossorigin alt="Credential logo" />
@@ -31,13 +31,13 @@
               <p>
                 <Button 
                   on:click={toggleBecome}
-                  outline color="primary" size="sm" class="rounded-5 px-3 py-1">
-                  Become a validator
+                  outline color="primary" size="sm" class="rounded-2 px-3 py-1 border-2">
+                  Become a validator 
                 </Button>
                 &nbsp;
                 <a href={`/admined/${data.uid}`} class="text-dark text-decoration-none">
-                  <Button outline color="dark" size="sm" class="rounded-5 px-3 py-1">
-                    Admin it ...
+                  <Button outline color="dark" size="sm" class="rounded-2 px-3 py-1 border-2">
+                    Admin it
                   </Button>
                 </a>
               </p>

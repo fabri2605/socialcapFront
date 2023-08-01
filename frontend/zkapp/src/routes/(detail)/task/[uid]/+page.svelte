@@ -134,11 +134,16 @@
 
           
 
+          {#if vote}
        
          <SubmitButton             
             on:click={() => submitVote()}
             color="primary" label="Submit your vote" />
-          
+            {:else}
+            <SubmitButton             
+            on:click={() => submitVote()}
+            class="bg-black" label="Submit your vote" />
+            {/if}
       </div>
     </div>
   </Section>        
