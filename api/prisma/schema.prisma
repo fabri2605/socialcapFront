@@ -176,15 +176,26 @@ model Plan {
 
 model Credential {
   uid          String    @id @unique
-  communityUid String    @map("community_uid")
-  claimId      String    @map("claim_id")
+  // the MINA account where this credential "lives"
+  accountId    String    @map("credential_id")
+  // this are the other related MINA account ids
   applicantId  String    @map("applicant_id")
+  claimId      String    @map("claim_id")
+  // the source references (redundant by useful for querying)
+  applicantUid String
+  communityUid String
+  claimUid     String
+  // type & description data
   type         String?   @default("")
   description  String?   @default("")
+  community    String?   @default("")
   image        String?   @default("")
   alias        String?   @default("")
-  starts       Int?      @default(0)
+  stars        Int?      @default(0)
+  // additional options
   metadata     String?   @default("{}")
+  revocable    Boolean?  @default(false)
+  // timestamps
   issuedUTC    DateTime? @map("issued_utc")
   expiresUTC   DateTime? @map("expires _utc")
 

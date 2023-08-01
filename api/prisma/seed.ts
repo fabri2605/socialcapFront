@@ -197,6 +197,32 @@ const users = [
   },
 ]
 
+const credentials = [
+  {
+    uid: "caaaaff63a48400a9ce57f3ad6960001",
+    // the MINA account where this credential "lives"
+    accountId: "B62x...01234", //
+    // this are the other related MINA account ids
+    applicantId: "B62qixo7ZaNjibjRh3dhU1rNLVzNUqDtgwyUB6n9xxYFrHEHmfJXbBf",
+    claimId: "B62qoNJskZVfQVwf7jQ2vohCV1TzBgzaeTs1sayYb1ZDq6weLwV5CXP",
+    // the source references (redundant by useful for querying)
+    applicantUid: "ec3c6e254d0b42debd939d9a7bd7cacc",
+    communityUid: "70ed0f69af174c399b1958c01dc191c0",
+    claimUid: "fc2f96d6214b4b5696bf3a00eed12215",
+    // type & description data
+    type: "Community Active Help",
+    description: "Rewarding those who helped others in a distingished form",
+    community: "My first DAO",
+    image: "https://fleek.ipfs.io/ipfs/bafybeig22bhtszvqbmenyekv7qb55hjqehriz6wmx7unsqygjieqxsc6dy",
+    alias: "Manza",
+    stars: 5,
+    revocable: false,
+    metadata: "{}",
+    issuedUTC: "2023-08-01T15:00:00.000Z",
+    expiresUTC: "2024-08-01T15:00:00.000Z",
+  }
+]
+
 const merkle_map_data = [
   {
     id: 1,
@@ -337,6 +363,17 @@ async function main() {
 
     let mmm = await updateEntity("members", m.uid, m);
     console.log("Updated entity", mmm);
+  }
+
+  // Add credentials
+  for (let j=0; j < credentials.length; j++) {
+    const crd = credentials[j];
+    let crdp = await prisma.credential.upsert({
+      where: { uid: crd.uid },
+      update: {},
+      create: crd
+    });
+    console.log("Inserted ", crdp);
   }
 }
 
