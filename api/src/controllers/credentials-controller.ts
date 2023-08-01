@@ -6,12 +6,15 @@ import { hasError, hasResult, raiseError } from "../responses.js";
 
 
 export async function getCredential(params: any) {
-  const uid = params.uid;
+  let uid = params.uid;
+  
   //let data = await getEntity("credential", uid);
-  //data.metadata = JSON.parse(data.metadata || "[]");
-
-  // fake data (for now)
-  let data = aCredentialMockup;
+  let data = await prisma.credential.findUnique({ 
+    where: { uid: uid }
+  });
+  if (!data) raiseError.DatabaseEngine(
+    `Could not found Credential uid=${uid}`
+  )
 
   return hasResult(data); 
 }
