@@ -6,15 +6,17 @@
  * - Assign tasks to validators and send mails ...
  * - ... wait for votes ...
  */
-import { Field, PublicKey, PrivateKey, Mina } from "snarkyjs";
-import { UID, VotingInstance, ClaimsVotingFactory } from "@socialcap/contracts";
+import { Field, PublicKey, PrivateKey, Mina, MerkleMap } from "snarkyjs";
+import { UID, VotingInstance, ClaimsVotingFactory, NullifierProxy } from "@socialcap/contracts";
 import { VOTING, CLAIMED } from "@socialcap/contracts";
 import { logger } from "../global.js";
 import { getValidators, getAuditors } from "../dbs/members-helpers.js";
 import { getEntity, updateEntity } from "../dbs/any-entity-helpers.js"
-import { setMinaNetwork } from "./mina-service.js";
+import { addElectorsToNullifier, getNullifierOrRaise } from "../dbs/nullifier-helpers.js";
+import { MinaService, setMinaNetwork } from "./mina-service.js";
 import { ClaimPlanStrategy, strategyElectorsSelection } from "./voting-strategy.js";
 import { assignTaskToElectors } from "./voting-assignments.js";
+import { error } from "console";
 
 export {
   startClaimVotingProcess
@@ -30,9 +32,9 @@ async function startClaimVotingProcess(params: any) {
     let plan = await getEntity("plan", claim.planUid);
     let strategy = JSON.parse(plan.strategy);
   
-    // MUST be do it before deploying ...
+    // MUST be sure before deploying ...
     setMinaNetwork();
-    /*
+    
     let deployed: VotingInstance = await ClaimsVotingFactory.deploy(
       UID.toField(params.uid), 
       Field(strategy.minVotes),
@@ -45,8 +47,7 @@ async function startClaimVotingProcess(params: any) {
     params.accountId = deployed.address.toBase58();
     params.state = VOTING; 
     claim = await updateEntity("claim", params.uid, params);
-    */
-  
+      
     // get validators and auditors set  
     let validators = await getValidators(claim.communityUid);
     let auditors = await getAuditors(claim.communityUid);
@@ -57,14 +58,30 @@ async function startClaimVotingProcess(params: any) {
       auditors,
       strategy
     );
-  
-    // we can now assign the task to each one
-    let assignments = await assignTaskToElectors(claim, electors); 
-  
+
+    // after the Nullifier was updated we can now 
+    // assign the task to the selected lectors
+    await assignTaskToElectors(params.claim, params.electors); 
+    
     // now prepare the Nullifier to avoid invalid/double voting 
-    let nullifier = await getEntity("nullifier", "1"); // only one nullifier
-    //nullifier = await  addToNullifier(nullifier, claim, electors) ;
-    await updateEntity("nullifier", "1", nullifier);
+    const nullifier = await getNullifierOrRaise();
+    let nullifierUpdate = await addElectorsToNullifier(
+      nullifier, 
+      claim.uid, 
+      electors
+    );
+
+    // send the Tx to MINA for zkApp.updateNullifier()
+    await MinaService.updateNullifierRoot(
+      nullifier, 
+      nullifierUpdate,
+      { electors: electors, claim: claim },
+      async (params: any) => { return ; }, // done !
+      (params: any, error: any) => {
+        // nothing we can do ... we just log it
+        logger.error(`updateNullifier root failed err=${error.toString()}`);
+      }
+    )
   }
   catch (err: any) {
     logger.error("Could not startClaimVotingProcess err="+err.toString());

@@ -39,7 +39,6 @@ export async function getMyClaims(params: any) {
   })
   if (! claims) 
     return hasResult([]);
-
     
   const planUids  = claims.map((t) => t.planUid);
   const plans = await prisma.plan.findMany({

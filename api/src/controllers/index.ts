@@ -6,6 +6,7 @@ import { joinCommunity, promoteMember } from "./members-controller.js";
 import { getAdminedCommunity } from "./communities-controller.js"
 import { getPlan, addPlan, updatePlan } from "./plans-controller.js";
 import { getClaim, getMyClaimables, getMyClaims, addClaim, updateClaim, submitClaim } from "./claims-controller.js";
+import { getTask, getMyTasks, getNullifier, updateTaskState } from "./tasks-controller.js";
 import { queryEmptySet } from "./empty-set.js"
 
 export { 
@@ -42,4 +43,7 @@ const queryHandlers = {
   'get_my_claims': {  fn: getMyClaims, authorize: true },
   'get_my_claimables': {  fn: getMyClaimables, authorize: true },
   'get_claim': {  fn: getClaim, authorize: true },
+  'get_task': { fn: getTask, authorize: true },
+  'get_my_tasks': { fn: getMyTasks, authorize: true },
+  'get_nullifier': { fn: getNullifier, authorize: true },
 };

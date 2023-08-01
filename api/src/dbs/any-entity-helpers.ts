@@ -67,8 +67,7 @@ const minaService: any = {
   "plan": MinaService.updateCommunitiesRootOrRaise,
   "claim": MinaService.updateCommunitiesRootOrRaise,
   "credential": MinaService.updateCommunitiesRootOrRaise,
-  "task": MinaService.updateCommunitiesRootOrRaise,
-  "nullifier": MinaService.updateCommunitiesRootOrRaise,
+  "task": MinaService.updateCommunitiesRootOrRaise
 }
 
 

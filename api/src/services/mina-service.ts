@@ -1,30 +1,30 @@
-import { Mina, PublicKey, PrivateKey, MerkleMapWitness } from "snarkyjs";
-
+import { logger } from "../global.js";
 import { 
-  COMMUNITIES_MERKLE_MAP,
-  PERSONS_MERKLE_MAP,
-  MEMBERS_MERKLE_MAP,
-  PLANS_MERKLE_MAP,
-  CLAIMS_MERKLE_MAP,
-  CREDENTIALS_MERKLE_MAP,
-  TASKS_MERKLE_MAP,
-  NULLIFIER_MERKLE_MAP,
+  Mina, PublicKey, PrivateKey, MerkleMapWitness, CircuitString,
+  Field, UInt32 
+} from "snarkyjs";
+import { 
+  COMMUNITIES_MERKLE_MAP, PERSONS_MERKLE_MAP, MEMBERS_MERKLE_MAP,
+  PLANS_MERKLE_MAP, CLAIMS_MERKLE_MAP, CREDENTIALS_MERKLE_MAP, TASKS_MERKLE_MAP,
+  NULLIFIER_MERKLE_MAP, OffchainMerkleMap,
 } from "../dbs/index.js";
 import { 
-  ProvablePerson, 
-  ProvableCommunity, 
-  ProvableMember,
-  MerkleMapProxy,
-  MerkleMapUpdate,
+  ProvablePerson, ProvableCommunity, ProvableMember, MerkleMapProxy,
+  MerkleMapUpdate, CommunitiesContract, ClaimingsContract, ElectorsContract,
 } from "@socialcap/contracts";
-
+import { waitForTransaction } from "./mina-transactions.js";
 export { MinaService, setMinaNetwork } ;
 
-const TX_FEE = 100_000_000;
+const TX_FEE = 200_000_000;
+
+let deployer = {
+  publicKey: PublicKey.fromBase58(process.env.DEPLOYER_ID as string),
+  privateKey: PrivateKey.fromBase58(process.env.DEPLOYER_KEY as string)
+}
 
 let sender = {
-  accountId: PublicKey.fromBase58("B62qpffbtmeU3L2xt2k6X4WPP54uA4fSkkqsV99ZD39Y8nJ8N6eRgUa"),
-  key: null
+  publicKey: PublicKey.fromBase58(process.env.SENDER_ID as string),
+  privateKey: PrivateKey.fromBase58(process.env.SENDER_KEY as string)
 }
 
 
@@ -76,5 +76,54 @@ class MinaService {
     witness: MerkleMapWitness, 
     updatedMerkle: MerkleMapUpdate
   ) {
-  }  
+    //
+  }
+  
+  static async updateNullifierRoot(
+    map: OffchainMerkleMap,
+    updatedMerkle: MerkleMapUpdate,
+    params: any,
+    onSuccess: (params: any) => void,
+    onError: (params: any, error: any) => void
+  ) {
+    let mapProxy: MerkleMapProxy = {
+      id: UInt32.from(map.id),
+      name: CircuitString.fromString("nullifier"),
+      root: map.getRoot(),
+      count: Field(map.size())
+    };
+    let key = updatedMerkle.afterLeaf.key.toString();
+    let witness: MerkleMapWitness = map.getWitness(key) as MerkleMapWitness;
+    
+    try {
+      const publicKey = PublicKey.fromBase58(process.env.ELECTORS_CONTRACT_ID as string);
+      logger.info(`Running ElectorsContract '${publicKey.toBase58()}' ...`)
+
+      await ElectorsContract.compile();
+      let zkContract = new ElectorsContract(publicKey);
+
+      let txn = await Mina.transaction(
+        { sender: deployer.publicKey, fee: TX_FEE }, () => {
+          zkContract.updateNullifier(
+            mapProxy,
+            witness,
+            updatedMerkle      
+          )
+        }
+      );
+      await txn.prove();
+      await txn.sign([deployer.privateKey]);
+      let pendingTx = await txn.send();
+
+      waitForTransaction(
+        pendingTx.hash() as string, 
+        params, 
+        onSuccess,
+        onError
+      )  
+    }
+    catch (err: any) {
+      onError(params, err);
+    }
+  }
 }
