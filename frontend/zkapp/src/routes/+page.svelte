@@ -13,11 +13,11 @@
   import HomeAdminsCard from '@components/home/HomeAdminsCard.svelte';
   import HomeCredentialsCard from '@components/home/HomeCredentialsCard.svelte';
   import HomeCommunitiesCard from '@components/home/HomeCommunitiesCard.svelte';
-  import CredentialCard from '@components/CredentialCard.svelte';
+  import CredentialCard from '@components/cards/CredentialCard.svelte';
   import ClaimCard from "@components/ClaimCard.svelte";
   import CommunityCard from '@components/CommunityCard.svelte';
   import TaskCard from '@components/cards/TaskCard.svelte';
-  import EmptyListItem from "@components/cards/EmptyListItem.svelte";
+  import EmptyItemsCard from "@components/cards/EmptyItemsCard.svelte";
 
   // import HomePageContent from './_HomePageContent.svelte';
 
@@ -103,6 +103,9 @@
         <TabContent >
           &nbsp;&nbsp;&nbsp;&nbsp;
           <TabPane tabId="creds" tab="My credentials" active>
+            {#if !data?.credentials?.length}
+              <EmptyItemsCard notice="You have not calimed any credentials" />
+            {/if}
             {#each data.credentials as credential}
             <CredentialCard uid={credential.uid} data={credential}/>
             {/each}
@@ -125,7 +128,7 @@
           {#if user && user.hasTasks}
           <TabPane tabId="tasks" tab="My tasks">
             {#if !data?.assigned?.length}
-              <EmptyListItem notice="You have no pending tasks" />
+              <EmptyItemsCard notice="You have no pending tasks" />
             {/if}
             {#each data.assigned as task}
               <TaskCard uid={task.uid} data={task}/>

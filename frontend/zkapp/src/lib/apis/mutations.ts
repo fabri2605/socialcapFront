@@ -10,7 +10,25 @@ export {
   addClaim,
   updateClaim,
   submitClaim,
-  submitTask 
+  submitTask,
+  requestOTP, 
+  login 
+}
+
+
+async function requestOTP(data: any): Promise<any> {
+  //  "email": "mazito.v2+04@gmail.com"
+  let rs = await apiClient.mutate("request_otp", data);
+  if (rs.error) return null;
+  return rs.data;
+}
+
+async function login(data: any): Promise<any> {
+  // "session_key": "61756fe1995448a5a58b37fc5ce0eba6",
+  // "otp": "333577"
+  let rs = await apiClient.mutate("login", data);
+  if (rs.error) return null;
+  return rs.data;
 }
 
 

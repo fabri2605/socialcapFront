@@ -3,16 +3,11 @@ import { PublicKey, MerkleMapWitness, MerkleMap, Field, Bool } from "snarkyjs";
 import { UID, NullifierProxy } from "@socialcap/contracts";
 
 export { 
-  getMyCommunities,
-  getAllCommunities,
-  getCommunity,
-  getAdminedCommunity,
-  getPlan,
-  getMyClaimables,
-  getMyClaims,
-  getClaim,
-  getTask,
-  getMyTasks,
+  getMyCommunities, getAllCommunities, getCommunity,
+  getAdminedCommunity,getPlan,
+  getMyClaimables, getMyClaims, getClaim,
+  getTask, getMyTasks,
+  getCredential, getMyCredentials,
   getNullifier
 }
 
@@ -79,6 +74,19 @@ async function getMyTasks(params: any): Promise<any[]> {
 
 async function getTask(uid: string): Promise<any> {
   let rs = await apiClient.query("get_task", { uid: uid });
+  if (rs.error) return null;
+  return rs.data;
+}
+
+
+async function getMyCredentials(params: any): Promise<any[]> {
+  let rs = await apiClient.query("get_my_credentials", params);
+  if (rs.error) return [];
+  return rs.data;
+}
+
+async function getCredential(uid: string): Promise<any> {
+  let rs = await apiClient.query("get_credential", { uid: uid });
   if (rs.error) return null;
   return rs.data;
 }

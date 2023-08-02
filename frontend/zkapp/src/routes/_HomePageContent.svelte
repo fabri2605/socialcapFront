@@ -15,7 +15,7 @@
   import HomeCredentialsCard from '@components/home/HomeCredentialsCard.svelte';
   import HomeCommunitiesCard from '@components/home/HomeCommunitiesCard.svelte';
   import HomeValidatorsCard from '@components/home/HomeValidatorsCard.svelte';
-  import CredentialCard from '@components/CredentialCard.svelte';
+  import CredentialCard from '@components/cards/CredentialCard.svelte';
   import ClaimCard from "@components/ClaimCard.svelte";
   import CommunityCard from '@components/CommunityCard.svelte';
   import TaskCard from '@components/cards/TaskCard.svelte';
