@@ -1,4 +1,5 @@
 import { error } from '@sveltejs/kit';
+import { goto } from '$app/navigation';
 import { ASSIGNED } from '@socialcap/contracts';
 import { getCurrentSession } from '@models/current-session';
 import { getCurrentUser } from '@models/current-user';
@@ -7,9 +8,7 @@ import { CoreAPIClient } from '@apis/core-api-client';
 import { getMyCommunities, getAllCommunities } from "@apis/queries"
 import { getMyClaimables, getMyClaims } from '@apis/queries';
 import { getTask, getMyTasks } from '@apis/queries';
-
-// this is only for testing/mockups
-import { olCredentials, olMyCommunities, olSubmitedClaims, } from '@models/mockup-objects';
+import { getMyCredentials } from '@apis/queries';
 
 /** @type {import('./$types').PageLoad} */
 export async function load({ params, route, url }) {
@@ -18,6 +17,12 @@ export async function load({ params, route, url }) {
     let isAuthenticated = getCurrentSession();
     let user;
 
+    if (!isAuthenticated) {
+      let client = new CoreAPIClient(false);  
+      setApiClient(client);
+      goto("/login");
+    }
+      
     if (isAuthenticated) {
       let client = new CoreAPIClient(isAuthenticated);  
       setApiClient(client);
@@ -28,7 +33,7 @@ export async function load({ params, route, url }) {
       user: user,
       isAuthenticated: isAuthenticated,
       claimables: await getMyClaimables(),
-      credentials: olCredentials, 
+      credentials: await getMyCredentials(), 
       claimed: await getMyClaims(),
       joined: await getMyCommunities(),
       joinables: await getAllCommunities({notJoined: true}),
