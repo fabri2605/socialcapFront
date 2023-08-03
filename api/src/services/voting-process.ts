@@ -31,7 +31,7 @@ async function startClaimVotingProcess(params: any) {
   
     let plan = await getEntity("plan", claim.planUid);
     let strategy = JSON.parse(plan.strategy);
-  
+
     // MUST be sure before deploying ...
     setMinaNetwork();
     
@@ -46,12 +46,13 @@ async function startClaimVotingProcess(params: any) {
     // once deployed we need the accountId of this new instance
     params.accountId = deployed.address.toBase58();
     params.state = VOTING; 
-    claim = await updateEntity("claim", params.uid, params);
+    let result = await updateEntity("claim", params.uid, params);
+    claim = result.proved;
       
     // get validators and auditors set  
     let validators = await getValidators(claim.communityUid);
     let auditors = await getAuditors(claim.communityUid);
-  
+      
     // now select the electors using the strategy binded to this plan
     let electors = strategyElectorsSelection(
       validators,
@@ -61,7 +62,8 @@ async function startClaimVotingProcess(params: any) {
 
     // after the Nullifier was updated we can now 
     // assign the task to the selected lectors
-    await assignTaskToElectors(params.claim, params.electors); 
+    console.log("startVoting claim=",claim);
+    await assignTaskToElectors(claim, electors); 
     
     // now prepare the Nullifier to avoid invalid/double voting 
     const nullifier = await getNullifierOrRaise();
@@ -72,6 +74,8 @@ async function startClaimVotingProcess(params: any) {
     );
 
     // send the Tx to MINA for zkApp.updateNullifier()
+    // we dont really need this ? 
+    /*
     await MinaService.updateNullifierRoot(
       nullifier, 
       nullifierUpdate,
@@ -82,6 +86,7 @@ async function startClaimVotingProcess(params: any) {
         logger.error(`updateNullifier root failed err=${error.toString()}`);
       }
     )
+    */
   }
   catch (err: any) {
     logger.error("Could not startClaimVotingProcess err="+err.toString());

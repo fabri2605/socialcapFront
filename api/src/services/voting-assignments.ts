@@ -1,6 +1,6 @@
 import { Field } from "snarkyjs";
 import { UID, ASSIGNED, UTCDateTime } from "@socialcap/contracts";
-import { logger } from "../global.js";
+import { logger, prisma } from "../global.js";
 import { updateEntity } from "../dbs/any-entity-helpers.js";
 import { sendEmail } from "./email-service.js";
 
@@ -13,6 +13,11 @@ async function assignTaskToElectors(
   claim: any, 
   electors: any[]
 ) {
+  // first remove all previous tasks assigned to this claim
+  let previous = await prisma.task.findMany({ where: { claimUid: claim.uid }});
+  (previous || []).forEach(async (t) => {
+    await prisma.task.delete({ where: { uid: t.uid } });
+  });
 
   (electors || []).forEach(async (elector) => {
     const now = UTCDateTime.now(); // millisecs since 1970
@@ -34,7 +39,7 @@ async function assignTaskToElectors(
     params.new = true;
     let tp = await updateEntity("task", task.uid, task);
 
-    logger.info(`Assigned to=${elector.email} task=${task.uid} claim=${claim.uid}`);
+    console.log(`Assigned to=${elector.email} task=${task.uid} claim=${claim.uid}`);
 
     // send notifications
     const mailBody = `
