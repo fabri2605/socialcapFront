@@ -1,7 +1,7 @@
 import { Mina, PrivateKey, PublicKey, Field } from 'snarkyjs';
 import { ClaimsVotingFactory } from "../claims-voting-factory.js";
 import { rollupClaims } from "../claims-roller.js";
-import { sendVote, addElectorsToNullifier, getNullifierProxy } from './claim-tests-helpers.js';
+import { sendVote, addElectorsToNullifier, getNullifierProxy } from './voting-tests-helpers.js';
 
 // set instance
 const Local = Mina.LocalBlockchain({ proofsEnabled: true });
@@ -29,7 +29,8 @@ let zkClaim1 = await ClaimsVotingFactory.deploy(
   Field(1001), // claimUid (simulated)
   Field(3), // 3 total votes required
   Field(2),  // 2 positives is approved
-  deployer.puk, deployer.prk
+  deployer.puk, deployer.prk,
+  true
 );
 
 /*
@@ -102,7 +103,7 @@ await sendVote(
   null03
 );
 
-/*
+
 // run the rollups for all open claims ...
 for (let j=0; j < 5; j++) {
   await rollupClaims(
@@ -113,4 +114,3 @@ for (let j=0; j < 5; j++) {
     sender.puk, sender.prk
   )
 }
-*/

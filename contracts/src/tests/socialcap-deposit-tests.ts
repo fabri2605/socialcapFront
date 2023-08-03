@@ -2,7 +2,7 @@ import 'dotenv/config';
 import { Mina, PrivateKey, PublicKey, Field, UInt64 } from 'snarkyjs';
 import { ClaimsVotingFactory } from "../claims-voting-factory.js";
 import { rollupClaims } from "../claims-roller.js";
-import { sendVote, addElectorsToNullifier, getNullifierProxy } from './claim-tests-helpers.js';
+import { sendVote, addElectorsToNullifier, getNullifierProxy } from './voting-tests-helpers.js';
 
 import { startTest, getAccountsForTesting, getArgvs } from './test-helpers.js';
 import { useContract } from '../deploy/deploy-helpers.js';

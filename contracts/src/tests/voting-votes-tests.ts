@@ -2,7 +2,7 @@ import 'dotenv/config';
 import { Mina, PrivateKey, PublicKey, Field } from 'snarkyjs';
 import { ClaimsVotingFactory } from "../claims-voting-factory.js";
 import { rollupClaims } from "../claims-roller.js";
-import { sendVote, addElectorsToNullifier, getNullifierProxy } from './claim-tests-helpers.js';
+import { sendVote, addElectorsToNullifier, getNullifierProxy } from './voting-tests-helpers.js';
 
 import { startTest, getAccountsForTesting, getArgvs } from './test-helpers.js';
 
@@ -17,7 +17,7 @@ let {
 } = await getAccountsForTesting(netw, proofsEnabled);
 
 // first compile it
-await ClaimsVotingFactory.compile();
+//await ClaimsVotingFactory.compile();
 
 /*
 // now deploy  ONE Claim
@@ -28,14 +28,14 @@ let zkClaim1 = await ClaimsVotingFactory.deploy(
   deployerAccount, deployerKey
 );
 */
-let ADDR="B62qkNrf2DcHrUjSxAdvC71oRKYS2sXpzZgP2JGNM5q6vKT42xVsmEb";
+let ADDR="B62qrKCbhsYXDyUe85BVcVe5Ue2dPkP3AJow5F8qQxBdXefWRkuagUK";
 
 let zkClaim1 = await ClaimsVotingFactory.getInstance(
   PublicKey.fromBase58(ADDR)
 );
 
 // we need to add some electors with their accountIds
-let claimUid = Field(1001); // the first Claim
+let claimUid = Field(4099); // the first Claim
 
 // ## learn4
 // - "B62qmTfY9auDwpm4bjTV7jdzcmv9xTThAwK6j9f1B37vhchH96HFH5Z"
