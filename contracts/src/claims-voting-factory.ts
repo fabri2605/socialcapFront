@@ -4,7 +4,7 @@ import { checkTransaction } from "./tests/test-helpers.js";
 
 export { ClaimsVotingFactory, VotingInstance };
 
-let proofsEnabled = true;
+let proofsEnabled = false;
 let isCompiled = false;
 
 const ClaimsVotingFactory = {
@@ -41,6 +41,7 @@ async function deployVotingContract(
   requiredPositives: Field,
   deployerAccount: PublicKey,
   deployerKey: PrivateKey,
+  isLocal?: boolean
 ): Promise<VotingInstance> {
   // we ALWAYS compile it
   await VotingContract.compile();
@@ -74,13 +75,18 @@ async function deployVotingContract(
   // wait for account ...
   await fetchAccount({ publicKey: zkAppAddr });
 
-  await loopUntilAccountExists({
-    account: zkAppAddr,
-    eachTimeNotExist: () => {
-      console.log('Waiting for zkApp account to be fully available ...');
-    },
-    isZkAppAccount: true,
-  });
+  let counter = 0;
+  if (isLocal === undefined || !isLocal) {
+    await loopUntilAccountExists({
+      account: zkAppAddr,
+      eachTimeNotExist: () => {
+        let ts = (new Date()).toISOString();
+        counter = counter+5; // every 5 secs
+        console.log(`${ts} ${counter} ... waiting for zkApp account to be fully available ...`);
+      },
+      isZkAppAccount: true,
+    });
+  }
 
   // initialize it !
   // we can only call setup() AFTER we are sure the deployed account exists

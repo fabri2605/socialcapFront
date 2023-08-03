@@ -4,4 +4,4 @@
 
 npm run build
 
-node build/src/tests/main-voting-deploy-tests.js Berkeley proofsEnabled $1 >> logs/voting-$1.logs
+node build/src/tests/voting-deploy-tests.js Berkeley proofsEnabled $1 >> logs/voting-$1.logs

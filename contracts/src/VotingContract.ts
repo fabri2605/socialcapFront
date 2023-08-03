@@ -1,4 +1,4 @@
-import { SmartContract, state, State, method, Reducer, PrivateKey, PublicKey } from "snarkyjs";
+import { SmartContract, state, State, method, Reducer, PublicKey } from "snarkyjs";
 import { Field, Bool, Struct, Circuit, Poseidon } from "snarkyjs";
 import { MerkleMapWitness } from "snarkyjs";
 
