@@ -125,6 +125,23 @@ export async function getMyClaimables(params: any) {
 
 
 /**
+ * Gets all claim instance data that are in a voting state (CLAIMED).
+ * We need them for doing rollups over and over again.
+ * @param params 
+ */
+export async function getRunningClaims(params: any) {
+  // all commnunity Uids where is a a member
+  const claims = await prisma.claim.findMany({
+    where: { state: CLAIMED },
+    orderBy: { createdUTC: 'asc' }
+  })
+  return hasResult({
+    claims: claims || []
+  })
+}
+
+
+/**
  * Mutations
  */
 
@@ -134,6 +151,8 @@ export async function addClaim(params: any) {
 
   params.evidenceData = JSON.stringify(params.evidenceData || "[]");
   params.state = parseInt(params.state || 1);
+  params.createdUTC = (new Date()).toISOString();
+  params.updatedUTC = params.createdUTC;
   let rs = await updateEntity("claim", uid, params);
 
   return hasResult({

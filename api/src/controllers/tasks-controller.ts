@@ -1,12 +1,11 @@
-import { PublicKey } from "snarkyjs";
+import { PublicKey, Field } from "snarkyjs";
 import { NullifierProxy, UID } from "@socialcap/contracts";
-import { CLAIMED, WAITING, UNPAID, VOTING } from "@socialcap/contracts";
+import { CLAIMED, WAITING, UNPAID, VOTING, ASSIGNED, DONE } from "@socialcap/contracts";
 import { fastify, prisma, logger } from "../global.js";
 import { hasError, hasResult, raiseError } from "../responses.js";
 import { waitForTransaction } from "../services/mina-transactions.js";
 import { updateEntity, getEntity } from "../dbs/any-entity-helpers.js";
-import { getNullifierProxy } from "../dbs/nullifier-helpers.js";
-import { NULLIFIER_MERKLE_MAP } from "../dbs/index.js";
+import { getNullifierLeafs, updateNullifier } from "../dbs/nullifier-helpers.js";
 
 
 export async function getTask(params: any) {
@@ -71,38 +70,30 @@ export async function getMyTasks(params: any) {
 }
 
 
-export async function updateTaskState(params: any) {
+export async function submitTask(params: any) {
   const uid = params.uid;
+
+  let task = await prisma.task.update({
+    where: { uid: uid },
+    data: { state:  DONE },    
+  })
+
   // we need to also update the Nullifier !
+  let key: Field = NullifierProxy.key(
+    PublicKey.fromBase58(params.senderAccountId),
+    UID.toField(params.claimUid)
+  )
+  let state: Field = Field(2);
+  await updateNullifier(key, state);  
+
+  return hasResult({
+    task: task,
+    transaction: { id: params.txn?.hash || "" }
+  })
 }
 
 
 export async function getNullifier(params: any) {
-  const claimUid = params.claimUid;
-  const senderAccountId =  params.senderAccountId;
-
-  const leafs = await prisma.merkleMapLeaf.findMany({
-    select: { index: true, key: true, hash: true, },
-    where: { mapId: NULLIFIER_MERKLE_MAP },
-    orderBy: { index: 'asc' }
-  })
-
-  let arr: any = [];
-  for (let j=0; j < leafs.length; j++) {
-    arr.push({
-      key: leafs[j].key,
-      hash: leafs[j].hash
-    })
-  }
-
-  return hasResult({
-    count: leafs.length,
-    leafs: arr
-  })
-  // let nullifier: NullifierProxy = await getNullifierProxy(
-  //   PublicKey.fromBase58(senderAccountId),
-  //   UID.toField(claimUid)
-  // )
-  // console.log("nullifier witness=", nullifier.witness.toJSON());
-  // return hasResult(nullifier);
+  let leafs = await getNullifierLeafs();
+  return hasResult(leafs);
 }

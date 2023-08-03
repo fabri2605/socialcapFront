@@ -195,6 +195,13 @@ const users = [
     state: "PENDING",
     accountId: "B62qoZJnJWyAv2NngczJBAZgAaYLU6kjyj5poJc96QDbdqX1kZH6e9y",
   },
+  {
+    uid: "ec3c6e254d0b42debd939d9a7bd70020",
+    email: "mazito.v2+20@gmail.com",
+    fullName: "First time user +20",
+    state: "PENDING",
+    accountId: "",
+  },
 ]
 
 const credentials = [

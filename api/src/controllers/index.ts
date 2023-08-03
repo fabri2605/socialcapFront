@@ -5,8 +5,8 @@ import { updateCommunity, getCommunity, getMyCommunities, getAllCommunities } fr
 import { joinCommunity, promoteMember } from "./members-controller.js";
 import { getAdminedCommunity } from "./communities-controller.js"
 import { getPlan, addPlan, updatePlan } from "./plans-controller.js";
-import { getClaim, getMyClaimables, getMyClaims, addClaim, updateClaim, submitClaim } from "./claims-controller.js";
-import { getTask, getMyTasks, getNullifier, updateTaskState } from "./tasks-controller.js";
+import { getClaim, getMyClaimables, getMyClaims, addClaim, updateClaim, submitClaim, getRunningClaims } from "./claims-controller.js";
+import { getTask, getMyTasks, getNullifier, submitTask } from "./tasks-controller.js";
 import { getCredential, getMyCredentials } from "./credentials-controller.js";
 import { queryEmptySet } from "./empty-set.js"
 
@@ -29,7 +29,8 @@ const mutationHandlers = {
   'add_plan': { fn: addPlan, authorize: true },
   'add_claim': { fn: addClaim, authorize: true },
   'update_claim': { fn: updateClaim, authorize: true },
-  'submit_claim': { fn: submitClaim, authorize: true }
+  'submit_claim': { fn: submitClaim, authorize: true },
+  'submit_task':  { fn: submitTask, authorize: true },
 }
 
 const queryHandlers = {
@@ -43,11 +44,11 @@ const queryHandlers = {
   // 'get_my_credentials': {  fn: getClaimables, authorize: true },
   'get_my_claims': {  fn: getMyClaims, authorize: true },
   'get_my_claimables': {  fn: getMyClaimables, authorize: true },
+  'get_running_claims': {  fn: getRunningClaims, authorize: true },
   'get_claim': {  fn: getClaim, authorize: true },
   'get_task': { fn: getTask, authorize: true },
   'get_my_tasks': { fn: getMyTasks, authorize: true },
   'get_credential': { fn: getCredential, authorize: false },
   'get_my_credentials': { fn: getMyCredentials, authorize: true },
-
   'get_nullifier': { fn: getNullifier, authorize: true },
 };
