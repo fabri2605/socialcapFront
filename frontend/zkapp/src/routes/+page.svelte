@@ -104,7 +104,7 @@
           &nbsp;&nbsp;&nbsp;&nbsp;
           <TabPane tabId="creds" tab="My credentials" active>
             {#if !data?.credentials?.length}
-              <EmptyItemsCard notice="You have not calimed any credentials" />
+              <EmptyItemsCard notice="You have not claimed any credentials" />
             {/if}
             {#each data.credentials as credential}
             <CredentialCard uid={credential.uid} data={credential}/>
@@ -112,8 +112,11 @@
             <br>
           </TabPane>
           <TabPane tabId="claims" tab="My claims">
+            {#if !data?.claims?.length}
+              <EmptyItemsCard notice="You have no pending claims" />
+            {/if}
             {#each data.claimed as claimed}
-            <ClaimCard data={claimed}/>
+              <ClaimCard data={claimed}/>
             {/each}
           </TabPane>
           <TabPane tabId="comns" tab="My communities" on:click={() => alert()}>

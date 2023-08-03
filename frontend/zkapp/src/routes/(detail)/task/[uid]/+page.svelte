@@ -229,7 +229,7 @@
     auroWallet$, deployedVoting$, loadVotingZkapp 
   } from "$lib/contract/helpers";
 
-  export let data; // this is the data for this MasterPlan and empty Claim
+  export let data; // this is the data for this Task
 
   let user ;
   let vote = null;
@@ -260,8 +260,7 @@
    */
    async function voteNow() {
     let confirmed = window.confirm("are you sure ? Once submited it can not be changed !");
-    if (confirmed) 
-      alert(JSON.stringify({vote: vote}, null, 4));
+    if (!confirmed) return;
 
     // await ready for payment
     canPayNow = await isReadyForPayment();
@@ -270,13 +269,7 @@
   async function isReadyForPayment() {
     paymentStatus = 0;
     toggle(); // open dialog
-/*
-    let nullifier = await getNullifier({
-      senderAccountId: "B62qnN5uL2D9KRCrriFB8pphJNX94FQP46a6NAvYqtJX7DH1vEq7DHy",//sender.toBase58(),
-      claimUid: data.claim.uid
-    });
-    console.log(nullifier.witness)
-*/
+
     let isSnarkyLoaded = get(deployedVoting$) ;
     if (!isSnarkyLoaded) {
       isSnarkyLoaded = await loadVotingZkapp(data.claim.accountId);
@@ -298,7 +291,7 @@
     paymentMessage = "Starting voting transaction ..."; await tick();
     paymentStatus = 1; // started
 
-    let result = await payForVoting(data.claim, data.vote);
+    let result = await payForVoting(data, data.vote);
 
     if (!result.success) {
       paymentMessage= "Voting was not done: "+result.error; await tick();

@@ -1,12 +1,14 @@
 import { fetchAccount, UInt64, Mina, PrivateKey, PublicKey, Field, MerkleMap } from "snarkyjs";
 import { SOCIALCAP_CONTRACT_ID } from "./addresses";
 import { CLAIM_TX_FEE } from "./fees";
-import { SocialcapContract, VotingContract, NullifierProxy, UID } from "@socialcap/contracts";
+import { SocialcapContract, VotingContract, NullifierProxy, UID, DONE } from "@socialcap/contracts";
 import { AppStatus } from "@utilities/app-status";
 import { getNullifier } from "@apis/queries";
+import { submitTask } from "@apis/mutations";
 
 // Svelte stores
 import { writable, get } from "svelte/store";
+
 export const berkeleyNetwork$ = writable();
 export const deployedSocialcap$ = writable();
 export const deployedVoting$ = writable();
@@ -177,7 +179,7 @@ export async function payForCredentialClaim(fee: number, uid?: string) {
 }
 
 
-export async function payForVoting(claim: any, vote: string) {
+export async function payForVoting(task: any, vote: string) {
   try {
     const mina = window!.mina;
     if (mina === null) return {
@@ -186,30 +188,32 @@ export async function payForVoting(claim: any, vote: string) {
     }
     let sender  = get(auroWallet$).sender;
 
-    claim.uid = 'fc2f96d6214b4b5696bf3a00eed12215';
-    claim.accountId = "B62qoNJskZVfQVwf7jQ2vohCV1TzBgzaeTs1sayYb1ZDq6weLwV5CXP";
-
+    // the VotingContract instance linked to this claim 
+    let claim = task.claim;
     const publicKey = PublicKey.fromBase58(claim.accountId);
     const zkApp = new VotingContract(publicKey);
 
+    // wait for account to be available
     const result = await fetchAccount({ publicKey: publicKey });
     console.log(`Account exists ? `, (result?.account !== undefined));
     console.log("zkappInstancePublicKey(s) assertEqual ? ",
       (claim.accountId === result?.account?.publicKey?.toBase58())
     );
-  
+ 
+    // assert we have the right claim and instance
     let cuid = zkApp.claimUid.get().toString();
-    console.log(publicKey.toBase58(), cuid, claim.uid, claim.accountId);
+    if (cuid !== UID.toField(claim.uid).toString())
+      throw "Asserting cliam and instance failede ! Not the same claim !"; 
+    //console.log(publicKey.toBase58(), cuid, claim.uid, claim.accountId);
 
+    // transform the Vote
     const val: Field = vote === "Y" ? Field(1) : (vote === "N" ? Field(-1) : Field(0));
 
-    let map = new MerkleMap();
-    let key = NullifierProxy.key(sender, UID.toField(claim.uid));
-    map.set(key, Field(1));
-    let nullifier = {
-      root: map.getRoot(),
-      witness: map.getWitness(key)
-    } as NullifierProxy
+    // the Nullifier used for avoid double votes
+    let nullifier = await getNullifier({
+      claimUid: claim.uid,
+      senderAccountId: sender.toBase58()
+    }) as NullifierProxy;
 
     // now we send the vote
     const txn = await Mina.transaction(
@@ -219,34 +223,6 @@ export async function payForVoting(claim: any, vote: string) {
     });
     await txn.prove();
 
-
-/*     let nullifier: NullifierProxy = await getNullifier({
-      senderAccountId: sender.toBase58(), 
-      claimUid: claim.uid
-    });
-    console.log(nullifier.witness)
-    let map = new MerkleMap();
-    let key = NullifierProxy.key(sender, UID.toField(claim.uid));
-    map.set(key, Field(1));
-    let nulif = {
-      root: map.getRoot(),
-      witness: map.getWitness(key)
-    } as NullifierProxy
-
-    // Transform vote to Field: +1, -1 or 0
-
-    let rqv = zkApp.requiredVotes.get();
-    console.log(rqv)
-
-    const txn = await Mina.transaction(
-      { sender: sender, fee: CLAIM_TX_FEE }, 
-      () => { 
-        zkApp.sendVote;
-      }
-    );
-    await txn.prove();
-*/
- 
     // loged user will pay with Wallet
     const pendingTxn = await mina.sendTransaction({
       transaction: txn.toJSON(),
@@ -263,6 +239,16 @@ export async function payForVoting(claim: any, vote: string) {
 
     // if you want to inspect the transaction, you can print it out:
     console.log(txn.toPretty());
+
+    // we need to report the task as completed and update the Nullifier
+    // when the transaction is finally included
+    await submitTask({
+      uid: task.uid,
+      claimUid: claim.uid,
+      senderAccountId: sender.toBase58(),
+      state: DONE,
+      txn: pendingTxn
+    });
     
     return {
       success: true,

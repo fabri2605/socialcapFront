@@ -176,5 +176,17 @@ async function submitClaim(data: any): Promise<any> {
 
 /* here we send the vote uand update Nullifier */
 async function submitTask(data: any): Promise<any> {
-  return {}
+  AppStatus.push("Submitting the Vote for #"+data.claimUid);  
+
+  let rs = await apiClient.mutate("submit_task", data);
+  if (rs.error) {
+    AppStatus.error("There is some error with the data, please review !");
+    return null;
+  }  
+  AppStatus.push("Task submitted ...");  
+  
+  AppStatus.push("Now waiting for MINA transaction to complete");  
+  monitorMINATransaction(rs.data.transaction.id);
+
+  return rs.data.task;
 }
