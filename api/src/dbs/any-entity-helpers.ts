@@ -61,13 +61,13 @@ const provableHandler: any = {
 }
 
 const minaService: any = {
-  "person": MinaService.updatePersonsRootOrRaise,
-  "community": MinaService.updateCommunitiesRootOrRaise,
-  "members": MinaService.updateCommunitiesRootOrRaise,
-  "plan": MinaService.updateCommunitiesRootOrRaise,
-  "claim": MinaService.updateCommunitiesRootOrRaise,
-  "credential": MinaService.updateCommunitiesRootOrRaise,
-  "task": MinaService.updateCommunitiesRootOrRaise
+  "person": MinaService.updatePersonsRoot,
+  "community": MinaService.updateCommunitiesRoot,
+  "members": MinaService.updateMembersRoot,
+  "plan": MinaService.updatePlansRoot,
+  "claim": MinaService.updateClaimsRoot,
+  "credential": MinaService.updateCredentialsRoot,
+  "task": MinaService.updateTasksRoot
 }
 
 
@@ -115,7 +115,7 @@ async function updateEntity(
   let tx = await updateMINA(
     entityType, uid, 
     provable, map, updated, txId,
-      ) ;
+  ) ;
 
   return {
     proved: data,

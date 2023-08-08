@@ -9,8 +9,10 @@ import {
   NULLIFIER_MERKLE_MAP, OffchainMerkleMap,
 } from "../dbs/index.js";
 import { 
-  ProvablePerson, ProvableCommunity, ProvableMember, MerkleMapProxy,
-  MerkleMapUpdate, CommunitiesContract, ClaimingsContract, ElectorsContract,
+  ProvablePerson, ProvableCommunity, ProvableMember, ProvableTask,
+  ProvableClaim, ProvableCredential, ProvableElector, ProvablePlan,
+  MerkleMapProxy,MerkleMapUpdate, 
+  CommunitiesContract, ClaimingsContract, ElectorsContract, SocialcapContract
 } from "@socialcap/contracts";
 import { waitForTransaction } from "./mina-transactions.js";
 export { MinaService, setMinaNetwork } ;
@@ -44,33 +46,51 @@ function setMinaNetwork() {
 
 class MinaService {
 
-  static async updatePersonsRootOrRaise(
+  static async updatePersonsRoot(
     provable: ProvablePerson, 
     map: MerkleMapProxy, 
     witness: MerkleMapWitness, 
     updatedMerkle: MerkleMapUpdate
   ) {
-    // try {
-    //   let tx = await Mina.transaction(
-    //     { sender: sender.accountId, fee: TX_FEE }, () => {
-    //       // socialcapContract.updatePerson(
-    //       //   provable as ProvablePerson,
-    //       //   map, 
-    //       //   witness,
-    //       //   updatedMerkle
-    //       // );}
-    //     }
-    //   );
-    //   await tx.prove();
-    //   tx.sign([senderKey]);
-    //   let pendingTx = await tx.send();
-    // }
-    // catch (err: any) {
-    //   revert();
-    // }
+    try {
+      return;
+
+      const publicKey = PublicKey.fromBase58(
+        process.env.COMMUNITIES_CONTRACT_ID as string
+      );
+      logger.info(`Running CommunitiesContract '${publicKey.toBase58()}' ...`)
+      
+      await CommunitiesContract.compile();
+      let zkContract = new CommunitiesContract(publicKey);
+
+      let tx = await Mina.transaction(
+        { sender: deployer.publicKey, fee: TX_FEE }, () => {
+          zkContract.updatePerson(
+            provable as ProvablePerson,
+            map, 
+            witness,
+            updatedMerkle
+          );
+        }
+      );
+      await tx.prove();
+      await tx.sign([deployer.privateKey]);
+      let pendingTx = await tx.send();    
+
+      waitForTransaction(
+        pendingTx.hash() as string, 
+        {}, 
+        (params: any) => { console.log("Txn OK"); },
+        (params: any, error: any) => { console.log("Txn Failed", error); },
+      )  
+    }
+    catch (err: any) {
+      console.log(err);
+      throw err.toString();
+    }
   }
 
-  static async updateCommunitiesRootOrRaise(
+  static async updateCommunitiesRoot(
     provable: ProvableCommunity, 
     map: MerkleMapProxy, 
     witness: MerkleMapWitness, 
@@ -78,7 +98,59 @@ class MinaService {
   ) {
     //
   }
+
+  static async updateMembersRoot(
+    provable: ProvableMember, 
+    map: MerkleMapProxy, 
+    witness: MerkleMapWitness, 
+    updatedMerkle: MerkleMapUpdate
+  ) {
+    //
+  }
   
+  static async updatePlansRoot(
+    provable: ProvablePlan, 
+    map: MerkleMapProxy, 
+    witness: MerkleMapWitness, 
+    updatedMerkle: MerkleMapUpdate
+  ) {
+    //
+  }
+  static async updateClaimsRoot(
+    provable: ProvableClaim, 
+    map: MerkleMapProxy, 
+    witness: MerkleMapWitness, 
+    updatedMerkle: MerkleMapUpdate
+  ) {
+    //
+  }
+  static async updateCredentialsRoot(
+    provable: ProvableCredential, 
+    map: MerkleMapProxy, 
+    witness: MerkleMapWitness, 
+    updatedMerkle: MerkleMapUpdate
+  ) {
+    //
+  }
+
+  static async updateTasksRoot(
+    provable: ProvableTask, 
+    map: MerkleMapProxy, 
+    witness: MerkleMapWitness, 
+    updatedMerkle: MerkleMapUpdate
+  ) {
+    //
+  }
+
+  static async emptyHandler(
+    provable: ProvableTask, 
+    map: MerkleMapProxy, 
+    witness: MerkleMapWitness, 
+    updatedMerkle: MerkleMapUpdate
+  ) {
+    //
+  }
+
   static async updateNullifierRoot(
     map: OffchainMerkleMap,
     updatedMerkle: MerkleMapUpdate,
