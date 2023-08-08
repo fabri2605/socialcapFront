@@ -1,5 +1,8 @@
 #!/bin/sh
 
+# stop and remove previous container
+docker rm $(docker stop scapi)
+
 # will run the Socialcap API in host port 3080 
 docker -l debug run -d --restart=always --name scapi \
   --net=host \
