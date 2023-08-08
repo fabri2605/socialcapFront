@@ -6,9 +6,9 @@ export { CoreAPIClient };
 
 class CoreAPIClient {
   API = {
-    protocol: "https",
+    protocol: "http",
     host: "",
-    port: 3081, // or maybe 3038
+    port: 3080, // or maybe 3038
     baseUrl: "",
     authorization: "",
     apiKey: "",
@@ -22,7 +22,7 @@ class CoreAPIClient {
   }) {
     this.API.protocol = params?.protocol || this.API.protocol;
     this.API.host = params?.host || "localhost";
-    this.API.port = params?.port || 3081;
+    this.API.port = params?.port || 3080;
     this.API.baseUrl = `${this.API.protocol}://${this.API.host}:${this.API.port}/api`;
     this.authorize(params?.authorization || "");
   }
@@ -37,7 +37,7 @@ class CoreAPIClient {
   static async connect(host?: string, port?: number, apiKey?: string) {
     let t = new CoreAPIClient();
     t.API.host = host || "localhost";
-    t.API.port = port || 3081;
+    t.API.port = port || 3080;
     t.API.apiKey = apiKey || "NULL";
     t.API.baseUrl = `http://${host}:${port}/api`;
     if (apiKey) t.authorize(apiKey);

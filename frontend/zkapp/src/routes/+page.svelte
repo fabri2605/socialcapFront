@@ -8,21 +8,18 @@
 	import { Spinner, Icon, TabContent, TabPane, Button } from 'sveltestrap';
   import RootHeader from '@components/HubPageHeader.svelte'; 
   import HubPageContent from '@components/HubPageContent.svelte';
-  import EmptyCredentials from '@components/EmptyCredentials.svelte';
   import EmptyFirstTime from '@components/EmptyFirstTime.svelte';
-  import Sidenote from '@components/Sidenote.svelte';
-  import CanClaimNow from '@components/CanClaimNow.svelte';
   import Section from '@components/Section.svelte';
   import HomeAdminsCard from '@components/home/HomeAdminsCard.svelte';
   import HomeCredentialsCard from '@components/home/HomeCredentialsCard.svelte';
   import HomeCommunitiesCard from '@components/home/HomeCommunitiesCard.svelte';
-  import HomeValidatorsCard from '@components/home/HomeValidatorsCard.svelte';
-  import CredentialCard from '@components/CredentialCard.svelte';
+  import CredentialCard from '@components/cards/CredentialCard.svelte';
   import ClaimCard from "@components/ClaimCard.svelte";
   import CommunityCard from '@components/CommunityCard.svelte';
-  import TaskCard from '@components/TaskCard.svelte';
+  import TaskCard from '@components/cards/TaskCard.svelte';
+  import EmptyItemsCard from "@components/cards/EmptyItemsCard.svelte";
 
-  import HomePageContent from './_HomePageContent.svelte';
+  // import HomePageContent from './_HomePageContent.svelte';
 
   export let data; // this is the data for the lists
 
@@ -106,19 +103,25 @@
         <TabContent >
           &nbsp;&nbsp;&nbsp;&nbsp;
           <TabPane tabId="creds" tab="My credentials" active>
+            {#if !data?.credentials?.length}
+              <EmptyItemsCard notice="You have not claimed any credentials" />
+            {/if}
             {#each data.credentials as credential}
             <CredentialCard uid={credential.uid} data={credential}/>
             {/each}
             <br>
           </TabPane>
           <TabPane tabId="claims" tab="My claims">
-            {#each data.submited as submited}
-            <ClaimCard data={submited}/>
+            {#if !data?.claims?.length}
+              <EmptyItemsCard notice="You have no pending claims" />
+            {/if}
+            {#each data.claimed as claimed}
+              <ClaimCard data={claimed}/>
             {/each}
           </TabPane>
           <TabPane tabId="comns" tab="My communities" on:click={() => alert()}>
             {#each data.joined as org}
-            <CommunityCard uid={org.uid} data={org} joined={true}/>
+              <CommunityCard uid={org.uid} data={org} joined={true} user={data.user}/>
             {/each}
             <div class="p-4 m-0 px-4">
               <HomeAdminsCard />
@@ -127,8 +130,11 @@
           
           {#if user && user.hasTasks}
           <TabPane tabId="tasks" tab="My tasks">
+            {#if !data?.assigned?.length}
+              <EmptyItemsCard notice="You have no pending tasks" />
+            {/if}
             {#each data.assigned as task}
-            <TaskCard uid={task.uid} data={task}/>
+              <TaskCard uid={task.uid} data={task}/>
             {/each}
           </TabPane>
           {/if}

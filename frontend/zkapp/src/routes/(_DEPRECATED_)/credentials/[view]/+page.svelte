@@ -90,7 +90,7 @@
   import Section from "@components/Section.svelte";
   import Empty from "@components/Empty.svelte";
   import InlineTab from "@components/InlineTab.svelte";
-  import CredentialCard from "@components/CredentialCard.svelte";
+  import CredentialCard from "@components/cards/CredentialCard.svelte";
   import ClaimCard from "@components/ClaimCard.svelte";
   import CanClaimNow from "@components/CanClaimNow.svelte";
   import { getCurrentUser, isFirstTimeUser } from "$lib/models/current-user";

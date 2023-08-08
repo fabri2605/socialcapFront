@@ -1,5 +1,5 @@
 <DetailPageHeader items={[
-  { href: '/', text: 'Home'},
+  { href: '/', text: 'Back'},
   { href: '', text: `Issued #${data.uid}`}
 ]}/>
 
@@ -11,12 +11,12 @@
     <p>We only arrive here if the user already has an approved cerdential.</p>
   </Sidenote> -->
 
-  <Section class="section-sm">
-    <div class="header text-center border border-1 rounded-3 p-4 shadow-lg">
+  <Section class="section-sm d-flex justify-content-center">
+    <div class="bg-white header text-center border border-1 rounded-3 p-4 border-sc shadow-sc w-50 text-center align-center d-flex flex-column">
       <div>
-        <img src={data.image} height="240px" crossorigin/>
+        <img src={imageUrl} height="180px" crossorigin/>
         <br/>
-        <span class="fw-bold fs-sm">{data.issuedBy}</span>
+        <span class="fw-bold fs-sm">{data.community}</span>
         <h4 class="text-black mt-2">
           <span>{data.type}</span>
         </h4>
@@ -25,26 +25,28 @@
       
       <div class="mt-4">
         <h3 class="d-inline-block">{data.alias}</h3>
-        <span>
+        <!-- <span>
           | {data.stars} Stars 
-        </span>
+        </span> -->
       </div>
 
-      <div class="mt-0 lh-lg">
+      <div class="mt-0 lh-lg fs-xs">
         Issued: <Badge color="secondary">
-          {data.issuedUTC}
+          {prettyDate(data.issuedUTC)}
         </Badge> 
-        &nbsp;
-        Valid: <Badge color="secondary">
-          {data.expiresUTC ? data.expiresUTC : "forever"}
+        <br/>
+        Valid <Badge color="secondary">
+          {data.dueUTC ? prettyDate(data.dueUTC) : "Forever"}
         </Badge> 
       </div>
       
       <div class="mt-4">
-        <p class="m-0 p-0 lh-1 mt-2 fs-sm"><a href="https://...">Link to transaction/metadata</a></p>
+        <p class="m-0 p-0 lh-1 mt-2 fs-sm"><a href={"#"}>Link to transaction/metadata</a></p>
         <p class="mt-2 fs-xs">
-          <img alt="Socialcap logo" src="/img/socialcap/socialcap-logo.svg" height="24px"/>
-          <Badge class="fs-sm" color="success">Verified</Badge> 
+          <!-- <img alt="Socialcap logo" src="/img/socialcap/socialcap-logo.svg" height="24px"/> -->
+          <!-- <Badge class="fs-sm" color="success">Verified</Badge>  -->
+          <img src="/img/svg/verified.svg" height="20%" crossorigin/>
+
         </p>
       </div>
     </div>
@@ -54,7 +56,9 @@
     <div class="mt-3 mb-5 px-2 d-flex justify-content-center align-items-center">
       <div>
         Not minted yet ? &nbsp;
-        <Button color="primary" class="rounded-5 p-2 px-3">Mint it now !</Button>
+        <a href={mintUrl} target="_blank">
+          <Button color="primary" class="rounded-5 p-2 px-3">Mint it now !</Button>
+        </a>
       </div>
     </div>
   </Section>
@@ -99,8 +103,15 @@
   import DetailPageContent from "@components/DetailPageContent.svelte";
   import DetailPageHeader from "@components/DetailPageHeader.svelte";
   import { getCurrentUser } from "$lib/models/current-user";
+  import { prettyDate } from "@utilities/datetime";
 
   export let data; // this is the data for this MasterPlan and empty Claim
+
+  let imageUrl = (!data.image.includes("http"))
+    ? "https://ipfs.io/ipfs/"+data.image
+    : data.image;
+
+  let mintUrl = `https://near.org/socialcap.near/widget/CredentialMint?uid=${data.uid}`;
 
   let 
     user = getCurrentUser();

@@ -65,7 +65,7 @@
   import Sidenote from "@components/Sidenote.svelte";
   import Section from "@components/Section.svelte";
   import Empty from "@components/Empty.svelte";
-  import TaskCard from "@components/TaskCard.svelte";
+  import TaskCard from "@components/cards/TaskCard.svelte";
   import { getCurrentUser, isFirstTimeUser } from "$lib/models/current-user";
 
   export let data;

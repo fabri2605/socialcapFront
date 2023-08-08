@@ -15,8 +15,10 @@
     Icon,
   } from "sveltestrap";
   import { getCurrentUser } from "$lib/models/current-user";
+  import { removeActiveSession } from "$lib/models/current-session";
   import { page } from "$app/stores";
   import Status from "./Status.svelte";
+  import { goto } from "$app/navigation";
 
   let user: any = null,
     isOpen = false,
@@ -34,6 +36,11 @@
     if ($page.url.pathname === path)
       return "fw-bold text-warning --text-decoration-underline";
     return "";
+  }
+
+  function logout() {
+    removeActiveSession();
+    setTimeout(() => { goto("/login") }, 500);
   }
 </script>
 
@@ -54,31 +61,6 @@
       class="w-100 justify-content-start --ms-auto --text-center pr-5 mt-1 ms-3"
       navbar
     >
-      <!-- <NavItem>
-        <NavLink 
-          class={isActive("/claims",$page.url.pathname)} 
-          href="/credentials">
-          Credentials
-        </NavLink>
-      </NavItem>
-
-      <NavItem>
-        <NavLink class={isActive("/communities",$page.url.pathname)} href="/communities">Communities</NavLink>
-      </NavItem>
-
-      {#if user && user.hasTasks}
-        <NavItem>
-          <NavLink href="/tasks">Tasks</NavLink>
-        </NavItem>
-      {/if}
-
-      <NavItem>
-        <NavLink href="/admins">Admin</NavLink>
-      </NavItem> -->
-
-      <!-- filler to center align correctly 
-        <div style="width:12rem;">&nbsp;</div>
-      -->
     </Nav>
 
     <Nav class="w-25 justify-content-end --ms-auto px-1" navbar>
@@ -93,14 +75,13 @@
             caret
             class="text-black d-flex align-items-center justify-content-end text-secondary"
           >
-            <!-- <span class="d-inline-block fs-xs me-3 text-wrap lh-1 text-end" style="max-width:6rem;">{user.fullName}</span> -->
             <Icon name="person-circle" class="fs-1 px-2 text-black" />
           </DropdownToggle>
           <DropdownMenu end>
             <DropdownItem><a href="/profile">Profile</a></DropdownItem>
             <!-- <DropdownItem>Preferences</DropdownItem> -->
             <DropdownItem divider />
-            <DropdownItem>Logout</DropdownItem>
+            <DropdownItem on:click={logout}>Logout</DropdownItem>
           </DropdownMenu>
         </Dropdown>
       </NavItem>
