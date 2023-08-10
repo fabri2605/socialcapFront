@@ -2,6 +2,7 @@ import 'dotenv/config';
 import { Mina, PrivateKey, PublicKey, Field } from 'snarkyjs';
 import { ClaimsVotingFactory } from "../claims-voting-factory.js";
 import { rollupClaims } from "../claims-roller.js";
+import { VotingContract } from '../VotingContract.js';
 import { sendVote, addElectorsToNullifier, getNullifierProxy } from './voting-tests-helpers.js';
 
 import { startTest, getAccountsForTesting, getArgvs } from './test-helpers.js';
@@ -17,22 +18,15 @@ let {
   senderAccount, senderKey 
 } = await getAccountsForTesting(netw, proofsEnabled);
 
+console.log("\nCompiling contract ...");
+await VotingContract.compile();
 
-/*
 // now deploy  ONE Claim
-let zkClaim1 = await ClaimsVotingFactory.deploy(
-  Field(1001), // claimUid (simulated)
-  Field(3), // 3 total votes required
-  Field(2),  // 2 positives is approved
-  deployerAccount, deployerKey
-);
-*/
-let ADDR="B62qqcwTeGRrhPrNmdRRqC39SNrsxx3vCN7gm1XnrfzmW7sZKLsagsa";
+let ADDR="B62qmAG58cwudEjwHBTQAfH8A6FE5t6VpHcCQJb2EC8WdQccwh3ge5e";
 
 let zkClaim1 = await ClaimsVotingFactory.getInstance(
   PublicKey.fromBase58(ADDR)
 );
-
 
 // run the rollups for all open claims ...
 for (let j=0; j < 3; j++) {

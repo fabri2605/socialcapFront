@@ -44,7 +44,7 @@ async function rollupClaims(
     
     // if no pending votes we just go to the next instance ...
     // we run rollup ONLY when we have something to rollup
-    if (pendingCount === 0) continue;
+    // if (pendingCount === 0) continue;
     
     // we should check here if payer has funds for TX fees
     // ...
