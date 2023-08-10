@@ -1,20 +1,22 @@
-import { Mina, Field, PrivateKey, PublicKey } from 'snarkyjs';
-import { ClaimInstance, ClaimsFactory } from "../claims-factory.js";
+import { Mina, Field, PrivateKey, PublicKey, UInt64 } from 'snarkyjs';
+import { VotingInstance, ClaimsVotingFactory } from "./claims-voting-factory.js";
+import { VotingContract } from './VotingContract.js';
 
 export { rollupClaims };
 
-const TX_FEE = 100_000_000;
+const ROLLUP_TX_FEE = 300_000_000;
 
 
 async function rollupClaims(
-  running: ClaimInstance[],
+  running: VotingInstance[],
   payerAccount: PublicKey,
   payerSecret: PrivateKey
-): Promise<ClaimInstance[]> {
+): Promise<VotingInstance[]> {
   let updatedQueue = [];
 
   for (let j=0; j < running.length; j++) {
     let instance = running[j].instance;
+    let instancePuk = running[j].address;
 
     // first check if finished (result > 0)
     let result: Field = instance.result.get();
@@ -31,15 +33,18 @@ async function rollupClaims(
     // do we have pending votes ?
     // CAUTION: we must be sure about what does reducer.getActions() really
     // returns because it may be misgiding
-    let actionsState: Field = instance.actionsState.get();
-    let pending = instance.reducer.getActions({
-      fromActionState: actionsState,
-    });
-    console.log("rollingClaims pending votes= ", pending.length);
+    let actionsState: Field = await instance.actionsState.get();
+    console.log("actionsState=", actionsState.toString());
 
+    let pending: any = await Mina.fetchActions(instancePuk, {
+      fromActionState: actionsState
+    });
+    console.log("rollingClaims pending votes= ", JSON.stringify(pending,null,2));
+    let pendingCount = pending.length;
+    
     // if no pending votes we just go to the next instance ...
     // we run rollup ONLY when we have something to rollup
-    if (pending.length === 0) continue;
+    // if (pendingCount === 0) continue;
     
     // we should check here if payer has funds for TX fees
     // ...
@@ -47,7 +52,7 @@ async function rollupClaims(
     // run the rollup now
     try {
       let tx = await Mina.transaction(
-        { sender: payerAccount, fee: TX_FEE }, 
+        { sender: payerAccount, fee: ROLLUP_TX_FEE }, 
         () => { instance.rollupVotes(); }
       );
       await tx.prove();
@@ -89,14 +94,14 @@ async function runRollerService(
   let isRolling = false;
   const ROLLUP_EVERY = (60*1000*1); // 1 min
 
-  let running: ClaimInstance[] = [];
+  let running: VotingInstance[] = [];
   // we should load the list of open claims from the database and then
   // instantiate them here to fill the runningClaims queue
   // TODO ...
   let openClaims: any[] = [];// await API.query("get_open_claims");
   (openClaims || []).forEach(async (claim: any) => {
     // const address = claims.accountId.toPublicKey();
-    // const instance = await ClaimsFactory.getInstance(address);
+    // const instance = await ClaimsVotingFactory.getInstance(address);
     // running.push(instance); 
   })
 

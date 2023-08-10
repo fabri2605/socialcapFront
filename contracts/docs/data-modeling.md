@@ -1,7 +1,7 @@
 
 ## Merkle Maps
 
-We use the following MerkleMaps linked to the `RootContract` states:
+We use the following MerkleMaps linked to the `RootsContract` states:
 ~~~
   @state(Field) communitiesRoot = State<Field>();
   @state(Field) personsRoot = State<Field>();
@@ -91,7 +91,7 @@ Each leaf in this MerkleMap contains:
     ~~~
       uid: Field,
       state: CircuitString, 
-      accountId: PublicKey, // the address of the deployed ClaimContract for this claim
+      accountId: PublicKey, // the address of the deployed VotingContract for this claim
       fullName: CircuitString,
       description: CircuitString,
       image: CircuitString,

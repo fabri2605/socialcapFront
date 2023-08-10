@@ -1,6 +1,6 @@
 import { SmartContract, state, State, method, MerkleMap, MerkleMapWitness, Circuit, Reducer, Struct } from "snarkyjs";
 import { Field, UInt32, Bool } from "snarkyjs";
-import { MerkleMapUpdate, LeafInstance, MerkleMapProxy } from "../RootContract.js";
+import { MerkleMapUpdate, LeafInstance, MerkleMapProxy } from "../CommunitiesContract.js";
 import { ProvableCommunity } from "../models/provable-community.js";
 import { ProvablePerson } from "../models/provable-person.js";
 import { ProvableMember } from "../models/provable-member.js";
@@ -40,7 +40,7 @@ class UpdateRootAction extends Struct({
 }){}
 
 
-export class RootContract extends SmartContract {
+export class RootsContract extends SmartContract {
 
   // the "reducer" field describes a type of action that we can dispatch, and reduce later
   reducer = Reducer({ actionType: UpdateRootAction });

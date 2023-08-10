@@ -1,18 +1,20 @@
 import { Mina, PrivateKey, PublicKey, AccountUpdate,} from 'snarkyjs';
 import { UID } from "../lib/uid.js";
 
-import { RootContract } from "../RootContract.js";
+import { ClaimingsContract } from "..//ClaimingsContract.js";
 
 import { 
-  testUpdateCommunity, 
-  testUpdatePerson, 
-  testUpdateMember 
-} from "./root-tests-helpers.js"
+  testUpdateClaim,
+  testUpdatePlan, 
+} from "./root-tests-helpers-02.js"
+import { startTest } from './test-helpers.js';
 
-let Contract = RootContract;
+let Contract = ClaimingsContract;
+
+startTest("ClaimingContract");
 
 let proofsEnabled = true;
-console.log("Proofs enabled=", proofsEnabled);
+console.log("\nProofs enabled=", proofsEnabled);
 
 let 
   deployerAccount: PublicKey,
@@ -23,7 +25,7 @@ let
   zkAppKey: PrivateKey;
 
 // compile Contract
-console.log("compiling Contract ...", Contract);
+console.log("\nCompiling Contract ...", Contract);
 if (proofsEnabled) 
   await Contract.compile();
 console.log("compiled !");
@@ -33,10 +35,11 @@ const Local = Mina.LocalBlockchain({ proofsEnabled });
 Mina.setActiveInstance(Local);
 
 // get some accounts
+console.log("\nDeploy");
 ({ privateKey: deployerKey, publicKey: deployerAccount } = Local.testAccounts[0]);
 ({ privateKey: senderKey, publicKey: senderAccount } = Local.testAccounts[1]);
-console.log("deployer Addr=", deployerAccount);
-console.log("sender Addr=", senderAccount);
+console.log("deployer Addr=", deployerAccount.toBase58());
+console.log("sender Addr=", senderAccount.toBase58);
 
 // create zkapp keys and instance 
 zkAppKey = PrivateKey.random();
@@ -51,31 +54,24 @@ const txn = await Mina.transaction(deployerAccount, () => {
   zkApp.deploy();
 });
 await txn.prove();
+
 // this tx needs .sign(), because `deploy()` adds an account update 
 // that requires signature authorization
 await txn.sign([deployerKey, zkAppKey]).send();
 console.log("Deployed")
 
-// testing Contract now ...
-/*
-console.log("begin testing contract ... updateCommunity");
-await testUpdateCommunity(
-  zkApp, 
-  senderAccount, 
-  senderKey
-)
-*/
+// testing ClaimingsContract now ...
 
-console.log("begin testing contract ... updatePerson");
-await testUpdatePerson(
+await testUpdateClaim(
   zkApp, 
   senderAccount, 
   senderKey
 )
 
-console.log("begin testing contract ... updateMember");
-await testUpdateMember(
+await testUpdatePlan(
   zkApp, 
   senderAccount, 
   senderKey
 )
+
+console.log("\nTest ended at ", (new Date()).toISOString());

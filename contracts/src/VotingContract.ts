@@ -1,4 +1,4 @@
-import { SmartContract, state, State, method, Reducer, PrivateKey, PublicKey } from "snarkyjs";
+import { SmartContract, state, State, method, Reducer, PublicKey } from "snarkyjs";
 import { Field, Bool, Struct, Circuit, Poseidon } from "snarkyjs";
 import { MerkleMapWitness } from "snarkyjs";
 
@@ -21,10 +21,13 @@ export class NullifierProxy extends Struct({
   witness: MerkleMapWitness
 }) {
   static key(electorId: PublicKey, claimUid: Field): Field {
-    return Poseidon.hash(
+    Circuit.log(electorId, claimUid)
+    const keyd = Poseidon.hash(
       electorId.toFields()
-      .concat([claimUid])
+      .concat(claimUid.toFields())
     );
+    Circuit.log("Key (",electorId, claimUid, ") =>", keyd)
+    return keyd;
   } 
 }
 
@@ -53,7 +56,7 @@ const
   CANCELED = Field(3); // TODO: not sure how can we change this state ?
 
 
-export class ClaimContract extends SmartContract {
+export class VotingContract extends SmartContract {
   // events to update Nullifier
   events = {
     'elector-has-voted': Field,
@@ -147,26 +150,27 @@ export class ClaimContract extends SmartContract {
 
     // check the witness obtained key matchs the elector+claim key 
     const key: Field = NullifierProxy.key(electorPuk, claimUid);
+    Circuit.log("assertHasNotVoted recalculated Key", key);
+
     witnessKey.assertEquals(key, 
       "Invalid elector key or already voted");
   }
 
 
-  @method sendVote(
-    privateKey: PrivateKey, // voter private key
+  @method confirmTaskDone(
     vote: Field, // +1 positive, -1 negative or 0 ignored
     nullifier: NullifierProxy
   ) {
     const claimUid = this.claimUid.get();
     this.claimUid.assertEquals(claimUid);
+    Circuit.log("sendVote claimUid=", claimUid);
     
-    // the elector Pub key MUST be the same that the one sending the Tx
-    let electorPuk = privateKey.toPublicKey();
-    Circuit.log("sender=", this.sender);
-    Circuit.log("electorId=", electorPuk);
-    this.sender.assertEquals(electorPuk);
-
+    // the elector Pub key is the one sending the Tx
+    let electorPuk = this.sender;
+    electorPuk.assertEquals(this.sender);
+    
     // check this elector was assigned AND has not voted on this claim before
+    Circuit.log("sendVote key=", NullifierProxy.key(electorPuk, claimUid));
     this.assertHasNotVoted(electorPuk, claimUid, nullifier);
 
     // get current votes state
@@ -233,7 +237,7 @@ export class ClaimContract extends SmartContract {
     });
     Circuit.log("rollupVotes pendingVotes.length=", pendingVotes.length);
 
-    // build Voting state for Reducer
+    // build Voting initial state for Reducer
     let votingState: Votes = {
       total: votes,
       positive: positives,

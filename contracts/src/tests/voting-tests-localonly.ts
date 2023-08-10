@@ -1,7 +1,7 @@
 import { Mina, PrivateKey, PublicKey, Field } from 'snarkyjs';
-import { ClaimsFactory } from "../claims-factory.js";
-import { rollupClaims } from "./claims-roller.js";
-import { sendVote, addElectorsToNullifier, getNullifierProxy } from './claim-tests-helpers.js';
+import { ClaimsVotingFactory } from "../claims-voting-factory.js";
+import { rollupClaims } from "../claims-roller.js";
+import { sendVote, addElectorsToNullifier, getNullifierProxy } from './voting-tests-helpers.js';
 
 // set instance
 const Local = Mina.LocalBlockchain({ proofsEnabled: true });
@@ -22,19 +22,20 @@ console.log("deployer Addr=", deployer.puk.toBase58());
 console.log("sender Addr=", sender.puk.toBase58());
 
 // first compile it
-await ClaimsFactory.compile();
+await ClaimsVotingFactory.compile();
 
 // now deploy  ONE Claim
-let zkClaim1 = await ClaimsFactory.deploy(
+let zkClaim1 = await ClaimsVotingFactory.deploy(
   Field(1001), // claimUid (simulated)
   Field(3), // 3 total votes required
   Field(2),  // 2 positives is approved
-  deployer.puk, deployer.prk
+  deployer.puk, deployer.prk,
+  true
 );
 
 /*
 // now deploy TWO Claims
-let zkClaim2 = await ClaimsFactory.deploy(
+let zkClaim2 = await ClaimsVotingFactory.deploy(
   Field(1002), Field(15), Field(9), 
   deployerAccount, deployerKey
 );
@@ -101,6 +102,7 @@ await sendVote(
   Field(1), // positive vote!
   null03
 );
+
 
 // run the rollups for all open claims ...
 for (let j=0; j < 5; j++) {

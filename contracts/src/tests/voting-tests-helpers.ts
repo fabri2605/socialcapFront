@@ -1,19 +1,21 @@
 import { Mina, PrivateKey, PublicKey, Field, MerkleMapWitness, MerkleMap, Poseidon } from 'snarkyjs';
-import { ClaimContract, NullifierProxy } from '../ClaimContract.js';
+import { VotingContract, NullifierProxy } from '../VotingContract.js';
+import { checkTransaction } from './test-helpers.js';
 
 export async function sendVote(
-  zkClaim: ClaimContract,
+  zkClaim: VotingContract,
   sender: {puk: PublicKey, prk: PrivateKey}, // sender and voter MUST be the same!
   vote: Field,
   nullifier: NullifierProxy
   ) {
   // send the Vote Now
-  const TX_FEE = 100_000_000;
+  const VOTING_TX_FEE = 300_000_000;
+  console.log("\nsendVote from=", sender.puk.toBase58())  
 
   try {
     let tx = await Mina.transaction(
-      { sender: sender.puk, fee: TX_FEE }, 
-      () => { zkClaim.sendVote(sender.prk, vote, nullifier); }
+      { sender: sender.puk, fee: VOTING_TX_FEE }, 
+      () => { zkClaim.confirmTaskDone(vote, nullifier); }
     );
     await tx.prove();
     tx.sign([sender.prk]);
@@ -52,13 +54,13 @@ export function addElectorsToNullifier(
   for (let j=0; j < electors.length; j++) {
     let key = NullifierProxy.key(electors[j], claimUid);
     mt.set(key, Field(1)); // assigned
-    //console.log("addElectorsToNullifier root=", mt.getRoot().toString(), " key=", key.toString());
+    console.log("addElectorsToNullifier \nroot=", mt.getRoot().toString(), "\nkey=", key.toString());
 
     let witness = mt.getWitness(key);
     const [witnessRoot, witnessKey] = witness.computeRootAndKey(
       Field(1) /* WAS ASSIGNED BUT NOT VOTED YET */
     );
-    console.log("addElectorsToNullifier witnessRoot=", witnessRoot.toString(), " witnessKey=", witnessKey.toString());
+    console.log("addElectorsToNullifier \nwitnessRoot=", witnessRoot.toString(), "\nwitnessKey=", witnessKey.toString());
   }
 
   return mt;  
@@ -71,6 +73,14 @@ export function getNullifierProxy(
   claimUid: Field
 ): NullifierProxy {
   const key = NullifierProxy.key(electorPuk, claimUid);
+
+  let witness = nullifier.getWitness(key);
+  console.log("getNullifierProxy root=", nullifier.getRoot().toString(), "\nkey=", key.toString());
+  const [witnessRoot, witnessKey] = witness.computeRootAndKey(
+    Field(1) /* WAS ASSIGNED BUT NOT VOTED YET */
+  );
+  console.log("witnessRoot=", witnessRoot.toString(), "\nwitnessKey=", witnessKey.toString());
+
   return {
     root: nullifier.getRoot(),
     witness: nullifier.getWitness(key)
