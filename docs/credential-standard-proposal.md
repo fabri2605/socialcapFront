@@ -1,3 +1,10 @@
+# Credential standard proposal (draft)
+
+This is a very preliminar draft for defining a credential standard that can be use by other zkApps.
+
+Design criteria:
+
+
 ~~~
 class CredentialSettings extends Struct({
   issuerId: PublicKey,
