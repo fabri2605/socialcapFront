@@ -45,7 +45,7 @@
   import { Breadcrumb, BreadcrumbItem } from "sveltestrap";
   import { Navbar, NavbarBrand, Nav, NavItem, Collapse, NavbarToggler } from 'sveltestrap';
   import { getCurrentUser } from "$lib/models/current-user";
-  import CloseButton from "./CloseButton.svelte";
+  import CloseButton from "./buttons/CloseButton.svelte";
   import Status from "./Status.svelte";
   
   export let items = []; // [{ href, text }]

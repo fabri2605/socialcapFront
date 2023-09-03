@@ -1,11 +1,11 @@
 import { error } from '@sveltejs/kit';
 import { goto } from '$app/navigation';
-import { ASSIGNED } from '@socialcap/contracts';
 import { getCurrentSession } from '@models/current-session';
 import { getCurrentUser } from '@models/current-user';
 import { setApiClient } from '$lib/globals';
 import { CoreAPIClient } from '@apis/core-api-client';
-import { getMyCommunities, getAllCommunities } from "@apis/queries"
+import { ASSIGNED } from '@models/states';
+import { getMyCommunities, getAllCommunities } from "@apis/queries";
 import { getMyClaimables, getMyClaims } from '@apis/queries';
 import { getTask, getMyTasks } from '@apis/queries';
 import { getMyCredentials } from '@apis/queries';

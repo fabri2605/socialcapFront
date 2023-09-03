@@ -1,10 +1,4 @@
-/**
- * Params: 
- *  slug uid: the UID of the Master Plan
- */
 import { error } from '@sveltejs/kit';
-import { UID } from "@utilities/uid";
-
 import { getPlan, getCommunity, getClaim } from "@apis/queries";
 import { getCurrentUser } from '@models/current-user';
 

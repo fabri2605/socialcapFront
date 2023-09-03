@@ -79,9 +79,8 @@
     Alert
   } from 'sveltestrap';
   import { onMount } from "svelte";
-  import Filler from "$lib/components/Filler.svelte";
-  import EmptyFirstTime from "$lib/components/EmptyFirstTime.svelte";
-  import EmptyCredentials from "$lib/components/EmptyCredentials.svelte";
+  import EmptyFirstTime from "$lib/components/cards/EmptyFirstTime.svelte";
+  import EmptyCredentials from "$lib/components/cards/EmptyCredentials.svelte";
   import { getCurrentUser, isFirstTimeUser } from "$lib/models/current-user";
   import Section from '@components/Section.svelte';
   import DetailPageContent from '@components/DetailPageContent.svelte';

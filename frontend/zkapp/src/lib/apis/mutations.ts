@@ -19,7 +19,7 @@ export {
 async function requestOTP(data: any): Promise<any> {
   //  "email": "mazito.v2+04@gmail.com"
   let rs = await apiClient.mutate("request_otp", data);
-  if (rs.error) return null;
+  if (rs.error) return rs;
   return rs.data;
 }
 

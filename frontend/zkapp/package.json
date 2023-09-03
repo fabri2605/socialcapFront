@@ -1,9 +1,9 @@
 {
-  "name": "socialcap-ui",
+  "name": "zkapp-sveltekit-ui",
   "version": "0.1.0",
   "private": true,
   "type": "module",
-  "description": "Socialcap App",
+  "description": "zkApp UI example using SvelteKit",
   "author": "Identicon DAO",
   "license": "ISC",
   "scripts": {
@@ -36,12 +36,11 @@
     "vite": "^4.3.0"
   },
   "dependencies": {
+    "@mazito/zkapp-contracts-add": "^0.1.0",
     "@socialcap/contracts": "^0.1.23",
     "@sveltejs/adapter-static": "^2.0.2",
     "axios": "^1.4.0",
-    "bootstrap": "^5.3.0",
-    "popper": "^1.0.1",
-    "snarkyjs": "0.*",
+    "snarkyjs": "^0.12.1",
     "sveltestrap": "git+https://github.com/laxadev/sveltestrap.git"
   }
 }

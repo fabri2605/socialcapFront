@@ -133,11 +133,15 @@ class CoreAPIClient {
         error: null,
       };
     } catch (err: any) {
+      if (err.response && err.response.data.error) {
+        err.message = err.response.data.error.message;
+        err.code = err.response.data.error.code;
+      }
       return {
         data: null,
         error: {
-          code: ErrorCode.TIMEOUT,
-          message: err.toString(),
+          code: err.code || ErrorCode.TIMEOUT,
+          message: err.message || err.toString(),
           source: "Network error or no internet connection",
         },
       };

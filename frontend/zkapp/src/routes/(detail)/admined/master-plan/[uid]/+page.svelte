@@ -274,18 +274,16 @@
   import { Button, Badge } from "sveltestrap";
   import { TabContent, TabPane } from 'sveltestrap';  
   import { FormGroup, Label, Input, FormText } from "sveltestrap";
-  // import { Modal, ModalBody, ModalFooter, ModalHeader } from 'sveltestrap';
-  import Filler from "@components/Filler.svelte";
   import Section from "@components/Section.svelte";
   import DetailPageContent from "@components/DetailPageContent.svelte";
   import DetailPageHeader from "@components/DetailPageHeader.svelte";
-  import MemberItem from "@components/MemberItem.svelte";
-  import MasterPlanItem from "@components/MasterPlanItem.svelte";
-  import MasterPlanAddButton from "@components/MasterPlanAddButton.svelte";
-  import StdFormField from "@components/StdFormField.svelte";
-  import MasterPlanEvidence from "@components/MasterPlanEvidence.svelte"
+  import MemberItem from "@components/lists/MemberItem.svelte";
+  import MasterPlanItem from "@components/lists/MasterPlanItem.svelte";
+  import MasterPlanAddButton from "@components/buttons/MasterPlanAddButton.svelte";
+  import StdFormField from "@components/forms/StdFormField.svelte";
+  import MasterPlanEvidence from "@components/forms/MasterPlanEvidence.svelte"
   import { getCurrentUser, isFirstTimeUser } from "$lib/models/current-user";
-  import { ALL_STATES } from "@socialcap/contracts";
+  import { ALL_STATES } from "@models/states";
   import { updatePlan } from "@apis/mutations";
 
   export let data;
