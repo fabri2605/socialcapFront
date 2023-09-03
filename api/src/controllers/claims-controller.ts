@@ -144,7 +144,6 @@ export async function getRunningClaims(params: any) {
 /**
  * Mutations
  */
-
 export async function addClaim(params: any) {
   const uid = UID.uuid4(); // a new plan
   params.new = true;
