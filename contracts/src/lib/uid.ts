@@ -1,12 +1,18 @@
 import { Field } from "snarkyjs";
-import { randomUUID } from "crypto"; 
+
+let crytptoLib: any; 
+if (typeof window === "undefined") {
+  crytptoLib = await import("crypto");
+} else {
+  crytptoLib = window.crypto;
+}
 
 export { UID };
 
 const UID = {
 
   uuid4: function(): string {
-    return randomUUID().replace(/-/g,'');
+    return crytptoLib.randomUUID().replace(/-/g,'');
   },
 
   fromField: function(f: Field): string {
