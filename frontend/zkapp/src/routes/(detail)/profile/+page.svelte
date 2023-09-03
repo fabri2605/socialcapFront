@@ -143,11 +143,9 @@
 <script>
   import { onMount } from "svelte";
   import { Breadcrumb, BreadcrumbItem, Icon, Badge, Form, FormGroup, FormText, Label, Input, Button } from 'sveltestrap';
-  import Filler from "$lib/components/Filler.svelte";
-  import Sidenote from "@components/Sidenote.svelte";
   import Section from "@components/Section.svelte";
-  import BackButton from "@components/BackButton.svelte";
-  import SubmitButton from "@components/SubmitButton.svelte";
+  import BackButton from "@components/buttons/BackButton.svelte";
+  import SubmitButton from "@components/buttons/SubmitButton.svelte";
   import DetailPageContent from "@components/DetailPageContent.svelte";
   import DetailPageHeader from "@components/DetailPageHeader.svelte";
   import { getCurrentUser, isFirstTimeUser } from "$lib/models/current-user";

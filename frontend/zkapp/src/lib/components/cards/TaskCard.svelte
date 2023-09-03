@@ -48,11 +48,11 @@
 
 <script>
   import { Badge, Button, Card, CardBody, CardHeader } from "sveltestrap";
-  import StateBadge from "@components/StateBadge.svelte";
-  import { ASSIGNED } from "@socialcap/contracts";
+  import StateBadge from "../badges/StateBadge.svelte";
+  import { ASSIGNED } from "@models/states";
   import { prettyDate } from "@utilities/datetime";
 
-  export let uid, data;
+  export let data;
 
   let claimIdn = data.claim.uid.slice(0,6)+'...'+data.claim.uid.slice(-6);
 </script>

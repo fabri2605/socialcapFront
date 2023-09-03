@@ -1,64 +1,98 @@
-<HubPageContent>
-  <Section class="section-sm">
-    <h1>Socialcap</h1>
+<section 
+  class='bg-image z-n1 position-absolute opacity-50'  style="background-image: url('/img/svg/socialcap-bg-signin.svg');
+  height: 100vh; width: 100vw; backgroundRepeat: no-repeat; backgroundSize: auto;">
+  <!-- <img alt="Socialcap logo" src="/img/svg/socialcap-bg-signin.svg" /> -->
+</section>
+  
+<Section class='w-100 px-2 section-sm text-center h-100 d-flex flex-column justify-content-center'>
+  <NavbarBrand class="w-auto m-4" href="/">
+    <img alt="Socialcap logo" src="/img/socialcap/socialcap-logo-blue.svg" />
+  </NavbarBrand>
 
-    {#if status === 1}
-    <Form>
-      <p>
-        Please enter your email and we will send you a code to start a new session.
-      </p>
-      <FormGroup class="mt-3">
-        <Label for="email" class="fw-bold fs-6 text-secondary ps-1 mb-1">Your email</Label>
-        <Input 
-          bind:value={data.email} 
-          type="input" name="email" id="email" 
-          class="rounded-1 p-2 mb-1"/>
-      </FormGroup>
+  {#if status === 1}
+  <Card class="mb-3 border-0 p-3 shadow">
+    <CardBody>
+      <CardText class='fs-2'>
+        Enter your email to log in or create an account.
+      </CardText>
+      <Form class='w-100 p-4'>
+        <FormGroup class='d-flex flex-column w-100 gap-3'>
+          <Input
+            class='p-3'
+            type="email"
+            name="email"
+            id="email"
+            placeholder="Your email"
+            required
+            bind:value={data.email} 
+            />
+          <Button  
+            on:click={() => getOTP()}
+            size="md"
+            class="px-3 py-2 rounded-3 bg-primary text-white border-0">
+            Send me the code
+          </Button>
+        </FormGroup>
+      </Form>
+    </CardBody>
+    <CardFooter class='border-0 bg-white fs-2'>New to socialcap? <a href="/signup">Create an account</a></CardFooter>
+  </Card>
+  {/if}
 
-      <div class="mt-1 mb-5 px-2 d-flex justify-content-start align-items-start">
-          <SubmitButton on:click={() => getOTP()}
-            color="primary" label="Send me the code !" />
-      </div>
-    </Form>
-    {/if}
 
-    {#if status === 3}
-    <Form>
-      <p>
-        Please input the OTP code we sent you
-      </p>
-      <FormGroup class="mt-3">
-        <Label for="otp" class="fw-bold fs-6 text-secondary ps-1 mb-1">Th OTP code</Label>
-        <Input 
-          bind:value={data.otp} 
-          type="input" name="email" id="email" 
-          class="rounded-1 p-2 mb-1"/>
-      </FormGroup>
+  {#if status === 3}
+  <Card class="mb-3 border-0 p-3 shadow">
+    <CardBody>
+      <CardText>
+        Check your email for the code
+      </CardText>
+      <Form class='w-100'>
+        <FormGroup class='d-flex flex-column w-100 gap-3'>
+          <Input
+            bind:value={data.otp} 
+            type="text"
+            class='p-3'
+            maxlength="6" 
+            oninput="this.value=this.value.replace(/[^0-9]/g,'');"
+            name="code"
+            id="Code"
+            placeholder="Enter 6 digit code"
+            required
+            />
+          <Button 
+            on:click={() => loginNow()}
+            size="md"
+            class="px-3 py-2 rounded-3 bg-primary text-white border-0">Sign in
+          </Button>
+        </FormGroup>
+      </Form>
+    </CardBody>
+  </Card>
+  {/if}
 
-      <div class="mt-1 mb-5 px-2 d-flex justify-content-start align-items-start">
-          <SubmitButton on:click={() => loginNow()}
-            color="primary" label="Login now !" />
-      </div>
-    </Form>
-    {/if}
-
-    {#if status === 4}
-      <p>
-        Congrats ! You are in ... going to Home page
-      </p>
-    {/if}
-  </Section>        
-
-  <!-- <Filler n=40/> -->
-</HubPageContent>
+  {#if status === 4}
+    <p>
+        Congrats ! You are going to Home page
+    </p>
+  {/if}
+</Section>        
 
 <script>
   import { onMount } from "svelte";
   import { goto } from '$app/navigation';
   import { Form, FormGroup, Input, Label } from "sveltestrap";
+  import { Spinner, Icon, TabContent, TabPane, Button, 
+    Card, CardBody,
+    CardFooter,
+    CardHeader,
+    CardSubtitle,
+    CardText,
+    CardTitle,
+    NavbarBrand
+  } from 'sveltestrap';
   import Section from "@components/Section.svelte";
-  import BackButton from "@components/BackButton.svelte";
-  import SubmitButton from "@components/SubmitButton.svelte";
+  import BackButton from "@components/buttons/BackButton.svelte";
+  import SubmitButton from "@components/buttons/SubmitButton.svelte";
   import HubPageContent from '@components/HubPageContent.svelte';
   import { getCurrentSession, setActiveSession } from "$lib/models/current-session";
   import { requestOTP, login } from "@apis/mutations";
@@ -79,6 +113,11 @@
     let rsp = await requestOTP({ 
       email: data.email 
     });
+    if (rsp.error && rsp.error.code === 404) {
+      // No valid email, go to signup
+      goto("/signup")
+      return;
+    }
     if (rsp.error) {
       message = "Problem sending OTP request, please try again ..."
       return;

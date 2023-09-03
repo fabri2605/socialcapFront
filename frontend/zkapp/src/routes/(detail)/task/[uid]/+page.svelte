@@ -211,23 +211,21 @@
   import { Modal, ModalBody,ModalFooter,ModalHeader } from 'sveltestrap';
   import DetailPageHeader from "@components/DetailPageHeader.svelte";
   import DetailPageContent from "@components/DetailPageContent.svelte";
-  import Filler from "@components/Filler.svelte";
-  import Sidenote from "@components/Sidenote.svelte";
   import Section from "@components/Section.svelte";
-  import CloseButton from "@components/CloseButton.svelte";
-  import SubmitButton from "@components/SubmitButton.svelte";
-  import StateBadge from "@components/StateBadge.svelte";
+  import CloseButton from "@components/buttons/CloseButton.svelte";
+  import SubmitButton from "@components/buttons/SubmitButton.svelte";
+  import StateBadge from "@components/badges/StateBadge.svelte";
   import { getCurrentUser, isFirstTimeUser } from "$lib/models/current-user";
   import { prettyDate } from "@utilities/datetime";
   import { submitTask } from "@apis/mutations";
   import { getNullifier } from "@apis/queries";
-  import { NullifierProxy } from "@socialcap/contracts";
+  // import { NullifierProxy } from "@socialcap/contracts";
 
 
   import { 
     MINAExplorer, connectWallet, payForVoting,
     auroWallet$, deployedVoting$, loadVotingZkapp 
-  } from "$lib/contract/helpers";
+  } from "$lib/contracts/helpers";
 
   export let data; // this is the data for this Task
 

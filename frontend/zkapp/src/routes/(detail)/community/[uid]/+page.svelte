@@ -58,8 +58,7 @@
 <script>
   import { onMount } from "svelte";
   import { Button } from "sveltestrap";
-  import Filler from "$lib/components/Filler.svelte";
-  import CanClaimNow from "@components/CanClaimNow.svelte";
+  import CanClaimNow from "@components/cards/CanClaimNow.svelte";
   import Section from "@components/Section.svelte";
   import DetailPageContent from "@components/DetailPageContent.svelte";
   import DetailPageHeader from "@components/DetailPageHeader.svelte";

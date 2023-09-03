@@ -97,8 +97,6 @@
 <script>
   import { onMount } from "svelte";
   import { Badge, Button } from 'sveltestrap';
-  import Filler from "$lib/components/Filler.svelte";
-  import Sidenote from "@components/Sidenote.svelte";
   import Section from "@components/Section.svelte";
   import DetailPageContent from "@components/DetailPageContent.svelte";
   import DetailPageHeader from "@components/DetailPageHeader.svelte";

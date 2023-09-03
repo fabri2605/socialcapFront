@@ -102,14 +102,12 @@
   import { Button, Badge } from "sveltestrap";
   import { TabContent, TabPane } from 'sveltestrap';  
   import { FormGroup, Label, Input } from "sveltestrap";
-  // import { Modal, ModalBody, ModalFooter, ModalHeader } from 'sveltestrap';
-  import Filler from "@components/Filler.svelte";
   import Section from "@components/Section.svelte";
   import DetailPageContent from "@components/DetailPageContent.svelte";
   import DetailPageHeader from "@components/DetailPageHeader.svelte";
-  import MemberItem from "@components/MemberItem.svelte";
-  import MasterPlanItem from "@components/MasterPlanItem.svelte";
-  import MasterPlanAddButton from "@components/MasterPlanAddButton.svelte";
+  import MemberItem from "@components/lists/MemberItem.svelte";
+  import MasterPlanItem from "@components/lists/MasterPlanItem.svelte";
+  import MasterPlanAddButton from "@components/buttons/MasterPlanAddButton.svelte";
   import { getCurrentUser, isFirstTimeUser } from "$lib/models/current-user";
   import { prettyDate } from "@utilities/datetime";
   import { AppStatus } from "@utilities/app-status";

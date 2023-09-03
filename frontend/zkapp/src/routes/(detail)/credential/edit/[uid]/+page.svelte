@@ -199,24 +199,22 @@
   import { get } from "svelte/store";
   import { Breadcrumb, BreadcrumbItem, Icon, Badge, Form, FormGroup, FormText, Label, Input, Button } from 'sveltestrap';
   import { Modal, ModalBody,ModalFooter,ModalHeader } from 'sveltestrap';
-  import Filler from "$lib/components/Filler.svelte";
-  import Sidenote from "@components/Sidenote.svelte";
   import Section from "@components/Section.svelte";
-  import BackButton from "@components/BackButton.svelte";
-  import SubmitButton from "@components/SubmitButton.svelte";
+  import BackButton from "@components/buttons/BackButton.svelte";
+  import SubmitButton from "@components/buttons/SubmitButton.svelte";
   import DetailPageContent from "@components/DetailPageContent.svelte";
   import DetailPageHeader from "@components/DetailPageHeader.svelte";
   import { getCurrentUser, isFirstTimeUser } from "$lib/models/current-user";
-  import StateBadge from "@components/StateBadge.svelte";
+  import StateBadge from "@components/badges/StateBadge.svelte";
   import { prettyDate } from "@utilities/datetime";
   import { AppStatus } from "@utilities/app-status";
   import { addClaim, updateClaim, updateProfile, submitClaim } from "@apis/mutations";
   import { DRAFT, CANCELED, CLAIMED } from "@models/states";
 
   import { 
-    MINAExplorer, loadSnarky, connectWallet, payForCredentialClaim, 
+    MINAExplorer, loadSocialcapContract, connectWallet, payForCredentialClaim, 
     auroWallet$, deployedSocialcap$ 
-  } from "$lib/contract/helpers";
+  } from "$lib/contracts/helpers";
 
   export let data; // this is the data for this MasterPlan and empty Claim
 

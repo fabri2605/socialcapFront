@@ -78,15 +78,13 @@
 <script>
   import { onMount } from "svelte";
   import { Icon, Badge, Form, FormGroup, FormText, Label, Input, Button } from 'sveltestrap';
-  import Filler from "@components/Filler.svelte";
-  import Sidenote from "@components/Sidenote.svelte";
   import Section from "@components/Section.svelte";
-  import BackButton from "@components/BackButton.svelte";
+  import BackButton from "@components/buttons/BackButton.svelte";
   import { getCurrentUser } from "@models/current-user";
   import DetailPageContent from "@components/DetailPageContent.svelte";
   import DetailPageHeader from "@components/DetailPageHeader.svelte";
   import { prettyDate } from "@utilities/datetime";
-  import StateBadge from "@components/StateBadge.svelte";
+  import StateBadge from "@components/badges/StateBadge.svelte";
 
   export let data; // this is the data for this MasterPlan and empty Claim
 
