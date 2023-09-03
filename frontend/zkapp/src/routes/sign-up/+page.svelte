@@ -48,6 +48,7 @@ height: 100vh; width: 100vw; backgroundRepeat: no-repeat; backgroundSize: auto;"
           name="email"
           id="Email"
           placeholder="Email"
+          required
           />
 
           <Input
@@ -56,6 +57,7 @@ height: 100vh; width: 100vw; backgroundRepeat: no-repeat; backgroundSize: auto;"
           name="fullname"
           id="Fullname"
           placeholder="Full name"
+          required
           />
           <Button  size="md"
           href="/code"

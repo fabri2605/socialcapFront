@@ -1,3 +1,5 @@
+
+
 <DetailPageHeader items={[
     { href: "/", text: 'Home'},
     { href: "/", text: 'Submit your vote'},
@@ -54,20 +56,73 @@
     
   </Section>
 
-  <Section class="section-sm m-auto bg-black text-center rounded-4 mt-4">
+  <Section class="section-sm m-auto  text-center rounded-4 mt-4">
     <Form>
-      <div class="d-flex justify-content-center bg-black rounded-4">
+      <div class="flex justify-content-center rounded-4">
         <FormGroup class="p-4 text-center">
-          <Label for="alias"class="fs-1 text-white ps-1 mb-1">Your vote</Label>
-          <Input 
+          <Label for="alias"class="fs-1 text-black ps-1 mb-4">Your vote</Label>
+
+
+          <FormGroup>
+            
+            <div class=" d-flex justify-content-center gap-3">
+
+              <div class="vote-container">
+              
+                <input type="radio" class="btn-check" name="vote" id="positive" autocomplete="off">
+
+                  <label class="btn bg-white p-5 d-flex flex-column text-primary" for="positive">
+                    <Icon name="plus-circle-fill" class='fs-1' /> <span>Positive</span>
+                  </label>
+                  
+              
+              </div>
+
+              <div class="vote-container">
+
+              <input type="radio" class="btn-check" name="vote" id="negative" autocomplete="off">
+              <label class="btn bg-white p-5 d-flex flex-column text-primary" for="negative">
+                <Icon name="dash-circle-fill" class='fs-1' /> Negative
+              </label>
+              </div>
+              
+              <input type="radio" class="btn-check" name="vote" id="abstain" autocomplete="off">
+              <label class="btn bg-white p-5 d-flex flex-column text-primary" for="abstain">
+                <Icon name="slash-circle-fill" class='fs-1' /> Abstain
+              </label>
+
+
+
+
+            <!-- <Input
+              class="radio-button"
+              id="r1"
+              type="radio"
+              bind:group={radioGroup}
+              value="positive"
+              label="Positive"
+            />
+            <div class="ratio-btn">
+              <label for="Negative" class="radio-btn-label">Negative</label>
+
+            </div> -->
+            </div>
+
+
+
+            
+          </FormGroup>
+
+          <!-- <Input 
             bind:value={vote} 
             type="select" name="vote" id="vote" 
             class="rounded-2 p-3 mb-1 w-100">
             <option value="Y">Positive</option>
             <option value="N">Negative</option>
             <option value="A">Abstain</option>
-            <option value="ND">Will not do</option>
-          </Input>          
+           <option value="ND">Will not do</option>
+          </Input>           --> 
+
           <FormText color="ps-1 text-white">
             Please submit your vote before ({data.dueUTC}).
           </FormText>
@@ -177,4 +232,10 @@
     if (confirmed) 
       alert(JSON.stringify({vote: vote}, null, 4));
   }
+  let radioGroup;
+
 </script>
+
+
+
+
