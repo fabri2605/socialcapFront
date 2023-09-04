@@ -26,7 +26,7 @@ export async function buildNullifier(params: any) {
     const key = Field(leafs[j].key);
     const hashed = Field(leafs[j].hash);
     map.set(key, hashed);
-    console.log(`Nullifier leaf ${key.toString()} ${hashed.toString()} ==? ${electorKey.toString()}`)
+    //console.log(`Nullifier leaf ${key.toString()} ${hashed.toString()}`)
   }
 
   const nullifier: NullifierProxy = {
