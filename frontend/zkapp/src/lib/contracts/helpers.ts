@@ -1,9 +1,9 @@
 import { fetchAccount, UInt64, Mina, PublicKey, Field } from "snarkyjs";
 import { SOCIALCAP_CONTRACT_ID } from "./addresses";
 import { CLAIM_TX_FEE } from "./fees";
-//import { SocialcapContract, VotingContract, NullifierProxy, UID, DONE } from "@socialcap/contracts";
+import { SocialcapContract, VotingContract, NullifierProxy, UID, DONE } from "@socialcap/contracts";
 import { AppStatus } from "@utilities/app-status";
-import { getNullifier } from "@apis/queries";
+import { buildNullifier } from "./nullifier";
 import { submitTask } from "@apis/mutations";
 
 // Svelte stores
@@ -210,7 +210,7 @@ export async function payForVoting(task: any, vote: string) {
     const val: Field = vote === "Y" ? Field(1) : (vote === "N" ? Field(-1) : Field(0));
 
     // the Nullifier used for avoid double votes
-    let nullifier = await getNullifier({
+    let nullifier = await buildNullifier({
       claimUid: claim.uid,
       senderAccountId: sender.toBase58()
     }) as NullifierProxy;

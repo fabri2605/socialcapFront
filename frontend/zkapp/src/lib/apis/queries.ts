@@ -95,38 +95,5 @@ async function getCredential(uid: string): Promise<any> {
 async function getNullifier(params: any): Promise<any> {
   let rs = await apiClient.query("get_nullifier", params);
   if (rs.error) return null;
-
-//   const claimUid = params.claimUid;
-//   const senderAccountId =  params.senderAccountId;
-//   let electorKey = NullifierProxy.key(
-//     PublicKey.fromBase58(senderAccountId),
-//     UID.toField(claimUid)
-//   )
-// 
-//   let leafs = rs.data?.leafs || [];
-//   let map = new MerkleMap();
-//   for (let j=0; j < leafs.length; j++) {
-//     const key = Field(leafs[j].key);
-//     const hashed = Field(leafs[j].hash);
-//     map.set(key, hashed);
-// 
-//     console.log(`nullifier leaf ${key.toString()} ${hashed.toString()} ==? ${electorKey.toString()}`)
-//   }
-// 
-//   let nullifier: NullifierProxy = {
-//     root: map.getRoot(),
-//     witness: map.getWitness(electorKey)
-//   }
-// 
-//   /*
-//   let map = rs.data;
-// 
-//   let nullifier: NullifierProxy = {
-//     root: map.root,
-//     witness: MerkleMapWitness.fromJSON(map.witness)
-//     //map.getWitness(key)
-//   }
-//   */
-
-  // return nullifier;
+  return rs.data;
 }
