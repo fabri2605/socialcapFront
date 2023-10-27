@@ -50,11 +50,16 @@
       <TabPane tabId="name" tab="General" class="text-start" active>
         <FormGroup>
           <Label>Name</Label>
-          <Input type="text" bind:value={data.name} />
+          <Input type="text"
+            bind:value={data.name} required
+            feedback="Name is required. Should have less than 128 characters."
+            invalid={!data.name.trim() || data.name.length > 128 }/>
         </FormGroup>
         <FormGroup>
           <Label>Brief description</Label>
-          <Input type="textarea" bind:value={data.description} />
+          <Input type="textarea" bind:value={data.description} required
+            feedback="Description is required. Should have less than 128 characters."
+            invalid={!data.description.trim() || data.description.length > 128 }/>
         </FormGroup>
 
         <FormGroup>
@@ -89,7 +94,7 @@
     </div> -->
     <div class="text-center mt-4 mb-5">
       <Button color="primary" class="rounded-5 px-3"
-        on:click={updateIt}>
+        on:click={handleSubmit}>
         Update data !
       </Button>
     </div>
@@ -138,10 +143,10 @@
   }
 
   function dataIsOk(data) {
-    return (data.name.trim() && data.description.trim());
+    return (data.name.trim() && data.description.trim() && data.description.length <=128 && data.name.length <=128);
   }
 
-  async function updateIt() {
+  async function handleSubmit() {
     if (!dataIsOk(data)) {
       AppStatus.error("All fields are required !")
       return;
