@@ -44,10 +44,10 @@
             label="State" 
             type="select" 
             options={[
-              { value: "1", text: "DRAFT"},
-              { value: "8", text: "ACTIVE"},
-              { value: "9", text: "PAUSED"},
-              { value: "10", text: "INACTIVE"},
+              { value: 1, text: "DRAFT"},
+              { value: 8, text: "ACTIVE"},
+              { value: 9, text: "PAUSED"},
+              { value: 10, text: "INACTIVE"},
             ]}
             class="w-25"
             bind:value={data.state} 
