@@ -13,7 +13,21 @@
 	  updateAdd
   } from '$lib/zkapp/helpers';
 	import { getItem } from '$lib/utility/localStorageController';
-	import { Spinner, Icon, TabContent, TabPane, Button } from 'sveltestrap';
+	import { Spinner, Icon, TabContent, TabPane, Button,
+  Form,
+  Input,
+  FormGroup,
+  Label,
+    Card,
+    CardBody,
+    CardFooter,
+    CardHeader,
+    CardSubtitle,
+    CardText,
+    CardTitle,
+    NavbarBrand
+  
+  } from 'sveltestrap';
   import RootHeader from '@components/RootHeader.svelte'; 
   import HubPageContent from '@components/HubPageContent.svelte';
   import EmptyCredentials from '@components/EmptyCredentials.svelte';
@@ -81,6 +95,7 @@
         </div>
       {/if}
     {/if} -->
+
     <Section class="section-fluid px-0">
       {#if user && isFirstTimeUser(user)}
         <div class="mb-4">
@@ -102,6 +117,10 @@
         </div> -->
       </div>
     </Section>
+
+
+
+
 
     <Section class="m-0 p-0 section-fluid mt-4 pt-4 bg-light">
         <TabContent>
@@ -137,4 +156,6 @@
       
     </Section>
 
-</HubPageContent>
+
+      
+    </HubPageContent>
