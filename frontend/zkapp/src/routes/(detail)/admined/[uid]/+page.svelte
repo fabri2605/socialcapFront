@@ -93,9 +93,13 @@
         {/each}
     </div> -->
     <div class="text-center mt-4 mb-5">
-      <Button color="primary" class="rounded-5 px-3"
+      <Button color="primary" class="rounded-5 px-3" loading=true
         on:click={handleSubmit}>
-        Update data !
+          {#if loading }
+           Updating...
+        {:else}
+            Update Data
+        {/if}
       </Button>
     </div>
   </Section>
@@ -104,7 +108,7 @@
 
 <script>
   import { onMount } from "svelte";
-  import { Button, Badge } from "sveltestrap";
+  import { Button, Badge, Spinner} from "sveltestrap";
   import { TabContent, TabPane } from 'sveltestrap';  
   import { FormGroup, Label, Input } from "sveltestrap";
   import Section from "@components/Section.svelte";
@@ -122,6 +126,7 @@
 
   let user = getCurrentUser();
   let openDlg = false;
+  let loading = false;
 
   let stateColors = {
     "APPLIED": "warning",
@@ -151,8 +156,10 @@
       AppStatus.error("All fields are required !")
       return;
     }
+    loading = true;
     const updated = await updateCommunity(data);
     if (updated) 
       history.back();
+    loading = false;
   }
 </script>
