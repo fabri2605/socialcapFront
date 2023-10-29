@@ -2,7 +2,9 @@ import { randomInt, randomUUID } from "crypto";
 import { fastify, prisma } from "../global.js";
 import { i18n as _ } from "../i18n/messages.js";
 import { hasResult, hasError } from "../responses.js";
+import { OTPTemplate } from "../resources/email-templates.js";
 import { sendEmail } from "../services/email-service.js";
+
 
 /**
  * requestOTP
@@ -53,13 +55,12 @@ export async function requestOtp(params: object) {
   console.log(
     `request_otp email=${remail} otp=${otp} sessionKey=${sessionKey}`
   );
-  const result  = await sendEmail({
+  await sendEmail({
     email: remail,
-    content: `Your OTP is <strong>${otp}</strong>`,
-    text: "Session OTP",
-    subject: "Session OTP",
+    subject: "Your Socialcap verification code",
+    text: "This is your login verification code: "+otp,
+    html: OTPTemplate(hasPerson.fullName, remail, otp),
   });
-  console.log(`send email result ${result}`)
 
   return hasResult({
     session_key: sessionKey,
