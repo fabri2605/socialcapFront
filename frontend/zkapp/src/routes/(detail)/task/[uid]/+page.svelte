@@ -124,24 +124,23 @@
 
       {#if vote==="N" || vote==="A" || vote==="ND"}
       <div class="d-flex justify-content-center rounded-4">
-        
         <FormGroup class="d-flex flex-column justify-content-center w-100">
-         
           <Input 
-          bind:value={data.reason} 
-          type="select" name="vote" id="vote"
-          class="rounded-2 p-3 mb-1 w-100">
-          <option value="" class="text-danger" disabled>Please choose a reason</option>
-          <option value="N1">Does not match requirements</option>
-          <option value="N2">Not enough evidence</option>
-          <option value="A1">Conflict of interests</option>
-          <option value="A2">Can not evaluate</option>
-          <option value="A2">Not my area</option>
-          <option value="A4">Not enough time</option>
-          <option value="A5">Not enough rewards</option>
-          <option value="A6">Other</option>
-        </Input>          
-      </FormGroup>
+            bind:value={data.reason} 
+            type="select" name="vote" id="vote"
+            class="rounded-2 p-3 mb-1 w-100">
+            <option value="" class="text-danger" disabled>Please choose a reason</option>
+            <option value="N1">Does not match requirements</option>
+            <option value="N2">Not enough evidence</option>
+            <option value="A1">Conflict of interests</option>
+            <option value="A2">Can not evaluate</option>
+            <option value="A2">Not my area</option>
+            <option value="A4">Not enough time</option>
+            <option value="A5">Not enough rewards</option>
+            <option value="A6">Other</option>
+          </Input>          
+        </FormGroup>
+      </div>
       {/if}
     </Form>
   </Section>
