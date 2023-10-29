@@ -183,16 +183,33 @@
 
       <TabPane tabId="auditors" tab="Strategy">
         <Section class="section-fluid ms-4">
-          <StdFormField 
-            label="Variant" 
-            type="select" 
-            options={[
-              { value: "RandomAnonyomusValidators", text: "Random Anonyomus Validators"},
-              { value: "AllMembersAnonymousVoting", text: "All Members Anonymous Voting"},
-              { value: "NominatedValidators", text: "Nominated Validators"},
-            ]}
-            bind:value={data.strategy.variant} 
-            />
+          <div class="row">
+            <div class="col-4">
+              <StdFormField 
+                label="Variant" 
+                type="select" 
+                options={[
+                  { value: "RandomAnonyomusValidators", text: "Random Anonyomus Validators"},
+                  { value: "AllMembersAnonymousVoting", text: "All Members Anonymous Voting"},
+                  { value: "NominatedValidators", text: "Nominated Validators"},
+                ]}
+                bind:value={data.strategy.variant} 
+                />
+            </div>
+            <div class="col-4">
+              <StdFormField 
+                label="Selected from" 
+                type="select" 
+                options={[
+                  { value: "AllValidators", text: "All validators"},
+                  { value: "OnlyAuditors", text: "Only auditors"},
+                  { value: "FullCommunity", text: "Full community"},
+                ]}
+                bind:value={data.strategy.selection} 
+                />
+            </div>
+          </div>
+
           <div class="row">
             <div class="col-4">
               <StdFormField 
