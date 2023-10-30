@@ -18,64 +18,79 @@
         </Button>
       </div>
 
-      <div class="w-75">
-        <h3 class="text-black d-flex justify-content-between align-items-center">
-          <span>{data.fullName}</span>
-          <span class="fs-6">
-            <Badge color="success">{data.state}</Badge>
-          </span>
-        </h3>
+  <div class="w-75 m-auto">
 
-        <p class="fs-sm text-secondary lh-lg">
-          {@html data.description}
-        </p>
-
-        <div class="d-flex justify-content-start">
-          <p class="">
-            <span class="fs-xs">Joined</span>
-            <br/><b class="fs-sm">{data.createdUTC}</b>
+    
+    <Section class="section-sm border-sc rounded-4 border bg-white border-gray">
+      <div class="d-flex align-items-center justify-content-between">
+        <div class="w-25 me-4 pe-2 position-relative">
+          <Button color="" class="p-0 m-0 rounded-2" >
+            <img src={data.avatar} class="img-thumbnail  border-0 rounded-4" alt="Profile" height="120px" crossorigin/>
+          </Button>
+        </div>
+        
+        <div class="w-100">
+          <div class="d-flex">
+            
+            <h3 class="text-black d-flex justify-content-between align-items-center">
+              {data.fullName}
+              <span class="fs-6 mx-4">
+                <Badge color="success">{data.state}</Badge>
+              </span>
+            </h3>
+          </div>
+          
+          <p class="fs-sm text-secondary lh-lg text-start">
+            {@html data.description}
           </p>
-          <p class="px-4">
-            <span class="fs-xs">Approved</span>
-            <br/><b class="fs-sm">{data.approvedUTC}</b>
-          </p>
-          <p class="px-4">
-            <span class="fs-xs">Updated</span>
-            <br/><b class="fs-sm">{data.updatedUTC}</b>
-          </p>
+          
+          <div class="d-flex justify-content-start align-content-start">
+            <p class="text-start">
+              <span class="fs-xs">Joined</span>
+              <br/><b class="fs-sm">{data.createdUTC}</b>
+            </p>
+            <p class="px-4 text-start">
+              <span class="fs-xs">Approved</span>
+              <br/><b class="fs-sm">{data.approvedUTC}</b>
+            </p>
+            <p class="px-4 text-start">
+              <span class="fs-xs ">Updated</span>
+              <br/><b class="fs-sm">{data.updatedUTC}</b>
+            </p>
+          </div>
         </div>
       </div>
-    </div>
-  </Section>
-
-  <Section class="section-sm">
-    <Form>
-      <FormGroup class="mt-3">
-        <Label for="alias" class="fw-bold fs-6 text-secondary ps-1 mb-1">Full name or alias</Label>
-        <Input 
+    </Section>
+    
+    <Section class="section-sm w-75 bg-white p-4 border-sc mt-4">
+      <h1>Edit your profile</h1>
+      <Form class='d-flex flex-column gap-2'>
+        <FormGroup class="mt-3">
+          <Label for="alias" class="fs-4 text-secondary d-flex ps-1 mb-1">Full name or alias</Label>
+          <Input 
           bind:value={data.fullName} 
           type="input" name="alias" id="alias" 
-          class="rounded-1 p-2 mb-1"/>
-        <FormText color="muted ps-1">
-          Name or alias you would like to show in your profile. 
-          &nbsp;{@html required(true)}
-        </FormText>
-      </FormGroup>
-
-      <FormGroup class="mt-3">
-        <Label for="email" class="fw-bold fs-6 text-secondary ps-1 mb-1">Your email</Label>
-        <Input 
+          class="rounded-1 p-3 mb-1"/>
+          <FormText color="muted ps-1 d-flex">
+            Name or alias you would like to show in your profile. 
+            &nbsp;{@html required(true)}
+          </FormText>
+        </FormGroup>
+        
+        <FormGroup class="mt-3">
+          <Label for="email" class=" d-flex fs-4 text-secondary ps-1 mb-1">Your email</Label>
+          <Input 
           bind:value={data.email} 
           type="input" name="email" id="email" 
-          class="rounded-1 p-2 mb-1"/>
-        <FormText color="muted ps-1">
-          We need it to contact you. We will never share it with others. {@html required(true)} 
-        </FormText>
-      </FormGroup>
-
-      <FormGroup class="mt-3">
-        <Label for="description" class="fw-bold fs-6 text-secondary ps-1 mb-1">Briefing</Label>
-        <Input 
+          class="rounded-1 p-3 mb-1"/>
+          <FormText color="muted ps-1 d-flex">
+            We need it to contact you. We will never share it with others. &nbsp;{@html required(true)} 
+          </FormText>
+        </FormGroup>
+        
+        <FormGroup class="mt-3">
+          <Label for="description" class="d-flex fs-4 text-secondary ps-1 mb-1">Briefing</Label>
+          <Input 
           bind:value={data.description} 
           type="input" name="description" id="description" 
           class="rounded-1 p-2 mb-1"/>
@@ -101,26 +116,26 @@
         <Input 
           bind:value={data.accountId} 
           type="input" name="accountId" id="accountId" 
-          class="rounded-1 p-2 mb-1"/>
-        <FormText color="muted ps-1">
-          This is the MINA account you will use to pay for some services and sign transactions. We will never share it with others. Is optional. 
-        </FormText>
-      </FormGroup>
-
-      <FormGroup class="mt-3">
-        <Label for="telegram" class="fw-bold fs-6 text-secondary ps-1 mb-1">Your Telegram</Label>
-        <Input 
+          class="rounded-1 p-3 mb-1"/>
+          <FormText color="muted ps-1 d-flex text-start">
+            This is the MINA account you will use to pay for some services and sign transactions. We will never share it with others. Is optional. 
+          </FormText>
+        </FormGroup>
+        
+        <FormGroup class="mt-3">
+          <Label for="telegram" class="d-flex fs-4 text-secondary ps-1 mb-1">Your Telegram</Label>
+          <Input 
           bind:value={data.telegram} 
           type="input" name="telegram" id="telegram" 
-          class="rounded-1 p-2 mb-1"/>
-        <FormText color="muted ps-1">
-          We may use it to contact you. We will never share it with others. Is optional. 
-        </FormText>
+          class="rounded-1 p-3 mb-1"/>
+          <FormText color="muted ps-1 d-flex">
+            We may use it to contact you. We will never share it with others. Is optional. 
+          </FormText>
         </FormGroup>
-
-      <FormGroup class="mt-3">
-        <Label for="phone" class="fw-bold fs-6 text-secondary ps-1 mb-1">Your phone</Label>
-        <Input 
+        
+        <FormGroup class="mt-3">
+          <Label for="phone" class="d-flex fs-4 text-secondary ps-1 mb-1">Your phone</Label>
+          <Input 
           bind:value={data.phone} 
           type="input" name="phone" id="phone" 
           class="rounded-1 p-2 mb-1"
@@ -137,11 +152,25 @@
     </Form>
   </Section>        
 
-  <!-- <Filler n=40/> -->
-</DetailPageContent>
+          <Button
+        size="md"
+        class="px-3 py-4 rounded-3 bg-primary text-white border-0"
+        on:click={() => saveDraft()}
+      >
+        Save changes
+      </Button>
 
-<script>
-  import { onMount } from "svelte";
+
+
+        </Form>
+      </Section>        
+      
+      <!-- <Filler n=40/> -->
+    </div>
+    </DetailPageContent>
+    
+    <script>
+      import { onMount } from "svelte";
   import { Breadcrumb, BreadcrumbItem, Icon, Badge, Form, FormGroup, FormText, Label, Input, Button } from 'sveltestrap';
   import Section from "@components/Section.svelte";
   import BackButton from "@components/buttons/BackButton.svelte";

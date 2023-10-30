@@ -1,7 +1,7 @@
-<div class="w-100 px-4">
-  <Card class="border-0 border-bottom">
-    <a href={nextUrl} class="text-decoration-none text-dark">
-    <CardBody class="ps-4">
+<div class="w-100">
+  <Card class="border-0 border-bottom border-sc mb-4 w-100">
+    <a href={`/credential/claimed/${uid}`} class="text-decoration-none text-dark">
+      <CardBody class="ps-4">
         <div class="d-flex justify-content-start align-items-center pt-0">
           <img src={data.image} width="92px" crossorigin alt="Credential logo" />
           <div class="ms-4 text-left">

@@ -35,6 +35,7 @@ height: 100vh; width: 100vw; backgroundRepeat: no-repeat; backgroundSize: auto;"
           name="email"
           id="Email"
           placeholder="Your email"
+          required
           />
           <Button  size="md"
           href="/code"

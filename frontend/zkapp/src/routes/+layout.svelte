@@ -34,6 +34,10 @@
 </div>
 
 <style global>
+  /* @import "/css/mina-fonts.css"; */
+  /* @import '/css/bootstrap.css'; */
+  /* @import "/css/custom.css"; */
+  @import '../styles/globals.css';
   @import "/css/custom.min.css";
   @import "/css/patches.css";
 </style>
