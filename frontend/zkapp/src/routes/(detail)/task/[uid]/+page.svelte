@@ -124,24 +124,23 @@
 
       {#if vote==="N" || vote==="A" || vote==="ND"}
       <div class="d-flex justify-content-center rounded-4">
-        
         <FormGroup class="d-flex flex-column justify-content-center w-100">
-         
           <Input 
-          bind:value={data.reason} 
-          type="select" name="vote" id="vote"
-          class="rounded-2 p-3 mb-1 w-100">
-          <option value="" class="text-danger" disabled>Please choose a reason</option>
-          <option value="N1">Does not match requirements</option>
-          <option value="N2">Not enough evidence</option>
-          <option value="A1">Conflict of interests</option>
-          <option value="A2">Can not evaluate</option>
-          <option value="A2">Not my area</option>
-          <option value="A4">Not enough time</option>
-          <option value="A5">Not enough rewards</option>
-          <option value="A6">Other</option>
-        </Input>          
-      </FormGroup>
+            bind:value={data.reason} 
+            type="select" name="vote" id="vote"
+            class="rounded-2 p-3 mb-1 w-100">
+            <option value="" class="text-danger" disabled>Please choose a reason</option>
+            <option value="N1">Does not match requirements</option>
+            <option value="N2">Not enough evidence</option>
+            <option value="A1">Conflict of interests</option>
+            <option value="A2">Can not evaluate</option>
+            <option value="A2">Not my area</option>
+            <option value="A4">Not enough time</option>
+            <option value="A5">Not enough rewards</option>
+            <option value="A6">Other</option>
+          </Input>          
+        </FormGroup>
+      </div>
       {/if}
     </Form>
   </Section>
@@ -190,7 +189,7 @@
         </p>
       {/if}
       {#if $deployedVoting$}
-        <p class="p-1">Snarky SocialcapContract is ready !</p>
+        <p class="p-1">Snarky VotingContract is ready !</p>
       {/if}
 
       {#if $deployedVoting$ && !$auroWallet$?.connected}
@@ -225,11 +224,14 @@
     </ModalBody>
 
     <ModalFooter class="text-center">
-      {#if canPayNow && paymentStatus===0}
+      {#if canPayNow && paymentStatus === 0}
         <Button color="primary" on:click={payNow}>Send it now !</Button>
       {/if}
-      {#if paymentStatus!==2}
+      {#if paymentStatus !== 2}
         <Button color="secondary" on:click={toggle}>Cancel</Button>
+      {/if}
+      {#if paymentStatus === 2}
+        <Button color="primary" on:click={exitVoting}>Done !</Button>
       {/if}
     </ModalFooter>
   </Modal>
@@ -263,13 +265,9 @@
   import StateBadge from "@components/badges/StateBadge.svelte";
   import { getCurrentUser, isFirstTimeUser } from "$lib/models/current-user";
   import { prettyDate } from "@utilities/datetime";
-  import { submitTask } from "@apis/mutations";
-  import { getNullifier } from "@apis/queries";
-  // import { NullifierProxy } from "@socialcap/contracts";
-
 
   import { 
-    MINAExplorer, connectWallet, payForVoting,
+    MINAExplorer, connectWallet, submitVote,
     auroWallet$, deployedVoting$, loadVotingZkapp 
   } from "$lib/contracts/helpers";
 
@@ -335,24 +333,23 @@
     paymentMessage = "Starting voting transaction ..."; await tick();
     paymentStatus = 1; // started
 
-    let result = await payForVoting(data, data.vote);
+    // we can now submit the Vote and continue the voting process
+    let result = await submitVote(data, data.vote);
 
     if (!result.success) {
-      paymentMessage= "Voting was not done: "+result.error; await tick();
+      paymentMessage= "Voting was not done: "+result.error; 
+      await tick();
       return;
     }
     pendingTxn = result.pendingTxn;
     paymentStatus = 2; // sent ;
     await tick();
+    // history.back();
+  }
 
-    // we can now submit the Vote and continue the voting process
-    let params = data.task;
-    params.extras = {
-      transaction: JSON.stringify(pendingTxn)
-    };
-    let updated = await submitTask(params);
-    if (updated) 
-      history.back();
+  function exitVoting() {
+    toggle(); // close dialog
+    history.back();
   }
 
 </script>
