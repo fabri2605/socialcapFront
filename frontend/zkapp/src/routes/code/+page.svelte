@@ -48,6 +48,7 @@ height: 100vh; width: 100vw; backgroundRepeat: no-repeat; backgroundSize: auto;"
             name="code"
             id="Code"
             placeholder="Enter 6 digit code"
+            required
             />
   
           

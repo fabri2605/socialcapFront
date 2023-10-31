@@ -9,25 +9,32 @@
   <Section class="section-md text-start">
 
     <div class="d-flex align-items-center justify-content-start">
-      <img src={data.plan.image} alt="Badge" width="22.5%" crossorigin/>
+    <div class="p-4 d-flex justify-content-start border-sc border border-1 border-gray rounded-4 bg-white">
+      <!-- <img src={data.image} alt="Badge" width="22.5%" crossorigin/> -->
+      <div class="w-25">
+        <img src={data.plan.image} alt="Badge" width="100%" crossorigin/>
+      </div>
 
       <div class="ps-4 w-100">
         <div class="header">
           <p class="p-0 m-0 mb-1">Claim: {claimIdn}</p>
           <h3 class="text-black d-flex justify-content-between align-items-center">
-            <span>{data.plan.name}</span>
-            <span class="fs-5">
-              <StateBadge state={data.state} />
+            <span>{data.type}</span>
+            <span class="fs-3">
+              <Badge color="warning">{data.state}</Badge>
             </span>
           </h3>
-          <p class="fs-sm text-secondary lh-lg">
-            {@html data.plan.description}
-            <br>
-            <b class="">{data.community.name}</b>
-          </p>
-          <p class="fs-6">
-            Claimed by <b class="d-inline-block text-bg-gray py-1 px-2 rounded-2 fs-4">{data.claim.alias}</b>
-          </p>
+          <div class="text-start">
+
+            <p class="fs-sm text-secondary lh-lg">
+              {@html data.description}
+              <br>
+              <b class="">{data.community}</b>
+            </p>
+            <p class="fs-6">
+              Claimed by <b class="d-inline-block py-1 border border-2 border-black px-2 rounded-2 fs-6">{data.alias}</b>
+            </p>
+          </div>
         </div>
   
         <div class="d-flex justify-content-start w-100">
@@ -50,7 +57,7 @@
       </div>
     </div>
 
-    <hr>
+    
   </Section>
 
   <Section class="section-sm m-auto text-center rounded-4 bg-white mt-3 d-flex justify-content-center">
@@ -103,7 +110,7 @@
           <!-- <Input 
             bind:value={vote} 
             type="select" name="vote" id="vote" 
-            class="rounded-1 p-2 mb-1" style="width:12rem;">
+            class="rounded-2 p-3 mb-1 w-100">
             <option value="Y">Positive</option>
             <option value="N">Negative</option>
             <option value="A">Abstain</option>
@@ -116,7 +123,7 @@
           <SubmitButton
             on:click={() => voteNow()}
             color="primary" label="Submit it !" />
-        {/if}
+        {/if} -->
       </div>
       <p>
         Please submit your vote before <b>{prettyDate(data.dueUTC)}</b>.
@@ -126,7 +133,7 @@
       <div class="d-flex justify-content-center rounded-4">
         <FormGroup class="d-flex flex-column justify-content-center w-100">
           <Input 
-            bind:value={data.reason} 
+            bind:value={  data.reason} 
             type="select" name="vote" id="vote"
             class="rounded-2 p-3 mb-1 w-100">
             <option value="" class="text-danger" disabled>Please choose a reason</option>
@@ -145,27 +152,46 @@
     </Form>
   </Section>
 
-  <Section class="section-sm text-start">
-      <p class="mt-4 mb-2 pt-2 hl-base">
-        <b>Here you can find the evidence provided by the claimer</b>. 
-        This evidence will be deleted as soon as the claim has been approved.
-      </p>
-      {#each data.claim.evidenceData as field}
-        <div class="d-flex justify-content-start align-items-start border-top mt-0 pt-3 pb-0">
+  <Section class="section-sm mb-4 pb-4">
+      <div class="mt-4 mb-4 pt-2 hl-base">
+        <h2>
+
+          Here you can find the evidence provided by the claimer. 
+        </h2>
+        <p>
+
+          This evidence will be deleted as soon as the claim has been approved.
+        </p>
+      </div>
+      {#each data.evidence as field}
+        <div class="d-flex justify-content-center align-items-center border-bottom m-auto pt-3 pb-0 w-50 text-center">
           <p class="ps-0 py-0 fw-bold fs-sm w-25 text-start">{field.label}</p>
           <p class="px-2 py-0 fs-6 w-75 text-start">{field.value}</p>
         </div>
       {/each}
 
-      <div class="mt-5 mb-5 px-2 d-flex justify-content-center align-items-center">
+      <div class="position-fixed bottom-0 end-0 bg-white w-100 p-4">
+
+      <div class=" d-flex justify-content-end align-items-end">
           <!-- <SubmitButton 
             on:click={() => saveDraft()}
             color="secondary" label="Save draft ..."/>
           &nbsp;&nbsp; -->
-          <SubmitButton             
+
+          
+
+          {#if vote}
+       
+         <SubmitButton             
             on:click={() => voteNow()}
-            color="primary" label="Submit your vote !" />
+            color="primary" label="Submit your vote" />
+            {:else}
+            <SubmitButton             
+            on:click={() => voteNow()}
+            class="bg-black" label="Submit your vote" />
+            {/if}
       </div>
+    </div>
   </Section>        
 
   <!-- <Filler n=40/> -->
