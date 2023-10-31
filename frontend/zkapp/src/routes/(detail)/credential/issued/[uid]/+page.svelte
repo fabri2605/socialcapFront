@@ -41,7 +41,6 @@
       </div>
       
     </Section>
-  </Alert>
   <Section class="section-sm d-flex justify-content-center">
 
     <div class="bg-white header border border-1 rounded-3 p-4 border-sc shadow-sc w-auto text-center align-center d-flex flex-column">
