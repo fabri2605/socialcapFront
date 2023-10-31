@@ -10,13 +10,6 @@
     <p>This is a form where he will claim a new credential, and this form is controlled by the MasterPlan.</p>
     <p>We only arrive here if the user already is a member of at least one community.</p>
   </Sidenote> -->
-  <Section class="section-sm">
-    <div class="d-flex align-items-center justify-content-between pt-4">
-      <div class="w-25 me-4 pe-2 position-relative">
-        <Button color="" class="p-0 m-0 rounded-circle" >
-          <img src={data.image} class="img-thumbnail rounded-circle" alt="Profile" height="120px" crossorigin/>
-        </Button>
-      </div>
 
   <div class="w-75 m-auto">
 
@@ -25,7 +18,7 @@
       <div class="d-flex align-items-center justify-content-between">
         <div class="w-25 me-4 pe-2 position-relative">
           <Button color="" class="p-0 m-0 rounded-2" >
-            <img src={data.avatar} class="img-thumbnail  border-0 rounded-4" alt="Profile" height="120px" crossorigin/>
+            <img src={data.image} class="img-thumbnail  border-0 rounded-4" alt="Profile" height="120px" crossorigin/>
           </Button>
         </div>
         
@@ -93,8 +86,8 @@
           <Input 
           bind:value={data.description} 
           type="input" name="description" id="description" 
-          class="rounded-1 p-2 mb-1"/>
-        <FormText color="muted ps-1">
+          class="rounded-1 p-3 mb-1"/>
+        <FormText color="muted ps-1 d-flex">
           A brief description about you that may be of interest to others.
         </FormText>
       </FormGroup>
@@ -111,9 +104,9 @@
         </FormText>
       </FormGroup>
 
-      <FormGroup class="mt-3">
-        <Label for="accountId" class="fw-bold fs-6 text-secondary ps-1 mb-1">Your MINA account</Label>
-        <Input 
+        <FormGroup class="mt-3">
+          <Label for="accountId" class="d-flex fs-4 text-secondary ps-1 mb-1">Your MINA account</Label>
+          <Input 
           bind:value={data.accountId} 
           type="input" name="accountId" id="accountId" 
           class="rounded-1 p-3 mb-1"/>
@@ -138,26 +131,24 @@
           <Input 
           bind:value={data.phone} 
           type="input" name="phone" id="phone" 
-          class="rounded-1 p-2 mb-1"
-          />
-        <FormText color="muted ps-1">
-          If available we may use it to secure your account. We will never share it with others. Is optional. 
-        </FormText>
-      </FormGroup>
+          class="rounded-1 p-3 mb-1"/>
+          <FormText color="muted ps-1 d-flex">
+            If available we may use it to secure your account. We will never share it with others. Is optional. 
+          </FormText>
+        </FormGroup>
 
-      <div class="mt-5 mb-5 px-2 d-flex justify-content-center align-items-center">
-          <SubmitButton on:click={() => saveProfile()}
-            color="primary" label="Save changes !" />
-      </div>
-    </Form>
-  </Section>        
 
           <Button
         size="md"
         class="px-3 py-4 rounded-3 bg-primary text-white border-0"
-        on:click={() => saveDraft()}
+        on:click={() => saveProfile()}
       >
-        Save changes
+         {#if loading }
+           Saving...
+        {:else}
+            Save changes
+        {/if}
+       
       </Button>
 
 
@@ -172,31 +163,37 @@
     <script>
       import { onMount } from "svelte";
   import { Breadcrumb, BreadcrumbItem, Icon, Badge, Form, FormGroup, FormText, Label, Input, Button } from 'sveltestrap';
+  import Filler from "$lib/components/Filler.svelte";
+  import Sidenote from "@components/Sidenote.svelte";
   import Section from "@components/Section.svelte";
-  import BackButton from "@components/buttons/BackButton.svelte";
-  import SubmitButton from "@components/buttons/SubmitButton.svelte";
+  import BackButton from "@components/BackButton.svelte";
+  import SubmitButton from "@components/SubmitButton.svelte";
   import DetailPageContent from "@components/DetailPageContent.svelte";
   import DetailPageHeader from "@components/DetailPageHeader.svelte";
   import { getCurrentUser, isFirstTimeUser } from "$lib/models/current-user";
+  import { object_without_properties } from "svelte/internal";
   import { updateProfile } from "@apis/mutations";
 
   export let data; // this is the data for this MasterPlan and empty Claim
 
   let 
-    user, 
+    user = getCurrentUser(), 
     firstTime = false;
 
-  onMount(async () => {
-    user = await getCurrentUser();
+  onMount(() => {
+    user = getCurrentUser();
     firstTime = false; //isFirstTimeUser(user); 
   })
 
   const required = (t) => 
     `<span class="text-warning fw-bold">${t ? `Required` : ``}</span>.`;
 
+  let loading = false;
   async function saveProfile() {
+    loading = true;
     let updated = await updateProfile(data);
+    loading = false;
     if (updated)
       history.back();
   }
-</script>npm run de
+</script>
