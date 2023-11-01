@@ -69,32 +69,59 @@
 
       {#each data.plan.evidence as field, index}
         <FormGroup class="mt-4">
-          <Label for="exampleText" class="fw-bold fs-6 text-secondary ps-1 mb-1">
+          <Label for="exampleText" class="fw-bold fs-nm text-secondary ps-1 mb-1">
             {field.label}
+            <span class="fs-md text-danger">
+              {field.required ? "*" : ""}
+            </span>
           </Label>
 
           {#if field.type === "text"}
             <Input 
+              type="text" 
+              id={field.sid} 
+              name={field.sid} 
               bind:value={data.claim.evidenceData[index].value}
-              type="text" name={field.sid} id={field.sid} 
-              class="rounded-1 p-2 mb-1"/>
+              class="rounded-1 py-2 px-2 mb-1 fs-md"
+              />
           {/if}
 
           {#if field.type === "note"}
             <Input 
+              type="textarea" 
+              id={field.sid} 
+              name={field.sid} 
               bind:value={data.claim.evidenceData[index].value}
-              type="textarea" name={field.sid} id={field.sid} 
-              class="rounded-1 p-2 mb-1"/>
+              class="rounded-1 px-2 py-2 mb-1 fs-md"
+              />
           {/if}
 
           {#if field.type === "file"}
             <Input 
+              type="file" 
+              id={field.sid} 
+              name={field.sid} 
               bind:value={data.claim.evidenceData[index].value}
-              type="file" name={field.sid} id={field.sid} 
-              class="rounded-1 px-2 mb-1"/>
+              class="rounded-1 px-2 mb-1"
+              />
           {/if}
 
-          <FormText color="muted ps-1">
+          {#if field.type === "radio"}
+            <FormGroup class="ms-4">
+              {#each field.extras.options.split(',') as option, i}
+                <Input
+                  id={`rd-${option}-${i}`}
+                  type="radio"
+                  value={option}
+                  label={option}
+                  bind:group={data.claim.evidenceData[index].value}
+                  class="px-2 py-1 mt-1"
+                  />
+                {/each}  
+            </FormGroup> 
+          {/if}
+
+          <FormText color="muted ps-1 fs-sm">
             {field.description}
             &nbsp;{@html required(field.required)}
           </FormText>
@@ -102,11 +129,17 @@
       {/each}
 
       <div class="mt-5 mb-5 px-2 d-flex justify-content-center align-items-center">
-        <SubmitButton on:click={saveDraft}
-          color="secondary" label="Save draft ..."/>
+        <SubmitButton 
+          on:click={saveDraft}
+          color="secondary" 
+          label="Save draft ..."
+          />
         &nbsp;&nbsp;
-        <SubmitButton on:click={() => saveDraftAndSubmit()}
-          color="primary" label="Claim now !" />
+        <SubmitButton 
+          on:click={() => saveDraftAndSubmit()}
+          color="primary" 
+          label="Claim now !" 
+          />
       </div>
     </Form>
   </Section>        
