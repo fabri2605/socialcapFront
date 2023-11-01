@@ -55,10 +55,11 @@
     required: false, // a required field
     label: "",
     description: "",
-    type: "text", // text | note | file | remark // field type
+    type: "text", // text | note | file | remark | radio | links | images // field type
     extras: { 
-      max: 0, //max number of chars in this field 
-      allowed: null // allowed File types
+      max: 0, // max number of chars in this field  for Text and Note fields
+      allowed: null, // allowed file types for File and Image fields
+      options: null, // options for Radio field
     }
   };
 

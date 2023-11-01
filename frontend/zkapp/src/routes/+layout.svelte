@@ -39,5 +39,5 @@
   /* @import "/css/custom.css"; */
   @import '../styles/globals.css';
   @import "/css/custom.min.css";
-  /*@import "/css/patches.css";*/
+  @import "/css/patches.css";
 </style>
