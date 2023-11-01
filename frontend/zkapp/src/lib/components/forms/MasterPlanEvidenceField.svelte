@@ -15,8 +15,11 @@
         type="select" 
         options={[
           { value: "text", text: "Simple text input"},
-          { value: "file", text: "File selector"},
           { value: "note", text: "Text note input"},
+          { value: "radio", text: "Radio buttons input"},
+          { value: "links", text: "Links input"},
+          { value: "file", text: "File selector"},
+          { value: "images", text: "Images input"},
           { value: "remark", text: "Readonly remarks"},
         ]}
         bind:value={field.type} 
@@ -60,11 +63,20 @@
           bind:value={field.extras.max} 
           />
       {/if}
-      {#if field.type === "file"}
+      {#if field.type === "radio"}
+        <StdFormField 
+          label="Options" 
+          type="text" 
+          invalid={!field.extras.options} 
+          feedback="Add the options separated by comas"
+          bind:value={field.extras.options} 
+          />
+      {/if}
+      {#if field.type === "file" || field.type === "images"}
         <StdFormField 
           label="Allowed file types" 
           type="text" 
-          feedback="Allowed file types as a set of comma separated values, ex: 'svg,png,gif'"
+          feedback={"Allowed "+field.type+"types as a set of comma separated values, ex: 'svg,png,gif'"}
           bind:value={field.extras.allowed} 
           />
       {/if}
