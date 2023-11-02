@@ -143,7 +143,7 @@
 
           {#if field.type === 'remark'}
             <p color="ps-1 fs-nm">
-              {field.description}
+              <Markdown md={field.description} {plugins} />              
             </p>
           {/if}
 
@@ -267,14 +267,18 @@
   import { addClaim, updateClaim, updateProfile, submitClaim } from "@apis/mutations";
   import { DRAFT, CANCELED, CLAIMED } from "@models/states";
   import Tags from "svelte-tags-input";
-
+  import Markdown from 'svelte-exmarkdown';
+	import { gfmPlugin } from 'svelte-exmarkdown/gfm';
+  
   import { 
     MINAExplorer, loadSocialcapContract, connectWallet, payForCredentialClaim, 
     auroWallet$, deployedSocialcap$ 
   } from "$lib/contracts/helpers";
-
+  
   export let data; // this is the data for this MasterPlan and empty Claim
 
+  const plugins = [gfmPlugin()];
+  
   let user = getCurrentUser(), firstTime = false;
 
   let open = false;
