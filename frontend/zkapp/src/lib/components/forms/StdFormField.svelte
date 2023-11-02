@@ -1,13 +1,17 @@
 <FormGroup class="text-start">
   <Label 
     for={idn}
-    class="fw-bold fs-xs text-secondary ps-1 mb-1"
+    class="fw-bold fs-sm --text-secondary ps-1 mb-1"
     >{label}</Label>
 
   <Input 
     type={type} 
     id={idn} name={idn}
-    class={"rounded-1 fs-sm px-2 py-2 border-1 "+className}
+    class={
+      "rounded-1 fs-nm ps-2 py-2 border-1 "
+      +(type === 'select' ? " pe-5 " : " pe-2 ")
+      +className
+    }
     {placeholder}
     {invalid}
     {feedback}

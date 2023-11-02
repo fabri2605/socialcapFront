@@ -2,15 +2,6 @@
   <div class="row">
     <div class="col-6">
       <StdFormField 
-        label="Id" 
-        type="text" 
-        invalid={!field.sid.trim()} 
-        feedback="We need an ID for this field"
-        bind:value={field.sid} 
-        />
-    </div>
-    <div class="col-6">
-      <StdFormField 
         label="Type" 
         type="select" 
         options={[
@@ -18,22 +9,35 @@
           { value: "note", text: "Text note input"},
           { value: "radio", text: "Radio buttons input"},
           { value: "links", text: "Links input"},
-          { value: "file", text: "File selector"},
-          { value: "images", text: "Images input"},
+          { value: "files", text: "File links input"},
+          { value: "images", text: "Image links input"},
           { value: "remark", text: "Readonly remarks"},
         ]}
         bind:value={field.type} 
         />
     </div>
+    {#if field.type !== "remark"}
+      <div class="col-6">
+        <StdFormField 
+          label="Id" 
+          type="text" 
+          invalid={!field.sid.trim()} 
+          feedback="We need an ID for this field"
+          bind:value={field.sid} 
+          />
+      </div>
+    {/if}
   </div>
 
-  <StdFormField 
-    label="Label" 
-    type="text" 
-    invalid={!field.label.trim()} 
-    feedback="We need a Label for this field"
-    bind:value={field.label} 
-    />
+  {#if field.type !== "remark"}
+    <StdFormField 
+      label="Label" 
+      type="text" 
+      invalid={!field.label.trim()} 
+      feedback="We need a Label for this field"
+      bind:value={field.label} 
+      />
+  {/if}
 
   <StdFormField 
     label="Description or content" 
@@ -43,18 +47,20 @@
     bind:value={field.description} 
     />
 
-  {#if field.type !== "remark"}
   <div class="row text-start">
-    <div class="col-6">
-      <StdFormField 
-        label="Required" 
-        type="select" 
-        options={[{value:true,text:"Yes"}, {value:false,text:"No"}]} 
-        bind:value={field.required} 
-        />
-    </div>
-    <div class="col-6">
-      {#if field.type === "text" || field.type === "note"}
+    {#if field.type !== "remark"}
+      <div class="col-3">
+        <StdFormField 
+          label="Required" 
+          type="select" 
+          options={[{value:true,text:"Yes"}, {value:false,text:"No"}]} 
+          bind:value={field.required} 
+          />
+      </div>
+    {/if}
+
+    {#if field.type === "text" || field.type === "note"}
+      <div class="col-3">
         <StdFormField 
           label="Max text size" 
           type="number" 
@@ -62,27 +68,54 @@
           feedback="Which is the max allowed text size"
           bind:value={field.extras.max} 
           />
-      {/if}
-      {#if field.type === "radio"}
+       </div>
+    {/if}
+
+    {#if field.type === "radio"}
+      <div class="col-9">
         <StdFormField 
           label="Options" 
-          type="text" 
+          type="textarea" 
           invalid={!field.extras.options} 
           feedback="Add the options separated by comas"
           bind:value={field.extras.options} 
           />
-      {/if}
-      {#if field.type === "file" || field.type === "images"}
+      </div>
+    {/if}
+
+    {#if field.type === "links"}
+      <div class="col-3">
         <StdFormField 
-          label="Allowed file types" 
+          label="Max items" 
+          type="number" 
+          invalid={!field.extras.max < 0} 
+          feedback="Which is the max allowed text size"
+          bind:value={field.extras.max} 
+          />
+       </div>
+    {/if}
+
+    {#if field.type === "files" || field.type === "images"}
+      <div class="col-3">
+        <StdFormField 
+          label="Max items" 
+          type="number" 
+          invalid={!field.extras.max < 0} 
+          feedback="Which is the max allowed text size"
+          bind:value={field.extras.max} 
+          />
+       </div>
+      <div class="col-6">
+        <StdFormField 
+          label="Allowed types" 
           type="text" 
           feedback={"Allowed "+field.type+"types as a set of comma separated values, ex: 'svg,png,gif'"}
           bind:value={field.extras.allowed} 
           />
-      {/if}
-    </div>
+      </div>
+    {/if}
+
   </div>
-  {/if}
 </div>
 
 <script>
