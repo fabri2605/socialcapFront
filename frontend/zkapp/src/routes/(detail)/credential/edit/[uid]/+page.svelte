@@ -12,8 +12,8 @@
   </Sidenote> -->
   <Section class="section-md">
     <div class="d-flex align-items-center justify-content-between pt-4">
-      <div class="w-25 me-4 pe-2" style="--margin-left:-25px;">
-        <img src={data?.plan.image} alt="Badge" height="180px" crossorigin/>
+      <div class="w-25 me-4 pe-2 rounded-2" style="--margin-left:-25px;">
+        <img src={data?.plan.image} alt="Badge" height="180px" crossorigin class="img-thumbnail"/>
       </div>
 
       <div class="w-100 ps-2">

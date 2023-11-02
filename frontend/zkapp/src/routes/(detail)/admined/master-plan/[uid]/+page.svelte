@@ -6,7 +6,7 @@
 
 <DetailPageContent>
   <Section class="section-lg pb-4 d-flex align-items-center justify-content-center">
-    <img src={data.image} width="80px" alt="..." crossorigin class="rounded-circle"/>
+    <img src={data.image} width="80px" alt="..." crossorigin class="rounded-0"/>
     <div class="text-start ms-4">
       <b>Master Plan</b>
       <h5>{data.name}</h5>
