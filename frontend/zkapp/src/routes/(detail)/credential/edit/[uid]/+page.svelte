@@ -69,12 +69,15 @@
 
       {#each data.plan.evidence as field, index}
         <FormGroup class="mt-4">
-          <Label for="exampleText" class="fw-bold fs-nm text-secondary ps-1 mb-1">
-            {field.label}
-            <span class="fs-md text-danger">
-              {field.required ? "*" : ""}
-            </span>
-          </Label>
+
+          {#if field.label}
+            <Label for="exampleText" class="fw-bold fs-nm text-secondary ps-1 mb-1">
+              {field.label}
+              <span class="fs-md text-danger">
+                {field.required ? "*" : ""}
+              </span>
+            </Label>
+          {/if}
 
           {#if field.type === "text"}
             <Input 
@@ -96,7 +99,7 @@
               />
           {/if}
 
-          {#if field.type === "file"}
+          {#if field.type === "files"}
             <Input 
               type="file" 
               id={field.sid} 
@@ -131,10 +134,19 @@
               />
           {/if}
 
-          <FormText color="muted ps-1 fs-sm">
-            {field.description}
-            &nbsp;{@html required(field.required)}
-          </FormText>
+          {#if field.type !== 'remark' && field.description}
+            <FormText color="muted ps-1 fs-sm">
+              {field.description}
+              &nbsp;{@html required(field.required)}
+            </FormText>
+          {/if}
+
+          {#if field.type === 'remark'}
+            <p color="ps-1 fs-nm">
+              {field.description}
+            </p>
+          {/if}
+
         </FormGroup>
       {/each}
 
