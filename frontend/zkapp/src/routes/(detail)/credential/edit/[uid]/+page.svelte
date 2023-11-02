@@ -121,6 +121,16 @@
             </FormGroup> 
           {/if}
 
+          {#if field.type === "links"}
+            <Tags 
+              id={field.links} 
+              name={field.links} 
+              allowPaste={true}
+              bind:tags={data.claim.evidenceData[index].value}
+              class="rounded-1 px-2 mb-1"
+              />
+          {/if}
+
           <FormText color="muted ps-1 fs-sm">
             {field.description}
             &nbsp;{@html required(field.required)}
@@ -130,9 +140,10 @@
 
       <div class="mt-5 mb-5 px-2 d-flex justify-content-center align-items-center">
         <SubmitButton 
-          on:click={saveDraft}
+          on:click={() => saveDraft()}
           color="secondary" 
-          label="Save draft ..."
+          label={loading ? "Saving" : "Save draft ..."}
+          disabled={loading}
           />
         &nbsp;&nbsp;
         <SubmitButton 
@@ -243,6 +254,7 @@
   import { AppStatus } from "@utilities/app-status";
   import { addClaim, updateClaim, updateProfile, submitClaim } from "@apis/mutations";
   import { DRAFT, CANCELED, CLAIMED } from "@models/states";
+  import Tags from "svelte-tags-input";
 
   import { 
     MINAExplorer, loadSocialcapContract, connectWallet, payForCredentialClaim, 
@@ -267,16 +279,18 @@
     firstTime = false; //isFirstTimeUser(user); 
   })
 
+  let loading = false;
+
   const required = (t) => 
     `<span class="text-warning fw-bold">${t ? `Required` : ``}</span>.`;
 
   function dataIsOk(data) {
     if (!data.claim.alias.trim())
       return false;
-
     (data.claim.evidenceData || []).forEach((f) => {
-      if (f.required && f.value.trim().length ===0)
-        return false;
+        if (f.required && ((Array.isArray(f.value) && f.value.length === 0) || (f.value.trim().length === 0))) {
+          return false;
+        }
     })
     
     return true;
@@ -289,7 +303,7 @@
   async function updateTheDraft() {
     if (!dataIsOk(data)) {
       AppStatus.error("Please fill all required fields !")
-      return;
+      return false;
     }
 
     let updated;
@@ -308,7 +322,9 @@
    * bak to the previous page.
    */
   async function saveDraft() {
+    loading = true;
     let updated = await updateTheDraft();
+    loading = false;
     if (updated) 
       history.back();
   }

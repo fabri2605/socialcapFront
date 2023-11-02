@@ -336,9 +336,10 @@
     }
     loading = true;
     const updated = await updatePlan(data);
+    loading = false;
     if (updated) 
       history.back();
-    loading = false;
+ 
   }
 
   // Some style helpers
