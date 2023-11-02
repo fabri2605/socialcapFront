@@ -1,11 +1,14 @@
 
-<div class="row fs-sm mx-0 mb-2 ps-4 py-1 border-bottom border-1">
-  <span class="col-1 text-center">
-    <img src={plan.image} 
+<div class="d-flex align-items-center justify-content-start fs-sm mx-0 mb-2 ps-4 py-1 border-bottom border-1">
+  <span class="text-center">
+    <img 
+      src={plan.image} crossorigin
       alt={plan.image ? "Claim logo" : " "} 
-      width="56px" crossorigin/>
+      width="64px" 
+      class="img-thumbnail me-3 rounded-3"
+      />
   </span>
-  <div class="col lh-base text-start">
+  <div class="lh-base text-start">
     <a href={`/admined/master-plan/${plan.uid}`} class="text-dark text-decoration-none">
       <b>{plan.name || "No name yet ..."}</b>
       <p class="fs-sm text-secondary m-0">

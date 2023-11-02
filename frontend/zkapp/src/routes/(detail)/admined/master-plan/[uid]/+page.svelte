@@ -1,22 +1,29 @@
 <DetailPageHeader items={[
   { href: '/', text: 'Home'},
-  { href: `/admined/${data.communityUid}`, text: data.community},
+  { href: `/admined/${data.communityUid}`, text: data.communityUid},
   { href: '', text: `Master Plan #${data.name || data.uid}`}
 ]}/>
 
 <DetailPageContent>
-  <Section class="section-lg pb-4 d-flex align-items-center justify-content-center">
-    <img src={data.image} width="80px" alt="..." crossorigin class="rounded-0"/>
-    <div class="text-start ms-4">
-      <b>Master Plan</b>
-      <h5>{data.name}</h5>
-      <p class="fs-sm m-0 p-0">{data.description}</p>
+  <Section class="section-md pb-4 d-flex align-items-center justify-content-start">
+    <img 
+      src={data.image} crossorigin
+      alt="Credential badge" 
+      width="22.5%" 
+      style="min-width:96px;min-height:96px;max-width:96px;" 
+      class="img-thumbnail rounded-4 me-2 mt-2"
+      />       
+    <div class="w-100 text-start ms-4">
+      <span class="text-secondary fs-sm">MASTER PLAN ...</span>
+      <br>
+      <h1>{data.name}</h1>
+      <p class="fs-nm m-0 p-0">{data.description}</p>
       {ALL_STATES[data.state]}
     </div>
   </Section>
   <hr/>
 
-  <Section class="section-lg">
+  <Section class="section-md">
     <TabContent vertical pills>
       <TabPane tabId="name" tab="Description" active>
         <Section class="section-fluid ms-4">

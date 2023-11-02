@@ -4,16 +4,16 @@
 ]}/>
 
 <DetailPageContent>
-  <Section class="section-lg pb-4">
+  <Section class="section-md pb-4">
     <div class="d-flex justify-content-start align-items-center">
       <img 
-        alt="community-logo"
-        width="22.5%" 
         src={data.image} crossorigin
+        alt="Community logo"
+        width="22.5%" 
         style="min-width:160px;min-height:160px;max-width:160px;" 
-        class="img-thumbnail rounded-0 me-2 mt-2" 
+        class="img-thumbnail rounded-4 me-2 mt-2" 
         />
-      <div class="w-100 ms-4" style="text-align: left !important;">
+      <div class="w-100 ms-4 text-start">
         <span class="text-secondary fs-sm">ADMINISTERING  THIS COMMUNITY ...</span>
         <br>
         <h1 class="text-black m-0 p-0 w-100 d-flex align-items-center justify-content-between">

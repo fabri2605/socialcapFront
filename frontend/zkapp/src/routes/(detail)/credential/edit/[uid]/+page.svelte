@@ -10,10 +10,16 @@
     <p>This is a form where he will claim a new credential, and this form is controlled by the MasterPlan.</p>
     <p>We only arrive here if the user already is a member of at least one community.</p>
   </Sidenote> -->
-  <Section class="section-md">
+  <Section class="section-md border-2 rounded-2 p-4 shadow">
     <div class="d-flex align-items-center justify-content-between pt-4">
-      <div class="w-25 me-4 pe-2 rounded-2" style="--margin-left:-25px;">
-        <img src={data?.plan.image} alt="Badge" height="180px" crossorigin class="img-thumbnail"/>
+      <div class="w-25 me-4 pe-2 rounded-2">
+        <img 
+          src={data?.plan.image} crossorigin 
+          alt="Badge" 
+          width="22.5%" 
+          style="min-width:120px;min-height:120px;max-width:120px;" 
+          class="img-thumbnail rounded-4 me-2 mt-2" 
+          />
       </div>
 
       <div class="w-100 ps-2">
@@ -45,17 +51,16 @@
         </div>
       </div>
     </div>
-    <hr>
   </Section>
 
-  <Section class="section-sm text-start">
-    <p class="py-2 hl-base">
+  <Section class="section-md px-5 text-start">
+    <!-- <p class="py-2 hl-base">
       Please provide below the required evidence to sustain your claim. This 
       evidence will be deleted as soon as the claim has been approved, so no 
       personal or private data will be stored and kept.
-    </p>
+    </p> -->
     <Form>
-      <FormGroup class="mt-3">
+      <!-- <FormGroup class="mt-3">
         <Label for="alias" class="fw-bold fs-6 text-secondary ps-1 mb-1">Name or alias</Label>
         <Input 
           bind:value={data.claim.alias} 
@@ -65,7 +70,7 @@
           Name or alias you would like to show in the final credential. 
           &nbsp;{@html required(true)}
         </FormText>
-      </FormGroup>
+      </FormGroup> -->
 
       {#each data.plan.evidence as field, index}
         <FormGroup class="mt-4">
