@@ -101,6 +101,9 @@
               name={field.sid} 
               bind:value={data.claim.evidenceData[index].value}
               class="rounded-1 px-2 py-2 mb-1 fs-md"
+              rows={initialTextareaSize(data.claim.evidenceData[index].value)}
+              bind:inner={field.inner} 
+              on:input={() => resizeTextarea(field.inner)}
               />
           {/if}
 
@@ -311,6 +314,22 @@
   })
 
   let loading = false;
+
+  /** Resize textareas **/
+
+  function initialTextareaSize(value) {
+    let lines = (value || "").split("\n");
+    // console.log("initialTextareaSize", lines, lines.length);
+    return (lines.length || 1) ; 
+  }
+
+  function resizeTextarea(inner) {
+    inner.style.height = 'auto';
+    inner.style.height = 4 + inner.scrollHeight + 'px';
+    // console.log("resizeTextarea height=", inner, inner.style.height);
+  };
+
+  /** Data validation **/
 
   const required = (t) => 
     `<span class="text-warning fw-bold">${t ? `Required` : ``}</span>.`;
