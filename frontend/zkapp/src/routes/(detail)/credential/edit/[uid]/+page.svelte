@@ -130,15 +130,25 @@
           {/if}
 
           {#if field.type === "links"}
-            <Tags 
-              id={field.links} 
-              name={field.links} 
+             <Tags 
+              id={field.sid} 
+              name={field.sid} 
               allowPaste={true}
               bind:tags={data.claim.evidenceData[index].value}
               class="rounded-1 px-2 mb-1"
               />
           {/if}
 
+          {#if field.type === "images"}
+            <Tags 
+              id={field.sid} 
+              name={field.sid} 
+              allowPaste={true}
+              bind:tags={data.claim.evidenceData[index].value}
+              class="rounded-1 px-2 mb-1"
+              />
+          {/if}
+          
           {#if field.type !== 'remark' && field.description}
             <FormText color="muted ps-1 fs-sm">
               {field.description}
