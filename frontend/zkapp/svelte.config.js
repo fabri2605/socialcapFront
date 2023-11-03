@@ -35,6 +35,7 @@ const config = {
         '/admined/master-plan/[uid]',   
         '/community/[uid]',
         '/task/[uid]',
+        '/otp/[session]',
         '/profile'     
       ]
     },
