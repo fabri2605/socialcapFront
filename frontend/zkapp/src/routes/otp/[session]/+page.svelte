@@ -12,19 +12,21 @@
 
   <Card class="mb-3 border-0 p-3 shadow">
     <CardBody>
-      <CardText class='fs-2'>
-        Enter your email to log in or create an account.
+      <CardText>
+        Check your email for the code
       </CardText>
-      <Form class='w-100 p-4'>
+      <Form class='w-100'>
         <FormGroup class='d-flex flex-column w-100 gap-3'>
           <Input
+            bind:value={data.otp} 
+            type="text"
             class='p-3'
-            type="email"
-            name="email"
-            id="email"
-            placeholder="Your email"
+            maxlength="6" 
+            oninput="this.value=this.value.replace(/[^0-9]/g,'');"
+            name="code"
+            id="Code"
+            placeholder="Enter 6 digit code"
             required
-            bind:value={data.email} 
             />
 
           {#if data.message}
@@ -33,11 +35,10 @@
             </div>  
           {/if}
 
-          <Button  
-            on:click={() => getOTP()}
+          <Button 
+            on:click={() => loginNow()}
             size="md"
-            class="px-3 py-3 rounded-3 bg-primary text-white border-0">
-            Send me the code
+            class="px-3 py-2 rounded-3 bg-primary text-white border-0">Sign in
           </Button>
         </FormGroup>
       </Form>
@@ -45,8 +46,9 @@
 
     <CardFooter 
       class='border-0 bg-white fs-2'>
-      New to Socialcap? <a href="/signup">Create an account</a>
+      Need to change your email? <a href="/login">Login</a>
     </CardFooter>
+
   </Card>
 </Section>        
 
@@ -81,30 +83,32 @@
   const required = (t) => 
     `<span class="text-warning fw-bold">${t ? `Required` : ``}</span>.`;
 
-  async function getOTP() {
-    let rsp = await requestOTP({ 
-      email: data.email 
+  async function loginNow() {
+    let rsp = await login({ 
+      session_key: data.sessionKey, 
+      otp: data.otp 
     });
 
-    if (rsp.error && rsp.error.code === 404) {
-      // No valid email, go to signup
-      data.message = "Could not find your email. Going to signup ..."
-      goto("/signup");
-      return;
-    }
-
     if (rsp.error) {
-      data.message = "Problem sending OTP request, please try again ..."
+      data.message = "The OTP code seems invalid, please try again !"
       return;
     }
 
     // success
     session = rsp;
-    data.otp = "";
+    data.message = "Done. Going to Home ..."
+
+    // save state in currentSession
+    setActiveSession({
+      host: data.api.host,
+      port: data.api.port,
+      protocol: data.api.protocol,
+      authorization: session.authorization
+    });
 
     // goto home
     setTimeout(() => { 
-      goto(`/otp/${session.session_key}`); 
+      goto('/'); 
     }, 500)
   } 
 </script>
