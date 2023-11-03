@@ -22,7 +22,9 @@ class CoreAPIClient {
   }) {
     this.API.protocol = params?.protocol || this.API.protocol;
     this.API.host = params?.host || "localhost";
-    this.API.port = params?.port || 3080;
+    this.API.port = (params?.port || 3080);
+    this.API.baseUrl = `${this.API.protocol}://${this.API.host}:${this.API.port}/api`;
+    this.authorize(params?.authorization || "");    
     this.API.baseUrl = `${this.API.protocol}://${this.API.host}:${this.API.port}/api`;
     this.authorize(params?.authorization || "");
   }

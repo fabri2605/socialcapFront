@@ -2,6 +2,7 @@ import { getCurrentSession } from '@models/current-session';
 import { getCurrentUser } from '@models/current-user';
 import { setApiClient } from '$lib/globals';
 import { CoreAPIClient } from '@apis/core-api-client';
+import { API_CONFIG } from '@apis/config';
 
 console.log("hook.client.js");
 
@@ -14,7 +15,7 @@ if (isAuthenticated) {
   user = await getCurrentUser();
 } 
 else {
-  let client = new CoreAPIClient(false);  
+  let client = new CoreAPIClient(API_CONFIG);  
   setApiClient(client);
 }
 
