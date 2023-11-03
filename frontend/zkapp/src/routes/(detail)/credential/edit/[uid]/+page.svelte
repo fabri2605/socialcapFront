@@ -316,10 +316,16 @@
     `<span class="text-warning fw-bold">${t ? `Required` : ``}</span>.`;
 
   function dataIsOk(data) {
-    if (!data.claim.alias.trim())
-      return false;
+    // if (!data.claim.alias.trim())
+    //   return false;
     (data.claim.evidenceData || []).forEach((f) => {
-        if (f.required && ((Array.isArray(f.value) && f.value.length === 0) || (f.value.trim().length === 0))) {
+        if (
+          f.required && (
+          (Array.isArray(f.value) && f.value.length === 0) 
+          || 
+          (typeof(f.value) === 'string' && f.value.trim().length === 0)
+          )
+        ) {
           return false;
         }
     })
