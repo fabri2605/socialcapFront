@@ -12,7 +12,8 @@ export {
   submitClaim,
   submitTask,
   requestOTP, 
-  login 
+  login,
+  signUp
 }
 
 
@@ -31,6 +32,13 @@ async function login(data: any): Promise<any> {
   return rs.data;
 }
 
+async function signUp(data: any): Promise<any> {
+  // "session_key": "61756fe1995448a5a58b37fc5ce0eba6",
+  // "otp": "333577"
+  let rs = await apiClient.mutate("sign_up", data);
+  if (rs.error) return null;
+  return rs.data;
+}
 
 async function updateProfile(data: any): Promise<any> {
   AppStatus.push("Updating profile ...");  

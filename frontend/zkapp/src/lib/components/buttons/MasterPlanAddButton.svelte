@@ -3,7 +3,13 @@
     &nbsp;
   </span>
   <div class="col lh-base">
-    <Button outline class="px-3 py-2 rounded-2" color="dark" size="sm" on:click={addMasterPlan}>
+    <Button 
+      outline 
+      class="px-3 py-2 rounded-2 border-1 text-black" 
+      color="dark" 
+      size="sm" 
+      on:click={addMasterPlan}
+      >
       <b>+</b> Add a new Claim Master Plan ...
     </Button>
   </div>

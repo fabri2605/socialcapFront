@@ -4,26 +4,34 @@
 ]}/>
 
 <DetailPageContent>
-  <Section class="section-lg pb-4">
+  <Section class="section-md pb-4">
     <div class="d-flex justify-content-start align-items-center">
-      <img width="22.5%" style="min-width:160px;min-height:160px;max-width:160px;" class="img-thumbnail rounded-circle me-2" src={data.image} crossorigin/>
-      <div class="w-100 ms-4">
-        <span class="text-secondary">ADMINISTERING  THIS COMMUNITY ...</span>
-        <h2 class="text-black m-0 p-0 w-100 d-flex align-items-center justify-content-between">
+      <img 
+        src={data.image} crossorigin
+        alt="Community logo"
+        width="22.5%" 
+        style="min-width:160px;min-height:160px;max-width:160px;" 
+        class="img-thumbnail rounded-4 me-2 mt-2" 
+        />
+      <div class="w-100 ms-4 text-start">
+        <span class="text-secondary fs-sm">ADMINISTERING  THIS COMMUNITY ...</span>
+        <br>
+        <h1 class="text-black m-0 p-0 w-100 d-flex align-items-center justify-content-between">
           {data.name}
           <span class="fs-5">
             <Badge size="sm">
               {data.state}
             </Badge>
           </span>
-        </h2>
-        <p class="fs-sm mt-1">
-          <b>{data.membersCount}</b> members
-          | <span class="fs-4"> 🎉 </span>
-          &nbsp; <b>{data.credentialsCount}</b> credentials issued !
-        </p>
-
-        <p class="">{@html data.description}</p>    
+        </h1>
+        <div class="mt-2">
+          <p class="fs-sm mt-1">
+            <b>{data.membersCount}</b> members
+            | <span class="fs-4"> 🎉 </span>
+            &nbsp; <b>{data.credentialsCount}</b> credentials issued !
+          </p>
+          <p>{@html data.description}</p>    
+        </div>
 
         <div class="d-flex justify-content-start">
           <p class="">

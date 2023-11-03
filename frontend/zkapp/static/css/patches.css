@@ -28,3 +28,8 @@
 .mw-8 { max-width: 8rem;}
 .mw-10 { max-width: 10rem;}
 .mw-12 { max-width: 12rem;}
+
+/* Fixes for some styling problems */
+/* form field borders had low contrast */
+:root { --bs-border-color: rgb(109, 95, 95); }
+.form-select { border: 1px solid var(--bs-border-color) !important; }
