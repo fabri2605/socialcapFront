@@ -384,6 +384,11 @@ async function main() {
   }
 }
 
+setTimeout(async () => {
+  await main();
+}, 10000); 
+
+/*
 main()
   .then(async () => {
     await prisma.$disconnect();
@@ -393,3 +398,4 @@ main()
     await prisma.$disconnect();
     process.exit(1);
   });
+*/
