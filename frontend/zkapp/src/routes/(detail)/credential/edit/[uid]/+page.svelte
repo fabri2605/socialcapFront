@@ -10,10 +10,16 @@
     <p>This is a form where he will claim a new credential, and this form is controlled by the MasterPlan.</p>
     <p>We only arrive here if the user already is a member of at least one community.</p>
   </Sidenote> -->
-  <Section class="section-md">
+  <Section class="section-md border-2 rounded-2 p-4 shadow">
     <div class="d-flex align-items-center justify-content-between pt-4">
-      <div class="w-25 me-4 pe-2" style="--margin-left:-25px;">
-        <img src={data?.plan.image} alt="Badge" height="180px" crossorigin/>
+      <div class="w-25 me-4 pe-2 rounded-2">
+        <img 
+          src={data?.plan.image} crossorigin 
+          alt="Badge" 
+          width="22.5%" 
+          style="min-width:120px;min-height:120px;max-width:120px;" 
+          class="img-thumbnail rounded-4 me-2 mt-2" 
+          />
       </div>
 
       <div class="w-100 ps-2">
@@ -45,17 +51,16 @@
         </div>
       </div>
     </div>
-    <hr>
   </Section>
 
-  <Section class="section-sm text-start">
-    <p class="py-2 hl-base">
+  <Section class="section-md px-5 text-start">
+    <!-- <p class="py-2 hl-base">
       Please provide below the required evidence to sustain your claim. This 
       evidence will be deleted as soon as the claim has been approved, so no 
       personal or private data will be stored and kept.
-    </p>
+    </p> -->
     <Form>
-      <FormGroup class="mt-3">
+      <!-- <FormGroup class="mt-3">
         <Label for="alias" class="fw-bold fs-6 text-secondary ps-1 mb-1">Name or alias</Label>
         <Input 
           bind:value={data.claim.alias} 
@@ -65,48 +70,114 @@
           Name or alias you would like to show in the final credential. 
           &nbsp;{@html required(true)}
         </FormText>
-      </FormGroup>
+      </FormGroup> -->
 
       {#each data.plan.evidence as field, index}
         <FormGroup class="mt-4">
-          <Label for="exampleText" class="fw-bold fs-6 text-secondary ps-1 mb-1">
-            {field.label}
-          </Label>
+
+          {#if field.label}
+            <Label for="exampleText" class="fw-bold fs-nm text-secondary ps-1 mb-1">
+              {field.label}
+              <span class="fs-md text-danger">
+                {field.required ? "*" : ""}
+              </span>
+            </Label>
+          {/if}
 
           {#if field.type === "text"}
             <Input 
+              type="text" 
+              id={field.sid} 
+              name={field.sid} 
               bind:value={data.claim.evidenceData[index].value}
-              type="text" name={field.sid} id={field.sid} 
-              class="rounded-1 p-2 mb-1"/>
+              class="rounded-1 py-2 px-2 mb-1 fs-md"
+              />
           {/if}
 
           {#if field.type === "note"}
             <Input 
+              type="textarea" 
+              id={field.sid} 
+              name={field.sid} 
               bind:value={data.claim.evidenceData[index].value}
-              type="textarea" name={field.sid} id={field.sid} 
-              class="rounded-1 p-2 mb-1"/>
+              class="rounded-1 px-2 py-2 mb-1 fs-md"
+              />
           {/if}
 
-          {#if field.type === "file"}
+          {#if field.type === "files"}
             <Input 
+              type="file" 
+              id={field.sid} 
+              name={field.sid} 
               bind:value={data.claim.evidenceData[index].value}
-              type="file" name={field.sid} id={field.sid} 
-              class="rounded-1 px-2 mb-1"/>
+              class="rounded-1 px-2 mb-1"
+              />
           {/if}
 
-          <FormText color="muted ps-1">
-            {field.description}
-            &nbsp;{@html required(field.required)}
-          </FormText>
+          {#if field.type === "radio"}
+            <FormGroup class="ms-4">
+              {#each field.extras.options.split(',') as option, i}
+                <Input
+                  id={`rd-${option}-${i}`}
+                  type="radio"
+                  value={option}
+                  label={option}
+                  bind:group={data.claim.evidenceData[index].value}
+                  class="px-2 py-1 mt-1"
+                  />
+                {/each}  
+            </FormGroup> 
+          {/if}
+
+          {#if field.type === "links"}
+             <Tags 
+              id={field.sid} 
+              name={field.sid} 
+              allowPaste={true}
+              bind:tags={data.claim.evidenceData[index].value}
+              class="rounded-1 px-2 mb-1"
+              />
+          {/if}
+
+          {#if field.type === "images"}
+            <Tags 
+              id={field.sid} 
+              name={field.sid} 
+              allowPaste={true}
+              bind:tags={data.claim.evidenceData[index].value}
+              class="rounded-1 px-2 mb-1"
+              />
+          {/if}
+          
+          {#if field.type !== 'remark' && field.description}
+            <FormText color="muted ps-1 fs-sm">
+              {field.description}
+              &nbsp;{@html required(field.required)}
+            </FormText>
+          {/if}
+
+          {#if field.type === 'remark'}
+            <p color="ps-1 fs-nm">
+              <Markdown md={field.description} {plugins} />              
+            </p>
+          {/if}
+
         </FormGroup>
       {/each}
 
       <div class="mt-5 mb-5 px-2 d-flex justify-content-center align-items-center">
-        <SubmitButton on:click={saveDraft}
-          color="secondary" label="Save draft ..."/>
+        <SubmitButton 
+          on:click={() => saveDraft()}
+          color="secondary" 
+          label={loading ? "Saving" : "Save draft ..."}
+          disabled={loading}
+          />
         &nbsp;&nbsp;
-        <SubmitButton on:click={() => saveDraftAndSubmit()}
-          color="primary" label="Claim now !" />
+        <SubmitButton 
+          on:click={() => saveDraftAndSubmit()}
+          color="primary" 
+          label="Claim now !" 
+          />
       </div>
     </Form>
   </Section>        
@@ -199,27 +270,30 @@
   import { get } from "svelte/store";
   import { Breadcrumb, BreadcrumbItem, Icon, Badge, Form, FormGroup, FormText, Label, Input, Button } from 'sveltestrap';
   import { Modal, ModalBody,ModalFooter,ModalHeader } from 'sveltestrap';
-  import Filler from "$lib/components/Filler.svelte";
-  import Sidenote from "@components/Sidenote.svelte";
   import Section from "@components/Section.svelte";
-  import BackButton from "@components/BackButton.svelte";
-  import SubmitButton from "@components/SubmitButton.svelte";
+  import BackButton from "@components/buttons/BackButton.svelte";
+  import SubmitButton from "@components/buttons/SubmitButton.svelte";
   import DetailPageContent from "@components/DetailPageContent.svelte";
   import DetailPageHeader from "@components/DetailPageHeader.svelte";
   import { getCurrentUser, isFirstTimeUser } from "$lib/models/current-user";
-  import StateBadge from "@components/StateBadge.svelte";
+  import StateBadge from "@components/badges/StateBadge.svelte";
   import { prettyDate } from "@utilities/datetime";
   import { AppStatus } from "@utilities/app-status";
   import { addClaim, updateClaim, updateProfile, submitClaim } from "@apis/mutations";
   import { DRAFT, CANCELED, CLAIMED } from "@models/states";
-
+  import Tags from "svelte-tags-input";
+  import Markdown from 'svelte-exmarkdown';
+	import { gfmPlugin } from 'svelte-exmarkdown/gfm';
+  
   import { 
-    MINAExplorer, loadSnarky, connectWallet, payForCredentialClaim, 
+    MINAExplorer, loadSocialcapContract, connectWallet, payForCredentialClaim, 
     auroWallet$, deployedSocialcap$ 
-  } from "$lib/contract/helpers";
-
+  } from "$lib/contracts/helpers";
+  
   export let data; // this is the data for this MasterPlan and empty Claim
 
+  const plugins = [gfmPlugin()];
+  
   let user = getCurrentUser(), firstTime = false;
 
   let open = false;
@@ -236,16 +310,18 @@
     firstTime = false; //isFirstTimeUser(user); 
   })
 
+  let loading = false;
+
   const required = (t) => 
     `<span class="text-warning fw-bold">${t ? `Required` : ``}</span>.`;
 
   function dataIsOk(data) {
     if (!data.claim.alias.trim())
       return false;
-
     (data.claim.evidenceData || []).forEach((f) => {
-      if (f.required && f.value.trim().length ===0)
-        return false;
+        if (f.required && ((Array.isArray(f.value) && f.value.length === 0) || (f.value.trim().length === 0))) {
+          return false;
+        }
     })
     
     return true;
@@ -258,7 +334,7 @@
   async function updateTheDraft() {
     if (!dataIsOk(data)) {
       AppStatus.error("Please fill all required fields !")
-      return;
+      return false;
     }
 
     let updated;
@@ -277,7 +353,9 @@
    * bak to the previous page.
    */
   async function saveDraft() {
+    loading = true;
     let updated = await updateTheDraft();
+    loading = false;
     if (updated) 
       history.back();
   }
@@ -308,7 +386,7 @@
 
     let isSnarkyLoaded = get(deployedSocialcap$) ;
     if (!isSnarkyLoaded) {
-      isSnarkyLoaded = await loadSnarky("Socialcap");
+      isSnarkyLoaded = await loadSocialcapContract();
     }
 
     let hasWallet = false;

@@ -1,22 +1,29 @@
 <DetailPageHeader items={[
   { href: '/', text: 'Home'},
-  { href: `/admined/${data.communityUid}`, text: data.community},
+  { href: `/admined/${data.communityUid}`, text: data.communityUid},
   { href: '', text: `Master Plan #${data.name || data.uid}`}
 ]}/>
 
 <DetailPageContent>
-  <Section class="section-lg pb-4 d-flex align-items-center justify-content-center">
-    <img src={data.image} width="80px" alt="..." crossorigin class="rounded-circle"/>
-    <div class="text-start ms-4">
-      <b>Master Plan</b>
-      <h5>{data.name}</h5>
-      <p class="fs-sm m-0 p-0">{data.description}</p>
+  <Section class="section-md pb-4 d-flex align-items-center justify-content-start">
+    <img 
+      src={data.image} crossorigin
+      alt="Credential badge" 
+      width="22.5%" 
+      style="min-width:96px;min-height:96px;max-width:96px;" 
+      class="img-thumbnail rounded-4 me-2 mt-2"
+      />       
+    <div class="w-100 text-start ms-4">
+      <span class="text-secondary fs-sm">MASTER PLAN ...</span>
+      <br>
+      <h1>{data.name}</h1>
+      <p class="fs-nm m-0 p-0">{data.description}</p>
       {ALL_STATES[data.state]}
     </div>
   </Section>
   <hr/>
 
-  <Section class="section-lg">
+  <Section class="section-md">
     <TabContent vertical pills>
       <TabPane tabId="name" tab="Description" active>
         <Section class="section-fluid ms-4">
@@ -44,10 +51,10 @@
             label="State" 
             type="select" 
             options={[
-              { value: "1", text: "DRAFT"},
-              { value: "8", text: "ACTIVE"},
-              { value: "9", text: "PAUSED"},
-              { value: "10", text: "INACTIVE"},
+              { value: 1, text: "DRAFT"},
+              { value: 8, text: "ACTIVE"},
+              { value: 9, text: "PAUSED"},
+              { value: 10, text: "INACTIVE"},
             ]}
             class="w-25"
             bind:value={data.state} 
@@ -183,16 +190,33 @@
 
       <TabPane tabId="auditors" tab="Strategy">
         <Section class="section-fluid ms-4">
-          <StdFormField 
-            label="Variant" 
-            type="select" 
-            options={[
-              { value: "RandomAnonyomusValidators", text: "Random Anonyomus Validators"},
-              { value: "AllMembersAnonymousVoting", text: "All Members Anonymous Voting"},
-              { value: "NominatedValidators", text: "Nominated Validators"},
-            ]}
-            bind:value={data.strategy.variant} 
-            />
+          <div class="row">
+            <div class="col-4">
+              <StdFormField 
+                label="Variant" 
+                type="select" 
+                options={[
+                  { value: "RandomAnonyomusValidators", text: "Random Anonyomus Validators"},
+                  { value: "AllMembersAnonymousVoting", text: "All Members Anonymous Voting"},
+                  { value: "NominatedValidators", text: "Nominated Validators"},
+                ]}
+                bind:value={data.strategy.variant} 
+                />
+            </div>
+            <div class="col-4">
+              <StdFormField 
+                label="Selected from" 
+                type="select" 
+                options={[
+                  { value: "AllValidators", text: "All validators"},
+                  { value: "OnlyAuditors", text: "Only auditors"},
+                  { value: "FullCommunity", text: "Full community"},
+                ]}
+                bind:value={data.strategy.selection} 
+                />
+            </div>
+          </div>
+
           <div class="row">
             <div class="col-4">
               <StdFormField 
@@ -263,7 +287,11 @@
     <div class="text-center my-4 ms-4">
       <Button color="primary" class="rounded-5 px-4 py-2"
         on:click={updateIt}>
-        Update it !
+         {#if loading }
+           Updating...
+        {:else}
+            Update Data
+        {/if}
       </Button>  
     </div>
   </Section>
@@ -274,25 +302,23 @@
   import { Button, Badge } from "sveltestrap";
   import { TabContent, TabPane } from 'sveltestrap';  
   import { FormGroup, Label, Input, FormText } from "sveltestrap";
-  // import { Modal, ModalBody, ModalFooter, ModalHeader } from 'sveltestrap';
-  import Filler from "@components/Filler.svelte";
   import Section from "@components/Section.svelte";
   import DetailPageContent from "@components/DetailPageContent.svelte";
   import DetailPageHeader from "@components/DetailPageHeader.svelte";
-  import MemberItem from "@components/MemberItem.svelte";
-  import MasterPlanItem from "@components/MasterPlanItem.svelte";
-  import MasterPlanAddButton from "@components/MasterPlanAddButton.svelte";
-  import StdFormField from "@components/StdFormField.svelte";
-  import MasterPlanEvidence from "@components/MasterPlanEvidence.svelte"
+  import MemberItem from "@components/lists/MemberItem.svelte";
+  import MasterPlanItem from "@components/lists/MasterPlanItem.svelte";
+  import MasterPlanAddButton from "@components/buttons/MasterPlanAddButton.svelte";
+  import StdFormField from "@components/forms/StdFormField.svelte";
+  import MasterPlanEvidence from "@components/forms/MasterPlanEvidence.svelte"
   import { getCurrentUser, isFirstTimeUser } from "$lib/models/current-user";
-  import { ALL_STATES } from "@socialcap/contracts";
+  import { ALL_STATES } from "@models/states";
   import { updatePlan } from "@apis/mutations";
 
   export let data;
 
   let user = getCurrentUser();
   let openDlg = false;
-
+ let loading = false;
   onMount(() => {
     user = getCurrentUser();
   })
@@ -315,9 +341,12 @@
       AppStatus.error("All fields are required !")
       return;
     }
+    loading = true;
     const updated = await updatePlan(data);
+    loading = false;
     if (updated) 
       history.back();
+ 
   }
 
   // Some style helpers

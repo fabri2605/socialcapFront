@@ -60,6 +60,7 @@
     "@socialcap/contracts": "^0.1.25",
     "axios": "^1.4.0",
     "fastify": "^4.17.0",
+    "mailgun.js": "^9.2.1",
     "module-alias": "^2.2.2",
     "nodemailer": "^6.9.4",
     "snarkyjs": "^0.12.1"

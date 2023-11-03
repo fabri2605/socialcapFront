@@ -4,26 +4,34 @@
 ]}/>
 
 <DetailPageContent>
-  <Section class="section-lg pb-4">
+  <Section class="section-md pb-4">
     <div class="d-flex justify-content-start align-items-center">
-      <img width="22.5%" style="min-width:160px;min-height:160px;max-width:160px;" class="img-thumbnail rounded-circle me-2" src={data.image} crossorigin/>
-      <div class="w-100 ms-4">
-        <span class="text-secondary">ADMINISTERING  THIS COMMUNITY ...</span>
-        <h2 class="text-black m-0 p-0 w-100 d-flex align-items-center justify-content-between">
+      <img 
+        src={data.image} crossorigin
+        alt="Community logo"
+        width="22.5%" 
+        style="min-width:160px;min-height:160px;max-width:160px;" 
+        class="img-thumbnail rounded-4 me-2 mt-2" 
+        />
+      <div class="w-100 ms-4 text-start">
+        <span class="text-secondary fs-sm">ADMINISTERING  THIS COMMUNITY ...</span>
+        <br>
+        <h1 class="text-black m-0 p-0 w-100 d-flex align-items-center justify-content-between">
           {data.name}
           <span class="fs-5">
             <Badge size="sm">
               {data.state}
             </Badge>
           </span>
-        </h2>
-        <p class="fs-sm mt-1">
-          <b>{data.membersCount}</b> members
-          | <span class="fs-4"> 🎉 </span>
-          &nbsp; <b>{data.credentialsCount}</b> credentials issued !
-        </p>
-
-        <p class="">{@html data.description}</p>    
+        </h1>
+        <div class="mt-2">
+          <p class="fs-sm mt-1">
+            <b>{data.membersCount}</b> members
+            | <span class="fs-4"> 🎉 </span>
+            &nbsp; <b>{data.credentialsCount}</b> credentials issued !
+          </p>
+          <p>{@html data.description}</p>    
+        </div>
 
         <div class="d-flex justify-content-start">
           <p class="">
@@ -50,11 +58,16 @@
       <TabPane tabId="name" tab="General" class="text-start" active>
         <FormGroup>
           <Label>Name</Label>
-          <Input type="text" bind:value={data.name} />
+          <Input type="text"
+            bind:value={data.name} required
+            feedback="Name is required. Should have less than 128 characters."
+            invalid={!data.name.trim() || data.name.length > 128 }/>
         </FormGroup>
         <FormGroup>
           <Label>Brief description</Label>
-          <Input type="textarea" bind:value={data.description} />
+          <Input type="textarea" bind:value={data.description} required
+            feedback="Description is required. Should have less than 128 characters."
+            invalid={!data.description.trim() || data.description.length > 128 }/>
         </FormGroup>
 
         <FormGroup>
@@ -88,9 +101,13 @@
         {/each}
     </div> -->
     <div class="text-center mt-4 mb-5">
-      <Button color="primary" class="rounded-5 px-3"
-        on:click={updateIt}>
-        Update data !
+      <Button color="primary" class="rounded-5 px-3" loading=true
+        on:click={handleSubmit}>
+          {#if loading }
+           Updating...
+        {:else}
+            Update Data
+        {/if}
       </Button>
     </div>
   </Section>
@@ -99,17 +116,15 @@
 
 <script>
   import { onMount } from "svelte";
-  import { Button, Badge } from "sveltestrap";
+  import { Button, Badge, Spinner} from "sveltestrap";
   import { TabContent, TabPane } from 'sveltestrap';  
   import { FormGroup, Label, Input } from "sveltestrap";
-  // import { Modal, ModalBody, ModalFooter, ModalHeader } from 'sveltestrap';
-  import Filler from "@components/Filler.svelte";
   import Section from "@components/Section.svelte";
   import DetailPageContent from "@components/DetailPageContent.svelte";
   import DetailPageHeader from "@components/DetailPageHeader.svelte";
-  import MemberItem from "@components/MemberItem.svelte";
-  import MasterPlanItem from "@components/MasterPlanItem.svelte";
-  import MasterPlanAddButton from "@components/MasterPlanAddButton.svelte";
+  import MemberItem from "@components/lists/MemberItem.svelte";
+  import MasterPlanItem from "@components/lists/MasterPlanItem.svelte";
+  import MasterPlanAddButton from "@components/buttons/MasterPlanAddButton.svelte";
   import { getCurrentUser, isFirstTimeUser } from "$lib/models/current-user";
   import { prettyDate } from "@utilities/datetime";
   import { AppStatus } from "@utilities/app-status";
@@ -119,6 +134,7 @@
 
   let user = getCurrentUser();
   let openDlg = false;
+  let loading = false;
 
   let stateColors = {
     "APPLIED": "warning",
@@ -140,16 +156,18 @@
   }
 
   function dataIsOk(data) {
-    return (data.name.trim() && data.description.trim());
+    return (data.name.trim() && data.description.trim() && data.description.length <=128 && data.name.length <=128);
   }
 
-  async function updateIt() {
+  async function handleSubmit() {
     if (!dataIsOk(data)) {
       AppStatus.error("All fields are required !")
       return;
     }
+    loading = true;
     const updated = await updateCommunity(data);
     if (updated) 
       history.back();
+    loading = false;
   }
 </script>

@@ -38,7 +38,6 @@
 <script>
   import { goto } from "$app/navigation";
   import { Icon, Badge, Button, Card, CardBody, CardHeader } from "sveltestrap";
-  import FullviewButton from "../FullviewButton.svelte";
   import { prettyDate } from "@utilities/datetime";
 
   export let uid, data;

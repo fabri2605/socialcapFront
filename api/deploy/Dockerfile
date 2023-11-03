@@ -1,7 +1,7 @@
 # For more information, please refer to https://aka.ms/vscode-docker-python
 FROM ubuntu:22.04
 
-RUN apt update
+RUN apt-get update
 RUN apt -y upgrade 
 RUN apt install -y curl
 
@@ -15,6 +15,8 @@ COPY ./ /api
 
 RUN cd /api
 RUN npm i 
+RUN npm i @socialcap/contracts
+RUN npx prisma generate
 RUN npm run build
 #RUN npx prisma migrate dev
 

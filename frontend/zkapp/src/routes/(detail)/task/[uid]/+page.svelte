@@ -1,3 +1,5 @@
+
+
 <DetailPageHeader items={[
     { href: "/", text: 'Home'},
     { href: "/", text: 'Submit your vote'}
@@ -7,25 +9,32 @@
   <Section class="section-md text-start">
 
     <div class="d-flex align-items-center justify-content-start">
-      <img src={data.plan.image} alt="Badge" width="22.5%" crossorigin/>
+    <div class="p-4 d-flex justify-content-start border-sc border border-1 border-gray rounded-4 bg-white">
+      <!-- <img src={data.image} alt="Badge" width="22.5%" crossorigin/> -->
+      <div class="w-25">
+        <img src={data.plan.image} alt="Badge" width="100%" crossorigin/>
+      </div>
 
       <div class="ps-4 w-100">
         <div class="header">
           <p class="p-0 m-0 mb-1">Claim: {claimIdn}</p>
           <h3 class="text-black d-flex justify-content-between align-items-center">
-            <span>{data.plan.name}</span>
-            <span class="fs-5">
-              <StateBadge state={data.state} />
+            <span>{data.type}</span>
+            <span class="fs-3">
+              <Badge color="warning">{data.state}</Badge>
             </span>
           </h3>
-          <p class="fs-sm text-secondary lh-lg">
-            {@html data.plan.description}
-            <br>
-            <b class="">{data.community.name}</b>
-          </p>
-          <p class="fs-6">
-            Claimed by <b class="d-inline-block text-bg-gray py-1 px-2 rounded-2 fs-4">{data.claim.alias}</b>
-          </p>
+          <div class="text-start">
+
+            <p class="fs-sm text-secondary lh-lg">
+              {@html data.description}
+              <br>
+              <b class="">{data.community}</b>
+            </p>
+            <p class="fs-6">
+              Claimed by <b class="d-inline-block py-1 border border-2 border-black px-2 rounded-2 fs-6">{data.alias}</b>
+            </p>
+          </div>
         </div>
   
         <div class="d-flex justify-content-start w-100">
@@ -48,79 +57,141 @@
       </div>
     </div>
 
-    <hr>
+    
   </Section>
 
-  <Section class="section-sm text-start">
+  <Section class="section-sm m-auto text-center rounded-4 bg-white mt-3 d-flex justify-content-center">
     <Form>
-      <div class="d-flex align-items-center justify-content-start">
-        <FormGroup class="mt-3 me-2 w-75">
-          <Label for="alias" class="fw-bold fs-6 text-secondary ps-1 mb-1">Your vote</Label>
-          <Input 
+      <div class="rounded-4">
+        <FormGroup class="p-4 text-center d-flex flex-column">
+          <Label for="alias"class="fs-1 text-bold text-black ps-1 ">Your vote</Label>
+          <FormText color="ps-1 fs-2 text-black mb-4">
+            Please submit your vote before ({data.dueUTC}).
+          </FormText>
+          <FormGroup>
+            
+            <div class=" d-flex justify-content-between gap-3 w-50">
+              <div class="vote-container">
+                <input type="radio" class="btn-check" name="vote" id="positive" autocomplete="off">
+                  <label class="btn bg-light p-5 d-flex flex-column text-primary" for="positive"><Icon name="plus-circle-fill" class='fs-1 text-success' /> <span>Positive</span></label>    
+              </div>
+              <div class="vote-container">
+              <input type="radio" class="btn-check" name="vote" id="negative" autocomplete="off">
+              <label class="btn bg-light p-5 d-flex flex-column text-primary" for="negative">
+                <Icon name="dash-circle-fill" class='fs-1 text-danger' /> Negative
+              </label>
+              </div>
+              <input
+              bind:value={vote} 
+               type="radio" class="btn-check" name="vote" id="abstain" autocomplete="off">
+              <label class="btn bg-light p-5 d-flex flex-column text-primary" for="abstain">
+                <Icon name="slash-circle-fill" class='fs-1 text-warning' /> Abstain
+              </label>
+
+            <!-- <Input
+              class="radio-button"
+              id="r1"
+              type="radio"
+              bind:group={radioGroup}
+              value="positive"
+              label="Positive"
+            />
+            <div class="ratio-btn">
+              <label for="Negative" class="radio-btn-label">Negative</label>
+
+            </div> -->
+            </div>
+
+
+
+            
+          </FormGroup>
+
+          <!-- <Input 
             bind:value={vote} 
             type="select" name="vote" id="vote" 
-            class="rounded-1 p-2 mb-1" style="width:12rem;">
+            class="rounded-2 p-3 mb-1 w-100">
             <option value="Y">Positive</option>
             <option value="N">Negative</option>
             <option value="A">Abstain</option>
-            <option value="ND">Will not do</option>
-          </Input>          
+           <option value="ND">Will not do</option>
+          </Input>            -->
+
+          
         </FormGroup>
         {#if vote}
           <SubmitButton
             on:click={() => voteNow()}
             color="primary" label="Submit it !" />
-        {/if}
+        {/if} -->
       </div>
       <p>
         Please submit your vote before <b>{prettyDate(data.dueUTC)}</b>.
       </p>
 
       {#if vote==="N" || vote==="A" || vote==="ND"}
-      <FormGroup class="mt-3">
-        <Label for="alias" class="fw-bold fs-6 text-secondary ps-1 mb-1">Why ?</Label>
-        <Input 
-          bind:value={data.reason} 
-          type="select" name="vote" id="vote" 
-          class="rounded-1 p-2 mb-1">
-          <option value="N1">Does not match requirements</option>
-          <option value="N2">Not enough evidence</option>
-          <option value="A1">Conflict of interests</option>
-          <option value="A2">Can not evaluate</option>
-          <option value="A2">Not my area</option>
-          <option value="A4">Not enough time</option>
-          <option value="A5">Not enough rewards</option>
-          <option value="A6">Other</option>
-        </Input>          
-        <FormText color="muted ps-1">
-          Please select the reason why you are voting in this way.
-        </FormText>
-      </FormGroup>
+      <div class="d-flex justify-content-center rounded-4">
+        <FormGroup class="d-flex flex-column justify-content-center w-100">
+          <Input 
+            bind:value={  data.reason} 
+            type="select" name="vote" id="vote"
+            class="rounded-2 p-3 mb-1 w-100">
+            <option value="" class="text-danger" disabled>Please choose a reason</option>
+            <option value="N1">Does not match requirements</option>
+            <option value="N2">Not enough evidence</option>
+            <option value="A1">Conflict of interests</option>
+            <option value="A2">Can not evaluate</option>
+            <option value="A2">Not my area</option>
+            <option value="A4">Not enough time</option>
+            <option value="A5">Not enough rewards</option>
+            <option value="A6">Other</option>
+          </Input>          
+        </FormGroup>
+      </div>
       {/if}
     </Form>
   </Section>
 
-  <Section class="section-sm text-start">
-      <p class="mt-4 mb-2 pt-2 hl-base">
-        <b>Here you can find the evidence provided by the claimer</b>. 
-        This evidence will be deleted as soon as the claim has been approved.
-      </p>
-      {#each data.claim.evidenceData as field}
-        <div class="d-flex justify-content-start align-items-start border-top mt-0 pt-3 pb-0">
+  <Section class="section-sm mb-4 pb-4">
+      <div class="mt-4 mb-4 pt-2 hl-base">
+        <h2>
+
+          Here you can find the evidence provided by the claimer. 
+        </h2>
+        <p>
+
+          This evidence will be deleted as soon as the claim has been approved.
+        </p>
+      </div>
+      {#each data.evidence as field}
+        <div class="d-flex justify-content-center align-items-center border-bottom m-auto pt-3 pb-0 w-50 text-center">
           <p class="ps-0 py-0 fw-bold fs-sm w-25 text-start">{field.label}</p>
           <p class="px-2 py-0 fs-6 w-75 text-start">{field.value}</p>
         </div>
       {/each}
 
-      <div class="mt-5 mb-5 px-2 d-flex justify-content-center align-items-center">
+      <div class="position-fixed bottom-0 end-0 bg-white w-100 p-4">
+
+      <div class=" d-flex justify-content-end align-items-end">
           <!-- <SubmitButton 
             on:click={() => saveDraft()}
             color="secondary" label="Save draft ..."/>
           &nbsp;&nbsp; -->
-          <SubmitButton             
+
+          
+
+          {#if vote}
+       
+         <SubmitButton             
             on:click={() => voteNow()}
-            color="primary" label="Submit your vote !" />
+            color="primary" label="Submit your vote" />
+            {:else}
+            <SubmitButton             
+            on:click={() => voteNow()}
+            class="bg-black" label="Submit your vote" />
+            {/if}
       </div>
+    </div>
   </Section>        
 
   <!-- <Filler n=40/> -->
@@ -144,7 +215,7 @@
         </p>
       {/if}
       {#if $deployedVoting$}
-        <p class="p-1">Snarky SocialcapContract is ready !</p>
+        <p class="p-1">Snarky VotingContract is ready !</p>
       {/if}
 
       {#if $deployedVoting$ && !$auroWallet$?.connected}
@@ -179,11 +250,14 @@
     </ModalBody>
 
     <ModalFooter class="text-center">
-      {#if canPayNow && paymentStatus===0}
+      {#if canPayNow && paymentStatus === 0}
         <Button color="primary" on:click={payNow}>Send it now !</Button>
       {/if}
-      {#if paymentStatus!==2}
+      {#if paymentStatus !== 2}
         <Button color="secondary" on:click={toggle}>Cancel</Button>
+      {/if}
+      {#if paymentStatus === 2}
+        <Button color="primary" on:click={exitVoting}>Done !</Button>
       {/if}
     </ModalFooter>
   </Modal>
@@ -211,23 +285,17 @@
   import { Modal, ModalBody,ModalFooter,ModalHeader } from 'sveltestrap';
   import DetailPageHeader from "@components/DetailPageHeader.svelte";
   import DetailPageContent from "@components/DetailPageContent.svelte";
-  import Filler from "@components/Filler.svelte";
-  import Sidenote from "@components/Sidenote.svelte";
   import Section from "@components/Section.svelte";
-  import CloseButton from "@components/CloseButton.svelte";
-  import SubmitButton from "@components/SubmitButton.svelte";
-  import StateBadge from "@components/StateBadge.svelte";
+  import CloseButton from "@components/buttons/CloseButton.svelte";
+  import SubmitButton from "@components/buttons/SubmitButton.svelte";
+  import StateBadge from "@components/badges/StateBadge.svelte";
   import { getCurrentUser, isFirstTimeUser } from "$lib/models/current-user";
   import { prettyDate } from "@utilities/datetime";
-  import { submitTask } from "@apis/mutations";
-  import { getNullifier } from "@apis/queries";
-  import { NullifierProxy } from "@socialcap/contracts";
-
 
   import { 
-    MINAExplorer, connectWallet, payForVoting,
+    MINAExplorer, connectWallet, submitVote,
     auroWallet$, deployedVoting$, loadVotingZkapp 
-  } from "$lib/contract/helpers";
+  } from "$lib/contracts/helpers";
 
   export let data; // this is the data for this Task
 
@@ -291,23 +359,27 @@
     paymentMessage = "Starting voting transaction ..."; await tick();
     paymentStatus = 1; // started
 
-    let result = await payForVoting(data, data.vote);
+    // we can now submit the Vote and continue the voting process
+    let result = await submitVote(data, data.vote);
 
     if (!result.success) {
-      paymentMessage= "Voting was not done: "+result.error; await tick();
+      paymentMessage= "Voting was not done: "+result.error; 
+      await tick();
       return;
     }
     pendingTxn = result.pendingTxn;
     paymentStatus = 2; // sent ;
     await tick();
-
-    // we can now submit the Vote and continue the voting process
-    let params = data.task;
-    params.extras = {
-      transaction: JSON.stringify(pendingTxn)
-    };
-    let updated = await submitTask(params);
-    if (updated) 
-      history.back();
+    // history.back();
   }
+
+  function exitVoting() {
+    toggle(); // close dialog
+    history.back();
+  }
+
 </script>
+
+
+
+

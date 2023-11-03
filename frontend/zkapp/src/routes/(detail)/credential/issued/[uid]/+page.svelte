@@ -40,6 +40,59 @@
         </Badge> 
       </div>
       
+    </Section>
+  <Section class="section-sm d-flex justify-content-center">
+
+    <div class="bg-white header border border-1 rounded-3 p-4 border-sc shadow-sc w-auto text-center align-center d-flex flex-column">
+      <div class="d-flex border p-4 rounded-2 border-2 border-gray gap-4">
+        <!-- <img src={data.image} height="240px" crossorigin/> -->
+        <img src="/img/vars/BadgeGenerico.png" height="auto" crossorigin/>
+        <div class="d-flex flex-column text-start">
+          
+          <span class="fw-bold fs-sm">{data.issuedBy}</span>
+          <h4 class="text-black mt-2">
+            <Badge class='border-2 border-primary border bg-white text-primary'>{data.type}</Badge>
+          </h4>
+          <p class="fs-6 text-secondary lh-base">{@html data.description}</p>
+        </div>
+      </div>
+        
+        <div class="mt-4 d-flex flex-column">
+          <h1 class="d-inline-block">{data.alias}</h1>
+          <!-- <span>
+            | {data.stars} Stars 
+          </span> -->
+          
+          <div class="d-flex gap-1 justify-content-center">
+
+            {#each Array(5) as _, index (index)}
+            <i class="star bi bi-star-fill"> </i>
+            {/each}
+          </div>
+          
+          
+        </div>
+        
+        <div class="mt-0 lh-lg d-flex justify-content-center gap-4">
+          
+          <div>
+
+            <p class=' mt-4 m-0 '>Issued</p>
+            <Badge class='text-black bg-white border border-2 border-gray'>
+              {data.issuedUTC}
+            </Badge> 
+          </div>
+          
+          <div>
+
+            <p class=' mt-4 m-0'>Valid</p> 
+
+            <Badge class='text-black bg-white border border-2 border-gray'>
+              {data.expiresUTC ? data.expiresUTC : "Forever"}
+            </Badge> 
+          </div>
+        </div>
+        
       <div class="mt-4">
         <p class="m-0 p-0 lh-1 mt-2 fs-sm"><a href={"#"}>Link to transaction/metadata</a></p>
         <p class="mt-2 fs-xs">
@@ -96,7 +149,7 @@
 
 <script>
   import { onMount } from "svelte";
-  import { Badge, Button } from 'sveltestrap';
+  import { Badge, Button, Alert } from 'sveltestrap';
   import Filler from "$lib/components/Filler.svelte";
   import Sidenote from "@components/Sidenote.svelte";
   import Section from "@components/Section.svelte";

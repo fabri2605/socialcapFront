@@ -1,6 +1,5 @@
 
 import { error } from '@sveltejs/kit';
-import { getClaimables } from "@apis/clients";
 import { getCommunity } from '@apis/queries';
 
 /** @type {import('./$types').PageLoad} */

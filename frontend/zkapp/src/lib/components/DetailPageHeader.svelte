@@ -2,7 +2,7 @@
 >
 
   <NavbarBrand class="w-auto ms-4" href="/">
-    <img alt="Socialcap logo" src="/img/socialcap/socialcap-icon.svg" />
+    <img alt="Socialcap logo" src="/img/socialcap/socialcap-logo-blue.svg" />
   </NavbarBrand>
   
   <NavbarToggler on:click={() => (isOpen = !isOpen)} />
@@ -45,7 +45,7 @@
   import { Breadcrumb, BreadcrumbItem } from "sveltestrap";
   import { Navbar, NavbarBrand, Nav, NavItem, Collapse, NavbarToggler } from 'sveltestrap';
   import { getCurrentUser } from "$lib/models/current-user";
-  import CloseButton from "./CloseButton.svelte";
+  import CloseButton from "./buttons/CloseButton.svelte";
   import Status from "./Status.svelte";
   
   export let items = []; // [{ href, text }]
