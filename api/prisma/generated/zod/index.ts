@@ -155,7 +155,7 @@ export const CommunitySchema = z.object({
   state: z.string().min(1).max(12),
   name: z.string().min(3).max(128),
   description: z.string().max(128).nullish(),
-  image: z.string().url().max(128).nullish(),
+  image: z.string().url().max(1024).nullish(),
   createdUTC: z.coerce.date(),
   updatedUTC: z.coerce.date(),
   approvedUTC: z.coerce.date().nullish(),

@@ -103,7 +103,7 @@ model Community {
   state       String /// @zod.string.min(1).max(12) 
   name        String /// @zod.string.min(3).max(128)
   description String? /// @zod.string.max(128)
-  image       String? /// @zod.string.url().max(128)
+  image       String? /// @zod.string.url().max(1024)
   createdUTC  DateTime  @default(now()) @map("created_utc")
   updatedUTC  DateTime  @default(now()) @map("updated_utc")
   approvedUTC DateTime? @map("approved_utc")
