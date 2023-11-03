@@ -29,7 +29,22 @@
 .mw-10 { max-width: 10rem;}
 .mw-12 { max-width: 12rem;}
 
-/* Fixes for some styling problems */
+/**
+* Fixes for some styling problems 
+*/
+
 /* form field borders had low contrast */
-:root { --bs-border-color: rgb(109, 95, 95); }
-.form-select { border: 1px solid var(--bs-border-color) !important; }
+:root { 
+  --bs-border-color: rgb(109, 95, 95); 
+}
+.form-select { 
+  border: 1px solid var(--bs-border-color) !important; 
+}
+
+/* Tabs are very big, redcue them */
+.nav {
+  --bs-nav-link-padding-x: 1rem;
+  --bs-nav-link-padding-y: 0.875rem;
+  --bs-nav-link-font-size: calc(1rem + 0.125vw);
+  --bs-nav-link-font-weight: 600;
+}
