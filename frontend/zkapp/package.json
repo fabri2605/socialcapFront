@@ -38,7 +38,7 @@
   },
   "dependencies": {
     "@mazito/zkapp-contracts-add": "^0.1.0",
-    "@socialcap/contracts": "^0.1.24",
+    "@socialcap/contracts": "^0.1.25",
     "@sveltejs/adapter-static": "^2.0.2",
     "axios": "^1.4.0",
     "snarkyjs": "^0.12.1",
