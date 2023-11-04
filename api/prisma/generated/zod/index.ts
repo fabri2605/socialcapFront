@@ -20,7 +20,7 @@ export const SessionScalarFieldEnumSchema = z.enum(['uid','otp','email','created
 
 export const PersonScalarFieldEnumSchema = z.enum(['uid','accountId','state','fullName','description','image','email','phone','telegram','preferences','createdUTC','updatedUTC','approvedUTC']);
 
-export const CommunityScalarFieldEnumSchema = z.enum(['uid','accountId','adminUid','state','name','description','image','createdUTC','updatedUTC','approvedUTC']);
+export const CommunityScalarFieldEnumSchema = z.enum(['uid','accountId','adminUid','state','name','description','image','createdUTC','updatedUTC','approvedUTC','xadmins']);
 
 export const MembersScalarFieldEnumSchema = z.enum(['uid','communityUid','personUid','role','createdUTC','approvedUTC']);
 
@@ -159,6 +159,7 @@ export const CommunitySchema = z.object({
   createdUTC: z.coerce.date(),
   updatedUTC: z.coerce.date(),
   approvedUTC: z.coerce.date().nullish(),
+  xadmins: z.string().nullish(),
 })
 
 export type Community = z.infer<typeof CommunitySchema>

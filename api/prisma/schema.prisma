@@ -107,6 +107,7 @@ model Community {
   createdUTC  DateTime  @default(now()) @map("created_utc")
   updatedUTC  DateTime  @default(now()) @map("updated_utc")
   approvedUTC DateTime? @map("approved_utc")
+  xadmins     String?   @default("") // coma separated list of extra admins Uids
 
   @@map("communities")
 }

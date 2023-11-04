@@ -13,7 +13,7 @@ merkleStorage.startup();
 
 const communities = [{
   uid: "70ed0f69af174c399b1958c01dc191c0",
-  adminUid: "ec3c6e254d0b42debd939d9a7bd7cacc",
+  adminUid: "ec3c6e254d0b42debd939d9a7bd7dddd",
   accountId: "",
   state: "INITIAL",
   name: "MINA Navigators",
@@ -22,6 +22,7 @@ const communities = [{
   createdUTC: "2023-07-27T01:52:16.003Z",
   updatedUTC: "2023-07-27T01:52:16.003Z",
   approvedUTC: null, 
+  xadmins: "ec3c6e254d0b42debd939d9a7bd70010,ec3c6e254d0b42debd939d9a7bd70011,ec3c6e254d0b42debd939d9a7bd70012"
  }
 ];
 
@@ -46,7 +47,7 @@ const members = [
     uid: "",
     communityUid: "70ed0f69af174c399b1958c01dc191c0",
     personUid: "ec3c6e254d0b42debd939d9a7bd70010",
-    role: "2",
+    role: "1",
     createdUTC: "2023-07-27T01:52:16.003Z",
     approvedUTC: "2023-07-27T01:52:16.003Z",
   },
@@ -54,7 +55,7 @@ const members = [
     uid: "",
     communityUid: "70ed0f69af174c399b1958c01dc191c0",
     personUid: "ec3c6e254d0b42debd939d9a7bd70011",
-    role: "2",
+    role: "1",
     createdUTC: "2023-07-27T01:52:16.003Z",
     approvedUTC: "2023-07-27T01:52:16.003Z",
   },
@@ -62,7 +63,7 @@ const members = [
     uid: "",
     communityUid: "70ed0f69af174c399b1958c01dc191c0",
     personUid: "ec3c6e254d0b42debd939d9a7bd70012",
-    role: "2",
+    role: "1",
     createdUTC: "2023-07-27T01:52:16.003Z",
     approvedUTC: "2023-07-27T01:52:16.003Z",
   },
@@ -121,14 +122,14 @@ const users = [
   {
     uid: "ec3c6e254d0b42debd939d9a7bd7cacc",
     email: "leomanzanal@gmail.com",
-    fullName: "Manza",
+    fullName: "Leandro Manzanal",
     state: "PENDING",
     accountId: "B62qixo7ZaNjibjRh3dhU1rNLVzNUqDtgwyUB6n9xxYFrHEHmfJXbBf",
   },
   {
     uid: "ec3c6e254d0b42debd939d9a7bd7dddd",
     email: "mazito.v2@gmail.com",
-    fullName: "Mario Zzzz",
+    fullName: "Mario Zito",
     state: "PENDING",
     accountId: "B62qrhGAwwXF8kXEbLAywaohFs7sk59h3Cid87D3Ah32UB3Dd3eWQ3S",
   },
@@ -205,29 +206,29 @@ const users = [
 ]
 
 const credentials = [
-  {
-    uid: "caaaaff63a48400a9ce57f3ad6960001",
-    // the MINA account where this credential "lives"
-    accountId: "B62x...01234", //
-    // this are the other related MINA account ids
-    applicantId: "B62qixo7ZaNjibjRh3dhU1rNLVzNUqDtgwyUB6n9xxYFrHEHmfJXbBf",
-    claimId: "B62qoNJskZVfQVwf7jQ2vohCV1TzBgzaeTs1sayYb1ZDq6weLwV5CXP",
-    // the source references (redundant by useful for querying)
-    applicantUid: "ec3c6e254d0b42debd939d9a7bd7cacc",
-    communityUid: "70ed0f69af174c399b1958c01dc191c0",
-    claimUid: "fc2f96d6214b4b5696bf3a00eed12215",
-    // type & description data
-    type: "Community Active Help",
-    description: "Rewarding those who helped others in a distingished form",
-    community: "My first DAO",
-    image: "https://fleek.ipfs.io/ipfs/bafybeig22bhtszvqbmenyekv7qb55hjqehriz6wmx7unsqygjieqxsc6dy",
-    alias: "Manza",
-    stars: 5,
-    revocable: false,
-    metadata: "{}",
-    issuedUTC: "2023-08-01T15:00:00.000Z",
-    expiresUTC: "2024-08-01T15:00:00.000Z",
-  }
+  // {
+  //   uid: "caaaaff63a48400a9ce57f3ad6960001",
+  //   // the MINA account where this credential "lives"
+  //   accountId: "B62x...01234", //
+  //   // this are the other related MINA account ids
+  //   applicantId: "B62qixo7ZaNjibjRh3dhU1rNLVzNUqDtgwyUB6n9xxYFrHEHmfJXbBf",
+  //   claimId: "B62qoNJskZVfQVwf7jQ2vohCV1TzBgzaeTs1sayYb1ZDq6weLwV5CXP",
+  //   // the source references (redundant by useful for querying)
+  //   applicantUid: "ec3c6e254d0b42debd939d9a7bd7cacc",
+  //   communityUid: "70ed0f69af174c399b1958c01dc191c0",
+  //   claimUid: "fc2f96d6214b4b5696bf3a00eed12215",
+  //   // type & description data
+  //   type: "Community Active Help",
+  //   description: "Rewarding those who helped others in a distingished form",
+  //   community: "My first DAO",
+  //   image: "https://fleek.ipfs.io/ipfs/bafybeig22bhtszvqbmenyekv7qb55hjqehriz6wmx7unsqygjieqxsc6dy",
+  //   alias: "Manza",
+  //   stars: 5,
+  //   revocable: false,
+  //   metadata: "{}",
+  //   issuedUTC: "2023-08-01T15:00:00.000Z",
+  //   expiresUTC: "2024-08-01T15:00:00.000Z",
+  // }
 ]
 
 const merkle_map_data = [
