@@ -29,18 +29,23 @@
             {/if}
             {#if joined}
               <p>
+                <!-- DISABLE NOW !
                 <Button 
                   on:click={toggleBecome}
                   outline color="primary" size="sm" class="rounded-5 px-3 py-1">
                   Become a validator
                 </Button>
-                &nbsp;
-                {#if user.uid === data.adminUid}
-                <a href={`/admined/${data.uid}`} class="text-dark text-decoration-none">
-                  <Button outline color="dark" size="sm" class="rounded-5 px-3 py-1">
-                    Admin it ...
-                  </Button>
-                </a>
+                &nbsp; 
+                -->
+                {#if user.uid === data.adminUid || data.xadmins.includes(user.uid)}
+                  <a class="text-dark text-decoration-none"
+                    href={'#'} 
+                    on:click={() => goto(`/admined/${data.uid}`)} 
+                    >
+                    <Button outline color="dark" size="sm" class="rounded-5 px-3 py-1">
+                      Admin it ...
+                    </Button>
+                  </a>
                 {/if}
               </p>
             {/if}
@@ -64,6 +69,7 @@
 
 <script>
     import { Badge, Modal, Button, Card, CardBody, CardHeader } from "sveltestrap";
+    import { goto } from "$app/navigation";
 
     export let uid = 0, data, joined = false, user;
 
