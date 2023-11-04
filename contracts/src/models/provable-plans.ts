@@ -81,7 +81,7 @@ class ProvablePlan extends Struct({
     //
     this.name = CircuitString.fromString(json.name || this.name || "");
     this.description = CircuitString.fromString(json.description || this.description || "");
-    this.image = CircuitString.fromString(json.image || this.image || "");
+    this.image = ""; // IGNORE This for now CircuitString.fromString(json.image || this.image || "");
     //
     this.evidenceHash = Field(json.evidenceHash || this.evidenceHash || 0);
     this.metadataHash = Field(json.metadataHash || this.metadataHash || 0);
