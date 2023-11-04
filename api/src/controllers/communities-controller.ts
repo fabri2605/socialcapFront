@@ -35,13 +35,32 @@ export async function getAdminedCommunity(params: any) {
     orderBy: { role: 'asc' }
   })
 
-  // members count
-  const membersCount = await prisma.members.count({
-    where: { AND: [
-      { communityUid: { equals: uid } },
-      { role: { in: ["1", "2", "3"] }}    
-    ]}  
+  const membersList = await prisma.members.findMany({
+    where: { communityUid: { equals: uid }},
+    orderBy: { role: 'asc' }
   })
+  const cuids  = membersList.map((t) => t.personUid);
+
+  const roles: any = {};
+  (membersList || []).forEach((t) => {
+    roles[t.personUid] = t.role;
+  })
+
+  let members = await prisma.person.findMany({
+    where: { uid: { in: cuids } },
+    orderBy: { fullName: 'asc' }
+  })
+  let allMembers = (members || []).map((t) => {
+    let p = t as any;
+    p['role'] = roles[t.uid]; // add the role !
+    return p;
+  })
+  const validators = allMembers.filter((t) => {
+    return t.role === 2 || t.role == 3;
+  }) 
+
+  // members count
+  const membersCount = allMembers.length;
 
   // credentials count
   const credentialsCount =  await prisma.credential.count({
@@ -54,7 +73,8 @@ export async function getAdminedCommunity(params: any) {
   })
 
   data.plans = plans || [];
-  data.proposed = proposed || [];
+  data.validators = validators || [];
+  data.members = allMembers || [];
   data.membersCount = membersCount || 0;
   data.credentialsCount = credentialsCount || 0;
   data.claimsCount = claimsCount || 0;
