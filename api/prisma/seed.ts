@@ -67,54 +67,54 @@ const members = [
     createdUTC: "2023-07-27T01:52:16.003Z",
     approvedUTC: "2023-07-27T01:52:16.003Z",
   },
-  {
-    uid: "",
-    communityUid: "70ed0f69af174c399b1958c01dc191c0",
-    personUid: "ec3c6e254d0b42debd939d9a7bd70013",
-    role: "2",
-    createdUTC: "2023-07-27T01:52:16.003Z",
-    approvedUTC: "2023-07-27T01:52:16.003Z",
-  },
-  {
-    uid: "",
-    communityUid: "70ed0f69af174c399b1958c01dc191c0",
-    personUid: "ec3c6e254d0b42debd939d9a7bd70014",
-    role: "2",
-    createdUTC: "2023-07-27T01:52:16.003Z",
-    approvedUTC: "2023-07-27T01:52:16.003Z",
-  },
-  {
-    uid: "",
-    communityUid: "70ed0f69af174c399b1958c01dc191c0",
-    personUid: "ec3c6e254d0b42debd939d9a7bd70015",
-    role: "2",
-    createdUTC: "2023-07-27T01:52:16.003Z",
-    approvedUTC: "2023-07-27T01:52:16.003Z",
-  },
-  {
-    uid: "",
-    communityUid: "70ed0f69af174c399b1958c01dc191c0",
-    personUid: "ec3c6e254d0b42debd939d9a7bd70016",
-    role: "2",
-    createdUTC: "2023-07-27T01:52:16.003Z",
-    approvedUTC: "2023-07-27T01:52:16.003Z",
-  },
-  {
-    uid: "",
-    communityUid: "70ed0f69af174c399b1958c01dc191c0",
-    personUid: "ec3c6e254d0b42debd939d9a7bd70017",
-    role: "3",
-    createdUTC: "2023-07-27T01:52:16.003Z",
-    approvedUTC: "2023-07-27T01:52:16.003Z",
-  },
-  {
-    uid: "",
-    communityUid: "70ed0f69af174c399b1958c01dc191c0",
-    personUid: "ec3c6e254d0b42debd939d9a7bd70018",
-    role: "3",
-    createdUTC: "2023-07-27T01:52:16.003Z",
-    approvedUTC: "2023-07-27T01:52:16.003Z",
-  },
+  // {
+  //   uid: "",
+  //   communityUid: "70ed0f69af174c399b1958c01dc191c0",
+  //   personUid: "ec3c6e254d0b42debd939d9a7bd70013",
+  //   role: "2",
+  //   createdUTC: "2023-07-27T01:52:16.003Z",
+  //   approvedUTC: "2023-07-27T01:52:16.003Z",
+  // },
+  // {
+  //   uid: "",
+  //   communityUid: "70ed0f69af174c399b1958c01dc191c0",
+  //   personUid: "ec3c6e254d0b42debd939d9a7bd70014",
+  //   role: "2",
+  //   createdUTC: "2023-07-27T01:52:16.003Z",
+  //   approvedUTC: "2023-07-27T01:52:16.003Z",
+  // },
+  // {
+  //   uid: "",
+  //   communityUid: "70ed0f69af174c399b1958c01dc191c0",
+  //   personUid: "ec3c6e254d0b42debd939d9a7bd70015",
+  //   role: "2",
+  //   createdUTC: "2023-07-27T01:52:16.003Z",
+  //   approvedUTC: "2023-07-27T01:52:16.003Z",
+  // },
+  // {
+  //   uid: "",
+  //   communityUid: "70ed0f69af174c399b1958c01dc191c0",
+  //   personUid: "ec3c6e254d0b42debd939d9a7bd70016",
+  //   role: "2",
+  //   createdUTC: "2023-07-27T01:52:16.003Z",
+  //   approvedUTC: "2023-07-27T01:52:16.003Z",
+  // },
+  // {
+  //   uid: "",
+  //   communityUid: "70ed0f69af174c399b1958c01dc191c0",
+  //   personUid: "ec3c6e254d0b42debd939d9a7bd70017",
+  //   role: "3",
+  //   createdUTC: "2023-07-27T01:52:16.003Z",
+  //   approvedUTC: "2023-07-27T01:52:16.003Z",
+  // },
+  // {
+  //   uid: "",
+  //   communityUid: "70ed0f69af174c399b1958c01dc191c0",
+  //   personUid: "ec3c6e254d0b42debd939d9a7bd70018",
+  //   role: "3",
+  //   createdUTC: "2023-07-27T01:52:16.003Z",
+  //   approvedUTC: "2023-07-27T01:52:16.003Z",
+  // },
 ]
 
 
@@ -154,58 +154,58 @@ const users = [
     state: "PENDING",
     accountId: "B62qrv52UvPq6m3VWszbSmF4i6bTzkFVymr769dVBGoTbUcEgkEUdjS",
   },
-  {
-    uid: "ec3c6e254d0b42debd939d9a7bd70013",
-    email: "mazito.v2+04@gmail.com",
-    fullName: "Test +04",
-    state: "PENDING",
-    accountId: "B62qnN5uL2D9KRCrriFB8pphJNX94FQP46a6NAvYqtJX7DH1vEq7DHy",
-  },
-  {
-    uid: "ec3c6e254d0b42debd939d9a7bd70014",
-    email: "mazito.v2+05@gmail.com",
-    fullName: "Test +05",
-    state: "PENDING",
-    accountId: "B62qmTfY9auDwpm4bjTV7jdzcmv9xTThAwK6j9f1B37vhchH96HFH5Z",
-  },
-  {
-    uid: "ec3c6e254d0b42debd939d9a7bd70015",
-    email: "mazito.v2+06@gmail.com",
-    fullName: "Test +06",
-    state: "PENDING",
-    accountId: "B62qmVuwdMgnTxpLPGd1kjcMTyof9XUcqAhQZ6TYaT3U6mrMNxkjQgY",
-  },
-  {
-    uid: "ec3c6e254d0b42debd939d9a7bd70016",
-    email: "mazito.v2+07@gmail.com",
-    fullName: "Test +07",
-    state: "PENDING",
-    accountId: "B62qqERvHPvDuMjQ9XZCjvAYEBus6AfWteihzq2zybBPZCmvTRvfhjG",
-  },
-  {
-    uid: "ec3c6e254d0b42debd939d9a7bd70017",
-    email: "mazito.v2+08@gmail.com",
-    fullName: "Test +08",
-    state: "PENDING",
-    accountId: "B62qpbqLB1pabZUu4oaDKFmv72DtHWnFxGK8aucNZHxS1cDmmsrrpVp",
-  },
-  {
-    uid: "ec3c6e254d0b42debd939d9a7bd70018",
-    email: "mazito.v2+09@gmail.com",
-    fullName: "Test +09",
-    state: "PENDING",
-    accountId: "B62qoZJnJWyAv2NngczJBAZgAaYLU6kjyj5poJc96QDbdqX1kZH6e9y",
-  },
-  {
-    uid: "ec3c6e254d0b42debd939d9a7bd70020",
-    email: "mazito.v2+20@gmail.com",
-    fullName: "First time user +20",
-    state: "PENDING",
-    accountId: "",
-  },
+  // {
+  //   uid: "ec3c6e254d0b42debd939d9a7bd70013",
+  //   email: "mazito.v2+04@gmail.com",
+  //   fullName: "Test +04",
+  //   state: "PENDING",
+  //   accountId: "B62qnN5uL2D9KRCrriFB8pphJNX94FQP46a6NAvYqtJX7DH1vEq7DHy",
+  // },
+  // {
+  //   uid: "ec3c6e254d0b42debd939d9a7bd70014",
+  //   email: "mazito.v2+05@gmail.com",
+  //   fullName: "Test +05",
+  //   state: "PENDING",
+  //   accountId: "B62qmTfY9auDwpm4bjTV7jdzcmv9xTThAwK6j9f1B37vhchH96HFH5Z",
+  // },
+  // {
+  //   uid: "ec3c6e254d0b42debd939d9a7bd70015",
+  //   email: "mazito.v2+06@gmail.com",
+  //   fullName: "Test +06",
+  //   state: "PENDING",
+  //   accountId: "B62qmVuwdMgnTxpLPGd1kjcMTyof9XUcqAhQZ6TYaT3U6mrMNxkjQgY",
+  // },
+  // {
+  //   uid: "ec3c6e254d0b42debd939d9a7bd70016",
+  //   email: "mazito.v2+07@gmail.com",
+  //   fullName: "Test +07",
+  //   state: "PENDING",
+  //   accountId: "B62qqERvHPvDuMjQ9XZCjvAYEBus6AfWteihzq2zybBPZCmvTRvfhjG",
+  // },
+  // {
+  //   uid: "ec3c6e254d0b42debd939d9a7bd70017",
+  //   email: "mazito.v2+08@gmail.com",
+  //   fullName: "Test +08",
+  //   state: "PENDING",
+  //   accountId: "B62qpbqLB1pabZUu4oaDKFmv72DtHWnFxGK8aucNZHxS1cDmmsrrpVp",
+  // },
+  // {
+  //   uid: "ec3c6e254d0b42debd939d9a7bd70018",
+  //   email: "mazito.v2+09@gmail.com",
+  //   fullName: "Test +09",
+  //   state: "PENDING",
+  //   accountId: "B62qoZJnJWyAv2NngczJBAZgAaYLU6kjyj5poJc96QDbdqX1kZH6e9y",
+  // },
+  // {
+  //   uid: "ec3c6e254d0b42debd939d9a7bd70020",
+  //   email: "mazito.v2+20@gmail.com",
+  //   fullName: "First time user +20",
+  //   state: "PENDING",
+  //   accountId: "",
+  // },
 ]
 
-const credentials = [
+//const credentials = [
   // {
   //   uid: "caaaaff63a48400a9ce57f3ad6960001",
   //   // the MINA account where this credential "lives"
@@ -229,7 +229,34 @@ const credentials = [
   //   issuedUTC: "2023-08-01T15:00:00.000Z",
   //   expiresUTC: "2024-08-01T15:00:00.000Z",
   // }
-]
+//]
+let strategyData = {"title":"","variant":"RandomAnonyomusValidators","selection":"ValidatorsSet","minValidators":3,"minVotes":3,"minPositives":2,"minAuditors":1,"auditFrequency":10};
+let evidenceData = [{"sid":"fullName","required":true,"label":"Full name","description":"Please include your full name (names and surnames)","type":"text","extras":{"max":240,"allowed":null,"options":null}},{"sid":"githubProfileLink","required":true,"label":"Your Github profile","description":"Add a link to your Github profile","type":"links","extras":{"max":0,"allowed":null,"options":null}},{"sid":"discordHandle","required":true,"label":"Your Discord handle","description":"Full discord handle, for example \"pepe2#0001\" ","type":"text","extras":{"max":120,"allowed":null,"options":null}},{"sid":"teammates","required":true,"label":"Your teammates","description":"Your teammates full names, separated by comas please. Input \"NA\" if not applicable.","type":"note","extras":{"max":600,"allowed":null,"options":null}},{"sid":"projectName","required":false,"label":"The project name","description":"","type":"text","extras":{"max":240,"allowed":null,"options":null}},{"sid":"projectDescription","required":false,"label":"Project description","description":"","type":"note","extras":{"max":2048,"allowed":null,"options":null}},{"sid":"projectArchitecture","required":false,"label":"Project Architecture","description":"","type":"note","extras":{"max":2048,"allowed":null,"options":null}},{"sid":"milestones","required":false,"label":"Milestones","description":"Some context","type":"note","extras":{"max":2048,"allowed":null,"options":null}},{"sid":"demoLink","required":false,"label":"Demo or video","description":"","type":"links","extras":{"max":0,"allowed":null,"options":null}},{"sid":"zkigniteParticipation","required":false,"label":"zkIgnite participation","description":"If you have been funded in zkIgnite cohort 1 or 2, you are eligible to apply ! Please indicate which cohort did you have funded.","type":"radio","extras":{"max":0,"allowed":null,"options":"Not a participant, Cohort 1, Cohort 2, Not funded"}},{"sid":"zkIgniteProjectName","required":true,"label":"Name of the funded project","description":"If you were funded, what is the name of the funded project ?","type":"text","extras":{"max":240,"allowed":null,"options":null}},{"sid":"","required":false,"label":"","description":"Thse are some additional remarks to be included as **free markdown text** anywhere in the form.","type":"remark","extras":{"max":0,"allowed":null,"options":null}}];
+
+const plans = [{
+  uid: "8a940b4b26404391ac416429a27df64c",
+  communityUid: "70ed0f69af174c399b1958c01dc191c0",
+  state: 1,
+  name: "MINA Navigators Hackaton", 
+  alias: "",
+  description: "MINA Navigators Hackaton",
+  image: "https://raw.githubusercontent.com/Identicon-Dao/socialcap/mina-navigators-program/assets/mina-navigators/MINA-Navigators-community-logo.jpeg",
+  template: "",
+  evidence: JSON.stringify(evidenceData),
+  strategy: JSON.stringify(strategyData),
+  createdUTC : "2023-11-01T15:54:13.000Z",
+  updatedUTC: "2023-11-01T15:54:13.000Z",
+  fee: 0,
+  rewardsShare: 70,
+  communityShare: 20,
+  protocolShare: 10,
+  total: 0,
+  available: 500,
+  expiration: 365,
+  revocable: false,
+  startsUTC: "2023-10-10T00:00:00.000Z",
+  endsUTC: "2023-11-10T00:00:00.000Z",
+}]
 
 const merkle_map_data = [
   {
@@ -373,15 +400,18 @@ async function main() {
     console.log("Updated entity", mmm);
   }
 
-  // Add credentials
-  for (let j=0; j < credentials.length; j++) {
-    const crd = credentials[j];
-    let crdp = await prisma.credential.upsert({
+  // Add Plans
+  for (let j=0; j < plans.length; j++) {
+    const crd = plans[j];
+    let crdp = await prisma.plan.upsert({
       where: { uid: crd.uid },
       update: {},
       create: crd
     });
     console.log("Inserted ", crdp);
+
+    let mmm = await updateEntity("plan", crdp.uid, crdp);
+    console.log("Updated entity", mmm);
   }
 }
 
