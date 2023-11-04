@@ -84,6 +84,7 @@
   } from 'sveltestrap';
   import Section from '@components/Section.svelte';
   import { signUp } from "@apis/mutations";
+  import { goto } from '$app/navigation';
 
   export let data = { 
     email: "", 
