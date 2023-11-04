@@ -184,7 +184,7 @@
             This is the set of evidence that the applicant 
             will be required to fill to sustain his/her claim.
           </p>
-          <MasterPlanEvidence bind:evidence={data.evidence} />
+          <MasterPlanEvidence bind:items={data.evidence} />
         </Section>
       </TabPane>
 
