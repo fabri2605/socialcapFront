@@ -22,7 +22,7 @@ export async function getAdminedCommunity(params: any) {
   let data = await getEntity("community", uid);
 
   // check if user is the Admin
-  if (!(data.adminUid === params.user.uid)) 
+  if (!(data.adminUid === params.user.uid || data.xadmins.includes(params.user.uid))) 
     raiseError.ForbiddenError("Not the Admin of this community !");
 
   const plans = await prisma.plan.findMany({
