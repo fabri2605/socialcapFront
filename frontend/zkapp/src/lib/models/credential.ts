@@ -1,5 +1,5 @@
 import type { MasterPlan } from "./master-plan";
-import type { Claim } from "./claim";
+import type { Claim } from "./#claim";
 
 export { CapCredential, aCredentialMockup } ;
 

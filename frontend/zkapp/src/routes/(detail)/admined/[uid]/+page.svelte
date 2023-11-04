@@ -4,7 +4,7 @@
 ]}/>
 
 <DetailPageContent>
-  <Section class="section-md pb-4">
+  <Section class="section-lg pb-4">
     <div class="d-flex justify-content-start align-items-center">
       <img 
         src={data.image} crossorigin
@@ -52,10 +52,10 @@
     <hr/>
   </Section>
   
-  <Section class="section-md">
+  <Section class="section-lg">
     <TabContent>
       <span style="width:1rem;">&nbsp;</span>
-      <TabPane tabId="name" tab="General" class="text-start" active>
+      <TabPane tabId="name" tab="General" class="text-start" no-active>
         <FormGroup>
           <Label>Name</Label>
           <Input type="text"
@@ -85,11 +85,44 @@
           bind:plans={data.plans}/>
       </TabPane>
 
-      <TabPane tabId="promotions" tab="Proposed">
-        {#each data.proposed as p}
-          <MemberItem p={p} />
+      <TabPane tabId="promotions" tab="Members">
+        {#each data.members as p}
+          <MemberItem 
+            p={p} 
+            admin={data.adminUid}
+            xadmins={data.xadmins}/>
         {/each}
       </TabPane>
+
+      <TabPane tabId="validators" tab="Validators">
+        {#each data.validators as p}
+          <MemberItem 
+            p={p} 
+            admin={data.adminUid}
+            xadmins={data.xadmins}/>
+        {/each}
+      </TabPane>
+
+      <TabPane tabId="admins" tab="Admins" active>
+        <!-- {#each (data.xadmins || []) as xadmin}
+          <p>{xadmin}</p>
+        {/each} -->
+        {#if user.uid == data.adminUid}
+          <div class="mx-5">
+            <Input 
+              type="textarea"
+              rows={3}
+              class="w-100"
+              bind:value={data.xadmins}
+             />
+          </div>
+        {:else}
+          <p class="fs-md p-3 px-5 text-start">
+            Only the Community owner can add or remove administrators.
+          </p>
+        {/if}
+      </TabPane>
+
     </TabContent>
 
     <!-- <p class="mt-4">
@@ -142,8 +175,8 @@
     "DENIED": "danger"
   }
 
-  onMount(() => {
-    user = getCurrentUser();
+  onMount(async () => {
+    user = await getCurrentUser();
   })
 
   const toggle = () => {

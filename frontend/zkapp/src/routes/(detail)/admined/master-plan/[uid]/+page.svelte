@@ -279,6 +279,17 @@
           </div>  
         </Section>
       </TabPane>
+
+      <TabPane tabId="rawdata" tab="Raw!" style="width:100%">
+        <Section class="section-md ms-4 text-start">
+          <h4 class="mb-1 ms-3">Edit as raw data</h4>
+              <textarea
+                type="textare" rows={40}
+                class="ms-3 lg-base text-secondary fs-sm w-100"
+                style="white-space: pre-wrap;width:100%;"
+                bind:value={rawDataJSON}></textarea>
+        </Section>
+      </TabPane>      
     </TabContent>
   </Section>
 
@@ -318,7 +329,7 @@
 
   let user = getCurrentUser();
   let openDlg = false;
- let loading = false;
+  let loading = false;
   onMount(() => {
     user = getCurrentUser();
   })
@@ -326,6 +337,8 @@
   const toggle = () => {
     openDlg = !openDlg;
   };
+
+  $: rawDataJSON = JSON.stringify(data, null, 4);
 
   function changeValidatorState(p) {
     //alert("clicked p "+p.uid)
@@ -346,7 +359,6 @@
     loading = false;
     if (updated) 
       history.back();
- 
   }
 
   // Some style helpers

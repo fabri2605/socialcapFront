@@ -48,3 +48,6 @@
   --bs-nav-link-font-size: calc(1rem + 0.125vw);
   --bs-nav-link-font-weight: 600;
 }
+.navbar {
+  --bs-navbar-brand-padding-y: 1rem;/**1.8125rem;*/
+}

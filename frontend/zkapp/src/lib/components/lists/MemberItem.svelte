@@ -1,11 +1,13 @@
 
 <div class="row fs-sm mx-0 mb-2 ps-4 py-1 border-bottom border-1">
-  <span class="col-7">
-    <h6>{p.fullName}</h6>
+  <span class="col-7 text-start">
+    <b class="fs-nm">{p.fullName}</b>
+    <br><span class="fs-sm">{p.uid}</span>
   </span>
-  <span class="col-3">
-    <Badge color={stateColors[p.state]} class="py-2">{p.state}</Badge>
-    <Badge pill color="secondary" class="px-2 py-2">{p.appliedUTC}</Badge>
+  <span class="col-3 text-start">
+    <Badge pill color="light" class="px-2 py-1 fs-xs">
+      {allRoles(p.role)}
+    </Badge>
   </span>
   <span class="col-2">
     {#if p.state === 'APPLIED'}
@@ -21,12 +23,24 @@
 <script>
   import { Badge, Button } from "sveltestrap";
 
-  export let p; 
+  export let p, admin, xadmins; 
 
   let stateColors = {
     "APPLIED": "warning",
     "ACCEPTED": "success",
     "DENIED": "danger"
+  }
+
+  let roleText = {
+    "1": "Member",
+    "2": "Validator",
+    "3": "Judge"
+  }
+
+  function allRoles(role) {
+    let s = roleText[role] 
+      + ((p.uid === admin || xadmins.includes(p.uid)) ? ", Admin" : "");
+    return s
   }
 
   function changeState(p) {

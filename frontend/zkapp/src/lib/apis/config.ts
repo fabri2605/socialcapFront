@@ -6,6 +6,7 @@ export const API_CONFIG = {
   host: "localhost",
   port: 3080,
 }
+
 export const _API_CONFIG = {
   protocol: "https",
   host: "api.socialcap.app",
