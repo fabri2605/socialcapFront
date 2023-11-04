@@ -8,7 +8,8 @@ export {
   getMyClaimables, getMyClaims, getClaim,
   getTask, getMyTasks,
   getCredential, getMyCredentials,
-  getNullifier
+  getNullifier,
+  getMyHome
 }
 
 
@@ -96,4 +97,10 @@ async function getNullifier(params: any): Promise<any> {
   let rs = await apiClient.query("get_nullifier", params);
   if (rs.error) return null;
   return rs.data;
+}
+
+
+async function getMyHome(params: any): Promise<any[]> {
+  const rs = await apiClient.query("get_my_home", params);
+  return (rs.error) ? rs : rs.data ;
 }

@@ -9,6 +9,7 @@ import { getMyCommunities, getAllCommunities } from "@apis/queries";
 import { getMyClaimables, getMyClaims } from '@apis/queries';
 import { getTask, getMyTasks } from '@apis/queries';
 import { getMyCredentials } from '@apis/queries';
+import { getMyHome } from '@apis/queries';
 
 /** @type {import('./$types').PageLoad} */
 export async function load({ params, route, url }) {
@@ -29,18 +30,13 @@ export async function load({ params, route, url }) {
       user = await getCurrentUser();
     }  
 
-    let rs = { 
-      user: user,
-      isAuthenticated: isAuthenticated,
-      claimables: await getMyClaimables(),
-      credentials: await getMyCredentials(), 
-      claimed: await getMyClaims(),
-      joined: await getMyCommunities(),
-      joinables: await getAllCommunities({notJoined: true}),
-      allCommunities: await getAllCommunities(),
-      assigned: ((await getMyTasks()) || []).filter((t) => t.state=== ASSIGNED),
-      stats: aStats
-    }; 
+    let rs =  await getMyHome();
+    //console.log("getmyHome= ", JSON.stringify(home, null, 4));
+    
+    rs.user = user;
+    rs.isAuthenticated = isAuthenticated;
+    rs.assigned = (rs.assigned || []).filter((t) => t.state=== ASSIGNED),
+    rs.stats = aStats;
     console.log("main page data=", rs);
 
     return rs;
