@@ -6,5 +6,8 @@ cp prod-config.ts ./src/lib/apis/config.ts
 # first build it
 npm run build
 
-# deploy to QA
-rsync -vh -az ./build/ socialcap:~/ui
+# deploy to Socialcap server
+rsync -vh -az ./build/ socialcap:~/ui/build
+rsync -vh -az ./docker/ socialcap:~/ui/docker
+scp ./package.json socialcap:~/ui/package.json
+

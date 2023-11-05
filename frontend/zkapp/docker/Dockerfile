@@ -14,7 +14,7 @@ WORKDIR /ui
 COPY ./ /ui
 
 RUN cd /ui
-RUN npm i 
+#RUN npm i # not necessary it seems ?
 
-CMD npm run dev
+CMD node build/index.js
 
