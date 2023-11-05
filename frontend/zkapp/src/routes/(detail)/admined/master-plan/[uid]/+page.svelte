@@ -5,7 +5,7 @@
 ]}/>
 
 <DetailPageContent>
-  <Section class="section-md pb-4 d-flex align-items-center justify-content-start">
+  <Section class="section-lg p-4 d-flex align-items-center justify-content-start border-0 shadow">
     <img 
       src={data.image} crossorigin
       alt="Credential badge" 
@@ -21,11 +21,10 @@
       {ALL_STATES[data.state]}
     </div>
   </Section>
-  <hr/>
 
-  <Section class="section-md">
+  <Section class="section-lg mt-4">
     <TabContent vertical pills>
-      <TabPane tabId="name" tab="Description" active>
+      <TabPane tabId="name" tab="Description" active  class="p-3 mt-0">
         <Section class="section-fluid ms-4">
           <StdFormField 
             label="Name" 
@@ -62,7 +61,7 @@
         </Section>
       </TabPane>
 
-      <TabPane tabId="options" tab="Options">
+      <TabPane tabId="options" tab="Options" class="p-3 mt-0">
         <Section class="section-fluid ms-4">
           <div class="row">
             <div class="col-4">
@@ -101,20 +100,20 @@
           <div class="row">
             <div class="col-4">
               <StdFormField 
-              label="Starts on" 
-              type="date" 
-              help="Date when claiming of this credential can start"
-              class=""
-              bind:value={data.startsUTC} 
+                label="Starts on" 
+                type="date" 
+                help="Date when claiming of this credential can start"
+                class=""
+                bind:value={data.startsUTC} 
               />
             </div>
             <div class="col-4">
               <StdFormField 
-              label="Ends on" 
-              type="date" 
-              help="Date when claiming of this credential ends"
-              class=""
-              bind:value={data.endsUTC} 
+                label="Ends on" 
+                type="date" 
+                help="Date when claiming of this credential ends"
+                class=""
+                bind:value={data.endsUTC} 
               />
             </div>
             <div class="col-4">
@@ -130,13 +129,13 @@
         </Section>  
       </TabPane>
 
-      <TabPane tabId="fees" tab="Fees & Shares">
+      <TabPane tabId="fees" tab="Fees & Shares" class="p-4 mt-0">
         <Section class="section-fluid ms-4">
           <StdFormField 
             label="Fee (MINA)" 
             type="number" 
-            invalid={data.fee < 2} 
-            feedback="Must be >= 2"
+            invalid={data.fee < 0} 
+            feedback="Must be >= 0"
             help="The fee in MINA required for this credential"
             class="w-50"
             bind:value={data.fee} 
@@ -177,7 +176,7 @@
         </Section>  
       </TabPane>
 
-      <TabPane tabId="evidence" tab="Evidence">
+      <TabPane tabId="evidence" tab="Evidence" class="p-4 mt-0">
         <Section class="section-fluid ms-4 text-start">
           <h4 class="mb-1 ms-3">Evidence fields</h4>
           <p class="ms-3 lg-base text-secondary fs-sm">
@@ -188,10 +187,10 @@
         </Section>
       </TabPane>
 
-      <TabPane tabId="auditors" tab="Strategy">
+      <TabPane tabId="auditors" tab="Strategy" class="p-4 mt-0">
         <Section class="section-fluid ms-4">
           <div class="row">
-            <div class="col-4">
+            <div class="col-5">
               <StdFormField 
                 label="Variant" 
                 type="select" 
@@ -280,7 +279,7 @@
         </Section>
       </TabPane>
 
-      <TabPane tabId="rawdata" tab="Raw!" style="width:100%">
+      <TabPane tabId="rawdata" tab="Raw!" style="width:100%" class="p-4 mt-0">
         <Section class="section-md ms-4 text-start">
           <h4 class="mb-1 ms-3">Edit as raw data</h4>
               <textarea

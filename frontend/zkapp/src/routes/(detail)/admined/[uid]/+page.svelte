@@ -53,9 +53,9 @@
   </Section>
   
   <Section class="section-lg">
-    <TabContent>
+    <TabContent class="">
       <span style="width:1rem;">&nbsp;</span>
-      <TabPane tabId="name" tab="General" class="text-start" no-active>
+      <TabPane tabId="name" tab="General" class="text-start p-4" active>
         <FormGroup>
           <Label>Name</Label>
           <Input type="text"
@@ -76,7 +76,7 @@
         </FormGroup>
       </TabPane>
 
-      <TabPane tabId="plans" tab="Master Plans">
+      <TabPane tabId="plans" tab="Master Plans" class="p-4">
         {#each data.plans as plan}
           <MasterPlanItem plan={plan} />
         {/each}
@@ -85,7 +85,7 @@
           bind:plans={data.plans}/>
       </TabPane>
 
-      <TabPane tabId="promotions" tab="Members">
+      <TabPane tabId="promotions" tab="Members" class="p-4">
         {#each data.members as p}
           <MemberItem 
             p={p} 
@@ -94,7 +94,7 @@
         {/each}
       </TabPane>
 
-      <TabPane tabId="validators" tab="Validators">
+      <TabPane tabId="validators" tab="Validators" class="p-4">
         {#each data.validators as p}
           <MemberItem 
             p={p} 
@@ -103,7 +103,7 @@
         {/each}
       </TabPane>
 
-      <TabPane tabId="admins" tab="Admins" active>
+      <TabPane tabId="admins" tab="Admins" class="p-4">
         <!-- {#each (data.xadmins || []) as xadmin}
           <p>{xadmin}</p>
         {/each} -->
