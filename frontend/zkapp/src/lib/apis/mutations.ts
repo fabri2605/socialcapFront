@@ -76,9 +76,9 @@ async function updateCommunity(data: any): Promise<any> {
 
 async function joinCommunity(data: any): Promise<any> {
   AppStatus.push("Adding as member to a community ...");  
-  let { communityUid, personUid } = data;
+  const { communityUid, personUid } = data;
 
-  let rs = await apiClient.mutate("join_community", {
+  const rs = await apiClient.mutate("join_community", {
     communityUid: communityUid,
     personUid: personUid
   });
