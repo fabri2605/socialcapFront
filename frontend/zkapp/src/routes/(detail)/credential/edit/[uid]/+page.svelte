@@ -176,7 +176,7 @@
           disabled={loading}
           />
         &nbsp;&nbsp;
-        <SubmitButton 
+        <SubmitButton disabled
           on:click={() => saveDraftAndSubmit()}
           color="primary" 
           label="Claim now !" 
