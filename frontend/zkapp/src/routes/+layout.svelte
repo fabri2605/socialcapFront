@@ -8,6 +8,7 @@
   onMount(async () => {
     console.log("+layout.svelte onMount");
     document.getElementById("loading").innerHTML = "";
+    console.log("+layout.svelte onMount cleaned");
   })
 
    NProgress.configure({

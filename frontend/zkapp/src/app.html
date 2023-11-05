@@ -4,7 +4,7 @@
 		<meta charset="utf-8" />
 		<link rel="icon" href="%sveltekit.assets%/favicon.png" />
 		<meta name="viewport" content="width=device-width" />
-    <!-- <script src="./coi-serviceworker.js"></script> -->
+    <script src="./coi-serviceworker.js"></script>
     <!-- <script  type="module" src="./contracts-worker.js"></script> -->
 
 		%sveltekit.head%
@@ -14,19 +14,19 @@
     
     <script>
       const el = document.createElement("div")
-      // el.innerHTML = `
-      //   <p style="padding:3rem;line-height:2em;font-size:1.25em;">
-      //   <b>Please wait while we load Socialcap ...</b>
-      //   <br>Cross origin isolated: ${window.crossOriginIsolated ? "✅" : "❌"}
-      //   </p>
-      // `
       el.innerHTML = `
-        <p 
-          id="loading" 
-          style="margin:auto;margin-top:0px;width:22rem;text-align:center;padding:1rem;line-height:1.5em;font-size:1.25em;">
-          <b>Please wait while we load Socialcap ...</b>
+        <p id="loading" style="padding:3rem;line-height:2em;font-size:1.25em;">
+        <b>Please wait while we load Socialcap ...</b>
+        <br>Cross origin isolated: ${window.crossOriginIsolated ? "✅" : "❌"}
         </p>
       `
+      // el.innerHTML = `
+      //   <p 
+      //     id="loading" 
+      //     style="margin:auto;margin-top:0px;width:22rem;text-align:center;padding:1rem;line-height:1.5em;font-size:1.25em;">
+      //     <b>Please wait while we load Socialcap ...</b>
+      //   </p>
+      // `
       document.body.append(el);
     </script>    
 	</body>

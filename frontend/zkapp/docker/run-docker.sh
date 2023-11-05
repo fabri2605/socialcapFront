@@ -2,7 +2,7 @@
 sudo docker build -t socialcap/ui:run -f ./docker/Dockerfile .
 
 # stop and remove previous container
-sudo docker rm $(docker stop scui)
+sudo docker rm $(sudo docker stop scui)
 
 # will run the Socialcap UI in host port 3000
 sudo docker -l debug run -d --restart=always --name scui \
