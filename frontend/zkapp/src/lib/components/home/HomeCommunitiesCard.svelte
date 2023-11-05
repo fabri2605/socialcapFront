@@ -1,4 +1,4 @@
-<Card class="border-1 border-gray rounded-4 text-black bg-white">
+<Card class="border-1 border-gray rounded-4 text-black bg-white p-3">
   <div class="position-absolute mb-4 me-2 bottom-0 end-0 opacity-85">
     <img class="svg" alt="" width="90%" src={'/img/svg/JoinCard.svg'} />
   </div>

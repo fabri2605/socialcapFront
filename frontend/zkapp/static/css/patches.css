@@ -54,3 +54,15 @@
 .bg-container {
   background-color: #e5ecfe;
 }
+.tab-content {
+  --background-color: #e5ecfe;
+}
+.nav-tabs {
+  border-bottom: none;
+}
+.tab-pane {
+  background-color: #fff;
+  border-radius: 1.125rem 1.125rem 1.125rem 1.125rem;
+  margin-top: -25px;
+  border: 1px solid #ddd;
+}

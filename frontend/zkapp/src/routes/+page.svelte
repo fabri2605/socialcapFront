@@ -65,9 +65,9 @@
       </div>
     </Section>
 
-    <Section class="m-0 p-0 section-fluid mt-4 pt-4 bg-light">
-        <TabContent >
-          &nbsp;&nbsp;&nbsp;&nbsp;
+    <Section class="m-0 p-0 section-fluid mt-4 pt-4 bg-container">
+        <TabContent>
+          &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
           <TabPane tabId="creds" tab="My credentials" active>
             {#if !data?.credentials?.length}
               <EmptyItemsCard notice="You have not claimed any credentials" />
