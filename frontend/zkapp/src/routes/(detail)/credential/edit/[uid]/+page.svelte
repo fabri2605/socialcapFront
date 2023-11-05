@@ -59,7 +59,7 @@
       evidence will be deleted as soon as the claim has been approved, so no 
       personal or private data will be stored and kept.
     </p> -->
-    <Form>
+    <!-- <Form> -->
       <!-- <FormGroup class="mt-3">
         <Label for="alias" class="fw-bold fs-6 text-secondary ps-1 mb-1">Name or alias</Label>
         <Input 
@@ -182,7 +182,7 @@
           label="Claim now !" 
           />
       </div>
-    </Form>
+    <!-- </Form> -->
   </Section>        
 
   <!-- <Filler n=40/> -->
