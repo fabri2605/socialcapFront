@@ -29,15 +29,15 @@
           <StdFormField 
             label="Name" 
             type="text" 
-            invalid={!data.name.trim()} 
-            feedback="We need a name for this Credentials"
+            invalid={!data.name.trim() && data.name.trim().length > 126} 
+            feedback="We need a name for this Credentials. Must be shorter than 128 chars."
             bind:value={data.name} 
             />
           <StdFormField 
             label="Brief description" 
             type="textarea" 
-            no-invalid={!data.description.trim()} 
-            feedback="We need a description for this Credentials"
+            invalid={!data.description.trim() && data.name.trim().length > 126} 
+            feedback="We need a description for this Credentials. Must be shorter than 128 chars."
             bind:value={data.description} 
             />
           <StdFormField 
@@ -295,7 +295,7 @@
   <Section class="section-lg">
     <hr/>
     <div class="text-center my-4 ms-4">
-      <Button color="primary" class="rounded-5 px-4 py-2"
+      <Button color="primary" class="rounded-2 px-4 py-3"
         on:click={updateIt}>
          {#if loading }
            Updating...
