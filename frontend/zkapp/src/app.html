@@ -14,8 +14,12 @@
     
     <script>
       const el = document.createElement("div")
-      el.innerHTML = `<p style="padding:2rem;line-height:28px;">Cross origin isolated: ${window.crossOriginIsolated ? "✅" : "❌"}`
-        +`<br><b>Please wait while we load Socialcap ...</b></p>`
+      el.innerHTML = `
+        <p style="padding:3rem;line-height:2em;font-size:1.25em;">
+        <b>Please wait while we load Socialcap ...</b>
+        <br>Cross origin isolated: ${window.crossOriginIsolated ? "✅" : "❌"}
+        </p>
+      `
       document.body.append(el);
     </script>    
 	</body>
