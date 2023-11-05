@@ -134,7 +134,7 @@
         {/each}
     </div> -->
     <div class="text-center mt-4 mb-5">
-      <Button color="primary" class="rounded-5 px-3" loading=true
+      <Button color="primary" class="rounded-2 p-3" loading=true
         on:click={handleSubmit}>
           {#if loading }
            Updating...
