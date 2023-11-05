@@ -1,8 +1,9 @@
 <div class="w-100 px-4">
-  <Card class="border-0 border-bottom">
-    <CardBody class="ps-4">
+  <Card class="border-0 --border-bottom">
+    <CardBody class="ps-4 mt-3">
       <div class="d-flex justify-content-start align-items-center pt-0">
-        <img src={data.image} width="92px" crossorigin alt="Credential logo" />
+        <img src={data.image} width="92px" crossorigin alt="Credential logo"
+          class="rounded-3" />
         <div class="ms-4 mt-0">
           <a href={`/community/${uid}`} class="text-decoration-none text-dark">
             <h5>{data.name}

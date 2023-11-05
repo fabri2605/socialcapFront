@@ -70,12 +70,11 @@
           &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
           <TabPane tabId="creds" tab="My credentials" active>
             {#if !data?.credentials?.length}
-              <EmptyItemsCard notice="You have not claimed any credentials" />
+              <EmptyItemsCard notice="You don't have any approved credentials" />
             {/if}
             {#each data.credentials as credential}
               <CredentialCard uid={credential.uid} data={credential}/>
             {/each}
-            <br>
           </TabPane>
 
           <TabPane tabId="claims" tab="My claims">

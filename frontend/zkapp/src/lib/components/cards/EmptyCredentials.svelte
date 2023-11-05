@@ -1,5 +1,5 @@
-<Section class="section-fluid pt-5 pb-4 bg-white rounded-3 shadow border">
-  <div class="px-4 border-0 ">
+<Section class="section-fluid pt-5 pb-4 bg-white rounded-3 shadow --border">
+  <div class="px-4 border-0 no-border-bottom">
     <div class="text-center m-0 mt-3">
       <div class="mb-4">
         <img src="/img/svg/undraw_mornings_re_cofi.svg" height="160px" alt="First time here!"/>
