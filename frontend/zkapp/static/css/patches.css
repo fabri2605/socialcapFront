@@ -51,3 +51,6 @@
 .navbar {
   --bs-navbar-brand-padding-y: 1rem;/**1.8125rem;*/
 }
+.bg-container {
+  background-color: #e5ecfe;
+}
