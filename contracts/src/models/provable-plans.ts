@@ -124,7 +124,7 @@ class ProvablePlan extends Struct({
       .concat(this.state.toFields())
       .concat(this.name.toFields())
       .concat(this.description.toFields())
-      .concat(this.image.toFields())
+      //.concat(this.image.toFields())
       .concat(this.evidenceHash.toFields())
       .concat(this.metadataHash.toFields())
       .concat(this.instructionsHash.toFields())
