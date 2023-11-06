@@ -13,4 +13,4 @@ const PROD_API_CONFIG = {
   port: 443,
 }
 
-export const API_CONFIG = PROD_API_CONFIG;
+export const API_CONFIG = DEV_API_CONFIG;
