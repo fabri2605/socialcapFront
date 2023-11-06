@@ -12,7 +12,7 @@ size="lg"
           There are no claimable credentials in your communities.
         </p>
         <p>
-          <b>Please join the community before claiming its credentials.</b>
+          <b>Please join a community before claiming its credentials.</b>
         </p>
       </div>
     {/if}

@@ -45,8 +45,8 @@
 
     // reload page ...
     if (done) {
-      // we need this one to reload page !
-      window.location.reload()
+      // we need this one to be sure home page is updated !
+      goto("/community/"+communityUid);
     }
   }
 </script>
