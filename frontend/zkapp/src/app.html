@@ -6,6 +6,21 @@
 		<meta name="viewport" content="width=device-width" />
     <script src="./coi-serviceworker.js"></script>
     <!-- <script  type="module" src="./contracts-worker.js"></script> -->
+    <style>
+      #loading {
+        width: 360px;
+        margin: auto;
+        margin-top: 10%;
+        font-size: 1rem;
+        font-family:'Courier New', Courier, monospace;
+        text-align: center;
+        line-height: 1.5em;
+      }
+      #loading p {
+        margin:0;
+        padding:0;
+      }
+    </style>
 
 		%sveltekit.head%
 	</head>
@@ -15,9 +30,11 @@
     <script>
       const el = document.createElement("div")
       el.innerHTML = `
-        <p id="loading" style="padding:3rem;line-height:2em;font-size:1.25em;">
-        <b>Please wait while we load Socialcap ...</b>
-        <br>Cross origin isolated: ${window.crossOriginIsolated ? "✅" : "❌"}
+        <div id="loading">
+          <p><img height="42px" src="/img/socialcap/socialcap-logo-blue.svg" /></p>
+          <p><img height="72px" src="/img/vars/Pulse-1.2s-51px.gif" /></p>
+          <p style="font-size:1rem">loading ...</p>
+          <p style="font-size:0.85rem">Cross origin isolated: ${window.crossOriginIsolated ? "✅" : "❌"}</p>
         </p>
       `
       // el.innerHTML = `
