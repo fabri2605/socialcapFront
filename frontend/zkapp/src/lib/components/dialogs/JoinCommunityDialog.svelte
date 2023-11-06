@@ -44,6 +44,9 @@
     })
 
     // reload page ...
-    if (done) goto("/");
+    if (done) {
+      // we need this one to reload page !
+      window.location.reload()
+    }
   }
 </script>
