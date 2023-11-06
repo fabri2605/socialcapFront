@@ -91,7 +91,9 @@
               name={field.sid} 
               bind:value={data.claim.evidenceData[index].value}
               class="rounded-1 py-2 px-2 mb-1 fs-md"
-              />
+              invalid={!isValid(field, data.claim.evidenceData[index].value)}
+              feedback={hasMessage(field, data.claim.evidenceData[index].value)}
+            />
           {/if}
 
           {#if field.type === "note"}
@@ -104,16 +106,8 @@
               rows={initialTextareaSize(data.claim.evidenceData[index].value)}
               bind:inner={field.inner} 
               on:input={() => resizeTextarea(field.inner)}
-              />
-          {/if}
-
-          {#if field.type === "files"}
-            <Input 
-              type="file" 
-              id={field.sid} 
-              name={field.sid} 
-              bind:value={data.claim.evidenceData[index].value}
-              class="rounded-1 px-2 mb-1"
+              invalid={!isValid(field, data.claim.evidenceData[index].value)}
+              feedback={hasMessage(field, data.claim.evidenceData[index].value)}
               />
           {/if}
 
@@ -127,9 +121,14 @@
                   label={option}
                   bind:group={data.claim.evidenceData[index].value}
                   class="px-2 py-1 mt-1"
-                  />
-                {/each}  
+                />
+              {/each}  
             </FormGroup> 
+            {#if (!isValid(field, data.claim.evidenceData[index].value))}
+              <span class="text-danger mt-0 p-0 fs-sm">
+                {hasMessage(field, data.claim.evidenceData[index].value)}
+              </span><br>
+            {/if}
           {/if}
 
           {#if field.type === "links"}
@@ -138,8 +137,28 @@
               name={field.sid} 
               allowPaste={true}
               bind:tags={data.claim.evidenceData[index].value}
-              class="rounded-1 px-2 mb-1"
-              />
+              class="rounded-1 px-2 py-1 mb-1"
+            />
+            {#if (!isValid(field, data.claim.evidenceData[index].value))}
+              <span class="text-danger mt-0 p-0 fs-sm">
+                {hasMessage(field, data.claim.evidenceData[index].value)}
+              </span><br>
+            {/if}
+          {/if}
+
+          {#if field.type === "files"}
+            <Tags 
+              id={field.sid} 
+              name={field.sid} 
+              allowPaste={true}
+              bind:tags={data.claim.evidenceData[index].value}
+              class="rounded-1 px-2 py-1 mb-1"
+            />
+            {#if (!isValid(field, data.claim.evidenceData[index].value))}
+              <span class="text-danger mt-0 p-0 fs-sm">
+                {hasMessage(field, data.claim.evidenceData[index].value)}
+              </span><br>
+            {/if}
           {/if}
 
           {#if field.type === "images"}
@@ -149,18 +168,22 @@
               allowPaste={true}
               bind:tags={data.claim.evidenceData[index].value}
               class="rounded-1 px-2 mb-1"
-              />
+            />
+            {#if (!isValid(field, data.claim.evidenceData[index].value))}
+              <span class="text-danger mt-0 p-0 fs-sm">
+                {hasMessage(field, data.claim.evidenceData[index].value)}
+              </span><br>
+            {/if}
           {/if}
           
-          {#if field.type !== 'remark' && field.description}
+          {#if field.description && field.type !== 'remark'}
             <FormText color="muted ps-1 fs-sm">
-              {field.description}
-              &nbsp;{@html required(field.required)}
+              {@html field.description}              
             </FormText>
           {/if}
 
           {#if field.type === 'remark'}
-            <p color="ps-1 fs-nm">
+            <p color="ps-1 fs-nm mt-0 p-0 ln-base">
               <Markdown md={field.description} {plugins} />              
             </p>
           {/if}
@@ -286,13 +309,13 @@
   import { DRAFT, CANCELED, CLAIMED } from "@models/states";
   import Tags from "svelte-tags-input";
   import Markdown from 'svelte-exmarkdown';
-	import { gfmPlugin } from 'svelte-exmarkdown/gfm';
-  
+  import { gfmPlugin } from 'svelte-exmarkdown/gfm';
+  import { isValid, hasMessage } from './validations';
   import { 
     MINAExplorer, loadSocialcapContract, connectWallet, payForCredentialClaim, 
     auroWallet$, deployedSocialcap$ 
   } from "$lib/contracts/helpers";
-  
+	
   export let data; // this is the data for this MasterPlan and empty Claim
 
   const plugins = [gfmPlugin()];

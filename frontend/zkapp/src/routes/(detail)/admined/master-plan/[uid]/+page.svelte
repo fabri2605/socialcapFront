@@ -55,7 +55,7 @@
               { value: 9, text: "PAUSED"},
               { value: 10, text: "INACTIVE"},
             ]}
-            class="w-25"
+            class="w-50"
             bind:value={data.state} 
             />
         </Section>
@@ -66,41 +66,41 @@
           <div class="row">
             <div class="col-4">
               <StdFormField 
-              label="Days for expiration" 
-              type="number" 
-              invalid={data.expiration < 0} 
-              feedback="Must be >= 0"
-              help="Days since issued when it must expire (or 0 for no expiration)"
-              class=""
-              bind:value={data.expiration} 
+                label="Days for expiration" 
+                type="number" 
+                invalid={data.expiration < 0} 
+                feedback="Must be >= 0"
+                help="Days since issued when it must expire (or 0 for no expiration)"
+                class=""
+                bind:value={data.expiration} 
               />
             </div>
             <div class="col-4">
               <StdFormField 
-              label="Is revocable ?" 
-              type="select" 
-              help="Can this credential be revoked ?"
-              class=""
-              bind:value={data.revocable}
-              options={[{value:true,text:"Yes"}, {value:false,text:"No"}]} 
+                label="Is revocable ?" 
+                type="select" 
+                help="Can this credential be revoked ?"
+                class=""
+                bind:value={data.revocable}
+                options={[{value:true,text:"Yes"}, {value:false,text:"No"}]} 
               />
             </div>
             <div class="col-4">
               <StdFormField 
-              label="Total to be issued" 
-              type="number" 
-              invalid={data.total <= 0} 
-              feedback="Must be > 0"
-              help="Max number of this credentials which can be claimed"
-              class=""
-              bind:value={data.total} 
+                label="Total to be issued" 
+                type="number" 
+                invalid={data.total <= 0} 
+                feedback="Must be > 0"
+                help="Max number of this credentials which can be claimed"
+                class=""
+                bind:value={data.total} 
               />
               </div>
           </div>              
           <div class="row">
             <div class="col-4">
               <StdFormField 
-                label="Starts on" 
+                label={"Starts on "+startsUTC} 
                 type="date" 
                 help="Date when claiming of this credential can start"
                 class=""
@@ -109,7 +109,7 @@
             </div>
             <div class="col-4">
               <StdFormField 
-                label="Ends on" 
+                label={"Ends on "+endsUTC} 
                 type="date" 
                 help="Date when claiming of this credential ends"
                 class=""
@@ -339,6 +339,9 @@
 
   $: rawDataJSON = JSON.stringify(data, null, 4);
 
+  $: startsUTC = (data.startsUTC || "").split("T")[0];
+  $: endsUTC = (data.endsUTC || "").split("T")[0];
+
   function changeValidatorState(p) {
     //alert("clicked p "+p.uid)
     toggle();
@@ -353,6 +356,11 @@
       AppStatus.error("All fields are required !")
       return;
     }
+
+    // fix some special fields
+    data.startsUTC = startsUTC+"T00:01:00.000Z";
+    data.endsUTC = endsUTC+"T23:59:00.000Z";
+
     loading = true;
     const updated = await updatePlan(data);
     loading = false;
