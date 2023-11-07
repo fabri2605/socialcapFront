@@ -4,15 +4,17 @@ import { ErrorCode } from "./responses";
 
 export { CoreAPIClient };
 
+const API_DEFAULT = {
+  host: "api.socialcap.api", // "localhost"
+  protocol: "https", // localhost uses "http"
+  port: 443, // locahost uses 3080
+  baseUrl: "",
+  authorization: "",
+  apiKey: "",
+}
+
 class CoreAPIClient {
-  API = {
-    protocol: "http",
-    host: "",
-    port: 3080, // or maybe 3038
-    baseUrl: "",
-    authorization: "",
-    apiKey: "",
-  };
+  API = { ... API_DEFAULT };
 
   constructor(params?: { 
     host: string, 
@@ -20,9 +22,9 @@ class CoreAPIClient {
     authorization: string,
     protocol?: string
   }) {
-    this.API.protocol = params?.protocol || this.API.protocol;
-    this.API.host = params?.host || "localhost";
-    this.API.port = (params?.port || 3080);
+    this.API.protocol = params?.protocol || API_DEFAULT.protocol;
+    this.API.host = params?.host || API_DEFAULT.host;
+    this.API.port = (params?.port || API_DEFAULT.port);
     this.API.baseUrl = `${this.API.protocol}://${this.API.host}:${this.API.port}/api`;
     this.authorize(params?.authorization || "");    
     this.API.baseUrl = `${this.API.protocol}://${this.API.host}:${this.API.port}/api`;
@@ -36,6 +38,7 @@ class CoreAPIClient {
    * @param port
    * @param apiKey
    */
+  /* DEPRECATED
   static async connect(host?: string, port?: number, apiKey?: string) {
     let t = new CoreAPIClient();
     t.API.host = host || "localhost";
@@ -45,6 +48,7 @@ class CoreAPIClient {
     if (apiKey) t.authorize(apiKey);
     return t;
   }
+  */
 
   /**
    * Sets the Authorization token needed for GET and POST authorized calls

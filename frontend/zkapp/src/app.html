@@ -4,8 +4,10 @@
 		<meta charset="utf-8" />
 		<link rel="icon" href="%sveltekit.assets%/favicon.png" />
 		<meta name="viewport" content="width=device-width" />
+
+    <!-- need this before bootstraping SvelteKit-->
     <script src="/coi-serviceworker.js"></script>
-    <!-- <script  type="module" src="./contracts-worker.js"></script> -->
+    
     <style>
       #loading {
         width: 360px;
@@ -14,7 +16,7 @@
         font-size: 1rem;
         font-family:'Courier New', Courier, monospace;
         text-align: center;
-        line-height: 1.5em;
+        line-height: 2rem;
       }
       #loading p {
         margin:0;
@@ -32,9 +34,13 @@
       el.innerHTML = `
         <div id="loading">
           <p><img height="42px" src="/img/socialcap/socialcap-logo-blue.svg" /></p>
-          <p><img height="72px" src="/img/vars/Pulse-1.2s-51px.gif" /></p>
-          <p style="font-size:1rem">loading ...</p>
-          <p style="font-size:0.85rem">Cross origin isolated: ${window.crossOriginIsolated ? "✅" : "❌"}</p>
+          <p style="font-size:1.125rem;margin-top:1rem;">
+            <img height="24px" src="/img/vars/Pulse-1.2s-51px.gif" />
+            ... loading ...
+          </p>
+          <p style="font-size:0.85rem">
+            Cross origin isolated: ${window.crossOriginIsolated ? "✅" : "❌"}
+          </p>
         </p>
       `
       // el.innerHTML = `

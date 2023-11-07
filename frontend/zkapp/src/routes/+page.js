@@ -3,6 +3,7 @@ import { goto } from '$app/navigation';
 import { getCurrentSession } from '@models/current-session';
 import { getCurrentUser } from '@models/current-user';
 import { setApiClient } from '$lib/globals';
+import { API_CONFIG } from '@apis/config';
 import { CoreAPIClient } from '@apis/core-api-client';
 import { ASSIGNED } from '@models/states';
 import { getMyCommunities, getAllCommunities } from "@apis/queries";
@@ -17,9 +18,10 @@ export async function load({ params, route, url }) {
 
     let isAuthenticated = getCurrentSession();
     let user;
+    let rs;
 
     if (!isAuthenticated) {
-      let client = new CoreAPIClient(false);  
+      let client = new CoreAPIClient(API_CONFIG);  
       setApiClient(client);
       goto("/login");
     }
@@ -28,11 +30,10 @@ export async function load({ params, route, url }) {
       let client = new CoreAPIClient(isAuthenticated);  
       setApiClient(client);
       user = await getCurrentUser();
+      //console.log("getmyHome= ", JSON.stringify(home, null, 4));
+      rs =  await getMyHome();
     }  
 
-    let rs =  await getMyHome();
-    //console.log("getmyHome= ", JSON.stringify(home, null, 4));
-    
     rs.user = user;
     rs.isAuthenticated = isAuthenticated;
     rs.assigned = (rs.assigned || []).filter((t) => t.state=== ASSIGNED),

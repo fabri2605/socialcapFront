@@ -4,7 +4,7 @@ import { setApiClient } from '$lib/globals';
 import { CoreAPIClient } from '@apis/core-api-client';
 import { API_CONFIG } from '@apis/config';
 
-console.log("hook.client.js");
+console.log("hook.client.js", API_CONFIG);
 
 let isAuthenticated = getCurrentSession();
 let user;
