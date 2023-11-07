@@ -14,3 +14,6 @@ sudo docker -l debug run -d --restart=always --name scui \
   --env GID=$(id -g www-data) \
   -v /etc/localtime:/etc/localtime:ro \
   socialcap/ui:run
+
+# Restart Nginx just in case
+sudo /etc/init.d/nginx restart
