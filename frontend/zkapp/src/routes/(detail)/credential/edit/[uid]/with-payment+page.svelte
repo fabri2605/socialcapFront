@@ -58,64 +58,72 @@
       evidenceForm={data.plan.evidence}
       bind:data={data.claim.evidenceData}
     />
-    dataisOk={dataIsOk(data.claim.evidenceData)}
     <div class="mt-5 mb-5 px-2 d-flex justify-content-center align-items-center">
       <SubmitButton 
         on:click={() => saveDraft()}
         color="secondary" 
-        label={savingDraft ? "Saving" : "Save draft ..."}
-      />
+        label={loading ? "Saving" : "Save draft ..."}
+        disabled={loading}
+        />
       &nbsp;&nbsp;
       <SubmitButton 
-        disabled={!dataIsOk(data.claim.evidenceData)}
         on:click={() => saveDraftAndSubmit()}
         color="primary" 
-        label={submitingClaim ? "Submitting ..." : "Claim now !"}
-      />
+        label={loading ? "Submitting ..." : "Claim now !"}
+        />
     </div>
   </Section>        
 
   <!-- <Filler n=40/> -->
 </DetailPageContent>
 
-<ConfirmSubmitDialog 
-  toggle={toggle} 
-  plan={data.plan}
-  bind:open={openConfirmDlg} 
-  on:submit_confirmed={submitIt}
-/>
 
 <script>
   import { onMount, tick } from "svelte";
-  import Section from "@components/Section.svelte";
+  import { get } from "svelte/store";
+  import BackButton from "@components/buttons/BackButton.svelte";
   import SubmitButton from "@components/buttons/SubmitButton.svelte";
   import DetailPageContent from "@components/DetailPageContent.svelte";
   import DetailPageHeader from "@components/DetailPageHeader.svelte";
   import { getCurrentUser, isFirstTimeUser } from "$lib/models/current-user";
   import StateBadge from "@components/badges/StateBadge.svelte";
   import { prettyDate } from "@utilities/datetime";
+  import { AppStatus } from "@utilities/app-status";
   import { addClaim, updateClaim, updateProfile, submitClaim } from "@apis/mutations";
+  import { DRAFT, CANCELED, CLAIMED } from "@models/states";
   import EvidenceForm from "./EvidenceForm.svelte";
-  import ConfirmSubmitDialog from "./ConfirmSubmitDialog.svelte";
   import { isAllValid } from "./validations";
 	
   export let data; // this is the data for this MasterPlan and empty Claim
 
-  let user = getCurrentUser();
-  let loading = false;
-  let openConfirmDlg = false;
-  let canSubmit = false;
-  const toggle = () => (openConfirmDlg = !openConfirmDlg);
-  let savingDraft = false, submitingClaim = false;
+  let user = getCurrentUser(), firstTime = false;
+
+  let open = false;
+  const toggle = () => (open = !open);
+  
+  let openNoWalletDlg = false;
+  const toggleNoWalletDlg = () => (openNoWalletDlg = !openNoWalletDlg);
+
+  let paymentMessage = "", paymentStatus = 0, canPayNow = false;
+  let pendingTxn;
 
   onMount(() => {
     user = getCurrentUser();
+    firstTime = false; //isFirstTimeUser(user); 
   })
+
+  let loading = false;
 
   /** Data validation **/
 
-  function dataIsOk(evidenceData) {
-    return isAllValid(data.plan.evidence, evidenceData);
+  const required = (t) => 
+    `<span class="text-warning fw-bold">${t ? `Required` : ``}</span>.`;
+
+  function dataIsOk(data) {
+    return isAllValid(
+      data.plan.evidence, 
+      data.claim.evidenceData
+    )
   }
 
   /**
@@ -123,6 +131,11 @@
    * paying and then submiting the claim.
    */
   async function updateTheDraft() {
+    if (!dataIsOk(data)) {
+      AppStatus.error("Please fill all required fields !")
+      return false;
+    }
+
     let updated;
     if (data.isNew) {
       updated = await addClaim(data.claim);
@@ -130,16 +143,18 @@
     else {
       updated = await updateClaim(data.claim);
     }
+
     return updated;
   }
 
   /**
-   * This just saves the claim draft to the server and goes to previous page.
+   * This just saves the claim draft to the server and goes
+   * bak to the previous page.
    */
   async function saveDraft() {
-    savingDraft = true;
+    loading = true;
     let updated = await updateTheDraft();
-    savingDraft = false;
+    loading = false;
     if (updated) 
       history.back();
   }
@@ -156,24 +171,66 @@
     if (! updated)
       return ; // saving the draft failed, we can not continue ...
 
-    // wait for confirmation  
-    openConfirmDlg = true;
+    // await ready for payment
+    canPayNow = await isReadyForPayment();
+
+    // save draft again with the accountId == sender public key
+    let sender = get(auroWallet$)?.sender?.toBase58();
+    await updateProfileAccountId(sender);
   }
 
-  async function submitIt() {
-    // was confirmed, do it !
-    submitingClaim = true;
-    let submited = await submitClaim({
-      claim: data.claim,
-      extras: {
-        transaction: "",
-        addToQueue: true,
-        waitForPayment: false
-      }
-    });
-    submitingClaim = false;
+  async function isReadyForPayment() {
+    paymentStatus = 0;
+    toggle(); // open dialog
 
-    if (submited) 
+    let isSnarkyLoaded = get(deployedSocialcap$) ;
+    if (!isSnarkyLoaded) {
+      isSnarkyLoaded = await loadSocialcapContract();
+    }
+
+    let hasWallet = false;
+    if (isSnarkyLoaded) {
+      hasWallet = await connectWallet();
+    }
+
+    if (!hasWallet) {
+      toggleNoWalletDlg();
+    }
+
+    return (hasWallet && isSnarkyLoaded) ;
+  }
+
+  async function payNow() {
+    paymentMessage = "Starting payment transaction ..."; await tick();
+    paymentStatus = 1; // started
+
+    let result = await payForCredentialClaim(data.plan.fee);
+
+    if (!result.success) {
+      paymentMessage= "Payment was not done: "+result.error; await tick();
+      return;
+    }
+    pendingTxn = result.pendingTxn;
+    paymentStatus = 2; // sent ;
+    await tick();
+
+    // we can now submit the Claim and start the voting process
+    // the server will wait till the transaction si finished
+  }
+
+  async function updateProfileAccountId(sender) {
+    if (! sender) return;
+    let user = await getCurrentUser();
+    await updateProfile({ uid: user.uid, accountId: sender });
+  }
+
+  async function submitClaimNow() {
+    let params = data.claim;
+    params.extras = {
+      transaction: JSON.stringify(pendingTxn)
+    };
+    let updated = await submitClaim(params);
+    if (updated) 
       history.back();
   }
 </script>

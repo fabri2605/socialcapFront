@@ -56,3 +56,11 @@ export function hasMessage(field, value) {
   const isCase = handleValidation[field.type](field, value);
   return ErrorMessages[isCase];
 }
+
+export function isAllValid(fields, data) {
+  for (let index=0; index < (fields || []).length; index++) {
+    if (!isValid(fields[index], data[index].value)) 
+      return false;
+  };
+  return true;
+}
