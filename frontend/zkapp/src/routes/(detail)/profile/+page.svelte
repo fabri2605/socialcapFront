@@ -18,7 +18,7 @@
       <div class="d-flex align-items-center justify-content-between">
         <div class="w-25 me-4 pe-2 position-relative">
           <Button color="" class="p-0 m-0 rounded-2" >
-            <img src={data.avatar} class="img-thumbnail  border-0 rounded-4" alt="Profile" height="120px" crossorigin/>
+            <img src={data.image} class="img-thumbnail  border-0 rounded-4" alt="Profile" height="120px" crossorigin/>
           </Button>
         </div>
         
@@ -87,11 +87,23 @@
           bind:value={data.description} 
           type="input" name="description" id="description" 
           class="rounded-1 p-3 mb-1"/>
-          <FormText color="muted ps-1 d-flex">
-            A brief description about you that may be of interest to others.
-          </FormText>
-        </FormGroup>
-        
+        <FormText color="muted ps-1 d-flex">
+          A brief description about you that may be of interest to others.
+        </FormText>
+      </FormGroup>
+
+      <FormGroup class="mt-3">
+        <Label for="image" class="fw-bold fs-6 text-secondary ps-1 mb-1">Your photo or avatar</Label>
+        <Input 
+          bind:value={data.image} 
+          type="input" name="image" id="image" 
+          invalid={data.image?.trim().length > 127} 
+          feedback="Image url too long (max is 128 chars)."
+          class="rounded-1 p-2 mb-1"/>
+        <FormText color="muted ps-1">
+        </FormText>
+      </FormGroup>
+
         <FormGroup class="mt-3">
           <Label for="accountId" class="d-flex fs-4 text-secondary ps-1 mb-1">Your MINA account</Label>
           <Input 
@@ -124,18 +136,19 @@
             If available we may use it to secure your account. We will never share it with others. Is optional. 
           </FormText>
         </FormGroup>
-        
-        <!-- <div class="mt-5 mb-5 px-2 d-flex justify-content-center align-items-center">
-          <SubmitButton on:click={() => saveDraft()}
-            color="primary" label="Save changes" class="px-3 py-2 rounded-3 bg-black text-white border-0" size="md"/>
-          </div> -->
+
 
           <Button
         size="md"
         class="px-3 py-4 rounded-3 bg-primary text-white border-0"
-        on:click={() => saveDraft()}
+        on:click={() => saveProfile()}
       >
-        Save changes
+         {#if loading }
+           Saving...
+        {:else}
+            Save changes
+        {/if}
+       
       </Button>
 
 
@@ -158,7 +171,8 @@
   import DetailPageContent from "@components/DetailPageContent.svelte";
   import DetailPageHeader from "@components/DetailPageHeader.svelte";
   import { getCurrentUser, isFirstTimeUser } from "$lib/models/current-user";
-    import { object_without_properties } from "svelte/internal";
+  import { object_without_properties } from "svelte/internal";
+  import { updateProfile } from "@apis/mutations";
 
   export let data; // this is the data for this MasterPlan and empty Claim
 
@@ -174,7 +188,12 @@
   const required = (t) => 
     `<span class="text-warning fw-bold">${t ? `Required` : ``}</span>.`;
 
-  async function saveDraft() {
-    alert(JSON.stringify(data.claim, null, 4));
+  let loading = false;
+  async function saveProfile() {
+    loading = true;
+    let updated = await updateProfile(data);
+    loading = false;
+    if (updated)
+      history.back();
   }
 </script>

@@ -1,3 +1,4 @@
+import { apiClient, appStatus } from "$lib/globals";
 
 export { CurrentUser, isFirstTimeUser, getCurrentUser }
 
@@ -10,6 +11,8 @@ interface CurrentUser {
   hasTasks: boolean,
   hasAdmins: boolean,
 }
+
+let currentUser: any = null; 
 
 function isFirstTimeUser(u: CurrentUser) {
   /**
@@ -26,14 +29,22 @@ function isFirstTimeUser(u: CurrentUser) {
   )
 }
 
-function getCurrentUser(): CurrentUser {
-  return {
-    fullName: "Marcos del Cielo Nublado",
-    uid: "1234",
+async function getCurrentUser(isAuthenticated: boolean): Promise<any> {
+  if (currentUser) 
+    return currentUser;
+
+  let rs = await apiClient.query("get_profile", {});
+  if (rs.error) return null;
+  let profile = rs.data;
+
+  currentUser = {
+    uid: profile.uid,
     hasMemberships: true,
     hasClaims: false,
     hasCredentials: true,
     hasTasks: true,
     hasAdmins: true,
+    profile: profile
   };
+  return currentUser;
 }

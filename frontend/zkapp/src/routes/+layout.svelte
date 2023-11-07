@@ -1,23 +1,26 @@
 <script>
+  import Status from "@components/Status.svelte";
   import { onMount } from "svelte";
-  import { goto } from "$app/navigation";
-  import { getItem } from "$lib/utility/localStorageController";
-  import { page } from "$app/stores";
-
-  // local imports ...
-  import RootHeader from "@components/RootHeader.svelte";
-
-  // Hexui
-  let isAuthenticated = getItem("access_token");
-  let currentPage = $page.url.pathname;
+   import "nprogress/nprogress.css";
+    import NProgress from "nprogress";
+      import { navigating } from "$app/stores";
 
   onMount(async () => {
-    if (isAuthenticated && isAuthenticated !== "") {
-      goto(currentPage);
-    } else {
-      goto(`/signin`);
+    console.log("+layout.svelte onMount");
+    document.getElementById("loading").innerHTML = "";
+    console.log("+layout.svelte onMount cleaned");
+  })
+
+   NProgress.configure({
+        // Full list: https://github.com/rstacruz/nprogress#configuration
+        minimum: 0.08,
+    });
+
+    $: {
+        if ($navigating) {
+            NProgress.start();
+        } else NProgress.done();
     }
-  });
 </script>
 
 <svelte:head>
@@ -32,17 +35,11 @@
   <slot />
 </div>
 
-<!-- MUST include here Bootstrap styling 
--->
-<!-- <Styles /> -->
-
-<!--
-  MINA original not used here
--->
 <style global>
   /* @import "/css/mina-fonts.css"; */
   /* @import '/css/bootstrap.css'; */
   /* @import "/css/custom.css"; */
   @import '../styles/globals.css';
   @import "/css/custom.min.css";
+  @import "/css/patches.css";
 </style>

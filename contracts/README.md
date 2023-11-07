@@ -30,10 +30,10 @@ npm i @socialcap/contracts
 Import it
 ~~~
 import { 
-  RootContract, 
-  ClaimContract,
-  ClaimInstance,
-  ClaimsFactory,
+  RootsContract, 
+  VotingContract,
+  VotingInstance,
+  ClaimsVotingFactory,
   ProvableCommunity, 
   CommunityState,
   ProvablePerson,

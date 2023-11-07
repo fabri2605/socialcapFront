@@ -1,23 +1,46 @@
 import { error } from '@sveltejs/kit';
-
-// this is only for testing/mockups
-import { olClaimables, olCredentials, olSubmitedClaims, olTasks } from '@models/mockup-objects';
-import { getAllCommunities, getMyCommunities } from '@apis/clients';
+import { goto } from '$app/navigation';
+import { getCurrentSession } from '@models/current-session';
+import { getCurrentUser } from '@models/current-user';
+import { setApiClient } from '$lib/globals';
+import { API_CONFIG } from '@apis/config';
+import { CoreAPIClient } from '@apis/core-api-client';
+import { ASSIGNED } from '@models/states';
+import { getMyCommunities, getAllCommunities } from "@apis/queries";
+import { getMyClaimables, getMyClaims } from '@apis/queries';
+import { getTask, getMyTasks } from '@apis/queries';
+import { getMyCredentials } from '@apis/queries';
+import { getMyHome } from '@apis/queries';
 
 /** @type {import('./$types').PageLoad} */
 export async function load({ params, route, url }) {
-    if (true) {
-      return { 
-        claimables: olClaimables,
-        credentials: olCredentials, 
-        submited: olSubmitedClaims,
-        joined: getMyCommunities(), 
-        allCommunities: getAllCommunities(),
-        assigned: olTasks.filter((t) => t.state==='PENDING'),
-        stats: aStats
-      }; 
+    console.log("+page.js load()");
+
+    let isAuthenticated = getCurrentSession();
+    let user;
+    let rs;
+
+    if (!isAuthenticated) {
+      let client = new CoreAPIClient(API_CONFIG);  
+      setApiClient(client);
+      goto("/login");
     }
-    throw error(404, 'Not found');
+      
+    if (isAuthenticated) {
+      let client = new CoreAPIClient(isAuthenticated);  
+      setApiClient(client);
+      user = await getCurrentUser();
+      //console.log("getmyHome= ", JSON.stringify(home, null, 4));
+      rs =  await getMyHome();
+    }  
+
+    rs.user = user;
+    rs.isAuthenticated = isAuthenticated;
+    rs.assigned = (rs.assigned || []).filter((t) => t.state=== ASSIGNED),
+    rs.stats = aStats;
+    console.log("main page data=", rs);
+
+    return rs;
 }
 
 const aStats = {

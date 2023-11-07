@@ -11,17 +11,36 @@
     <p>We only arrive here if the user already has an approved cerdential.</p>
   </Sidenote> -->
 
-  <Alert color="warning" class="w-50 m-auto mb-4">
+  <Section class="section-sm d-flex justify-content-center">
+    <div class="bg-white header text-center border border-1 rounded-3 p-4 border-sc shadow-sc w-50 text-center align-center d-flex flex-column">
+      <div>
+        <img src={imageUrl} height="180px" crossorigin/>
+        <br/>
+        <span class="fw-bold fs-sm">{data.community}</span>
+        <h4 class="text-black mt-2">
+          <span>{data.type}</span>
+        </h4>
+        <p class="fs-6 text-secondary lh-base">{@html data.description}</p>
+      </div>
+      
+      <div class="mt-4">
+        <h3 class="d-inline-block">{data.alias}</h3>
+        <!-- <span>
+          | {data.stars} Stars 
+        </span> -->
+      </div>
 
-    <Section class="section-sm">
-        
-        <div class="d-flex gap-4 justify-items-center align-items-center justify-content-center align-content-between">
-          <p class="fs-5 mt-2">Not minted yet?</p>
-          <Button size="md" class="px-3 py-2 rounded-3 bg-primary text-white border-0">Mint it now</Button>
-        </div>
+      <div class="mt-0 lh-lg fs-xs">
+        Issued: <Badge color="secondary">
+          {prettyDate(data.issuedUTC)}
+        </Badge> 
+        <br/>
+        Valid <Badge color="secondary">
+          {data.dueUTC ? prettyDate(data.dueUTC) : "Forever"}
+        </Badge> 
+      </div>
       
     </Section>
-  </Alert>
   <Section class="section-sm d-flex justify-content-center">
 
     <div class="bg-white header border border-1 rounded-3 p-4 border-sc shadow-sc w-auto text-center align-center d-flex flex-column">
@@ -75,7 +94,7 @@
         </div>
         
       <div class="mt-4">
-        <p class="m-0 p-0 lh-1 mt-2 fs-sm"><a href="https://...">Transaction / Metadata</a></p>
+        <p class="m-0 p-0 lh-1 mt-2 fs-sm"><a href={"#"}>Link to transaction/metadata</a></p>
         <p class="mt-2 fs-xs">
           <!-- <img alt="Socialcap logo" src="/img/socialcap/socialcap-logo.svg" height="24px"/> -->
           <!-- <Badge class="fs-sm" color="success">Verified</Badge>  -->
@@ -86,7 +105,16 @@
     </div>
   </Section>
 
-  
+  <Section class="section-sm pb-4">
+    <div class="mt-3 mb-5 px-2 d-flex justify-content-center align-items-center">
+      <div>
+        Not minted yet ? &nbsp;
+        <a href={mintUrl} target="_blank">
+          <Button color="primary" class="rounded-5 p-2 px-3">Mint it now !</Button>
+        </a>
+      </div>
+    </div>
+  </Section>
 
   <!-- <Section form>
     <pre class="mt-5">
@@ -128,8 +156,15 @@
   import DetailPageContent from "@components/DetailPageContent.svelte";
   import DetailPageHeader from "@components/DetailPageHeader.svelte";
   import { getCurrentUser } from "$lib/models/current-user";
+  import { prettyDate } from "@utilities/datetime";
 
   export let data; // this is the data for this MasterPlan and empty Claim
+
+  let imageUrl = (!data.image.includes("http"))
+    ? "https://ipfs.io/ipfs/"+data.image
+    : data.image;
+
+  let mintUrl = `https://near.org/socialcap.near/widget/CredentialMint?uid=${data.uid}`;
 
   let 
     user = getCurrentUser();

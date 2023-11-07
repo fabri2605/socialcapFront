@@ -28,6 +28,10 @@
     </Nav>
 
     <Nav class="w-25 justify-content-end --ms-auto px-1" navbar>
+      <NavItem class="me-4 mt-2">
+        <!-- <Status /> -->
+      </NavItem>
+
       <NavItem class="me-4">
         <CloseButton size="fs-1"/>
       </NavItem>
@@ -40,8 +44,9 @@
   import { onMount } from "svelte";
   import { Breadcrumb, BreadcrumbItem } from "sveltestrap";
   import { Navbar, NavbarBrand, Nav, NavItem, Collapse, NavbarToggler } from 'sveltestrap';
-  import { getCurrentUser } from "$lib/models/current-user"
-  import CloseButton from "./CloseButton.svelte";
+  import { getCurrentUser } from "$lib/models/current-user";
+  import CloseButton from "./buttons/CloseButton.svelte";
+  import Status from "./Status.svelte";
   
   export let items = []; // [{ href, text }]
   // the last item will allways be the active item
@@ -49,8 +54,8 @@
   let user = null;
   let isOpen = false;
   
-  onMount(() => {
-    user = getCurrentUser();
+  onMount(async () => {
+    user = await getCurrentUser();
   })
 
   function handleUpdate(event) {

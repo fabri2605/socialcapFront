@@ -87,13 +87,14 @@
     Alert
   } from 'sveltestrap';
   import { onMount } from "svelte";
-  import Filler from "$lib/components/Filler.svelte";
-  import EmptyFirstTime from "$lib/components/EmptyFirstTime.svelte";
-  import EmptyCredentials from "$lib/components/EmptyCredentials.svelte";
+  import EmptyFirstTime from "$lib/components/cards/EmptyFirstTime.svelte";
+  import EmptyCredentials from "$lib/components/cards/EmptyCredentials.svelte";
   import { getCurrentUser, isFirstTimeUser } from "$lib/models/current-user";
   import Section from '@components/Section.svelte';
   import DetailPageContent from '@components/DetailPageContent.svelte';
   import DetailPageHeader from '@components/DetailPageHeader.svelte';
+  import { AppStatus } from '@utilities/app-status';
+  import { updateCommunity } from '@apis/mutations';
 	
   let user = null;
 
@@ -103,8 +104,8 @@
     accepted: false
   }
 
-  onMount(() => {
-    user = getCurrentUser();
+  onMount(async () => {
+    user = await getCurrentUser();
   })
 
 	function cancelIt() { history.back() };
@@ -113,8 +114,16 @@
     return (data.name.trim() && data.description.trim() && data.accepted);
   }
 
-  function registerIt() {
-    if (!dataIsOk(data)) alert("All fields are required !")
-    alert("Ready to submit !")
+  async function registerIt() {
+    if (!dataIsOk(data)) {
+      AppStatus.error("All fields are required !")
+      return;
+    }
+    data.new = true; // indicate it is a new community !
+    data.adminUid = user.uid;
+    data.state = "INITIAL";
+    const updated = await updateCommunity(data);
+    if (updated) 
+      history.back();
   }
 </script>

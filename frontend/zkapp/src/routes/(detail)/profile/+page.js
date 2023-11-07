@@ -1,13 +1,7 @@
-/**
- * Params: 
- *  slug uid: the UID of the Master Plan
- */
-import { error } from '@sveltejs/kit';
-
-// this is only for testing/mockups
-import { aProfile } from '@models/mockup-objects';
+import { getCurrentUser } from '@models/current-user';
 
 /** @type {import('./$types').PageLoad} */
 export async function load({ params, route, url }) {
-    return JSON.parse(JSON.stringify(aProfile)); 
+    let user = await getCurrentUser()
+    return JSON.parse(JSON.stringify(user.profile)); 
 }

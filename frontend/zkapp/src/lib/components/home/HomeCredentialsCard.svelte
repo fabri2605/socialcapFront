@@ -1,4 +1,4 @@
-<Card class="border-1 border-gray rounded-4 text-white bg-primary">
+<Card class="border-1 border-gray rounded-4 text-white bg-primary p-3">
   <div class="position-absolute mb-4 me-2 bottom-0 end-0">
     <img class="svg" alt="" width="80%" src={"/img/svg/ClaimCard.svg"} />
   </div>

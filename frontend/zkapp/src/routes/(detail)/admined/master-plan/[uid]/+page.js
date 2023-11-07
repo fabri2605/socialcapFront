@@ -1,14 +1,20 @@
 
 import { error } from '@sveltejs/kit';
-import { 
-  getMasterPlan
-} from "@apis/clients";
+import { getPlan } from "@apis/queries";
+
+function patchEvidence(evidence) {
+  let items = (evidence || []).map((t) => {
+    t.id = t.id || (crypto.randomUUID().replaceAll('-',''))
+    return t;
+  })
+  return items;
+}
 
 /** @type {import('./$types').PageLoad} */
 export async function load({ params }) {
     if (params.uid !== "") {
-        let obj = await getMasterPlan(params.uid);
-        obj.uid = params.uid;
+        let obj = await getPlan(params.uid);
+        obj.evidence = patchEvidence(obj.evidence);
         return JSON.parse(JSON.stringify(obj));
     }
 

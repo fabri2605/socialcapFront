@@ -6,29 +6,37 @@
 <DetailPageContent>
   <Section class="section-lg pb-4">
     <div class="d-flex justify-content-start align-items-center">
-      <img width="22.5%" style="max-width:160px;" class="img-thumbnail rounded-circle me-2" src={data.image} crossorigin/>
-      <div class="w-100 ms-4">
-        <span class="text-secondary">ADMINISTERING  THIS COMMUNITY ...</span>
-        <h2 class="text-black m-0 p-0 w-100 d-flex align-items-center justify-content-between">
+      <img 
+        src={data.image} crossorigin
+        alt="Community logo"
+        width="22.5%" 
+        style="min-width:160px;min-height:160px;max-width:160px;" 
+        class="img-thumbnail rounded-4 me-2 mt-2" 
+        />
+      <div class="w-100 ms-4 text-start">
+        <span class="text-secondary fs-sm">ADMINISTERING  THIS COMMUNITY ...</span>
+        <br>
+        <h1 class="text-black m-0 p-0 w-100 d-flex align-items-center justify-content-between">
           {data.name}
           <span class="fs-5">
             <Badge size="sm">
               {data.state}
             </Badge>
           </span>
-        </h2>
-        <p class="fs-sm mt-1">
-          <b>{data.countMembers}</b> members
-          | <span class="fs-4"> 🎉 </span>
-          &nbsp; <b>{data.countCredentials}</b> credentials issued !
-        </p>
-
-        <p class="">{@html data.description}</p>    
+        </h1>
+        <div class="mt-2">
+          <p class="fs-sm mt-1">
+            <b>{data.membersCount}</b> members
+            | <span class="fs-4"> 🎉 </span>
+            &nbsp; <b>{data.credentialsCount}</b> credentials issued !
+          </p>
+          <p>{@html data.description}</p>    
+        </div>
 
         <div class="d-flex justify-content-start">
           <p class="">
             <span class="fs-xs">Start Date</span>
-            <br/><b class="fs-sm">{data.createdUTC}</b>
+            <br/><b class="fs-sm">{prettyDate(data.createdUTC)}</b>
           </p>
           <p class="px-4">
             <span class="fs-xs">Approved Date</span>
@@ -36,7 +44,7 @@
           </p>
           <p class="px-0">
             <span class="fs-xs">Updated</span>
-            <br/><b class="fs-sm">{data.updatedUTC}</b>
+            <br/><b class="fs-sm">{prettyDate(data.updatedUTC)}</b>
           </p>
         </div>
       </div>
@@ -45,40 +53,76 @@
   </Section>
   
   <Section class="section-lg">
-    <TabContent>
+    <TabContent class="">
       <span style="width:1rem;">&nbsp;</span>
-      <TabPane tabId="name" tab="General">
+      <TabPane tabId="name" tab="General" class="text-start p-4" active>
         <FormGroup>
           <Label>Name</Label>
-          <Input type="text" bind:value={data.name} />
+          <Input type="text"
+            bind:value={data.name} required
+            feedback="Name is required. Should have less than 128 characters."
+            invalid={!data.name.trim() || data.name.length > 128 }/>
         </FormGroup>
         <FormGroup>
           <Label>Brief description</Label>
-          <Input type="textarea" bind:value={data.description} />
+          <Input type="textarea" bind:value={data.description} required
+            feedback="Description is required. Should have less than 128 characters."
+            invalid={!data.description.trim() || data.description.length > 128 }/>
+        </FormGroup>
+
+        <FormGroup>
+          <Label>Image</Label>
+          <Input type="text" bind:value={data.image} />
         </FormGroup>
       </TabPane>
 
-      <TabPane tabId="plans" tab="Master Plans" active>
+      <TabPane tabId="plans" tab="Master Plans" class="p-4">
         {#each data.plans as plan}
           <MasterPlanItem plan={plan} />
         {/each}
         <MasterPlanAddButton 
           community={data}  
-          bind:plans={data.plans} />
+          bind:plans={data.plans}/>
       </TabPane>
 
-      <TabPane tabId="admins" tab="Admins">
-        Admins
-      </TabPane>
-
-      <TabPane tabId="validators" tab="Validators">
-        {#each data.validators as p}
-          <MemberItem p={p} />
+      <TabPane tabId="promotions" tab="Members" class="p-4">
+        {#each data.members as p}
+          <MemberItem 
+            p={p} 
+            admin={data.adminUid}
+            xadmins={data.xadmins}/>
         {/each}
       </TabPane>
 
-      <TabPane tabId="auditors" tab="Auditors">
+      <TabPane tabId="validators" tab="Validators" class="p-4">
+        {#each data.validators as p}
+          <MemberItem 
+            p={p} 
+            admin={data.adminUid}
+            xadmins={data.xadmins}/>
+        {/each}
       </TabPane>
+
+      <TabPane tabId="admins" tab="Admins" class="p-4">
+        <!-- {#each (data.xadmins || []) as xadmin}
+          <p>{xadmin}</p>
+        {/each} -->
+        {#if user.uid == data.adminUid}
+          <div class="mx-5">
+            <Input 
+              type="textarea"
+              rows={3}
+              class="w-100"
+              bind:value={data.xadmins}
+             />
+          </div>
+        {:else}
+          <p class="fs-md p-3 px-5 text-start">
+            Only the Community owner can add or remove administrators.
+          </p>
+        {/if}
+      </TabPane>
+
     </TabContent>
 
     <!-- <p class="mt-4">
@@ -90,8 +134,13 @@
         {/each}
     </div> -->
     <div class="text-center mt-4 mb-5">
-      <Button color="primary" class="rounded-5 px-3">
-        Update data !
+      <Button color="primary" class="rounded-2 p-3" loading=true
+        on:click={handleSubmit}>
+          {#if loading }
+           Updating...
+        {:else}
+            Update Data
+        {/if}
       </Button>
     </div>
   </Section>
@@ -100,24 +149,25 @@
 
 <script>
   import { onMount } from "svelte";
-  import { Button, Badge } from "sveltestrap";
+  import { Button, Badge, Spinner} from "sveltestrap";
   import { TabContent, TabPane } from 'sveltestrap';  
   import { FormGroup, Label, Input } from "sveltestrap";
-  // import { Modal, ModalBody, ModalFooter, ModalHeader } from 'sveltestrap';
-  import Filler from "@components/Filler.svelte";
-  import CanClaimNow from "@components/CanClaimNow.svelte";
   import Section from "@components/Section.svelte";
   import DetailPageContent from "@components/DetailPageContent.svelte";
   import DetailPageHeader from "@components/DetailPageHeader.svelte";
-  import MemberItem from "@components/MemberItem.svelte";
-  import MasterPlanItem from "@components/MasterPlanItem.svelte";
-  import MasterPlanAddButton from "@components/MasterPlanAddButton.svelte";
+  import MemberItem from "@components/lists/MemberItem.svelte";
+  import MasterPlanItem from "@components/lists/MasterPlanItem.svelte";
+  import MasterPlanAddButton from "@components/buttons/MasterPlanAddButton.svelte";
   import { getCurrentUser, isFirstTimeUser } from "$lib/models/current-user";
+  import { prettyDate } from "@utilities/datetime";
+  import { AppStatus } from "@utilities/app-status";
+  import { updateCommunity, attachPlan } from "@apis/mutations";
 
   export let data;
 
   let user = getCurrentUser();
   let openDlg = false;
+  let loading = false;
 
   let stateColors = {
     "APPLIED": "warning",
@@ -125,8 +175,8 @@
     "DENIED": "danger"
   }
 
-  onMount(() => {
-    user = getCurrentUser();
+  onMount(async () => {
+    user = await getCurrentUser();
   })
 
   const toggle = () => {
@@ -136,5 +186,21 @@
   function changeValidatorState(p) {
     //alert("clicked p "+p.uid)
     toggle();
+  }
+
+  function dataIsOk(data) {
+    return (data.name.trim() && data.description.trim() && data.description.length <=128 && data.name.length <=128);
+  }
+
+  async function handleSubmit() {
+    if (!dataIsOk(data)) {
+      AppStatus.error("All fields are required !")
+      return;
+    }
+    loading = true;
+    const updated = await updateCommunity(data);
+    if (updated) 
+      history.back();
+    loading = false;
   }
 </script>

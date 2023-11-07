@@ -22,7 +22,7 @@ No problems with this part.
 
 ---
 
-And we have a ClaimContract related to the voting process: 
+And we have a VotingContract related to the voting process: 
 ```
 class Votes extends Struct({
   total: Field,
@@ -59,7 +59,7 @@ const
   VOTED = Field(2);
 
 
-export class ClaimContract extends SmartContract {
+export class VotingContract extends SmartContract {
   // events to update Nullifier
   events = {
     'nullify-voter': Field,
@@ -256,7 +256,7 @@ export class ClaimContract extends SmartContract {
 }
 ```
 
-The ClaimContract compiles and deploys but has not been tested yet.
+The VotingContract compiles and deploys but has not been tested yet.
 
 ---
 
@@ -265,7 +265,7 @@ Questions:
 1) Every time an Applicant makes a new Claim, we will create a new account for that Claim, so each claim will have its own public state on-chain (voting results and final state). Also the accountId will be also an inmutable record for that claim. 
 From what I understand we need:
 
-- to redeploy and initialize the ClaimContract but with another set of keys
+- to redeploy and initialize the VotingContract but with another set of keys
 - and this will become the new account.
 
 I think this is correct, but would like your confirmation
@@ -277,7 +277,7 @@ This has the problem that we will need to have many open zkApps (one per each op
 ```
   PSEUDOCODE HERE :-)
   for each claim in queue
-    let instance = new ClaimContract(claim.address);
+    let instance = new VotingContract(claim.address);
     const txn = await Mina.transaction(() => {
         instance.rollupVote(claim.endConditions);
       }
