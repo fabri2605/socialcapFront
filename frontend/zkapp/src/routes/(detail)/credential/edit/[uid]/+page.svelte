@@ -58,8 +58,15 @@
       evidenceForm={data.plan.evidence}
       bind:data={data.claim.evidenceData}
     />
-    dataisOk={dataIsOk(data.claim.evidenceData)}
-    <div class="mt-5 mb-5 px-2 d-flex justify-content-center align-items-center">
+
+    {#if !dataIsOk(data.claim.evidenceData)}
+      <Alert color="warning" class="p-3 fs-bold">
+        Required data missing or has errors. 
+        <br>Please save as draft and submit when completed.
+      </Alert>
+    {/if}
+
+    <div class="mt-2 mb-5 px-2 d-flex justify-content-center align-items-center">
       <SubmitButton 
         on:click={() => saveDraft()}
         color="secondary" 
@@ -87,6 +94,7 @@
 
 <script>
   import { onMount, tick } from "svelte";
+  import { Alert } from "sveltestrap";
   import Section from "@components/Section.svelte";
   import SubmitButton from "@components/buttons/SubmitButton.svelte";
   import DetailPageContent from "@components/DetailPageContent.svelte";

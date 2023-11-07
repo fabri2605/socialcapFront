@@ -18,6 +18,7 @@ const handleValidation = {
   "text": validateText,
   "note": validateText,
   "radio": validateRadio,
+  "checks": validateChecks,
   "images": validateLinks,
   "links": validateLinks,
   "files": validateLinks
@@ -35,6 +36,15 @@ function validateRadio(field, value) {
   if (!(field.type === "radio")) return IS_OK;
   const len = (value || "").trim().length;
   if (field.required && len === 0) return IS_EMPTY;
+  return IS_OK;
+}
+
+function validateChecks(field, value) {
+  if (!(field.type === "checks")) return IS_OK;
+  const len = (value || []).length;
+  if (field.required && len === 0) return IS_EMPTY;
+  let selecteds = (value || []).filter((t) => t.trim() !== "");
+  if (field.required && selecteds.length === 0) return IS_EMPTY;
   return IS_OK;
 }
 

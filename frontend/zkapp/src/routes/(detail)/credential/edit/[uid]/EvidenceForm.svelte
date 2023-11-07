@@ -76,6 +76,21 @@
           {/if}
         {/if}
 
+        {#if field.type === "checks"}
+          <FormGroup class="ms-4">
+            <MultiChecksField 
+              field={field}
+              bind:value={data[index].value}
+              class="px-2 py-1 mt-1"
+            />
+          </FormGroup> 
+          {#if (!isValid(field, data[index].value))}
+            <span class="text-danger mt-0 p-0 fs-sm">
+              {hasMessage(field, data[index].value)}
+            </span><br>
+          {/if}
+        {/if}
+
         {#if field.type === "links"}
            <Tags 
             id={field.sid} 
@@ -140,6 +155,7 @@
 <script>
   import { onMount } from "svelte";
   import { FormGroup, FormText, Label, Input } from 'sveltestrap';
+  import MultiChecksField from "./MultiChecksField.svelte";
   import Tags from "svelte-tags-input";
   import Markdown from 'svelte-exmarkdown';
   import { gfmPlugin } from 'svelte-exmarkdown/gfm';
@@ -149,7 +165,7 @@
     evidenceForm,
     data; // this is the data for this MasterPlan and empty Claim
 
-  const plugins = [gfmPlugin()];
+  const plugins = [gfmPlugin()];     let f = [false, false, false, false, false];
  
   onMount(() => {
     // nothing yet ...

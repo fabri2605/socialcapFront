@@ -8,6 +8,7 @@
           { value: "text", text: "Simple text input"},
           { value: "note", text: "Text note input"},
           { value: "radio", text: "Radio buttons input"},
+          { value: "checks", text: "Check buttons input"},
           { value: "links", text: "Links input"},
           { value: "files", text: "File links input"},
           { value: "images", text: "Image links input"},
@@ -72,6 +73,18 @@
     {/if}
 
     {#if field.type === "radio"}
+      <div class="col-9">
+        <StdFormField 
+          label="Options" 
+          type="textarea" 
+          invalid={!field.extras.options} 
+          feedback="Add the options separated by comas"
+          bind:value={field.extras.options} 
+          />
+      </div>
+    {/if}
+
+    {#if field.type === "checks"}
       <div class="col-9">
         <StdFormField 
           label="Options" 
