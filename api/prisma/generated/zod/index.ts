@@ -20,7 +20,7 @@ export const SessionScalarFieldEnumSchema = z.enum(['uid','otp','email','created
 
 export const PersonScalarFieldEnumSchema = z.enum(['uid','accountId','state','fullName','description','image','email','phone','telegram','preferences','createdUTC','updatedUTC','approvedUTC']);
 
-export const CommunityScalarFieldEnumSchema = z.enum(['uid','accountId','adminUid','state','name','description','image','createdUTC','updatedUTC','approvedUTC']);
+export const CommunityScalarFieldEnumSchema = z.enum(['uid','accountId','adminUid','state','name','description','image','createdUTC','updatedUTC','approvedUTC','xadmins']);
 
 export const MembersScalarFieldEnumSchema = z.enum(['uid','communityUid','personUid','role','createdUTC','approvedUTC']);
 
@@ -155,10 +155,11 @@ export const CommunitySchema = z.object({
   state: z.string().min(1).max(12),
   name: z.string().min(3).max(128),
   description: z.string().max(128).nullish(),
-  image: z.string().url().max(128).nullish(),
+  image: z.string().url().max(1024).nullish(),
   createdUTC: z.coerce.date(),
   updatedUTC: z.coerce.date(),
   approvedUTC: z.coerce.date().nullish(),
+  xadmins: z.string().nullish(),
 })
 
 export type Community = z.infer<typeof CommunitySchema>

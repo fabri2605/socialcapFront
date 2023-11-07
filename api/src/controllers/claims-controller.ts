@@ -173,38 +173,51 @@ export async function updateClaim(params: any) {
   }); 
 }
 
-export async function submitClaim(params: any) {
-  const uid = params.uid;
+export async function submitClaim(params: {
+    claim: any,
+    extras: any,
+    user: any
+  }) {
+  const claim = params.claim;
+  const uid = claim.uid;
+  let {transaction, waitForPayment, addToQueue} = params.extras ;
 
-  params.evidenceData = JSON.stringify(params.evidenceData || "[]");
-  params.state = parseInt(params.state || 1);
+  let rs: any;
+  claim.evidenceData = JSON.stringify(claim.evidenceData || "[]");
+  claim.state = parseInt(claim.state || 1);
 
-  // remove extras BEFORE updating entities or it will fail
-  let extras = { ...params.extras };
-  if (params.extras) delete params.extras;
-  let transaction = JSON.parse(extras.transaction);
+  // check if we need to add it to the ClaimsQueue for latter processing
+  if (addToQueue) {
+    // we dont need to wait for payment, so we mark it as CLAIMED right now
+    // the voting process will be started by the ClaimsQueue processor
+    claim.state = CLAIMED; 
+    rs = await updateEntity("claim", uid, claim);
+  }
 
-  params.state = WAITING; // waiting before not yet paid ...
-  let rs = await updateEntity("claim", uid, params);
+  // check if we need to wait for Payment
+  if (waitForPayment) {
+    // we mark it as WAITING because we are not sure we will receive payment
+    claim.state = WAITING; // waiting before not yet paid ...
+    rs = await updateEntity("claim", uid, claim);
 
-  // we dont await it, just start the scheduler
-  waitForTransaction(
-    transaction.hash, 
-    params, 
-    async (params: any) => {
-      params.state = CLAIMED;
-      await updateEntity("claim", params.uid, params);
+    waitForTransaction(
+      transaction.hash, 
+      params, 
+      async (params: any) => {
+        params.state = CLAIMED;
+        await updateEntity("claim", params.uid, params);
+        console.log("Succcess. Must start the voting process.");
 
-      console.log("Succcess !!!! start voting ");
-      // we dont await for it, we just let it start whenever it can
-      startClaimVotingProcess(params);
-    }, 
-    async (params: any, err: any) => {
-      logger.error(err);
-      params.state = UNPAID; // Payment failed, must repay and resend
-      await updateEntity("claim", params.uid, params);
-    }
-  );
+        // we dont await for it, we just let it start whenever it can
+        startClaimVotingProcess(params);
+      }, 
+      async (params: any, err: any) => {
+        logger.error(err);
+        params.state = UNPAID; // Payment failed, must repay and resend
+        await updateEntity("claim", params.uid, params);
+      }
+    );
+  }
 
   return hasResult({
     claim: rs.proved,
