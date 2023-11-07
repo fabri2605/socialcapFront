@@ -1,8 +1,9 @@
 <div class="w-100 px-4">
-  <Card class="border-0 border-bottom">
-    <CardBody class="ps-4">
+  <Card class="border-0 --border-bottom">
+    <CardBody class="ps-4 mt-3">
       <div class="d-flex justify-content-start align-items-center pt-0">
-        <img src={data.image} width="92px" crossorigin alt="Credential logo" />
+        <img src={data.image} width="92px" crossorigin alt="Credential logo"
+          class="rounded-3" />
         <div class="ms-4 mt-0">
           <a href={`/community/${uid}`} class="text-decoration-none text-dark">
             <h5>{data.name}
@@ -29,18 +30,23 @@
             {/if}
             {#if joined}
               <p>
+                <!-- DISABLE NOW !
                 <Button 
                   on:click={toggleBecome}
                   outline color="primary" size="sm" class="rounded-5 px-3 py-1">
                   Become a validator
                 </Button>
-                &nbsp;
-                {#if user.uid === data.adminUid}
-                <a href={`/admined/${data.uid}`} class="text-dark text-decoration-none">
-                  <Button outline color="dark" size="sm" class="rounded-5 px-3 py-1">
-                    Admin it ...
-                  </Button>
-                </a>
+                &nbsp; 
+                -->
+                {#if user.uid === data.adminUid || data.xadmins.includes(user.uid)}
+                  <a class="text-dark text-decoration-none"
+                    href={'#'} 
+                    on:click={() => goto(`/admined/${data.uid}`)} 
+                    >
+                    <Button outline color="dark" size="sm" class="rounded-5 px-3 py-1">
+                      Admin it ...
+                    </Button>
+                  </a>
                 {/if}
               </p>
             {/if}
@@ -64,6 +70,7 @@
 
 <script>
     import { Badge, Modal, Button, Card, CardBody, CardHeader } from "sveltestrap";
+    import { goto } from "$app/navigation";
 
     export let uid = 0, data, joined = false, user;
 

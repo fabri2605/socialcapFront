@@ -37,11 +37,11 @@
     else
       goto("/login");
 
-    setTimeout(async () => {
-      console.log("Loading Snarky ...");
-      // await loadSnarky();
-      // let [ok, publicKey, accountExists] = await getWalletAccount();
-    }, 500)
+    // setTimeout(async () => {
+    //   //console.log("Loading Snarky ...");
+    //   // await loadSnarky();
+    //   // let [ok, publicKey, accountExists] = await getWalletAccount();
+    // }, 100)
   })
 </script>
 
@@ -65,21 +65,16 @@
       </div>
     </Section>
 
-
-
-
-
-    <Section class="m-0 p-0 section-fluid mt-4 pt-4 bg-light">
-        <TabContent >
-          &nbsp;&nbsp;&nbsp;&nbsp;
+    <Section class="m-0 p-0 section-fluid mt-4 pt-4 bg-container">
+        <TabContent>
+          &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
           <TabPane tabId="creds" tab="My credentials" active>
             {#if !data?.credentials?.length}
-              <EmptyItemsCard notice="You have not claimed any credentials" />
+              <EmptyItemsCard notice="You don't have any approved credentials" />
             {/if}
             {#each data.credentials as credential}
               <CredentialCard uid={credential.uid} data={credential}/>
             {/each}
-            <br>
           </TabPane>
 
           <TabPane tabId="claims" tab="My claims">
@@ -113,7 +108,4 @@
 
         </TabContent>      
     </Section>
-
-
-      
-    </HubPageContent>
+</HubPageContent>

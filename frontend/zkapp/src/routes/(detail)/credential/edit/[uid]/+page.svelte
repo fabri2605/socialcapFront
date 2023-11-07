@@ -52,279 +52,78 @@
       </div>
     </div>
   </Section>
-
+  
   <Section class="section-md px-5 text-start">
-    <!-- <p class="py-2 hl-base">
-      Please provide below the required evidence to sustain your claim. This 
-      evidence will be deleted as soon as the claim has been approved, so no 
-      personal or private data will be stored and kept.
-    </p> -->
-    <Form>
-      <!-- <FormGroup class="mt-3">
-        <Label for="alias" class="fw-bold fs-6 text-secondary ps-1 mb-1">Name or alias</Label>
-        <Input 
-          bind:value={data.claim.alias} 
-          type="input" name="alias" id="alias" 
-          class="rounded-1 p-2 mb-1"/>
-        <FormText color="muted ps-1">
-          Name or alias you would like to show in the final credential. 
-          &nbsp;{@html required(true)}
-        </FormText>
-      </FormGroup> -->
+    <EvidenceForm 
+      evidenceForm={data.plan.evidence}
+      bind:data={data.claim.evidenceData}
+    />
 
-      {#each data.plan.evidence as field, index}
-        <FormGroup class="mt-4">
+    {#if !dataIsOk(data.claim.evidenceData)}
+      <Alert color="warning" class="p-3 fs-bold">
+        Required data missing or has errors. 
+        <br>Please save as draft and submit when completed.
+      </Alert>
+    {/if}
 
-          {#if field.label}
-            <Label for="exampleText" class="fw-bold fs-nm text-secondary ps-1 mb-1">
-              {field.label}
-              <span class="fs-md text-danger">
-                {field.required ? "*" : ""}
-              </span>
-            </Label>
-          {/if}
-
-          {#if field.type === "text"}
-            <Input 
-              type="text" 
-              id={field.sid} 
-              name={field.sid} 
-              bind:value={data.claim.evidenceData[index].value}
-              class="rounded-1 py-2 px-2 mb-1 fs-md"
-              />
-          {/if}
-
-          {#if field.type === "note"}
-            <Input 
-              type="textarea" 
-              id={field.sid} 
-              name={field.sid} 
-              bind:value={data.claim.evidenceData[index].value}
-              class="rounded-1 px-2 py-2 mb-1 fs-md"
-              />
-          {/if}
-
-          {#if field.type === "files"}
-            <Input 
-              type="file" 
-              id={field.sid} 
-              name={field.sid} 
-              bind:value={data.claim.evidenceData[index].value}
-              class="rounded-1 px-2 mb-1"
-              />
-          {/if}
-
-          {#if field.type === "radio"}
-            <FormGroup class="ms-4">
-              {#each field.extras.options.split(',') as option, i}
-                <Input
-                  id={`rd-${option}-${i}`}
-                  type="radio"
-                  value={option}
-                  label={option}
-                  bind:group={data.claim.evidenceData[index].value}
-                  class="px-2 py-1 mt-1"
-                  />
-                {/each}  
-            </FormGroup> 
-          {/if}
-
-          {#if field.type === "links"}
-             <Tags 
-              id={field.sid} 
-              name={field.sid} 
-              allowPaste={true}
-              bind:tags={data.claim.evidenceData[index].value}
-              class="rounded-1 px-2 mb-1"
-              />
-          {/if}
-
-          {#if field.type === "images"}
-            <Tags 
-              id={field.sid} 
-              name={field.sid} 
-              allowPaste={true}
-              bind:tags={data.claim.evidenceData[index].value}
-              class="rounded-1 px-2 mb-1"
-              />
-          {/if}
-          
-          {#if field.type !== 'remark' && field.description}
-            <FormText color="muted ps-1 fs-sm">
-              {field.description}
-              &nbsp;{@html required(field.required)}
-            </FormText>
-          {/if}
-
-          {#if field.type === 'remark'}
-            <p color="ps-1 fs-nm">
-              <Markdown md={field.description} {plugins} />              
-            </p>
-          {/if}
-
-        </FormGroup>
-      {/each}
-
-      <div class="mt-5 mb-5 px-2 d-flex justify-content-center align-items-center">
-        <SubmitButton 
-          on:click={() => saveDraft()}
-          color="secondary" 
-          label={loading ? "Saving" : "Save draft ..."}
-          disabled={loading}
-          />
-        &nbsp;&nbsp;
-        <SubmitButton 
-          on:click={() => saveDraftAndSubmit()}
-          color="primary" 
-          label="Claim now !" 
-          />
-      </div>
-    </Form>
+    <div class="mt-2 mb-5 px-2 d-flex justify-content-center align-items-center">
+      <SubmitButton 
+        on:click={() => saveDraft()}
+        color="secondary" 
+        label={savingDraft ? "Saving" : "Save draft ..."}
+      />
+      &nbsp;&nbsp;
+      <SubmitButton 
+        disabled={!dataIsOk(data.claim.evidenceData)}
+        on:click={() => saveDraftAndSubmit()}
+        color="primary" 
+        label={submitingClaim ? "Submitting ..." : "Claim now !"}
+      />
+    </div>
   </Section>        
 
   <!-- <Filler n=40/> -->
 </DetailPageContent>
 
-<div>
-  <Modal isOpen={open} {toggle} backdrop="static">
-    <ModalHeader {toggle}>
-      Payment for credential
-    </ModalHeader>
-
-    <ModalBody>
-      {#if !$deployedSocialcap$}
-        <p class="p-2"> 
-          Please wait ... loading Snarky contracts ...
-        </p>
-      {/if}
-
-      {#if $deployedSocialcap$}
-        <p class="p-1">Snarky SocialcapContract is ready !</p>
-      {/if}
-
-      {#if $deployedSocialcap$ && !$auroWallet$?.connected}
-        <p class="p-1">Connecting the wallet ...</p>
-      {/if}
-
-      {#if $deployedSocialcap$ && $auroWallet$?.connected && $auroWallet$?.publicKey && paymentStatus===0}
-        <p class="p-1">AuroWallet is connected !</p>
-        <p class="p-1">Account: {$auroWallet$?.publicKey.slice(0,6)}...{$auroWallet$?.publicKey.slice(-6)}</p>
-        <p class="p-2">
-          Are you ready to pay ? Claim fee for this credential is <b>{data.plan.fee}</b> MINA.
-        </p>
-      {/if}
-
-      {#if paymentStatus===1}
-        <p class="p-2">
-          {paymentMessage}
-        </p>
-      {/if}
-
-      {#if paymentStatus===2}
-        <p class="p-2 text-wrap">
-          Payment was sent !
-          <br>
-          <br>Please wait for transaction to be included... it takes some time.
-          <br>
-          <br>Transaction Id: <a href={`${MINAExplorer}/transaction/${pendingTxn?.hash}`}>
-              {pendingTxn?.hash}
-            </a>
-        </p>
-        <p class="p-2">
-          When payment is complete, we will start voting for your claim !
-        </p>
-      {/if}
-    </ModalBody>
-
-    <ModalFooter class="text-center">
-      {#if canPayNow && paymentStatus===0}
-        <Button color="primary" on:click={payNow}>Pay now !</Button>
-      {/if}
-      {#if paymentStatus!==2}
-        <Button color="secondary" on:click={toggle}>Cancel</Button>
-      {/if}
-      {#if paymentStatus===2}
-        <Button color="success" on:click={submitClaimNow}>Submit it !</Button>
-      {/if}
-    </ModalFooter>
-  </Modal>
-</div>
-
-<div>
-  <Modal isOpen={openNoWalletDlg} toggle={toggleNoWalletDlg}>
-    <ModalHeader toggle={toggleNoWalletDlg}>
-      Auro wallet is not installed
-    </ModalHeader>
-    <ModalBody>
-      Please install the Auro wallet for paying your claims,
-    </ModalBody>
-    <ModalFooter class="text-center">
-      <Button color="secondary" on:click={toggle}>Cancel</Button>
-    </ModalFooter>
-  </Modal>
-</div>
-
+<ConfirmSubmitDialog 
+  toggle={toggle} 
+  plan={data.plan}
+  bind:open={openConfirmDlg} 
+  on:submit_confirmed={submitIt}
+/>
 
 <script>
   import { onMount, tick } from "svelte";
-  import { get } from "svelte/store";
-  import { Breadcrumb, BreadcrumbItem, Icon, Badge, Form, FormGroup, FormText, Label, Input, Button } from 'sveltestrap';
-  import { Modal, ModalBody,ModalFooter,ModalHeader } from 'sveltestrap';
+  import { Alert } from "sveltestrap";
   import Section from "@components/Section.svelte";
-  import BackButton from "@components/buttons/BackButton.svelte";
   import SubmitButton from "@components/buttons/SubmitButton.svelte";
   import DetailPageContent from "@components/DetailPageContent.svelte";
   import DetailPageHeader from "@components/DetailPageHeader.svelte";
   import { getCurrentUser, isFirstTimeUser } from "$lib/models/current-user";
   import StateBadge from "@components/badges/StateBadge.svelte";
   import { prettyDate } from "@utilities/datetime";
-  import { AppStatus } from "@utilities/app-status";
   import { addClaim, updateClaim, updateProfile, submitClaim } from "@apis/mutations";
-  import { DRAFT, CANCELED, CLAIMED } from "@models/states";
-  import Tags from "svelte-tags-input";
-  import Markdown from 'svelte-exmarkdown';
-	import { gfmPlugin } from 'svelte-exmarkdown/gfm';
-  
-  import { 
-    MINAExplorer, loadSocialcapContract, connectWallet, payForCredentialClaim, 
-    auroWallet$, deployedSocialcap$ 
-  } from "$lib/contracts/helpers";
-  
+  import EvidenceForm from "./EvidenceForm.svelte";
+  import ConfirmSubmitDialog from "./ConfirmSubmitDialog.svelte";
+  import { isAllValid } from "./validations";
+	
   export let data; // this is the data for this MasterPlan and empty Claim
 
-  const plugins = [gfmPlugin()];
-  
-  let user = getCurrentUser(), firstTime = false;
-
-  let open = false;
-  const toggle = () => (open = !open);
-  
-  let openNoWalletDlg = false;
-  const toggleNoWalletDlg = () => (openNoWalletDlg = !openNoWalletDlg);
-
-  let paymentMessage = "", paymentStatus = 0, canPayNow = false;
-  let pendingTxn;
+  let user = getCurrentUser();
+  let loading = false;
+  let openConfirmDlg = false;
+  let canSubmit = false;
+  const toggle = () => (openConfirmDlg = !openConfirmDlg);
+  let savingDraft = false, submitingClaim = false;
 
   onMount(() => {
     user = getCurrentUser();
-    firstTime = false; //isFirstTimeUser(user); 
   })
 
-  let loading = false;
+  /** Data validation **/
 
-  const required = (t) => 
-    `<span class="text-warning fw-bold">${t ? `Required` : ``}</span>.`;
-
-  function dataIsOk(data) {
-    if (!data.claim.alias.trim())
-      return false;
-    (data.claim.evidenceData || []).forEach((f) => {
-        if (f.required && ((Array.isArray(f.value) && f.value.length === 0) || (f.value.trim().length === 0))) {
-          return false;
-        }
-    })
-    
-    return true;
+  function dataIsOk(evidenceData) {
+    return isAllValid(data.plan.evidence, evidenceData);
   }
 
   /**
@@ -332,11 +131,6 @@
    * paying and then submiting the claim.
    */
   async function updateTheDraft() {
-    if (!dataIsOk(data)) {
-      AppStatus.error("Please fill all required fields !")
-      return false;
-    }
-
     let updated;
     if (data.isNew) {
       updated = await addClaim(data.claim);
@@ -344,18 +138,16 @@
     else {
       updated = await updateClaim(data.claim);
     }
-
     return updated;
   }
 
   /**
-   * This just saves the claim draft to the server and goes
-   * bak to the previous page.
+   * This just saves the claim draft to the server and goes to previous page.
    */
   async function saveDraft() {
-    loading = true;
+    savingDraft = true;
     let updated = await updateTheDraft();
-    loading = false;
+    savingDraft = false;
     if (updated) 
       history.back();
   }
@@ -372,66 +164,24 @@
     if (! updated)
       return ; // saving the draft failed, we can not continue ...
 
-    // await ready for payment
-    canPayNow = await isReadyForPayment();
-
-    // save draft again with the accountId == sender public key
-    let sender = get(auroWallet$)?.sender?.toBase58();
-    await updateProfileAccountId(sender);
+    // wait for confirmation  
+    openConfirmDlg = true;
   }
 
-  async function isReadyForPayment() {
-    paymentStatus = 0;
-    toggle(); // open dialog
+  async function submitIt() {
+    // was confirmed, do it !
+    submitingClaim = true;
+    let submited = await submitClaim({
+      claim: data.claim,
+      extras: {
+        transaction: "",
+        addToQueue: true,
+        waitForPayment: false
+      }
+    });
+    submitingClaim = false;
 
-    let isSnarkyLoaded = get(deployedSocialcap$) ;
-    if (!isSnarkyLoaded) {
-      isSnarkyLoaded = await loadSocialcapContract();
-    }
-
-    let hasWallet = false;
-    if (isSnarkyLoaded) {
-      hasWallet = await connectWallet();
-    }
-
-    if (!hasWallet) {
-      toggleNoWalletDlg();
-    }
-
-    return (hasWallet && isSnarkyLoaded) ;
-  }
-
-  async function payNow() {
-    paymentMessage = "Starting payment transaction ..."; await tick();
-    paymentStatus = 1; // started
-
-    let result = await payForCredentialClaim(data.plan.fee);
-
-    if (!result.success) {
-      paymentMessage= "Payment was not done: "+result.error; await tick();
-      return;
-    }
-    pendingTxn = result.pendingTxn;
-    paymentStatus = 2; // sent ;
-    await tick();
-
-    // we can now submit the Claim and start the voting process
-    // the server will wait till the transaction si finished
-  }
-
-  async function updateProfileAccountId(sender) {
-    if (! sender) return;
-    let user = await getCurrentUser();
-    await updateProfile({ uid: user.uid, accountId: sender });
-  }
-
-  async function submitClaimNow() {
-    let params = data.claim;
-    params.extras = {
-      transaction: JSON.stringify(pendingTxn)
-    };
-    let updated = await submitClaim(params);
-    if (updated) 
+    if (submited) 
       history.back();
   }
 </script>

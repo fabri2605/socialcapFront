@@ -5,7 +5,7 @@
 ]}/>
 
 <DetailPageContent>
-  <Section class="section-md pb-4 d-flex align-items-center justify-content-start">
+  <Section class="section-lg p-4 d-flex align-items-center justify-content-start border-0 shadow">
     <img 
       src={data.image} crossorigin
       alt="Credential badge" 
@@ -21,24 +21,23 @@
       {ALL_STATES[data.state]}
     </div>
   </Section>
-  <hr/>
 
-  <Section class="section-md">
+  <Section class="section-lg mt-4">
     <TabContent vertical pills>
-      <TabPane tabId="name" tab="Description" active>
+      <TabPane tabId="name" tab="Description" active  class="p-3 mt-0">
         <Section class="section-fluid ms-4">
           <StdFormField 
             label="Name" 
             type="text" 
-            invalid={!data.name.trim()} 
-            feedback="We need a name for this Credentials"
+            invalid={!data.name.trim() && data.name.trim().length > 126} 
+            feedback="We need a name for this Credentials. Must be shorter than 128 chars."
             bind:value={data.name} 
             />
           <StdFormField 
             label="Brief description" 
             type="textarea" 
-            no-invalid={!data.description.trim()} 
-            feedback="We need a description for this Credentials"
+            invalid={!data.description.trim() && data.name.trim().length > 126} 
+            feedback="We need a description for this Credentials. Must be shorter than 128 chars."
             bind:value={data.description} 
             />
           <StdFormField 
@@ -56,65 +55,65 @@
               { value: 9, text: "PAUSED"},
               { value: 10, text: "INACTIVE"},
             ]}
-            class="w-25"
+            class="w-50"
             bind:value={data.state} 
             />
         </Section>
       </TabPane>
 
-      <TabPane tabId="options" tab="Options">
+      <TabPane tabId="options" tab="Options" class="p-3 mt-0">
         <Section class="section-fluid ms-4">
           <div class="row">
             <div class="col-4">
               <StdFormField 
-              label="Days for expiration" 
-              type="number" 
-              invalid={data.expiration < 0} 
-              feedback="Must be >= 0"
-              help="Days since issued when it must expire (or 0 for no expiration)"
-              class=""
-              bind:value={data.expiration} 
+                label="Days for expiration" 
+                type="number" 
+                invalid={data.expiration < 0} 
+                feedback="Must be >= 0"
+                help="Days since issued when it must expire (or 0 for no expiration)"
+                class=""
+                bind:value={data.expiration} 
               />
             </div>
             <div class="col-4">
               <StdFormField 
-              label="Is revocable ?" 
-              type="select" 
-              help="Can this credential be revoked ?"
-              class=""
-              bind:value={data.revocable}
-              options={[{value:true,text:"Yes"}, {value:false,text:"No"}]} 
+                label="Is revocable ?" 
+                type="select" 
+                help="Can this credential be revoked ?"
+                class=""
+                bind:value={data.revocable}
+                options={[{value:true,text:"Yes"}, {value:false,text:"No"}]} 
               />
             </div>
             <div class="col-4">
               <StdFormField 
-              label="Total to be issued" 
-              type="number" 
-              invalid={data.total <= 0} 
-              feedback="Must be > 0"
-              help="Max number of this credentials which can be claimed"
-              class=""
-              bind:value={data.total} 
+                label="Total to be issued" 
+                type="number" 
+                invalid={data.total <= 0} 
+                feedback="Must be > 0"
+                help="Max number of this credentials which can be claimed"
+                class=""
+                bind:value={data.total} 
               />
               </div>
           </div>              
           <div class="row">
             <div class="col-4">
               <StdFormField 
-              label="Starts on" 
-              type="date" 
-              help="Date when claiming of this credential can start"
-              class=""
-              bind:value={data.startsUTC} 
+                label={"Starts on "+startsUTC} 
+                type="date" 
+                help="Date when claiming of this credential can start"
+                class=""
+                bind:value={data.startsUTC} 
               />
             </div>
             <div class="col-4">
               <StdFormField 
-              label="Ends on" 
-              type="date" 
-              help="Date when claiming of this credential ends"
-              class=""
-              bind:value={data.endsUTC} 
+                label={"Ends on "+endsUTC} 
+                type="date" 
+                help="Date when claiming of this credential ends"
+                class=""
+                bind:value={data.endsUTC} 
               />
             </div>
             <div class="col-4">
@@ -130,13 +129,13 @@
         </Section>  
       </TabPane>
 
-      <TabPane tabId="fees" tab="Fees & Shares">
+      <TabPane tabId="fees" tab="Fees & Shares" class="p-4 mt-0">
         <Section class="section-fluid ms-4">
           <StdFormField 
             label="Fee (MINA)" 
             type="number" 
-            invalid={data.fee < 2} 
-            feedback="Must be >= 2"
+            invalid={data.fee < 0} 
+            feedback="Must be >= 0"
             help="The fee in MINA required for this credential"
             class="w-50"
             bind:value={data.fee} 
@@ -177,21 +176,21 @@
         </Section>  
       </TabPane>
 
-      <TabPane tabId="evidence" tab="Evidence">
+      <TabPane tabId="evidence" tab="Evidence" class="p-4 mt-0">
         <Section class="section-fluid ms-4 text-start">
           <h4 class="mb-1 ms-3">Evidence fields</h4>
           <p class="ms-3 lg-base text-secondary fs-sm">
             This is the set of evidence that the applicant 
             will be required to fill to sustain his/her claim.
           </p>
-          <MasterPlanEvidence bind:evidence={data.evidence} />
+          <MasterPlanEvidence bind:items={data.evidence} />
         </Section>
       </TabPane>
 
-      <TabPane tabId="auditors" tab="Strategy">
+      <TabPane tabId="auditors" tab="Strategy" class="p-4 mt-0">
         <Section class="section-fluid ms-4">
           <div class="row">
-            <div class="col-4">
+            <div class="col-5">
               <StdFormField 
                 label="Variant" 
                 type="select" 
@@ -279,13 +278,24 @@
           </div>  
         </Section>
       </TabPane>
+
+      <TabPane tabId="rawdata" tab="Raw!" style="width:100%" class="p-4 mt-0">
+        <Section class="section-md ms-4 text-start">
+          <h4 class="mb-1 ms-3">Edit as raw data</h4>
+              <textarea
+                type="textare" rows={40}
+                class="ms-3 lg-base text-secondary fs-sm w-100"
+                style="white-space: pre-wrap;width:100%;"
+                bind:value={rawDataJSON}></textarea>
+        </Section>
+      </TabPane>      
     </TabContent>
   </Section>
 
   <Section class="section-lg">
     <hr/>
     <div class="text-center my-4 ms-4">
-      <Button color="primary" class="rounded-5 px-4 py-2"
+      <Button color="primary" class="rounded-2 px-4 py-3"
         on:click={updateIt}>
          {#if loading }
            Updating...
@@ -318,7 +328,7 @@
 
   let user = getCurrentUser();
   let openDlg = false;
- let loading = false;
+  let loading = false;
   onMount(() => {
     user = getCurrentUser();
   })
@@ -326,6 +336,11 @@
   const toggle = () => {
     openDlg = !openDlg;
   };
+
+  $: rawDataJSON = JSON.stringify(data, null, 4);
+
+  $: startsUTC = (data.startsUTC || "").split("T")[0];
+  $: endsUTC = (data.endsUTC || "").split("T")[0];
 
   function changeValidatorState(p) {
     //alert("clicked p "+p.uid)
@@ -341,12 +356,16 @@
       AppStatus.error("All fields are required !")
       return;
     }
+
+    // fix some special fields
+    data.startsUTC = startsUTC+"T00:01:00.000Z";
+    data.endsUTC = endsUTC+"T23:59:00.000Z";
+
     loading = true;
     const updated = await updatePlan(data);
     loading = false;
     if (updated) 
       history.back();
- 
   }
 
   // Some style helpers

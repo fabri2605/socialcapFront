@@ -28,15 +28,15 @@ async function login(data: any): Promise<any> {
   // "session_key": "61756fe1995448a5a58b37fc5ce0eba6",
   // "otp": "333577"
   let rs = await apiClient.mutate("login", data);
-  if (rs.error) return null;
+  if (rs.error) return rs;
   return rs.data;
 }
 
 async function signUp(data: any): Promise<any> {
-  // "session_key": "61756fe1995448a5a58b37fc5ce0eba6",
-  // "otp": "333577"
+  // "email": "",
+  // "fullName": ""
   let rs = await apiClient.mutate("sign_up", data);
-  if (rs.error) return null;
+  if (rs.error) return rs;
   return rs.data;
 }
 
@@ -76,9 +76,9 @@ async function updateCommunity(data: any): Promise<any> {
 
 async function joinCommunity(data: any): Promise<any> {
   AppStatus.push("Adding as member to a community ...");  
-  let { communityUid, personUid } = data;
+  const { communityUid, personUid } = data;
 
-  let rs = await apiClient.mutate("join_community", {
+  const rs = await apiClient.mutate("join_community", {
     communityUid: communityUid,
     personUid: personUid
   });

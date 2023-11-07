@@ -3,12 +3,14 @@ import { goto } from '$app/navigation';
 import { getCurrentSession } from '@models/current-session';
 import { getCurrentUser } from '@models/current-user';
 import { setApiClient } from '$lib/globals';
+import { API_CONFIG } from '@apis/config';
 import { CoreAPIClient } from '@apis/core-api-client';
 import { ASSIGNED } from '@models/states';
 import { getMyCommunities, getAllCommunities } from "@apis/queries";
 import { getMyClaimables, getMyClaims } from '@apis/queries';
 import { getTask, getMyTasks } from '@apis/queries';
 import { getMyCredentials } from '@apis/queries';
+import { getMyHome } from '@apis/queries';
 
 /** @type {import('./$types').PageLoad} */
 export async function load({ params, route, url }) {
@@ -16,9 +18,10 @@ export async function load({ params, route, url }) {
 
     let isAuthenticated = getCurrentSession();
     let user;
+    let rs;
 
     if (!isAuthenticated) {
-      let client = new CoreAPIClient(false);  
+      let client = new CoreAPIClient(API_CONFIG);  
       setApiClient(client);
       goto("/login");
     }
@@ -27,20 +30,14 @@ export async function load({ params, route, url }) {
       let client = new CoreAPIClient(isAuthenticated);  
       setApiClient(client);
       user = await getCurrentUser();
+      //console.log("getmyHome= ", JSON.stringify(home, null, 4));
+      rs =  await getMyHome();
     }  
 
-    let rs = { 
-      user: user,
-      isAuthenticated: isAuthenticated,
-      claimables: await getMyClaimables(),
-      credentials: await getMyCredentials(), 
-      claimed: await getMyClaims(),
-      joined: await getMyCommunities(),
-      joinables: await getAllCommunities({notJoined: true}),
-      allCommunities: await getAllCommunities(),
-      assigned: ((await getMyTasks()) || []).filter((t) => t.state=== ASSIGNED),
-      stats: aStats
-    }; 
+    rs.user = user;
+    rs.isAuthenticated = isAuthenticated;
+    rs.assigned = (rs.assigned || []).filter((t) => t.state=== ASSIGNED),
+    rs.stats = aStats;
     console.log("main page data=", rs);
 
     return rs;

@@ -1,6 +1,8 @@
 <div class="bg-light">
-  <Card class="rounded-1 border-sc mb-3 bg-white  ">
-    <a href={`/credential/issued/${uid}`} class="text-decoration-none text-dark">
+  <Card class="rounded-1 border-0 no-border-bottom mb-3 bg-white">
+    <a 
+      href={`/credential/issued/${uid}`} 
+      class="text-decoration-none text-dark">
       <CardBody class="py-4 ps-4">
         <div class="d-flex justify-content-start align-items-center pt-0">
           <img src={imageUrl} width="120px" crossorigin alt="Credential logo" /> 

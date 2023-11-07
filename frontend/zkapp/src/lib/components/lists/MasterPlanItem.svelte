@@ -1,5 +1,5 @@
 
-<div class="d-flex align-items-center justify-content-start fs-sm mx-0 mb-2 ps-4 py-1 border-bottom border-1">
+<div class="d-flex align-items-center justify-content-start fs-sm mx-0 mb-2 ps-4 py-1 --border-bottom border-1">
   <span class="text-center">
     <img 
       src={plan.image} crossorigin

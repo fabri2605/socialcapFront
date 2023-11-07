@@ -4,7 +4,7 @@
 ]}/>
 
 <DetailPageContent>
-  <Section class="section-md pb-4">
+  <Section class="section-lg pb-4">
     <div class="d-flex justify-content-start align-items-center">
       <img 
         src={data.image} crossorigin
@@ -52,10 +52,10 @@
     <hr/>
   </Section>
   
-  <Section class="section-md">
-    <TabContent>
+  <Section class="section-lg">
+    <TabContent class="">
       <span style="width:1rem;">&nbsp;</span>
-      <TabPane tabId="name" tab="General" class="text-start" active>
+      <TabPane tabId="name" tab="General" class="text-start p-4" active>
         <FormGroup>
           <Label>Name</Label>
           <Input type="text"
@@ -76,7 +76,7 @@
         </FormGroup>
       </TabPane>
 
-      <TabPane tabId="plans" tab="Master Plans">
+      <TabPane tabId="plans" tab="Master Plans" class="p-4">
         {#each data.plans as plan}
           <MasterPlanItem plan={plan} />
         {/each}
@@ -85,11 +85,44 @@
           bind:plans={data.plans}/>
       </TabPane>
 
-      <TabPane tabId="promotions" tab="Proposed">
-        {#each data.proposed as p}
-          <MemberItem p={p} />
+      <TabPane tabId="promotions" tab="Members" class="p-4">
+        {#each data.members as p}
+          <MemberItem 
+            p={p} 
+            admin={data.adminUid}
+            xadmins={data.xadmins}/>
         {/each}
       </TabPane>
+
+      <TabPane tabId="validators" tab="Validators" class="p-4">
+        {#each data.validators as p}
+          <MemberItem 
+            p={p} 
+            admin={data.adminUid}
+            xadmins={data.xadmins}/>
+        {/each}
+      </TabPane>
+
+      <TabPane tabId="admins" tab="Admins" class="p-4">
+        <!-- {#each (data.xadmins || []) as xadmin}
+          <p>{xadmin}</p>
+        {/each} -->
+        {#if user.uid == data.adminUid}
+          <div class="mx-5">
+            <Input 
+              type="textarea"
+              rows={3}
+              class="w-100"
+              bind:value={data.xadmins}
+             />
+          </div>
+        {:else}
+          <p class="fs-md p-3 px-5 text-start">
+            Only the Community owner can add or remove administrators.
+          </p>
+        {/if}
+      </TabPane>
+
     </TabContent>
 
     <!-- <p class="mt-4">
@@ -101,7 +134,7 @@
         {/each}
     </div> -->
     <div class="text-center mt-4 mb-5">
-      <Button color="primary" class="rounded-5 px-3" loading=true
+      <Button color="primary" class="rounded-2 p-3" loading=true
         on:click={handleSubmit}>
           {#if loading }
            Updating...
@@ -142,8 +175,8 @@
     "DENIED": "danger"
   }
 
-  onMount(() => {
-    user = getCurrentUser();
+  onMount(async () => {
+    user = await getCurrentUser();
   })
 
   const toggle = () => {

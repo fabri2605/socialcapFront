@@ -1,5 +1,5 @@
 import { MasterPlan, aMasterPlanMockup } from "./master-plan";
-import { Claim } from './claim';
+import { Claim } from './#claim';
 import { CapCredential, aCredentialMockup } from "./credential";
 import { ClaimsCollection, olSubmitedClaimsMockup } from "./claims-collection";
 import { CredentialsCollection, olCredentialsMockup } from "./credentials-collection";
