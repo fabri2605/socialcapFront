@@ -1,4 +1,4 @@
-<div>
+<div class="text-break word-wrap">
   <!-- <p class="py-2 hl-base">
     Please provide below the required evidence to sustain your claim. This 
     evidence will be deleted as soon as the claim has been approved, so no 
@@ -82,7 +82,7 @@
             name={field.sid} 
             allowPaste={true}
             bind:tags={data[index].value}
-            class="rounded-1 px-2 py-1 mb-1"
+            class="rounded-1 px-2 py-1 mb-1  text-break word-wrap"
           />
           {#if (!isValid(field, data[index].value))}
             <span class="text-danger mt-0 p-0 fs-sm">
