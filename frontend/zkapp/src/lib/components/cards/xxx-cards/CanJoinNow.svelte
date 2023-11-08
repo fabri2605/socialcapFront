@@ -10,9 +10,9 @@
             <h6 class="mt-2">{data.name}</h6>
             <p class="fs-sm lh-base mt-2 text-left mb-0 text-secondary">
               {@html data.description}
-              <br><b>{data.countMembers}</b> members
+              <!--<br><b>{data.countMembers}</b> members
               | &nbsp; 
-              <b>{data.countCredentials}</b> credentials issued
+              <b>{data.countCredentials}</b> credentials issued -->
             </p>
           </div>
         </div>

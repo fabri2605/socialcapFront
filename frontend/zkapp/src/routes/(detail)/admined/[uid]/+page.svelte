@@ -25,11 +25,11 @@
           </span>
         </h1>
         <div class="mt-2">
-          <p class="fs-sm mt-1">
+         <!-- <p class="fs-sm mt-1">
             <b>{data.membersCount}</b> members
             | <span class="fs-4"> 🎉 </span>
             &nbsp; <b>{data.credentialsCount}</b> credentials issued !
-          </p>
+          </p> -->
           <p>{@html data.description}</p>    
         </div>
 

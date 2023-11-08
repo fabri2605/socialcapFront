@@ -12,9 +12,9 @@
             </h5>
             <p class="fs-sm lh-base mt-1 text-left mb-0 text-secondary">
               {@html data.description}
-              <br><b>{data.countMembers}</b> members
+             <!-- <br><b>{data.countMembers}</b> members
               | <span class="fs-5"> 🎉 </span>
-              &nbsp; <b>{data.countCredentials}</b> credentials issued !
+              &nbsp; <b>{data.countCredentials}</b> credentials issued ! -->
             </p>
           </a>    
           <p class="mt-2">
