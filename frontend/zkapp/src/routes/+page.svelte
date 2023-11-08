@@ -36,12 +36,6 @@
       goto(currentPage)
     else
       goto("/login");
-
-    // setTimeout(async () => {
-    //   //console.log("Loading Snarky ...");
-    //   // await loadSnarky();
-    //   // let [ok, publicKey, accountExists] = await getWalletAccount();
-    // }, 100)
   })
 </script>
 

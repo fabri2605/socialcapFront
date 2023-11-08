@@ -156,7 +156,7 @@
               <StdFormField 
               label="Rewards (%)" 
               type="number" 
-              help="Percentaje of fee that will go to validator rewards"
+              help="Percentage of fee that will go to validator rewards"
               class=""
               readonly
               value={100 - data.communityShare - data.protocolShare} 

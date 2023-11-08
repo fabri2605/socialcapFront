@@ -2,8 +2,12 @@
   <Card class="border-0 --border-bottom">
     <CardBody class="ps-4 mt-3">
       <div class="d-flex justify-content-start align-items-center pt-0">
-        <img src={data.image} width="92px" crossorigin alt="Credential logo"
-          class="rounded-3" />
+        <img 
+          alt="Community logo"
+          src={data.image} width="92px" 
+          crossorigin 
+          class="rounded-3" 
+        />
         <div class="ms-4 mt-0">
           <a href={`/community/${uid}`} class="text-decoration-none text-dark">
             <h5>{data.name}
@@ -30,14 +34,13 @@
             {/if}
             {#if joined}
               <p>
-                <!-- DISABLE NOW !
+                <!-- {JSON.stringify(data, null,2)} -->
                 <Button 
                   on:click={toggleBecome}
                   outline color="primary" size="sm" class="rounded-5 px-3 py-1">
-                  Become a validator
+                  Become a Validator
                 </Button>
                 &nbsp; 
-                -->
                 {#if user.uid === data.adminUid || data.xadmins.includes(user.uid)}
                   <a class="text-dark text-decoration-none"
                     href={'#'} 
