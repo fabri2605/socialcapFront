@@ -26,9 +26,10 @@
         </h1>
         <div class="mt-2">
           <p class="fs-sm mt-1">
-            <b>{data.membersCount}</b> members
+            <b>{data.countMembers}</b> members
+            | <b>{data.countClaims}</b> claims
             | <span class="fs-4"> 🎉 </span>
-            &nbsp; <b>{data.credentialsCount}</b> credentials issued !
+            &nbsp; <b>{data.countCredentials}</b> credentials issued !
           </p>
           <p>{@html data.description}</p>    
         </div>
@@ -40,7 +41,7 @@
           </p>
           <p class="px-4">
             <span class="fs-xs">Approved Date</span>
-            <br/><b class="fs-sm">{data.approvedUTC}</b>
+            <br/><b class="fs-sm">{prettyDate(data.approvedUTC)}</b>
           </p>
           <p class="px-0">
             <span class="fs-xs">Updated</span>
@@ -52,9 +53,10 @@
     <hr/>
   </Section>
   
-  <Section class="section-lg">
-    <TabContent class="">
+  <Section class="section-fluid">
+    <TabContent class="" on:tab={(e) => (tab = e.detail)}>
       <span style="width:1rem;">&nbsp;</span>
+
       <TabPane tabId="name" tab="General" class="text-start p-4" active>
         <FormGroup>
           <Label>Name</Label>
@@ -123,16 +125,11 @@
         {/if}
       </TabPane>
 
+      <TabPane tabId="claims" tab="Claims" class="py-4 px-2" active>
+        <ClaimsList communityUid={data.uid} claims={data.claims} />
+      </TabPane>
     </TabContent>
 
-    <!-- <p class="mt-4">
-      <b>Claim your credential</b>
-    </p>
-    <div>
-        {#each data.plans as plan}
-          <CanClaimNow uid={plan.uid} data={plan}/>
-        {/each}
-    </div> -->
     <div class="text-center mt-4 mb-5">
       <Button color="primary" class="rounded-2 p-3" loading=true
         on:click={handleSubmit}>
@@ -158,6 +155,7 @@
   import MemberItem from "@components/lists/MemberItem.svelte";
   import MasterPlanItem from "@components/lists/MasterPlanItem.svelte";
   import MasterPlanAddButton from "@components/buttons/MasterPlanAddButton.svelte";
+  import ClaimsList from "./ClaimsList.svelte";
   import { getCurrentUser, isFirstTimeUser } from "$lib/models/current-user";
   import { prettyDate } from "@utilities/datetime";
   import { AppStatus } from "@utilities/app-status";
@@ -168,6 +166,7 @@
   let user = getCurrentUser();
   let openDlg = false;
   let loading = false;
+  let tab;
 
   let stateColors = {
     "APPLIED": "warning",
