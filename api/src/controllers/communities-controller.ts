@@ -104,6 +104,7 @@ export async function getMyCommunities(params: any) {
     let cm = communities[j] as any;
     let counters = await getCommunityCounters(cm.uid);
     cm = Object.assign(cm, counters);
+    console.log(cm.uid, cm.counters);
     communities[j] = cm;
   }
 
