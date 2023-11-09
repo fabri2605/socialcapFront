@@ -1,6 +1,10 @@
 <Dropdown autoClose={true} size="sm">
   <DropdownToggle class="bg-light border-0" caret>
-    <StateBadge state={state} />
+    {#if updating}
+      Spinner size="sm" type="grow" />
+    {:else}
+      <StateBadge state={state} />
+    {/if}
   </DropdownToggle>
   <DropdownMenu>
     <DropdownItem on:click={() => changeState(DRAFT)}>
@@ -16,14 +20,32 @@
 </Dropdown>    
 
 <script>
+  import { tick } from "svelte";
   import { IGNORED, DRAFT, CLAIMED } from "@socialcap/contracts";
   import { Dropdown, DropdownMenu, DropdownItem, DropdownToggle } from "sveltestrap";
+  import { Spinner } from "sveltestrap";
   import StateBadge from "@components/StateBadge.svelte";
+  import { changeClaimState } from "@apis/mutations";
 
-  export let state;
+  export let uid, state;
+
+  let updating = false;
 
   async function changeState(newState) {
-    console.log("Change to", newState);
+    updating = true;
+    await tick();
+
+    let rs = await changeClaimState({
+      uid: uid,
+      state: newState
+    })
+
+    updating = false;
+    await tick();
+
+    if (rs.error) 
+      return;
+
     state = newState;
   }
 </script>

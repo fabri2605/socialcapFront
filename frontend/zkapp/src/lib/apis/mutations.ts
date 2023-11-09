@@ -171,9 +171,8 @@ async function changeClaimState(data: {
   state: number
 }): Promise<any> {
   let rs = await apiClient.mutate("update_claim_state", data);
-  if (rs.error) {
-    return null;
-  }  
+  if (rs.error) 
+    return rs;
   return rs.data.claim;
 }
 

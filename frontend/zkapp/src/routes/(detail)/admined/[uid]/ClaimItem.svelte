@@ -1,11 +1,14 @@
 <tr class="text-start">
   <td class="p-2 pe-1">
-    <ClaimStateToggle bind:state={claim.state} />
+    <ClaimStateToggle 
+      uid={claim.uid} 
+      bind:state={claim.state} 
+    />
   </td>
 
   <td class="p-2 pe-3">
     <a 
-      class="text-black fs-nm  d-flex justify-content-between align-items-center"
+      class="text-link fs-nm  d-flex justify-content-between align-items-center"
       href={href}
       target="_blank"
       >
