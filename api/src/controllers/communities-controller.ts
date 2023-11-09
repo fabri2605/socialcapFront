@@ -140,7 +140,7 @@ export async function prepareCommunityClaimsDownload(
   try {
     let members = await (new CommunityMembers()).build(uid);
  
-    let claims = await getCommunityClaims(uid, members) || [];
+    let claims = await getCommunityClaims(uid, members, [CLAIMED]) || [];
 
     let content = "";
 
