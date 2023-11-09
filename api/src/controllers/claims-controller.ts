@@ -173,6 +173,28 @@ export async function updateClaim(params: any) {
   }); 
 }
 
+export async function updateClaimState(params: {
+  uid: string,
+  state: number,
+  user: any
+}) {
+  const uid = params.uid;
+
+  // firts get the current instance
+  let data = await getEntity("claim", uid);
+
+  // change just the state and update
+  data.state = params.state || 1;
+
+  let rs = await updateEntity("claim", uid, params);
+
+  return hasResult({
+    claim: rs.proved,
+    transaction: rs.transaction
+  }); 
+}
+
+
 export async function submitClaim(params: {
     claim: any,
     extras: any,
