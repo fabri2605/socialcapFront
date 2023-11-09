@@ -35,12 +35,11 @@
             {/if}
             {#if joined}
               <p>
-                <!-- {JSON.stringify(data, null,2)} -->
-                <Button 
+                <!-- <Button 
                   on:click={toggleBecome}
                   outline color="primary" size="sm" class="rounded-5 px-3 py-1">
                   Become a Validator
-                </Button>
+                </Button> -->
                 &nbsp; 
                 {#if user.uid === data.adminUid || data.xadmins.includes(user.uid)}
                   <a class="text-dark text-decoration-none"
