@@ -6,6 +6,7 @@ import cors from '@fastify/cors'
 import helperRoutes from "./routes/helper-routes.js";
 import queryRoutes from "./routes/query-routes.js";
 import mutationRoutes from "./routes/mutation-routes.js";
+import fileRoutes from "./routes/file-routes.js";
 
 // setup JWT plugin
 fastify.register(fastifyJwt, { secret: "MYYYYsupersecret" });
@@ -13,7 +14,11 @@ fastify.register(fastifyJwt, { secret: "MYYYYsupersecret" });
 // show all routes on server startup (just for debug)
 fastify.register(fastifyRoutes);
 
-fastify.register(helperRoutes).register(queryRoutes).register(mutationRoutes);
+fastify
+  .register(helperRoutes)
+  .register(queryRoutes)
+  .register(mutationRoutes)
+  .register(fileRoutes);
 
 // register CORS
 fastify.register(cors, {

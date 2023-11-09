@@ -1,6 +1,7 @@
 /**
  * Implement some basic helper routes
  */
+import * as fs from "fs";
 import { fastify, logger, prisma } from '../global.js';
 
 async function helperRoutes() {

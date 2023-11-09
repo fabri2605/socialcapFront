@@ -1,3 +1,4 @@
+import * as fs from "fs";
 import { UID } from "@socialcap/contracts";
 import { prisma } from "../global.js";
 import { hasError, hasResult, raiseError } from "../responses.js";
@@ -128,4 +129,75 @@ export async function getAllCommunities(params: any) {
   })
 
   return hasResult(communities);
+}
+
+
+export async function prepareCommunityClaimsDownload(
+  uid: string, 
+  fileName: string,
+  states?: string
+) {
+  try {
+    let members = await (new CommunityMembers()).build(uid);
+ 
+    let claims = await getCommunityClaims(uid, members) || [];
+
+    let content = "";
+
+    // if no claims we return an empty file
+    if (! claims.length) {
+      fs.writeFileSync(fileName, "", { flag: 'w+' });      
+      return true;
+    }
+    
+    // prepare headers, use first available row
+    let fields = JSON.parse(claims[0].evidenceData) || [];
+
+    let headers = ['"Full Name"','"Claim Id"','"Status"'];
+    fields.forEach((field: any) => {
+      if (field.type !== 'remark') 
+        headers.push(`"${field.label}"`);
+    })
+    content = content + headers.join(',') + '\n';
+
+    // now traverse claims and its fields
+    claims.forEach((claim: any) => {
+      let fields = JSON.parse(claim.evidenceData) || [];
+
+      let values = [
+        `"${claim.applicant.fullName}"`,
+        `"${claim.uid}"`,
+        `"${claim.state}"`
+      ];
+      fields.forEach((field: any) => {
+        if (field.type !== 'remark') 
+          values.push(`"${valueToString(field)}"`);
+      })
+
+      content = content + values.join(',') + '\n';
+    })
+
+    // write it now
+    fs.writeFileSync(fileName, content, { flag: 'w+' });      
+    
+    return true; 
+  }
+  catch (err) {
+    console.log(err);
+    return false;
+  }
+}
+
+
+/**
+ * Helpers
+ */
+function valueToString(field: any) {
+  if (['text','note','radio'].includes(field.type))
+    return (field.value?.substring(0, 600) || "");
+
+  if (['links','files','images','checks'].includes(field.type))
+    return (field.value || []).join(',');
+
+  return "?";
 }
