@@ -1,12 +1,25 @@
 import { UID } from "@socialcap/contracts";
-import { fastify, prisma } from "../global.js";
+import { prisma } from "../global.js";
 import { hasError, hasResult, raiseError } from "../responses.js";
+import { CLAIMED } from "@socialcap/contracts";
 import { updateEntity, getEntity } from "../dbs/any-entity-helpers.js";
+import { CommunityMembers } from "../dbs/members-helper.js";
+import { getCommunityClaims, getCommunityCounters } from "../dbs/community-helpers.js";
 
 
 export async function getCommunity(params: any) {
   const uid = params.uid;
   let data = await getEntity("community", uid);
+  
+  let counters = await getCommunityCounters(uid);
+  data = Object.assign(data, counters);
+
+  let members = await (new CommunityMembers()).build(uid);
+  data.members = members.getAll();
+  data.validators = members.getValidators();
+  
+  data.claims = await getCommunityClaims(uid, members);
+
   return hasResult(data); 
 }
 
@@ -29,55 +42,22 @@ export async function getAdminedCommunity(params: any) {
     where: { communityUid: { equals: uid }},    
     orderBy: { name: 'asc' }
   })
+  data.plans = plans || [];
 
   const proposed = await prisma.proposed.findMany({
     where: { communityUid: { equals: uid }},    
     orderBy: { role: 'asc' }
   })
+  data.proposed = proposed || [];
 
-  const membersList = await prisma.members.findMany({
-    where: { communityUid: { equals: uid }},
-    orderBy: { role: 'asc' }
-  })
-  const cuids  = membersList.map((t) => t.personUid);
+  let members = await (new CommunityMembers()).build(uid);
+  data.members = members.getAll();
+  data.validators = members.getValidators();
 
-  const roles: any = {};
-  (membersList || []).forEach((t) => {
-    roles[t.personUid] = t.role;
-  })
+  const counters = await getCommunityCounters(uid);
+  data = Object.assign(data, counters);
 
-  let members = await prisma.person.findMany({
-    where: { uid: { in: cuids } },
-    orderBy: { fullName: 'asc' }
-  })
-  let allMembers = (members || []).map((t) => {
-    let p = t as any;
-    p['role'] = roles[t.uid]; // add the role !
-    return p;
-  })
-  const validators = allMembers.filter((t) => {
-    return t.role === 2 || t.role == 3;
-  }) 
-
-  // members count
-  const membersCount = allMembers.length;
-
-  // credentials count
-  const credentialsCount =  await prisma.credential.count({
-    where: { communityUid: { equals: uid } }  
-  })
-
-  // claims count
-  const claimsCount =  await prisma.claim.count({
-    where: { communityUid: { equals: uid } }  
-  })
-
-  data.plans = plans || [];
-  data.validators = validators || [];
-  data.members = allMembers || [];
-  data.membersCount = membersCount || 0;
-  data.credentialsCount = credentialsCount || 0;
-  data.claimsCount = claimsCount || 0;
+  data.claims = await getCommunityClaims(uid, members);
 
   return hasResult(data); 
 }
@@ -114,10 +94,18 @@ export async function getMyCommunities(params: any) {
   })
   const cuids  = members.map((t) => t.communityUid);
 
-  const communities = await prisma.community.findMany({
+  let communities = await prisma.community.findMany({
     where: { uid: { in: cuids } },
     orderBy: { name: 'asc' }
   })
+
+  // for each community count members and claims and credentials
+  for (let j=0; j < (communities || []).length; j++) {
+    let cm = communities[j] as any;
+    let counters = await getCommunityCounters(cm.uid);
+    cm = Object.assign(cm, counters);
+    communities[j] = cm;
+  }
 
   return hasResult(communities);
 }
