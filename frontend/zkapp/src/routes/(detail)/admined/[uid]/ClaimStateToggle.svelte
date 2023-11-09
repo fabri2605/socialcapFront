@@ -1,7 +1,7 @@
 <Dropdown autoClose={true} size="sm">
   <DropdownToggle class="bg-light border-0" caret>
     {#if updating}
-      Spinner size="sm" type="grow" />
+      <Spinner size="sm" />
     {:else}
       <StateBadge state={state} />
     {/if}

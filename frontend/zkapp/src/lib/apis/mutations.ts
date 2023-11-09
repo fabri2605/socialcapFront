@@ -5,6 +5,7 @@ export {
   updateProfile, 
   updateCommunity, 
   joinCommunity,
+  changeMemberRole,
   attachPlan,
   updatePlan,
   addClaim,
@@ -94,6 +95,18 @@ async function joinCommunity(data: any): Promise<any> {
 
   return rs.data.member;
 }
+
+async function changeMemberRole(data: {
+  personUid: string,
+  communityUid: string,
+  role: number
+}): Promise<any> {
+  let rs = await apiClient.mutate("update_member_role", data);
+  if (rs.error) 
+    return rs;
+  return rs.data.claim;
+}
+
 
 /**
  * Attachs a new plan to a given community

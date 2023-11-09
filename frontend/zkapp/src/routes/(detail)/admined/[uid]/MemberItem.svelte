@@ -5,11 +5,13 @@
     <br><span class="fs-sm">{p.uid}</span>
   </span>
   <span class="col-3 text-start">
-    <Badge pill color="light" class="px-2 py-1 fs-xs">
-      {allRoles(p.role)}
-    </Badge>
+    <MemberRoleToggle 
+      personUid={p.uid}
+      communityUid={communityUid}
+      bind:role={p.role}
+    />
   </span>
-  <span class="col-2">
+  <!-- <span class="col-2">
     {#if p.state === 'APPLIED'}
     <Button 
       on:click={() => { p = changeState(p); }}
@@ -17,30 +19,19 @@
       Accept it
     </Button>
     {/if}
-  </span>
+  </span> -->
 </div>
 
 <script>
   import { Badge, Button } from "sveltestrap";
-
-  export let p, admin, xadmins; 
+  import MemberRoleToggle from "./MemberRoleToggle.svelte";
+  
+  export let p, communityUid, admin, xadmins; 
 
   let stateColors = {
     "APPLIED": "warning",
     "ACCEPTED": "success",
     "DENIED": "danger"
-  }
-
-  let roleText = {
-    "1": "Member",
-    "2": "Validator",
-    "3": "Judge"
-  }
-
-  function allRoles(role) {
-    let s = roleText[role] 
-      + ((p.uid === admin || xadmins.includes(p.uid)) ? ", Admin" : "");
-    return s
   }
 
   function changeState(p) {

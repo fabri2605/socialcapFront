@@ -57,7 +57,7 @@
     <TabContent class="" on:tab={(e) => (tab = e.detail)}>
       <span style="width:1rem;">&nbsp;</span>
 
-      <TabPane tabId="name" tab="General" class="text-start p-4" active>
+      <TabPane tabId="name" tab="General" class="text-start p-4">
         <FormGroup>
           <Label>Name</Label>
           <Input type="text"
@@ -87,10 +87,11 @@
           bind:plans={data.plans}/>
       </TabPane>
 
-      <TabPane tabId="promotions" tab="Members" class="p-4">
+      <TabPane tabId="promotions" tab="Members" class="p-4" active>
         {#each data.members as p}
           <MemberItem 
             p={p} 
+            communityUid={data.uid}
             admin={data.adminUid}
             xadmins={data.xadmins}/>
         {/each}
@@ -125,7 +126,7 @@
         {/if}
       </TabPane>
 
-      <TabPane tabId="claims" tab="Claims" class="py-4 px-2" active>
+      <TabPane tabId="claims" tab="Claims" class="py-4 px-2">
         <ClaimsList communityUid={data.uid} claims={data.claims} />
       </TabPane>
     </TabContent>
@@ -152,7 +153,7 @@
   import Section from "@components/Section.svelte";
   import DetailPageContent from "@components/DetailPageContent.svelte";
   import DetailPageHeader from "@components/DetailPageHeader.svelte";
-  import MemberItem from "@components/lists/MemberItem.svelte";
+  import MemberItem from "./MemberItem.svelte";
   import MasterPlanItem from "@components/lists/MasterPlanItem.svelte";
   import MasterPlanAddButton from "@components/buttons/MasterPlanAddButton.svelte";
   import ClaimsList from "./ClaimsList.svelte";
