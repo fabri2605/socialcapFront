@@ -5,7 +5,10 @@
   {/if}
 
   {#if field.type === "note"}
-    <Markdown md={field.value} {plugins} />              
+    <Markdown 
+      md={(field.value || "").replaceAll('\n', '  \n')} 
+      {plugins} 
+    />              
   {/if}
     
   {#if field.type === "radio"}
