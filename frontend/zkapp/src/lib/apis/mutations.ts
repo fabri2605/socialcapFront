@@ -9,6 +9,7 @@ export {
   updatePlan,
   addClaim,
   updateClaim,
+  changeClaimState,
   submitClaim,
   submitTask,
   requestOTP, 
@@ -164,6 +165,18 @@ async function updateClaim(data: any): Promise<any> {
 
   return rs.data.claim;
 }
+
+async function changeClaimState(data: {
+  uid: string,
+  state: number
+}): Promise<any> {
+  let rs = await apiClient.mutate("update_claim_state", data);
+  if (rs.error) {
+    return null;
+  }  
+  return rs.data.claim;
+}
+
 
 /** This really starts the voting process */
 async function submitClaim(data: any): Promise<any> {

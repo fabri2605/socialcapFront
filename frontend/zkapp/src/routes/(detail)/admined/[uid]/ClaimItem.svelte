@@ -1,6 +1,6 @@
 <tr class="text-start">
   <td class="p-2 pe-1">
-    <StateBadge state={claim.state} />
+    <ClaimStateToggle bind:state={claim.state} />
   </td>
 
   <td class="p-2 pe-3">
@@ -24,9 +24,11 @@
 
 <script>
   import { goto } from "$app/navigation";
+  import { Input } from "sveltestrap";
   import Markdown from "svelte-exmarkdown";
   import StateBadge from "@components/StateBadge.svelte";
   import EvidenceFieldView from "@components/claims/EvidenceFieldView.svelte";
+  import ClaimStateToggle from "./ClaimStateToggle.svelte";
 
   export let claim, columns=[];
 
