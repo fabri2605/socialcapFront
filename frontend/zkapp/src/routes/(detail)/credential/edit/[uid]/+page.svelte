@@ -51,6 +51,11 @@
         </div>
       </div>
     </div>
+
+    <div class="text-start p-3 border">
+      Time frame with notice here
+    </div>
+
   </Section>
   
   <Section class="section-md px-5 text-start">
