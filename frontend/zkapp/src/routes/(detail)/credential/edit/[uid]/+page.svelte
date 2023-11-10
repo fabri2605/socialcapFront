@@ -153,8 +153,14 @@
     savingDraft = true;
     let updated = await updateTheDraft();
     savingDraft = false;
-    if (updated) 
+    if (updated) {
+      alert("Your draft has been saved !");
       history.back();
+    } 
+    else {
+      alert("There has been some problem. Please retry again later.");
+      return ; // saving the draft failed, we can not continue ...
+    }
   }
 
   /**
@@ -166,8 +172,10 @@
    */
   async function saveDraftAndSubmit() {
     let updated = await updateTheDraft();
-    if (! updated)
+    if (! updated) {
+      alert("There has been some problem. Please retry again later.");
       return ; // saving the draft failed, we can not continue ...
+    }
 
     // wait for confirmation  
     openConfirmDlg = true;
@@ -186,7 +194,11 @@
     });
     submitingClaim = false;
 
-    if (submited) 
+    if (submited) {
+      alert("Your claim has been submmited !");
       history.back();
+    } else {
+      alert("There has been some problem. Please retry again later.");
+    }
   }
 </script>
