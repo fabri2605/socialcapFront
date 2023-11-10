@@ -53,7 +53,7 @@
     </div>
 
     <div class="text-start p-3 border">
-      Time frame with notice here
+      Please submit your claim before {prettyDateToLocale(submissionDateUtc)} (local time)
     </div>
 
   </Section>
@@ -67,7 +67,7 @@
     {#if !dataIsOk(data.claim.evidenceData)}
       <Alert color="warning" class="p-3 fs-bold">
         Required data missing or has errors. 
-        <br>Please save as draft and submit when completed.
+        <br>Please save as draft and submit when completed.Submit
       </Alert>
     {/if}
 
@@ -79,7 +79,7 @@
       />
       &nbsp;&nbsp;
       <SubmitButton 
-        disabled={!dataIsOk(data.claim.evidenceData)}
+        disabled={!dataIsOk(data.claim.evidenceData) || !isSubmissionEnabled(submissionDateUtc)}
         on:click={() => saveDraftAndSubmit()}
         color="primary" 
         label={submitingClaim ? "Submitting ..." : "Claim now !"}
@@ -120,7 +120,9 @@
   let canSubmit = false;
   const toggle = () => (openConfirmDlg = !openConfirmDlg);
   let savingDraft = false, submitingClaim = false;
-
+  const MINA_NAVIGATOR_COMMUNITY_UID = "70ed0f69af174c399b1958c01dc191c0";
+   // Due to an error during community creation, the MINA NAVIGATOR community ends date should be 2023-11-10 23:59 PST
+  const submissionDateUtc = data.plan.communityUid == MINA_NAVIGATOR_COMMUNITY_UID ? "2023-11-11T07:59:00.000Z" : data.plan.endsUTC;
   onMount(() => {
     user = getCurrentUser();
   })
@@ -180,6 +182,28 @@
     // wait for confirmation  
     openConfirmDlg = true;
   }
+
+function isSubmissionEnabled(dateString) {
+  const date = new Date(dateString);
+  // Get the current local browser time
+  const localDate = new Date(); 
+  // Compare the two dates
+  return localDate < date;
+}
+
+function prettyDateToLocale(utcDateStr) {
+  const utcDate = new Date(utcDateStr)
+  const options = {
+  year: "numeric",
+  month: "numeric",
+  day: "numeric",
+  hour: "numeric",
+  minute: "numeric",
+  hour12: false, // Use 24-hour format
+  timeZoneName: "short"
+};
+return utcDate.toLocaleString();
+}
 
   async function submitIt() {
     // was confirmed, do it !
