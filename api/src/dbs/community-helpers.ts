@@ -48,3 +48,15 @@ export async function getCommunityCounters(uid: string) {
     countCredentials: nCredentials || 0
   }
 }
+
+
+export async function findCommunityByName(name: string) {
+  let communities = await prisma.community.findMany({
+    where: { name: name }
+  });
+
+  if (! communities || !communities.length)
+    return null;
+  
+  return communities[0]; // just return the first one we found
+}
