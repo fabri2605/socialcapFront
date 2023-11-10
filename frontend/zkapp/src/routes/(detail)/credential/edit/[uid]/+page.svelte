@@ -122,7 +122,7 @@
   let savingDraft = false, submitingClaim = false;
   const MINA_NAVIGATOR_COMMUNITY_UID = "70ed0f69af174c399b1958c01dc191c0";
    // Due to an error during community creation, the MINA NAVIGATOR community ends date should be 2023-11-10 23:59 PST
-  const submissionDateUtc = data.plan.communityUid == MINA_NAVIGATOR_COMMUNITY_UID ? "2023-11-10T15:49:00.000Z" : data.plan.endsUTC;
+  const submissionDateUtc = data.plan.communityUid == MINA_NAVIGATOR_COMMUNITY_UID ? "2023-11-11T07:59:00.000Z" : data.plan.endsUTC;
   onMount(() => {
     user = getCurrentUser();
   })
