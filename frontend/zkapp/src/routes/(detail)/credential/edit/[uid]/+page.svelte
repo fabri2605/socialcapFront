@@ -52,8 +52,12 @@
       </div>
     </div>
 
-    <div class="text-start p-3 border">
-      Please submit your claim before {prettyDateToLocale(submissionDateUtc)} (local time)
+    <div class="m-0 p-0 mt-4">
+      <Alert color="warning" class="p-3 fs-md lh-md">
+        All submissions are due by <b>Friday, November 10th at 11:59 pm PST</b>.
+        <br>
+        In your <b>local time</b> this will be <b>{prettyDateToLocale(submissionDateUtc)}</b>, but please check it !
+      </Alert>
     </div>
 
   </Section>
@@ -67,7 +71,7 @@
     {#if !dataIsOk(data.claim.evidenceData)}
       <Alert color="warning" class="p-3 fs-bold">
         Required data missing or has errors. 
-        <br>Please save as draft and submit when completed.Submit
+        <br>Please save as draft and submit when completed.
       </Alert>
     {/if}
 
@@ -120,9 +124,11 @@
   let canSubmit = false;
   const toggle = () => (openConfirmDlg = !openConfirmDlg);
   let savingDraft = false, submitingClaim = false;
+
+  // Due to an error during community creation, the MINA NAVIGATOR community ends date should be 2023-11-10 23:59 PST
   const MINA_NAVIGATOR_COMMUNITY_UID = "70ed0f69af174c399b1958c01dc191c0";
-   // Due to an error during community creation, the MINA NAVIGATOR community ends date should be 2023-11-10 23:59 PST
   const submissionDateUtc = data.plan.communityUid == MINA_NAVIGATOR_COMMUNITY_UID ? "2023-11-11T07:59:00.000Z" : data.plan.endsUTC;
+
   onMount(() => {
     user = getCurrentUser();
   })
@@ -183,27 +189,27 @@
     openConfirmDlg = true;
   }
 
-function isSubmissionEnabled(dateString) {
-  const date = new Date(dateString);
-  // Get the current local browser time
-  const localDate = new Date(); 
-  // Compare the two dates
-  return localDate < date;
-}
+  function isSubmissionEnabled(dateString) {
+    const date = new Date(dateString);
+    // Get the current local browser time
+    const localDate = new Date(); 
+    // Compare the two dates
+    return localDate < date;
+  }
 
-function prettyDateToLocale(utcDateStr) {
-  const utcDate = new Date(utcDateStr)
-  const options = {
-  year: "numeric",
-  month: "numeric",
-  day: "numeric",
-  hour: "numeric",
-  minute: "numeric",
-  hour12: false, // Use 24-hour format
-  timeZoneName: "short"
-};
-return utcDate.toLocaleString();
-}
+  function prettyDateToLocale(utcDateStr) {
+    const utcDate = new Date(utcDateStr)
+      const options = {
+      year: "numeric",
+      month: "numeric",
+      day: "numeric",
+      hour: "numeric",
+      minute: "numeric",
+      hour12: true, // Use 24-hour format
+      timeZoneName: "short"
+    };
+    return utcDate.toLocaleString();
+  }
 
   async function submitIt() {
     // was confirmed, do it !
