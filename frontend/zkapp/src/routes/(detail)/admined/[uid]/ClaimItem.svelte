@@ -1,16 +1,17 @@
 <tr class="text-start">
-  <td class="p-2 pe-1">
-    <ClaimStateToggle 
+  <td class="p-2 pe-3">
+    <span class="d-inline-block">
+      <ClaimStateToggle 
       uid={claim.uid} 
       bind:state={claim.state} 
-    />
-  </td>
-
-  <td class="p-2 pe-3">
-    <!-- href={`${api.baseUrl}/credential/claimed/${claim.uid}`} -->
+      />
+    </span>
+    <b>{claim.applicant.fullName}</b>
+    <br/>
+    
     <a 
-      href={'#'}
-      class="text-link fs-nm  d-flex justify-content-between align-items-center"
+      href={`/credential/claimed/${claim.uid}`}
+      class="text-link fs-xs pe-3"
       on:click={(ev) => { 
         goto(`/credential/claimed/${claim.uid}`); 
         ev.preventDefault();
@@ -18,10 +19,8 @@
       }}
       target="_blank"
       >
-      <b>{claim.applicant.fullName}</b>
-      <!-- on:click={() => goto(href)} -->
+      <b class="fs-sm">{claim.uid}</b>
     </a>
-    <!-- <span class="fs-xs">{claim.uid}</span> -->
   </td>
 
   {#each columns as col}
