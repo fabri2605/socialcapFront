@@ -66,21 +66,6 @@ async function startClaimVotingProcess(
     console.log("startVoting claim=",claim);
     await assignTaskToElectors(claim, electors); 
 
-    // send the Tx to MINA for zkApp.updateNullifier()
-    // we dont really need this ? 
-    /*
-    await MinaService.updateNullifierRoot(
-      nullifier, 
-      nullifierUpdate,
-      { electors: electors, claim: claim },
-      async (params: any) => { return ; }, // done !
-      (params: any, error: any) => {
-        // nothing we can do ... we just log it
-        logger.error(`updateNullifier root failed err=${error.toString()}`);
-      }
-    )
-    */
-
     let params = {
       uid: claim.uid,
       accountId: '', // $TODO$ deployed.address.toBase58();
@@ -89,7 +74,10 @@ async function startClaimVotingProcess(
     let result = await updateEntity("claim", params.uid, params);
     claim = result.proved;
 
-    return claim;
+    return {
+      claim,
+      nullifierUpdate
+    }
   }
   catch (err: any) {
     logger.error("Could not startClaimVotingProcess err="+err.toString());

@@ -1,11 +1,15 @@
 // import Fastify from 'fastify';
 import { logger, merkleStorage } from "./global.js";
 import { CLAIMED } from "@socialcap/contracts";
+import { OffchainMerkleStorage } from "./dbs/offchain-merkle-storage.js";
+import { OffchainMerkleMap } from "./dbs/offchain-merkle-map.js";
 import { startClaimVotingProcess } from "./services/voting-process.js";
 import { CommunityMembers } from "./dbs/members-helper.js";
 import { getCommunityClaims, findCommunityByName } from "./dbs/community-helpers.js";
 
 const COMMUNITY_NAME = 'MINA Navigators Community';
+const VOTES_MERKLE_MAP = 10;
+const NULLIFIER = 8;
 
 
 /**
@@ -13,6 +17,12 @@ const COMMUNITY_NAME = 'MINA Navigators Community';
  * in the give community,
  */
 async function run(communityName: string) {
+
+  // reset this ones so we can start fresh 
+  let votesMerkleMap = await OffchainMerkleStorage.resetMerkleMap(VOTES_MERKLE_MAP);
+
+  let nullifier = await OffchainMerkleStorage.resetMerkleMap(NULLIFIER);
+
   // we now need to get all claims from this community
   let comn = await findCommunityByName(communityName);
   if (! comn) {
@@ -27,12 +37,29 @@ async function run(communityName: string) {
   // now we can start the voting process for each claim
   for (let j=0; j < claims.length ; j++) {
     let claim: any = claims[j];
-    let startedClaim = await startClaimVotingProcess(claim);
+    let updates = await startClaimVotingProcess(claim);
+    console.log(updates);
 
     // wait for X seconds before next one ...
     const DELAY = 10000;
     await setTimeout(() => { console.log(`Waiting ${DELAY} seconds`)}, DELAY);
   }
+
+  // send the Tx to MINA for zkApp.updateNullifier()
+  // we dont really need this ? 
+  /*
+  await MinaService.updateNullifierRoot(
+    nullifier, 
+    nullifierUpdate,
+    { electors: electors, claim: claim },
+    async (params: any) => { return ; }, // done !
+    (params: any, error: any) => {
+      // nothing we can do ... we just log it
+      logger.error(`updateNullifier root failed err=${error.toString()}`);
+    }
+  )
+  */
+
 }
 
 
