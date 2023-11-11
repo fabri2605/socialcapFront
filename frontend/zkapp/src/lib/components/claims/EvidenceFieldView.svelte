@@ -15,6 +15,14 @@
     {field.value || ""}
   {/if}
 
+  {#if field.type === "checks"}
+    {#each (field.value || []) as check}
+      <p class="lh-sm fs-md">
+        <span>{check}</span>
+      </p>
+    {/each}
+  {/if}
+
   {#if field.type === "links"}
     {#each (field.value || []) as link}
       <p class="lh-sm fs-md text-break word-wrap">
