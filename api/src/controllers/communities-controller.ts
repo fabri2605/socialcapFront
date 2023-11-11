@@ -140,7 +140,7 @@ export async function prepareCommunityClaimsDownload(
   try {
     let members = await (new CommunityMembers()).build(uid);
  
-    let claims = await getCommunityClaims(uid, members, [CLAIMED]) || [];
+    let claims = await getCommunityClaims(uid, members, [DRAFT,CLAIMED]) || [];
 
     let content = "";
 
@@ -164,10 +164,14 @@ export async function prepareCommunityClaimsDownload(
     claims.forEach((claim: any) => {
       let fields = JSON.parse(claim.evidenceData) || [];
 
+      let stateDescr;
+      if (claim.state === 1) stateDescr = "DRAFT"; 
+      if (claim.state === 4) stateDescr = "CLAIMED"; 
+
       let values = [
         `"${claim.applicant.fullName}"`,
         `"${claim.uid}"`,
-        `"${claim.state}"`
+        `"${stateDescr}"`
       ];
       fields.forEach((field: any) => {
         if (field.type !== 'remark') 
@@ -194,10 +198,10 @@ export async function prepareCommunityClaimsDownload(
  */
 function valueToString(field: any) {
   if (['text','note','radio'].includes(field.type))
-    return (field.value?.substring(0, 600) || "");
+    return (field.value?.substring(0, 600) || "").replaceAll('"',"'");
 
   if (['links','files','images','checks'].includes(field.type))
-    return (field.value || []).join(',');
+    return (field.value || []).join(',').replaceAll('"',"'");
 
   return "?";
 }
