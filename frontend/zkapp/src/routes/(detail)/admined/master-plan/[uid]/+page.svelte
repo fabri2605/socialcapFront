@@ -198,6 +198,7 @@
                   { value: "RandomAnonyomusValidators", text: "Random Anonyomus Validators"},
                   { value: "AllMembersAnonymousVoting", text: "All Members Anonymous Voting"},
                   { value: "NominatedValidators", text: "Nominated Validators"},
+                  { value: "AllJudgesSecretVoting", text: "All Judges Secret Voting"},
                 ]}
                 bind:value={data.strategy.variant} 
                 />
