@@ -6,7 +6,7 @@ import { hasError, hasResult, raiseError } from "../responses.js";
 import { waitForTransaction } from "../services/mina-transactions.js";
 import { updateEntity, getEntity } from "../dbs/any-entity-helpers.js";
 import { getNullifierLeafs, updateNullifier } from "../dbs/nullifier-helpers.js";
-
+import { CommunityMembers } from "../dbs/members-helper.js";
 
 export async function getTask(params: any) {
   const uid = params.uid;
@@ -58,11 +58,15 @@ export async function getMyTasks(params: any) {
   const mapComns: any = {};
   (comns || []).map((t) => { mapComns[t.uid] = t;})
   
+  // just for the first community for NOW $TODO$
+  const members = await (new CommunityMembers()).build(comnuids[0]);
+
   // we patch some additional data into each Task
   let patched = (tasks || []).map((t: any) => {
     t.claim = mapClaims[t.claimUid];
     t.plan = mapPlans[t.claim.planUid];
     t.community = mapComns[t.claim.communityUid];
+    t.applicant = members.findByUid(t.claim.applicantUid);
     return t; 
   })
 
