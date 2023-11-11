@@ -2,7 +2,7 @@ import * as fs from "fs";
 import { UID } from "@socialcap/contracts";
 import { prisma } from "../global.js";
 import { hasError, hasResult, raiseError } from "../responses.js";
-import { CLAIMED } from "@socialcap/contracts";
+import { CLAIMED, DRAFT } from "@socialcap/contracts";
 import { updateEntity, getEntity } from "../dbs/any-entity-helpers.js";
 import { CommunityMembers } from "../dbs/members-helper.js";
 import { getCommunityClaims, getCommunityCounters } from "../dbs/community-helpers.js";
