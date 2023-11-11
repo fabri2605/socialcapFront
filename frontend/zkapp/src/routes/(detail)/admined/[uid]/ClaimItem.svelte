@@ -7,9 +7,15 @@
   </td>
 
   <td class="p-2 pe-3">
+    <!-- href={`${api.baseUrl}/credential/claimed/${claim.uid}`} -->
     <a 
+      href={'#'}
       class="text-link fs-nm  d-flex justify-content-between align-items-center"
-      href={href}
+      on:click={(ev) => { 
+        goto(`/credential/claimed/${claim.uid}`); 
+        ev.preventDefault();
+        ev.stopPropagation();
+      }}
       target="_blank"
       >
       <b>{claim.applicant.fullName}</b>
@@ -32,12 +38,18 @@
   import StateBadge from "@components/StateBadge.svelte";
   import EvidenceFieldView from "@components/claims/EvidenceFieldView.svelte";
   import ClaimStateToggle from "./ClaimStateToggle.svelte";
+  import { getAPIConfig } from "$lib/globals"
 
   export let claim, columns=[];
 
-  const href = `/credential/claimed/${claim.uid}`;
+  const api = getAPIConfig();
 
 
+  /**
+   * Convert the field value to a safe text representation
+   * @param field
+   * @returns string
+   */
   function valueToString(field) {
     if (!field) return "";
 
@@ -52,5 +64,4 @@
 
     return "";
   }
-
 </script>

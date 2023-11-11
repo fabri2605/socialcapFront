@@ -72,7 +72,7 @@
   import ClaimItem from "./ClaimItem.svelte";
   import ClaimItemHeader from "./ClaimItemHeader.svelte";
   import { ALL_STATES } from "@models/states";
-	import { API_CONFIG } from "@apis/config";
+  import { getAPIConfig } from "$lib/globals"
 
   export let communityUid, claims = [];
 
@@ -150,11 +150,10 @@
 
 
   function setDownloadLink(communityUid) {
-    const api = API_CONFIG;
+    const api = getAPIConfig();
     return {
       href: (
-        `${api.protocol}://${api.host}:${api.port}`+
-        `/api/download/community_claims?uid=${communityUid}`
+        `${api.baseUrl}/download/community_claims?uid=${communityUid}`
       ),
       fileName: "claims.txt"
     }
