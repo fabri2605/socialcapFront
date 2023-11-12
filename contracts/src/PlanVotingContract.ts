@@ -1,7 +1,7 @@
 import { SmartContract, state, State, method, Reducer, PublicKey, MerkleTree } from "snarkyjs";
 import { Field, Bool, Struct, Circuit, Poseidon } from "snarkyjs";
 import { MerkleMapWitness } from "snarkyjs";
-import { ElectorsContract } from "./ElectorsContract";
+import { MerkleMapProxy, MerkleMapUpdate } from "./CommunitiesContract.js";
 
 export {
   VotesBatch, PlanElectorsNullifierProxy, PlanVotingContract
@@ -177,8 +177,9 @@ class PlanVotingContract extends SmartContract {
 
 
   @method rollupAllBatches(
-    AllVotingBatchesMerkleTree: MerkleTree,
-    lastBatch: VotesBatch,
+    map: MerkleMapProxy,
+    witness: MerkleMapWitness,
+    updated: MerkleMapUpdate
   ) {
     const planUid = this.planUid.getAndAssertEquals();
     const communityUid = this.communityUid.getAndAssertEquals();

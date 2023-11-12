@@ -3,12 +3,14 @@ import { CommunitiesContract, MerkleMapUpdate } from "../CommunitiesContract.js"
 import { ElectorsContract } from "../ElectorsContract.js";
 import { ClaimingsContract } from "../ClaimingsContract.js";
 import { SocialcapContract } from "../SocialcapContract.js";
+import { PlanVotingContract } from "../PlanVotingContract.js";
 
 const CONTRACTS: any = {
   "Electors": ElectorsContract,
   "Claimings": ClaimingsContract,
   "Communities": CommunitiesContract,
-  "Socialcap": SocialcapContract
+  "Socialcap": SocialcapContract,
+  "PlanVoting": PlanVotingContract
 } ;
 
 const DEPLOY_TX_FEE = 300_000_000;
@@ -85,7 +87,9 @@ export async function deployContract(
 
   // this tx needs .sign(), because `deploy()` adds an account update 
   // that requires signature authorization
-  await txn.sign([deployerKey, zkAppKey]).send();
+  console.log("deployerKey=", deployerKey);
+  //await txn.sign([deployerKey, zkAppKey]).send();
+  await txn.sign([deployerKey]).send();
   console.log("zkApp instance deployed !")
   
   // wait for account ...

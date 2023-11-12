@@ -16,6 +16,7 @@ import { CommunitiesContract } from "./CommunitiesContract.js";
 import { ClaimingsContract } from "./ClaimingsContract.js";
 import { ElectorsContract } from "./ElectorsContract.js";
 import { VotingContract, NullifierProxy } from "./VotingContract.js";
+import { PlanVotingContract } from "./PlanVotingContract.js";
 import { VotingInstance, ClaimsVotingFactory } from "./claims-voting-factory.js";
 
 import {
@@ -32,6 +33,7 @@ export {
   ClaimingsContract,
   ElectorsContract,
   VotingContract,
+  PlanVotingContract,
   VotingInstance,
   ClaimsVotingFactory,
   ProvableCommunity, 

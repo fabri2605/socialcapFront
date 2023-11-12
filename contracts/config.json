@@ -16,6 +16,22 @@
       "feepayerAlias": "learn3",
       "fee": "0.5",
       "smartContract": "ElectorsContract"
+    },
+    "plan1": {
+      "url": "https://proxy.berkeley.minaexplorer.com/graphql",
+      "keyPath": "keys/plan1.json",
+      "feepayerKeyPath": "/home/mzito/.cache/zkapp-cli/keys/deployer.test.json",
+      "feepayerAlias": "deployer.test",
+      "fee": "0.3",
+      "smartContract": "PlanVotingContract"
+    },
+    "com1": {
+      "url": "https://proxy.berkeley.minaexplorer.com/graphql",
+      "keyPath": "keys/com1.json",
+      "feepayerKeyPath": "/home/mzito/.cache/zkapp-cli/keys/deployer.test.json",
+      "feepayerAlias": "deployer.test",
+      "fee": "0.3",
+      "smartContract": "CommunitiesContract"
     }
   }
 }
