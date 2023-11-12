@@ -9,13 +9,13 @@ module.exports = {
     'eslint:recommended',
     'plugin:@typescript-eslint/eslint-recommended',
     'plugin:@typescript-eslint/recommended',
-    'plugin:o1js/recommended',
+    'plugin:snarkyjs/recommended',
   ],
   parser: '@typescript-eslint/parser',
   parserOptions: {
     ecmaVersion: 'latest',
   },
-  plugins: ['@typescript-eslint', 'o1js'],
+  plugins: ['@typescript-eslint', 'snarkyjs'],
   rules: {
     'no-constant-condition': 'off',
     'prefer-const': 'off',

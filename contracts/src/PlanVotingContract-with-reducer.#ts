@@ -1,7 +1,7 @@
-import { SmartContract, state, State, method, Reducer, PublicKey } from "o1js";
+import { SmartContract, state, State, method, Reducer, PublicKey, UInt32 } from "o1js";
 import { Field, Struct, Circuit, Poseidon } from "o1js";
-import { MerkleMapWitness, MerkleMap } from "o1js";
-import { MerkleMapUpdate } from "./merkle-updates.js";
+import { MerkleMapWitness, MerkleTree, Provable } from "o1js";
+import { MerkleMapProxy, MerkleMapUpdate } from "./merkle-updates.js";
 
 export {
   VotesBatch, PlanElectorsNullifierProxy, PlanVotingContract
@@ -22,7 +22,7 @@ class VotesBatch extends Struct({
   planUid: Field, // the Master Plan Uid of the credential being voted
   electorPubkey: PublicKey, // the elector Uid who submitted this batch
   batchUid: Field, // an unique Uid for this batch
-  batchCommitment: Field, // the Root of the batch MerkleTree
+  batchComittment: Field, // the Root of the batch MerkleTree
   size: Field, // Total number of votes received in this batch
   submitedUTC: Field 
 }){}
@@ -40,6 +40,17 @@ class VotesBatchReceivedAction extends VotesBatch {}
  * be consumed by some off chain process.
  */
 class VotesBatchReceivedEvent extends VotesBatch {}
+
+
+/**
+ * This is the resulta of rolling upp all received batches into one 
+ * commited Merkle Tree, composed of the roots of each batch.
+ */
+class RolledBatches extends Struct({
+  // tree: MerkleTree, 
+  commitments: Field,
+  count: UInt32,
+}) {}
 
 
 /** Voting states for an Elector on this voting Plan */
@@ -104,20 +115,23 @@ class PlanVotingContract extends SmartContract {
   // helper field to store the actual point in the actions history
   @state(Field) actionsState = State<Field>(); 
 
+  MERKLE_HEIGHT = 8;
+
   init() {
     super.init();
     this.planUid.set(Field(0));
     this.communityUid.set(Field(0));
-    this.batchesCommitment.set(this.zeroRoot());
+    this.batchesCommitment.set(this.zeroTree().getRoot());
     this.votingState.set(Field(ACTIVE)); // it starts as an active voting
     this.actionsState.set(Reducer.initialActionState); // TODO: is this the right way to initialize this ???
   }
 
-  zeroRoot(): Field {
-    const mt = new MerkleMap();
-    mt.set(Field(0), Field(0)); // we set a first NULL key, with a NULL value
-    return mt.getRoot(); 
+  zeroTree(): MerkleTree {
+    const mt = new MerkleTree(this.MERKLE_HEIGHT);
+    mt.setLeaf(BigInt(0), Field(0)); // we set a first NULL key, with a NULL value
+    return mt; 
   }
+
 
   /**
    * Setup initial values for some state vars. Should be done when 
@@ -198,31 +212,83 @@ class PlanVotingContract extends SmartContract {
   }
 
 
-  @method commitAllBatches(
-    updated: MerkleMapUpdate,
-    witness: MerkleMapWitness
-  ) {
+  @method rollupAllBatches() {
     const planUid = this.planUid.getAndAssertEquals();
     const communityUid = this.communityUid.getAndAssertEquals();
     const votingState = this.votingState.getAndAssertEquals();
     const batchesCommitment = this.batchesCommitment.getAndAssertEquals();
 
+    Circuit.log("current commitment=", this.batchesCommitment);
+
     // check that this claim is still open (in the voting process)
     votingState.assertEquals(ACTIVE, "Voting has already finished !");
 
-    // compute the new root for the existent key and hash using the given Witness 
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    const [ newRoot, newKey ] = witness.computeRootAndKey(
-      updated.afterLeaf.hash
+    // get all votes not counted since last rollup
+    let actionsState = this.actionsState.getAndAssertEquals();
+    let pendingBatches = this.reducer.getActions({
+      fromActionState: actionsState,
+    });
+    Circuit.log("rollupVotes pendingBatches.length=", pendingBatches.length);
+
+    // initialize the Merkle Tree where we are going to commit all batches
+    let tree = this.zeroTree();
+
+    // build rolled batches initial state for Reducer
+    let unrolled: RolledBatches = {
+      commitments: batchesCommitment,
+      count: UInt32.from(0),
+    };
+
+    let { 
+      state: rolledUp, 
+      actionState: rolledActionsState 
+    } = this.reducer.reduce(
+      // pending batches to reduce (the Actions queue)
+      pendingBatches, 
+
+      // the state type for the unrolled ad rolledUp instances
+      RolledBatches,  
+
+      // function that says how to apply the action
+      function (      
+        state: RolledBatches, 
+        action: VotesBatchReceivedAction
+      ) {
+        // we can use a reducer here because it is not important if batches 
+        // arrive in different order than the one they were emited.
+        Circuit.log("---");
+        Circuit.log("reducer action=", action);
+        Circuit.log("reducer state before=", state);
+
+        // increase batches count
+        state.count = state.count.add(1);
+        
+        // add to Mrekle Tree Leaf
+        Provable.asProver(() => {
+          let index = state.count.toBigint();
+          tree.setLeaf(index, action.batchComittment);
+        })
+
+        // update roled batches commitment
+        state.commitments = tree.getRoot();
+
+        Circuit.log("reducer state after=", state);
+        return state;
+      },
+
+      // initial state and actions point
+      { 
+        state: unrolled, 
+        actionState: actionsState 
+      } 
     );
+    Circuit.log("reducer final state=", rolledUp);
 
-    // assert the the updated root and key
-    updated.afterLeaf.key.assertEquals(newKey);
-    updated.afterRoot.assertEquals(newRoot);
+    // update the Actions final positions
+    this.actionsState.set(rolledActionsState);
 
-    // close voting batches and set final states
-    this.votingState.set(Field(ENDED));
-    this.batchesCommitment.set(updated.afterRoot);
+    // update on-chain state with the finall commitment
+    this.batchesCommitment.set(rolledUp.commitments);  
     Circuit.log("new commitment=", this.batchesCommitment);
   }
 }

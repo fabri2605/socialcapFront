@@ -1,53 +1,25 @@
-# Mina zkApp: @socialcap/contracts
+# Mina zkApp: Deployes
 
 This template uses TypeScript.
 
-### How to build
+## How to build
 
 ```sh
 npm run build
 ```
 
-### How to run tests
+## How to run tests
 
 ```sh
-node build/src/tests/main-root-tests.js
-node build/src/tests/main-claim-tests.js
+npm run test
+npm run testw # watch mode
 ```
 
-### Publish to NPM
-~~~
-npm publish --access public
-~~~
+## How to run coverage
 
-### Use it
-
-Install in client
-~~~
-npm i @socialcap/contracts
-~~~
-
-Import it
-~~~
-import { 
-  RootsContract, 
-  VotingContract,
-  VotingInstance,
-  ClaimsVotingFactory,
-  ProvableCommunity, 
-  CommunityState,
-  ProvablePerson,
-  PersonState,
-  ProvableMember,
-  MemberRole,
-  UID,
-  UTCDateTime,
-  MerkleMapProxy,
-  MerkleMapUpdate,
-  LeafInstance,
-  NullifierProxy,
-} from "@socialcap/contracts";
-~~~
+```sh
+npm run coverage
+```
 
 ## License
 

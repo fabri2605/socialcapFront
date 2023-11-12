@@ -1,21 +1,13 @@
 {
   "version": 1,
   "deployAliases": {
-    "brk1": {
+    "dep1": {
       "url": "https://proxy.berkeley.minaexplorer.com/graphql",
-      "keyPath": "keys/brk1.json",
-      "feepayerKeyPath": "/home/mzito/.cache/zkapp-cli/keys/test01.json",
-      "feepayerAlias": "test01",
-      "fee": "0.1",
-      "smartContract": "RootsContract"
-    },
-    "brk2": {
-      "url": "https://proxy.berkeley.minaexplorer.com/graphql",
-      "keyPath": "keys/brk2.json",
-      "feepayerKeyPath": "/home/mzito/.cache/zkapp-cli/keys/learn3.json",
-      "feepayerAlias": "learn3",
-      "fee": "0.5",
-      "smartContract": "ElectorsContract"
+      "keyPath": "keys/dep1.json",
+      "feepayerKeyPath": "/home/mzito/.cache/zkapp-cli/keys/deployer.test.json",
+      "feepayerAlias": "deployer.test",
+      "fee": "0.3",
+      "smartContract": "Add"
     },
     "plan1": {
       "url": "https://proxy.berkeley.minaexplorer.com/graphql",
@@ -25,13 +17,28 @@
       "fee": "0.3",
       "smartContract": "PlanVotingContract"
     },
-    "com1": {
+    "plan2": {
       "url": "https://proxy.berkeley.minaexplorer.com/graphql",
-      "keyPath": "keys/com1.json",
+      "keyPath": "keys/plan2.json",
+      "feepayerKeyPath": "/home/mzito/.cache/zkapp-cli/keys/deployer.test.json",
+      "feepayerAlias": "deployer.test",
+      "fee": "0.3"
+    },
+    "plan3": {
+      "url": "https://proxy.berkeley.minaexplorer.com/graphql",
+      "keyPath": "keys/plan3.json",
       "feepayerKeyPath": "/home/mzito/.cache/zkapp-cli/keys/deployer.test.json",
       "feepayerAlias": "deployer.test",
       "fee": "0.3",
-      "smartContract": "CommunitiesContract"
+      "smartContract": "PlanVotingContract"
+    },
+    "plan4": {
+      "url": "https://api.minascan.io/node/berkeley/v1/graphql",
+      "keyPath": "keys/plan4.json",
+      "feepayerKeyPath": "/home/mzito/.cache/zkapp-cli/keys/deployer.test.json",
+      "feepayerAlias": "deployer.test",
+      "fee": "0.3",
+      "smartContract": "PlanVotingContract"
     }
   }
 }

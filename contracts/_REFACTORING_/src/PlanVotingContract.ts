@@ -1,7 +1,7 @@
-import { SmartContract, state, State, method, Reducer, PublicKey } from "o1js";
-import { Field, Struct, Circuit, Poseidon } from "o1js";
-import { MerkleMapWitness, MerkleMap } from "o1js";
-import { MerkleMapUpdate } from "./merkle-updates.js";
+import { SmartContract, state, State, method, Reducer, PublicKey, MerkleTree } from "snarkyjs";
+import { Field, Bool, Struct, Circuit, Poseidon } from "snarkyjs";
+import { MerkleMapWitness } from "snarkyjs";
+import { MerkleMapProxy, MerkleMapUpdate } from "./CommunitiesContract.js";
 
 export {
   VotesBatch, PlanElectorsNullifierProxy, PlanVotingContract
@@ -20,9 +20,9 @@ const
 class VotesBatch extends Struct({
   communityUid: Field, // the community where the voting process is happening
   planUid: Field, // the Master Plan Uid of the credential being voted
-  electorPubkey: PublicKey, // the elector Uid who submitted this batch
+  electorUid: Field, // the elector Uid who submitted this batch
   batchUid: Field, // an unique Uid for this batch
-  batchCommitment: Field, // the Root of the batch MerkleTree
+  batchComittment: Field, // the Root of the batch MerkleTree
   size: Field, // Total number of votes received in this batch
   submitedUTC: Field 
 }){}
@@ -53,11 +53,8 @@ class PlanElectorsNullifierProxy extends Struct({
   root: Field,
   witness: MerkleMapWitness
 }) {
-  static key(
-    electorId: PublicKey,
-    planUid: Field
-  ): Field {
-    // Circuit.log(electorId, planUid)
+  static key(electorId: PublicKey, planUid: Field): Field {
+    Circuit.log(electorId, planUid)
     const keyd = Poseidon.hash(
       electorId.toFields()
       .concat(planUid.toFields())
@@ -108,35 +105,16 @@ class PlanVotingContract extends SmartContract {
     super.init();
     this.planUid.set(Field(0));
     this.communityUid.set(Field(0));
-    this.batchesCommitment.set(this.zeroRoot());
+    this.batchesCommitment.set(Field(0));
     this.votingState.set(Field(ACTIVE)); // it starts as an active voting
     this.actionsState.set(Reducer.initialActionState); // TODO: is this the right way to initialize this ???
   }
 
-  zeroRoot(): Field {
-    const mt = new MerkleMap();
-    mt.set(Field(0), Field(0)); // we set a first NULL key, with a NULL value
-    return mt.getRoot(); 
-  }
 
-  /**
-   * Setup initial values for some state vars. Should be done when 
-   * the account is really available, or it will fail.
-   */
-  @method setup(
-    planUid: Field,
-    communityUid: Field,
-  ) {
-    const currentPlanUid = this.planUid.getAndAssertEquals();
-    const currentCommunityUid = this.communityUid.getAndAssertEquals();
-    this.planUid.set(planUid);
-    this.communityUid.set(communityUid);
-  }
-
-  /**
-   * Checks if the given elector has been assigned to this voting process
-   */
   @method assertIsValidElector(
+    /**
+     * Checks if the given elector has been assigned to this voting process
+     */
     electorPuk: PublicKey,
     planUid: Field,
     nullifier: PlanElectorsNullifierProxy
@@ -161,13 +139,13 @@ class PlanVotingContract extends SmartContract {
   }
   
 
-  /**
-   * Receives a VotesBatch, asserts it, and emits an Action and en Event
-   */
   @method receiveVotesBatch(
     votesBatch: VotesBatch,
     nullifier: PlanElectorsNullifierProxy
   ) {
+    /**
+     * Receives a VotesBatch, asserts it, and emits an Action and en Event
+     */
     const planUid = this.planUid.getAndAssertEquals();
     const communityUid = this.communityUid.getAndAssertEquals();
     const votingState = this.votingState.getAndAssertEquals();
@@ -181,7 +159,7 @@ class PlanVotingContract extends SmartContract {
     electorPuk.assertEquals(this.sender);
     
     // check this elector is part of the Electors set 
-    Circuit.log("elector key=", PlanElectorsNullifierProxy.key(electorPuk, planUid));
+    Circuit.log("sendVote key=", PlanElectorsNullifierProxy.key(electorPuk, planUid));
     this.assertIsValidElector(electorPuk, planUid, nullifier);
 
     // check that we have not already finished 
@@ -198,31 +176,108 @@ class PlanVotingContract extends SmartContract {
   }
 
 
-  @method commitAllBatches(
-    updated: MerkleMapUpdate,
-    witness: MerkleMapWitness
+  @method rollupAllBatches(
+    map: MerkleMapProxy,
+    witness: MerkleMapWitness,
+    updated: MerkleMapUpdate
   ) {
     const planUid = this.planUid.getAndAssertEquals();
     const communityUid = this.communityUid.getAndAssertEquals();
     const votingState = this.votingState.getAndAssertEquals();
-    const batchesCommitment = this.batchesCommitment.getAndAssertEquals();
 
     // check that this claim is still open (in the voting process)
     votingState.assertEquals(ACTIVE, "Voting has already finished !");
+    
+    // get the point in history where we left the last rollup
+    let actionsState = this.actionsState.get();
+    this.actionsState.assertEquals(actionsState);
+    Circuit.log("rollupBatches actionsState=", actionsState);
+    
+    // get all votes not counted since last rollup
+    let pendingBatches = this.reducer.getActions({
+      fromActionState: actionsState,
+    });
+    Circuit.log("rollupBatches pendingBatches.length=", pendingBatches.length);
 
-    // compute the new root for the existent key and hash using the given Witness 
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    const [ newRoot, newKey ] = witness.computeRootAndKey(
-      updated.afterLeaf.hash
-    );
-
-    // assert the the updated root and key
-    updated.afterLeaf.key.assertEquals(newKey);
-    updated.afterRoot.assertEquals(newRoot);
-
-    // close voting batches and set final states
-    this.votingState.set(Field(ENDED));
-    this.batchesCommitment.set(updated.afterRoot);
-    Circuit.log("new commitment=", this.batchesCommitment);
+//     // build Voting initial state for Reducer
+//     let votingState: Votes = {
+//       total: votes,
+//       positive: positives,
+//       negative: negatives,
+//       ignored: ignored,
+//     };
+// 
+//     let { 
+//       state: newVotes, 
+//       actionState: newActionsState 
+//     } = this.reducer.reduce(
+//       pendingVotes, // pending votes to reduce
+//       Votes,        // the state type
+//       function (    // function that says how to apply the action
+//         state: Votes, 
+//         action: VoteAction
+//       ) {
+//         // we can use a reducer here because it is not important if votes arrive 
+//         // in different order than the one they were emited. we just need more
+//         // than the total required votes to be done
+//         Circuit.log("---");
+//         Circuit.log("reducer action=", action);
+//         Circuit.log("reducer before state=", state);
+//         const notFinished = state.total.lessThan(requiredVotes);
+//         const mustCount = notFinished.and(action.isValid);
+//         Circuit.log("reducer notFinished=", notFinished, "isValid=", action.isValid, " mustCount=", mustCount);
+//         state.total = Circuit.if(mustCount, state.total.add(1), state.total);
+//         state.positive = Circuit.if(mustCount.and(action.positive), state.positive.add(1), state.positive);
+//         state.negative = Circuit.if(mustCount.and(action.negative), state.negative.add(1), state.negative);
+//         state.ignored = Circuit.if(mustCount.and(action.ignore), state.ignored.add(1), state.ignored);
+//         Circuit.log("reducer after state=", state);
+//         return state;
+//       },
+//       { state: votingState, actionState: actionsState } // initial state and actions point
+//     );
+//     Circuit.log("reducer final state=", newVotes);
+// 
+//     // update on-chain voting and actions state
+//     this.actionsState.set(newActionsState);
+//     this.positive.set(newVotes.positive);
+//     this.negative.set(newVotes.negative);
+//     this.ignored.set(newVotes.ignored);
+// 
+//     // check if we have met end voting conditions
+//     let isFinished = newVotes.total.greaterThanOrEqual(requiredVotes);
+//     let isApproved = newVotes.positive.greaterThanOrEqual(requiredPositives);
+//          
+//     // assert result before changing its value
+//     let result = this.result.get();
+//     this.result.assertEquals(result);
+// 
+//     // now evaluate final result
+//     let newResult = Circuit.if(isFinished, 
+//       Circuit.if(isApproved, APPROVED, REJECTED),
+//       result
+//     );
+// 
+//     // update final on-chain result state
+//     this.result.set(newResult);
+// 
+//     // check if it has changed so we can report it with the event
+//     let resultHasChanged = newResult.greaterThan(result);
+// 
+//     // and send event with actual result, even if it is not yet finished
+//     // TODO: can we use an if condition here? I think it cant be done
+//     this.emitEvent("voting-changed", {
+//       claimUid: claimUid,
+//       isFinished: isFinished,
+//       hasChanged: resultHasChanged,
+//       result: result,
+//       total: newVotes.total,
+//       positive: newVotes.positive,
+//       negative: newVotes.negative,
+//       ignored: newVotes.ignored
+//     });
+// 
+//     Circuit.log("rollupClaims result=", newResult);
+//     Circuit.log("rollupClaims isFinished=", isFinished);
+//     Circuit.log("rollupClaims isApproved=", isApproved);
   }
 }
