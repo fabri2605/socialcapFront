@@ -30,6 +30,8 @@ async function addElectorsToNullifier(
 
   for (let j=0; j < electors.length; j++) {
     console.log("\naddElectorsToNullifier")
+    if (!electors[j].accountId)
+      continue;
 
     let key = NullifierProxy.key(
       PublicKey.fromBase58(electors[j].accountId), 

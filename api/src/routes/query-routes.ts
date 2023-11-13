@@ -54,13 +54,17 @@ async function queryRoutes(
     // call the registered 'method' with given 'params'
     try {
       const callFn = handler['fn'];
-      return await callFn(params);
+      return await callFn(params, reply);
     }
     catch (err) {
       logger.error(`queryRoutes ${method} Error=${err}`);
-      reply.code(UNKNOWN_ERROR).send(hasError.Unknown(
-        _.unknown_error(method, `params=${JSON.stringify(params)}`)
-      ));
+      reply
+        .code(UNKNOWN_ERROR)
+        .send(
+          hasError.Unknown(
+            _.unknown_error(method, `params=${JSON.stringify(params)}`)
+          )
+        );
     }
   })
 }

@@ -17,8 +17,9 @@ RUN cd /api
 RUN npm i 
 RUN npm i @socialcap/contracts
 RUN npx prisma generate
-RUN npm run build
 #RUN npx prisma migrate dev
+
+RUN npm run build
 
 CMD node build/src/main-api.js
 
