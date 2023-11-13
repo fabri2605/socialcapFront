@@ -20,7 +20,7 @@ export const SessionScalarFieldEnumSchema = z.enum(['uid','otp','email','created
 
 export const PersonScalarFieldEnumSchema = z.enum(['uid','accountId','state','fullName','description','image','email','phone','telegram','preferences','createdUTC','updatedUTC','approvedUTC']);
 
-export const CommunityScalarFieldEnumSchema = z.enum(['uid','accountId','adminUid','state','name','description','image','createdUTC','updatedUTC','approvedUTC']);
+export const CommunityScalarFieldEnumSchema = z.enum(['uid','accountId','adminUid','state','name','description','image','createdUTC','updatedUTC','approvedUTC','xadmins']);
 
 export const MembersScalarFieldEnumSchema = z.enum(['uid','communityUid','personUid','role','createdUTC','approvedUTC']);
 
@@ -30,9 +30,13 @@ export const PlanScalarFieldEnumSchema = z.enum(['uid','communityUid','state','n
 
 export const CredentialScalarFieldEnumSchema = z.enum(['uid','accountId','applicantId','claimId','applicantUid','communityUid','claimUid','type','description','community','image','alias','stars','metadata','revocable','issuedUTC','expiresUTC']);
 
-export const TaskScalarFieldEnumSchema = z.enum(['uid','claimUid','assigneeUid','state','assignedUTC','completedUTC','dueUTC','rewarded','reason']);
+export const TaskScalarFieldEnumSchema = z.enum(['uid','claimUid','assigneeUid','state','assignedUTC','completedUTC','dueUTC','rewarded','reason','result']);
 
 export const ProposedScalarFieldEnumSchema = z.enum(['uid','role','personUid','communityUid','createdUTC']);
+
+export const BatchScalarFieldEnumSchema = z.enum(['uid','sequence','type','metadata','signerAccountId','signedData','signatureField','signatureScalar','commitment','size','state','submitedUTC','doneUTC']);
+
+export const StateScalarFieldEnumSchema = z.enum(['id','label']);
 
 export const SortOrderSchema = z.enum(['asc','desc']);
 
@@ -155,10 +159,11 @@ export const CommunitySchema = z.object({
   state: z.string().min(1).max(12),
   name: z.string().min(3).max(128),
   description: z.string().max(128).nullish(),
-  image: z.string().url().max(128).nullish(),
+  image: z.string().url().max(1024).nullish(),
   createdUTC: z.coerce.date(),
   updatedUTC: z.coerce.date(),
   approvedUTC: z.coerce.date().nullish(),
+  xadmins: z.string().nullish(),
 })
 
 export type Community = z.infer<typeof CommunitySchema>
@@ -320,6 +325,7 @@ export const TaskSchema = z.object({
   dueUTC: z.coerce.date().nullish(),
   rewarded: z.number().int().nullish(),
   reason: z.number().int().nullish(),
+  result: z.string().nullish(),
 })
 
 export type Task = z.infer<typeof TaskSchema>
@@ -353,3 +359,52 @@ export type Proposed = z.infer<typeof ProposedSchema>
 export const ProposedPartialSchema = ProposedSchema.partial()
 
 export type ProposedPartial = z.infer<typeof ProposedPartialSchema>
+
+/////////////////////////////////////////
+// BATCH SCHEMA
+/////////////////////////////////////////
+
+export const BatchSchema = z.object({
+  uid: z.string(),
+  sequence: z.number().int(),
+  type: z.string(),
+  metadata: z.string(),
+  signerAccountId: z.string(),
+  signedData: z.string(),
+  signatureField: z.string(),
+  signatureScalar: z.string(),
+  commitment: z.string(),
+  size: z.number().int(),
+  state: z.number().int(),
+  submitedUTC: z.coerce.date(),
+  doneUTC: z.coerce.date().nullish(),
+})
+
+export type Batch = z.infer<typeof BatchSchema>
+
+/////////////////////////////////////////
+// BATCH PARTIAL SCHEMA
+/////////////////////////////////////////
+
+export const BatchPartialSchema = BatchSchema.partial()
+
+export type BatchPartial = z.infer<typeof BatchPartialSchema>
+
+/////////////////////////////////////////
+// STATE SCHEMA
+/////////////////////////////////////////
+
+export const StateSchema = z.object({
+  id: z.number().int(),
+  label: z.string(),
+})
+
+export type State = z.infer<typeof StateSchema>
+
+/////////////////////////////////////////
+// STATE PARTIAL SCHEMA
+/////////////////////////////////////////
+
+export const StatePartialSchema = StateSchema.partial()
+
+export type StatePartial = z.infer<typeof StatePartialSchema>

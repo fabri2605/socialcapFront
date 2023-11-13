@@ -20,7 +20,7 @@
               <br><b>{data.countMembers}</b> members
               | <b>{data.countClaims}</b> claims
               | <span class="fs-5"> 🎉 </span>
-              &nbsp; <b>{data.countCredentials}</b> credentials issued !
+              &nbsp; <b>{data.countCredentials}</b> credentials issued ! -->
             </p>
           </a>    
           <p class="mt-2">

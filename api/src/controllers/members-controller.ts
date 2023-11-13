@@ -31,6 +31,34 @@ export async function joinCommunity(params: any) {
 }
 
 
+export async function updateMemberRole(params: {
+  communityUid: string,
+  personUid: string, 
+  role: number,
+  user: any
+}) {
+  const { communityUid, personUid, role } = params;
+
+  if (! [1,2,3].includes(role))
+    raiseError.BadRequest("Can not promote this invalid role !")
+
+  // first get current instance 
+  let memberUid = communityUid+personUid;
+
+  // update partially 
+  let rs = await updateEntity("members", memberUid, {
+    communityUid: communityUid,
+    personUid: personUid,
+    role: role+""
+  })
+
+  return hasResult({
+    claim: rs.proved,
+    transaction: rs.transaction
+  }); 
+}
+
+
 export async function promoteMember(params: any) {
   const { communityUid, personUid, role } = params;
 
