@@ -14,7 +14,7 @@
     2: "gray", // CANCELED",   
     3: "danger", // REVISION",    
     4: "info", // CLAIMED",   
-    6: "primary", // VOTING",
+    6: "warning", // VOTING",
     7: "warning", // ASSIGNED",
     8: "success", // ACTIVE",
     9: "warning", // WAITING",
