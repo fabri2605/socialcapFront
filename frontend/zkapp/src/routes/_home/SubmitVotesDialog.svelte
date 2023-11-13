@@ -78,10 +78,10 @@
         <Button color="primary" on:click={sendThemNow}>Send them now !</Button>
       {/if}
       {#if status !== SENT}
-        <Button color="secondary" on:click={exitVoting}>Cancel</Button>
+        <Button color="secondary" on:click={cancelVoting}>Cancel</Button>
       {/if}
       {#if status === SENT}
-        <Button color="primary" on:click={exitVoting}>Done !</Button>
+        <Button color="primary" on:click={doneVoting}>Done !</Button>
       {/if}
     </ModalFooter>
   </Modal>
@@ -171,7 +171,12 @@
     await tick();
   }
   
-  function exitVoting() {
+  function cancelVoting() {
+    toggle(); // close dialog
+    status = READY; // get ready for next ...
+  }
+
+  function doneVoting() {
     toggle(); // close dialog
     status = READY; // get ready for next ...
     setTimeout(() => window.location.reload());
