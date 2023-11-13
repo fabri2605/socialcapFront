@@ -1,6 +1,6 @@
 import { prisma } from "../global.js";
 import { CommunityMembers } from "./members-helper.js";
-import { DRAFT, CLAIMED, IGNORED } from "@socialcap/contracts";
+import { DRAFT, CLAIMED, IGNORED, VOTING, UNPAID, REJECTED, APPROVED } from "@socialcap/contracts";
 
 
 export async function getCommunityClaims(
@@ -8,7 +8,7 @@ export async function getCommunityClaims(
   members: CommunityMembers,
   states?: number[]
 ) {
-  states = states || [DRAFT,CLAIMED,IGNORED];
+  states = states || [DRAFT,CLAIMED,IGNORED,VOTING,UNPAID,REJECTED,APPROVED];
 
   // first the bare claims for this community (ALL of them)
   let claims = await prisma.claim.findMany({
