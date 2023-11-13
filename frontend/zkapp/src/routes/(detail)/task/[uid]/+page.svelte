@@ -295,7 +295,7 @@
   import { 
     MINAExplorer, connectWallet, submitVote,
     auroWallet$, deployedVoting$, loadVotingZkapp 
-  } from "$lib/contracts/helpers";
+  } from "$lib/contracts/claim-voting/helpers";
 
   export let data; // this is the data for this Task
 

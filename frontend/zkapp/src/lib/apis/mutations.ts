@@ -5,12 +5,15 @@ export {
   updateProfile, 
   updateCommunity, 
   joinCommunity,
+  changeMemberRole,
   attachPlan,
   updatePlan,
   addClaim,
   updateClaim,
+  changeClaimState,
   submitClaim,
   submitTask,
+  submitTasksBatch,
   requestOTP, 
   login,
   signUp
@@ -94,6 +97,18 @@ async function joinCommunity(data: any): Promise<any> {
   return rs.data.member;
 }
 
+async function changeMemberRole(data: {
+  personUid: string,
+  communityUid: string,
+  role: number
+}): Promise<any> {
+  let rs = await apiClient.mutate("update_member_role", data);
+  if (rs.error) 
+    return rs;
+  return rs.data.claim;
+}
+
+
 /**
  * Attachs a new plan to a given community
  */
@@ -165,6 +180,17 @@ async function updateClaim(data: any): Promise<any> {
   return rs.data.claim;
 }
 
+async function changeClaimState(data: {
+  uid: string,
+  state: number
+}): Promise<any> {
+  let rs = await apiClient.mutate("update_claim_state", data);
+  if (rs.error) 
+    return rs;
+  return rs.data.claim;
+}
+
+
 /** This really starts the voting process */
 async function submitClaim(data: any): Promise<any> {
   AppStatus.push("Submitting the Claim #"+data.uid);  
@@ -198,3 +224,14 @@ async function submitTask(data: any): Promise<any> {
 
   return rs.data.task;
 }
+
+async function submitTasksBatch(params: {
+  senderAccountId: string,
+  signedData: any,
+  extras?: { addToQueue: boolean }
+}): Promise<any> {
+  const rs = await apiClient.mutate("submit_tasks_batch", params);
+  if (rs.error) 
+    return rs;
+  return rs.data;
+};

@@ -4,6 +4,7 @@ import { appStatus, AppStatus } from "$lib/utilities/app-status";
 export { 
   apiClient,
   setApiClient,
+  getAPIConfig,
   appStatus,
   AppStatus 
 };
@@ -13,5 +14,9 @@ let apiClient: CoreAPIClient;
 
 function setApiClient(client: CoreAPIClient) {
   apiClient = client;
+}
+
+function getAPIConfig() {
+    return apiClient.API;
 }
 

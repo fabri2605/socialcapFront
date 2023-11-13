@@ -3,9 +3,11 @@
  * We need to do this here because we can not inlcuide Snarkyjs in the 
  * api/queries module or the build fails.
  */
-import { MerkleMap, Field, PublicKey } from "snarkyjs";
-import { UID, NullifierProxy } from "@socialcap/contracts";
+import { MerkleMap, Field, PublicKey } from "o1js";
+import { UID, PlanElectorsNullifierProxy } from "@socialcap/batch-voting";
 import { getNullifier } from "@apis/queries";
+
+// $$$$TODO$$$$$ Fix Nullifier before using it 
 
 export async function buildNullifier(params: any) {
 
@@ -15,7 +17,7 @@ export async function buildNullifier(params: any) {
 
   const claimUid = params.claimUid;
   const senderAccountId =  params.senderAccountId;
-  const electorKey = NullifierProxy.key(
+  const electorKey = PlanElectorsNullifierProxy.key(
     PublicKey.fromBase58(senderAccountId),
     UID.toField(claimUid)
   )
@@ -29,7 +31,7 @@ export async function buildNullifier(params: any) {
     //console.log(`Nullifier leaf ${key.toString()} ${hashed.toString()}`)
   }
 
-  const nullifier: NullifierProxy = {
+  const nullifier: PlanElectorsNullifierProxy = {
     root: map.getRoot(),
     witness: map.getWitness(electorKey)
   }

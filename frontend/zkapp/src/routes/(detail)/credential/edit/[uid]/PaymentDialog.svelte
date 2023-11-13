@@ -101,7 +101,7 @@
   import { 
     MINAExplorer, loadSocialcapContract, connectWallet, payForCredentialClaim, 
     auroWallet$, deployedSocialcap$ 
-  } from "$lib/contracts/helpers";
+  } from "$lib/contracts/claim-voting/helpers";
 	
   export let data; // this is the data for this MasterPlan and empty Claim
 
