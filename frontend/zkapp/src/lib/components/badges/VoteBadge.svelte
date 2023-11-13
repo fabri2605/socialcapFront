@@ -22,5 +22,6 @@
     "0": "question-circle",
     "1": "patch-check-fill",
     "-1": "hand-thumbs-down-fill", 
+    "7": "" // No result yet
   }
 </script>

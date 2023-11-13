@@ -17,7 +17,9 @@
           </DropdownMenu>
         </Dropdown>    
         
-        <Button color="primary" size="" class="me-4">
+        <Button 
+          on:click={() => submitAllVotes()}
+          color="primary" size="" class="me-4">
           Submit your votes 
         </Button>
   </div>
@@ -27,17 +29,27 @@
   {/each}
 </div>
 
+<SubmitVotesDialog bind:open={openDlg} tasks={completedTasks}/>
+
 <script>
+  import { get } from "svelte/store";
   import { Button, Input } from "sveltestrap";
   import { Dropdown, DropdownItem,DropdownToggle, DropdownMenu } from "sveltestrap";
   import TaskItem from "./TaskItem.svelte";
+  import SubmitVotesDialog from "./SubmitVotesDialog.svelte";
+  import { deployedBatchVoting$ } from "$lib/contracts/stores";
+  import { loadPlanVotingContract } from "$lib/contracts/batch-voting/loaders";
+  import { connectWallet } from "$lib/contracts/wallet";
+	import { ASSIGNED } from "@models/votes";
 
   export let data;
 
   let 
     columns = [],
     contains = "",
-    orderBy = [];
+    orderBy = [],
+    openDlg = false,
+    completedTasks = [];
     
   let fields = prepareColumnsSelector(data);
 
@@ -62,5 +74,33 @@
   function filterSelected(fields) {
     let cols = fields.filter((t) => t.selected).map((t) => t.index);
     return cols;
+  }
+
+  
+  async function submitAllVotes() {
+    // here we should also prepare the tasks to send !
+    let allTasks = (data || []).map((t) => {
+      return {
+        uid: t.uid,
+        claimUid: t.claimUid,
+        result: t.result,
+        assigneeUid: t.assigneeUid,
+      }
+    });
+
+    // filter all the Not voted tasks, we only send the ones with results
+    completedTasks = allTasks.filter((t) => t.result !== ASSIGNED+"");
+
+    // check !
+    let isSnarkyLoaded = get(deployedBatchVoting$) ;
+    if (!isSnarkyLoaded) {
+      // do this async ...
+      // $$TODO$$ fails 
+      //await loadPlanVotingContract();
+      await connectWallet();
+    }
+
+    // now we can open the Dlg
+    openDlg = true;
   }
 </script>

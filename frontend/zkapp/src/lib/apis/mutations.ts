@@ -13,6 +13,7 @@ export {
   changeClaimState,
   submitClaim,
   submitTask,
+  submitTasksBatch,
   requestOTP, 
   login,
   signUp
@@ -223,3 +224,14 @@ async function submitTask(data: any): Promise<any> {
 
   return rs.data.task;
 }
+
+async function submitTasksBatch(params: {
+  senderAccountId: string,
+  signedData: any,
+  extras?: { addToQueue: boolean }
+}): Promise<any> {
+  const rs = await apiClient.mutate("submit_tasks_batch", params);
+  if (rs.error) 
+    return rs;
+  return rs.data;
+};

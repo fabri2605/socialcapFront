@@ -18,10 +18,8 @@
   import CredentialCard from '@components/cards/CredentialCard.svelte';
   import ClaimCard from "@components/cards/ClaimCard.svelte";
   import CommunityCard from '@components/cards/CommunityCard.svelte';
-  // import TaskCard from '@components/cards/TaskCard.svelte';
-  import TaskItem from "./TaskItem.svelte";
-  import TasksList from "./TasksList.svelte";
   import EmptyItemsCard from "@components/cards/EmptyItemsCard.svelte";
+  import TasksList from "./_home/TasksList.svelte";
 
   export let data; // this is the data for the lists
 
@@ -92,13 +90,13 @@
           </TabPane>
           
           {#if user && user.hasTasks}
-          <TabPane tabId="tasks" tab="My tasks">
-            {#if !data?.assigned?.length}
-              <EmptyItemsCard notice="You have no pending tasks" />
-            {:else}
-              <TasksList data={data.assigned} />
-            {/if}
-          </TabPane>
+            <TabPane tabId="tasks" tab="My tasks">
+              {#if !data?.assigned?.length}
+                <EmptyItemsCard notice="You have no pending tasks" />
+              {:else}
+                <TasksList data={data.assigned} />
+              {/if}
+            </TabPane>
           {/if}
 
         </TabContent>      

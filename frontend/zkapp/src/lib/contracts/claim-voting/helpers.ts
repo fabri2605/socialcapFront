@@ -1,10 +1,10 @@
-import { fetchAccount, UInt64, Mina, PublicKey, Field } from "snarkyjs";
-import { SOCIALCAP_CONTRACT_ID } from "./addresses";
-import { CLAIM_TX_FEE } from "./fees";
-import { SocialcapContract, VotingContract, NullifierProxy, UID, DONE } from "@socialcap/contracts";
-import { AppStatus } from "@utilities/app-status";
-import { buildNullifier } from "./nullifier";
-import { submitTask } from "@apis/mutations";
+import { fetchAccount, UInt64, Mina, PublicKey, Field } from "o1js";
+// import { SOCIALCAP_CONTRACT_ID } from "../addresses";
+// import { CLAIM_TX_FEE } from "../fees";
+// import { SocialcapContract, VotingContract, NullifierProxy, UID, DONE } from "@socialcap/contracts";
+// import { AppStatus } from "@utilities/app-status";
+// import { buildNullifier } from "../nullifier";
+// import { submitTask } from "@apis/mutations";
 
 // Svelte stores
 import { writable, get } from "svelte/store";
@@ -25,9 +25,10 @@ const Berkeley = Mina.Network(
 
 export const MINAExplorer = "https://berkeley.minaexplorer.com"
 
+
 export async function loadSocialcapContract() {
   console.log("loading Snarkyjs and zkApp instance ...");
-
+/*
   Mina.setActiveInstance(Berkeley);
 
   // create an instance of the Add contract
@@ -52,14 +53,14 @@ export async function loadSocialcapContract() {
   AppStatus.done("We are ready NOW !");
   berkeleyNetwork$.set(true);
   deployedSocialcap$.set(zkappInstance);
- 
+*/ 
   return true;
 }
 
 
 export async function loadVotingZkapp(claimAccountId: string) {
   console.log("loading Snarkyjs and zkApp instance ...");
-
+/*
   Mina.setActiveInstance(Berkeley);
 
   // create an instance of the Add contract
@@ -84,7 +85,7 @@ export async function loadVotingZkapp(claimAccountId: string) {
   AppStatus.done("We are ready NOW !");
   berkeleyNetwork$.set(true);
   deployedVoting$.set(zkappInstance);
- 
+*/ 
   return true;
 }
 
@@ -128,6 +129,7 @@ export async function connectWallet() {
 
 
 export async function payForCredentialClaim(fee: number, uid?: string) {
+/*
   try {
     const mina = window!.mina;
     if (mina === null) return {
@@ -176,10 +178,12 @@ export async function payForCredentialClaim(fee: number, uid?: string) {
       error: err.message
     }
   }
+*/
 }
 
 
 export async function submitVote(task: any, vote: string) {
+/*  
   try {
     const mina = window!.mina;
     if (mina === null) return {
@@ -262,4 +266,5 @@ export async function submitVote(task: any, vote: string) {
       error: err.message.substr(0, 40)
     }
   }
+*/
 }

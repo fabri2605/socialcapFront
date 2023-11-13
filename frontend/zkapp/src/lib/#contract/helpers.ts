@@ -1,4 +1,4 @@
-import { fetchAccount, UInt64, Mina, PrivateKey, PublicKey, Field, MerkleMap } from "snarkyjs";
+import { fetchAccount, UInt64, Mina, PrivateKey, PublicKey, Field, MerkleMap } from "o1js";
 import { SOCIALCAP_CONTRACT_ID } from "./addresses";
 import { CLAIM_TX_FEE } from "./fees";
 import { SocialcapContract, VotingContract, NullifierProxy, UID, DONE } from "@socialcap/contracts";

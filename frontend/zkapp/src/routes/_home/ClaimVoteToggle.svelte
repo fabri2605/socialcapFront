@@ -7,16 +7,16 @@
     {/if}
   </DropdownToggle>
   <DropdownMenu>
-    <DropdownItem on:click={() => changeState(1)}>
+    <DropdownItem on:click={() => changeState("1")}>
       Positive
     </DropdownItem>  
-    <DropdownItem on:click={() => changeState(-1)}>
+    <DropdownItem on:click={() => changeState("-1")}>
       Negative
     </DropdownItem>  
-    <DropdownItem on:click={() => changeState(0)}>
+    <DropdownItem on:click={() => changeState("0")}>
       Abstained
     </DropdownItem>  
-    <DropdownItem on:click={() => changeState(7)}>
+    <DropdownItem on:click={() => changeState("7")}>
       Not voted
     </DropdownItem>  
   </DropdownMenu>

@@ -44,10 +44,9 @@
         </div>
 
         <div class="col-2 text-end">
-          <ClaimVoteToggle uid={data.uid} bind:state={data.state} />
+          <ClaimVoteToggle uid={data.uid} bind:state={data.result} />
         </div>
     </div>
-    
 </div>      
 
 
@@ -71,7 +70,6 @@
   let claimIdn = data.claim.uid.slice(0,6)+'...'+data.claim.uid.slice(-6);
 
   const api = getAPIConfig();
-
 
   /**
    * Convert the field value to a safe text representation

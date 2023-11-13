@@ -1,6 +1,4 @@
 import { apiClient, AppStatus } from "$lib/globals";
-//import { PublicKey, MerkleMapWitness, MerkleMap, Field, Bool } from "snarkyjs";
-// import { VotingContract } from "@socialcap/contracts";
 
 export { 
   getMyCommunities, getAllCommunities, getCommunity,
