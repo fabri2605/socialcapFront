@@ -19,7 +19,7 @@ const NULLIFIER = 8;
 async function run(communityName: string) {
 
   // reset this ones so we can start fresh 
-  let votesMerkleMap = await OffchainMerkleStorage.resetMerkleMap(VOTES_MERKLE_MAP);
+  // let votesMerkleMap = await OffchainMerkleStorage.resetMerkleMap(VOTES_MERKLE_MAP);
 
   let nullifier = await OffchainMerkleStorage.resetMerkleMap(NULLIFIER);
 
