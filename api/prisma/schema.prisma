@@ -213,6 +213,7 @@ model Task {
   dueUTC       DateTime? @map("due_utc")
   rewarded     Int?      @default(0)
   reason       Int?      @default(0)
+  result       String?   @default("7") // Default is No result
 
   @@map("tasks")
 }
