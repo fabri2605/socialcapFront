@@ -3,7 +3,6 @@
   import { goto } from "$app/navigation";
   import { page } from "$app/stores";
   import { isFirstTimeUser } from "@models/current-user";
-  // import { VotingContract } from "@socialcap/contracts";
   import { ALL_STATES } from "@models/states";
 
   // Ui components
