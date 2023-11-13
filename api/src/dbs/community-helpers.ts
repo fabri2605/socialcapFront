@@ -1,61 +1,62 @@
-import { Community } from "@prisma/client";
-import { CommunitySchema, CommunityPartialSchema } from "../../prisma/generated/zod/index.js";
-// import { CommunityState } from "@socialcap/contracts";
-import { logger, prisma } from "../global.js";
-import { raiseError } from "../responses.js"
-import { getPersonOrRaise } from "./person-helpers.js";
+import { prisma } from "../global.js";
+import { CommunityMembers } from "./members-helper.js";
+import { DRAFT, CLAIMED, IGNORED, VOTING, UNPAID, REJECTED, APPROVED } from "@socialcap/contracts";
 
 
-export async function getCommunityOrRaise(
-  uid: string
-): Promise<Community> {
-  const t = await prisma.community.findUnique({
-    where: { uid: uid }
-  });
-  if (!t) raiseError.NotFound(`Community %{uid} not found`);
-  return t as Community;
-}
-
-
-export async function updateCommunityOrRaise(
+export async function getCommunityClaims(
   uid: string, 
-  unsafeParams: any
-): Promise<Community> {
-  let params: any = CommunityPartialSchema.safeParse(unsafeParams);
+  members: CommunityMembers,
+  states?: number[]
+) {
+  states = states || [DRAFT,CLAIMED,IGNORED,VOTING,UNPAID,REJECTED,APPROVED];
 
-  // we mostly allways need this
-  let current = await prisma.community.findUnique({
-    where: { uid: uid }
-  });
-  
-  // if (params.state) {
-  //   // needs additional checking here, suchs as valid state
-  //   //params.state = CommunityState.changeFrom(current?.state || "", params.state);
-  // }
+  // first the bare claims for this community (ALL of them)
+  let claims = await prisma.claim.findMany({
+    where: { AND: [
+      { communityUid: uid },
+      { state: { in: states }}
+    ]},
+    orderBy: { applicantUid: 'asc' }
+  }) as any;
 
-  if (params.adminUid) {
-    // we must check the adminUid for a valid PersonUid 
-    const admin = await getPersonOrRaise(params.adminUid);
-  }
-
-  const upserted = await prisma.community.upsert({
-    where: { uid: uid },
-    update: {
-      ...params
-    },
-    create: { 
-      uid: uid, 
-      name: params.name || "Yet unnamed!", 
-      description: params.description || "Please describe this community",
-      state: "INITIAL",
-      adminUid: params.adminUid as string
-    },
+  // add the applicant info to every claim
+  claims = (claims || []).map((claim: any) => {
+    claim.applicant = members.findByUid(claim.applicantUid);
+    return claim;
   })
 
-  return upserted;
+  return claims;
 }
 
 
-async function getMyCommunities(userUid: string) {
+export async function getCommunityCounters(uid: string) {
+  const nMembers = await prisma.members.count({
+    where: { communityUid: uid },
+  })    
+
+  const nClaims = await prisma.claim.count({
+    where: { AND: [{communityUid: uid}, {state: CLAIMED}] }
+  })    
+
+  const nCredentials = await prisma.credential.count({
+    where: { communityUid: uid },
+  })    
+
+  return {
+    countMembers: nMembers || 0,
+    countClaims: nClaims || 0,
+    countCredentials: nCredentials || 0
+  }
+}
+
+
+export async function findCommunityByName(name: string) {
+  let communities = await prisma.community.findMany({
+    where: { name: name }
+  });
+
+  if (! communities || !communities.length)
+    return null;
   
+  return communities[0]; // just return the first one we found
 }

@@ -156,7 +156,7 @@
               <StdFormField 
               label="Rewards (%)" 
               type="number" 
-              help="Percentaje of fee that will go to validator rewards"
+              help="Percentage of fee that will go to validator rewards"
               class=""
               readonly
               value={100 - data.communityShare - data.protocolShare} 
@@ -198,6 +198,7 @@
                   { value: "RandomAnonyomusValidators", text: "Random Anonyomus Validators"},
                   { value: "AllMembersAnonymousVoting", text: "All Members Anonymous Voting"},
                   { value: "NominatedValidators", text: "Nominated Validators"},
+                  { value: "AllJudgesSecretVoting", text: "All Judges Secret Voting"},
                 ]}
                 bind:value={data.strategy.variant} 
                 />
@@ -315,7 +316,7 @@
   import Section from "@components/Section.svelte";
   import DetailPageContent from "@components/DetailPageContent.svelte";
   import DetailPageHeader from "@components/DetailPageHeader.svelte";
-  import MemberItem from "@components/lists/MemberItem.svelte";
+  // import MemberItem from "../../[uid]/MemberItem.svelte";
   import MasterPlanItem from "@components/lists/MasterPlanItem.svelte";
   import MasterPlanAddButton from "@components/buttons/MasterPlanAddButton.svelte";
   import StdFormField from "@components/forms/StdFormField.svelte";

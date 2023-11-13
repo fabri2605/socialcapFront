@@ -51,6 +51,15 @@
         </div>
       </div>
     </div>
+
+    <div class="m-0 p-0 mt-4">
+      <Alert color="warning" class="p-3 fs-md lh-md">
+        All submissions are due by <b>Friday, November 10th at 11:59 pm PST</b>.
+        <br>
+        In your <b>local time</b> this will be <b>{prettyDateToLocale(submissionDateUtc)}</b>, but please check it !
+      </Alert>
+    </div>
+
   </Section>
   
   <Section class="section-md px-5 text-start">
@@ -74,7 +83,7 @@
       />
       &nbsp;&nbsp;
       <SubmitButton 
-        disabled={!dataIsOk(data.claim.evidenceData)}
+        disabled={!dataIsOk(data.claim.evidenceData) || !isSubmissionEnabled(submissionDateUtc)}
         on:click={() => saveDraftAndSubmit()}
         color="primary" 
         label={submitingClaim ? "Submitting ..." : "Claim now !"}
@@ -116,6 +125,10 @@
   const toggle = () => (openConfirmDlg = !openConfirmDlg);
   let savingDraft = false, submitingClaim = false;
 
+  // Due to an error during community creation, the MINA NAVIGATOR community ends date should be 2023-11-10 23:59 PST
+  const MINA_NAVIGATOR_COMMUNITY_UID = "70ed0f69af174c399b1958c01dc191c0";
+  const submissionDateUtc = data.plan.communityUid == MINA_NAVIGATOR_COMMUNITY_UID ? "2023-11-11T07:59:00.000Z" : data.plan.endsUTC;
+
   onMount(() => {
     user = getCurrentUser();
   })
@@ -148,8 +161,14 @@
     savingDraft = true;
     let updated = await updateTheDraft();
     savingDraft = false;
-    if (updated) 
+    if (updated) {
+      alert("Your draft has been saved !");
       history.back();
+    } 
+    else {
+      alert("There has been some problem. Please retry again later.");
+      return ; // saving the draft failed, we can not continue ...
+    }
   }
 
   /**
@@ -161,11 +180,35 @@
    */
   async function saveDraftAndSubmit() {
     let updated = await updateTheDraft();
-    if (! updated)
+    if (! updated) {
+      alert("There has been some problem. Please retry again later.");
       return ; // saving the draft failed, we can not continue ...
+    }
 
     // wait for confirmation  
     openConfirmDlg = true;
+  }
+
+  function isSubmissionEnabled(dateString) {
+    const date = new Date(dateString);
+    // Get the current local browser time
+    const localDate = new Date(); 
+    // Compare the two dates
+    return localDate < date;
+  }
+
+  function prettyDateToLocale(utcDateStr) {
+    const utcDate = new Date(utcDateStr)
+      const options = {
+      year: "numeric",
+      month: "numeric",
+      day: "numeric",
+      hour: "numeric",
+      minute: "numeric",
+      hour12: true, // Use 24-hour format
+      timeZoneName: "short"
+    };
+    return utcDate.toLocaleString();
   }
 
   async function submitIt() {
@@ -181,7 +224,11 @@
     });
     submitingClaim = false;
 
-    if (submited) 
+    if (submited) {
+      alert("Your claim has been submmited !");
       history.back();
+    } else {
+      alert("There has been some problem. Please retry again later.");
+    }
   }
 </script>

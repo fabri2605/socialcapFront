@@ -5,11 +5,22 @@
   {/if}
 
   {#if field.type === "note"}
-    <Markdown md={field.value} {plugins} />              
+    <Markdown 
+      md={(field.value || "").replaceAll('\n', '  \n')} 
+      {plugins} 
+    />              
   {/if}
     
   {#if field.type === "radio"}
     {field.value || ""}
+  {/if}
+
+  {#if field.type === "checks"}
+    {#each (field.value || []) as check}
+      <p class="lh-sm fs-md">
+        <span>{check}</span>
+      </p>
+    {/each}
   {/if}
 
   {#if field.type === "links"}

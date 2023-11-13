@@ -36,12 +36,12 @@
         </div>
 
         <p class="py-0 my-0 d-flex justify-content-between align-items-center">
-
+         <!-- 
           <span class="fs-sm lh-base mt-2 text-left mb-0 text-secondary">
             <b>{data.countMembers || "?"}</b> members
             <br/> 
             <b>{data.countCredentials || "?"}</b> credentials issued
-          </span>
+          </span>-->
 
           <a 
             href={'#'} 

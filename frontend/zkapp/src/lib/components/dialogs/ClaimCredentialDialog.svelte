@@ -29,7 +29,6 @@ size="lg"
   import { Modal } from "sveltestrap";
   import CanClaimNow from "@components/cards/CanClaimNow.svelte";
 	import { now } from "svelte/internal";
-	import { CommunitiesContract } from "@socialcap/contracts";
 
   export let open = false, claimables = [];
 

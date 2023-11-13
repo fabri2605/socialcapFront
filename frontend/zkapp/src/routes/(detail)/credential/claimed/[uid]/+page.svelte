@@ -20,11 +20,11 @@
           <p class="m-0 p-0 text-uppercase">{data.community}</p>
           <h3 class="text-black d-flex justify-content-between align-items-center">
             <span>{data.type}</span>
-            <span class="fs-md">
+            <span class="fs-md text-end">
               <StateBadge state={data.state} />
             </span>
           </h3>
-          <p class="fs-sm text-secondary lh-lg text-start">
+          <p class="fs-sm text-secondary lh-lg text-start  d-flex justify-content-between align-items-start">
             {@html data.description}
           </p>
         </div>
@@ -37,7 +37,7 @@
           <p><Badge color="warning rounded-5 py-2 px-3 fs-4">{data.ignoredVotes}</Badge><br>abstained</p>
         </div>
         
-        <div class="d-flex justify-content-start text-start">
+        <div class="d-flex justify-content-between text-start">
           <p class="">
             <span class="fs-xs">Submited</span>
             <br/><b class="fs-sm">{prettyDate(data.createdUTC)}</b>
@@ -53,6 +53,8 @@
           <p class="px-4">
             <span class="fs-xs">Issued</span>
             <br/><b class="fs-sm">{prettyDate(data.issuedUTC)}</b>
+          </p>
+          <p class="pe-0 w-25">
           </p>
         </div>
       </div>
@@ -71,7 +73,7 @@
 
 <script>
   import { onMount } from "svelte";
-  import { Icon, Badge, Form, FormGroup, FormText, Label, Input, Button } from 'sveltestrap';
+  import { Badge, Input } from 'sveltestrap';
   import Section from "@components/Section.svelte";
   import BackButton from "@components/buttons/BackButton.svelte";
   import { getCurrentUser } from "@models/current-user";
@@ -86,7 +88,7 @@
   let 
     user = getCurrentUser();
 
-  onMount(() => {
-    user = getCurrentUser()
+  onMount(async () => {
+    user = await getCurrentUser()
   })
 </script>

@@ -53,10 +53,10 @@ async function assignTaskToElectors(
       The SocialCap team.
     `;
 
-    await sendEmail ({
-      email: elector.email,
-      subject: "SocialCap is requesting your vote",
-      text: mailBody
-    });
+    // await sendEmail ({
+    //   email: elector.email,
+    //   subject: "SocialCap is requesting your vote",
+    //   text: mailBody
+    // });
   })
 } 

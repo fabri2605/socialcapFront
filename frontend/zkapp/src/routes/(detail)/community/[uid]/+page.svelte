@@ -9,11 +9,11 @@
       <img width="80px" class="img-thumbnail rounded-circle me-2" src={data.image} crossorigin/>
       <div>
         <h3 class="text-black m-0 p-0">{data.name}</h3>
-        <p class="fs-sm mt-1">
+       <!-- <p class="fs-sm mt-1">
           <b>{data.countMembers}</b> members
           | <span class="fs-4"> 🎉 </span>
           &nbsp; <b>{data.countCredentials}</b> credentials issued !
-        </p>
+        </p> -->
       </div>
     </div>
 

@@ -134,11 +134,20 @@ class CoreAPIClient {
       const response = await axios.post(url, payload, {
         ...headers,
       });
+
+      // The request was received OK, but the response includes an error
+      if (response.data.error) return {
+        data: null, 
+        error: response.data.error
+      }
+
+      // Response OK and no errors in response
       return {
         data: response.data.data,
         error: null,
       };
-    } catch (err: any) {
+    } 
+    catch (err: any) {
       if (err.response && err.response.data.error) {
         err.message = err.response.data.error.message;
         err.code = err.response.data.error.code;
