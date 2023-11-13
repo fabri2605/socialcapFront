@@ -85,6 +85,8 @@
         claimUid: t.claimUid,
         result: t.result,
         assigneeUid: t.assigneeUid,
+        communityUid: t.community.uid,
+        planUid: t.plan.uid
       }
     });
 

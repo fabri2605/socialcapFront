@@ -1,14 +1,14 @@
 <div>
   <Modal isOpen={open} {toggle} backdrop="static">
-    <ModalHeader {toggle}>
-      You need to sign your votes 
+    <ModalHeader >
+      Sign and submit your votes
     </ModalHeader>
 
     {#if (tasks || []).length === 0}
       <ModalBody>
-          <div class="p-3 fs-lg d-flex align-items-center">
-            <p>
-              There are no votes to send
+          <div class="p-3 fs-nm d-flex align-items-center">
+            <p class="fs-lg">
+              <b>There are no votes to send </b>
             </p>
           </div>
       </ModalBody>
@@ -16,24 +16,18 @@
 
     {#if (tasks || []).length > 0}
       <ModalBody>
-        {#if !(tasks || []).length}
-          <div class="p-3 fs-lg d-flex align-items-center">
-            <p>
-              There are no votes to send
-            </p>
-          </div>
-        {/if}
-
         {#if status === READY}
           {#if !$auroWallet$?.connected}
             <p class="p-1">Connecting the wallet ...</p>
           {/if}
 
           {#if $auroWallet$?.connected && $auroWallet$?.publicKey}
-            <div class="p-3 lh-lg">
-              <p>AuroWallet is connected !</p>
+            <div class="p-3 lh-lg fs-nm">
               <p>
-                Account: <b>{$auroWallet$?.publicKey.slice(0,6)}...{$auroWallet$?.publicKey.slice(-6)}</b>
+                AuroWallet is connected !
+                <br/>
+                Account &nbsp;
+                <b class="bg-secondary-subtle border py-1 px-2 rounded-2">{$auroWallet$?.publicKey.slice(0,6)}...{$auroWallet$?.publicKey.slice(-6)}</b>
               </p>
               <p class="fs-lg">
                 Are you ready to send your votes ?
@@ -43,32 +37,36 @@
         {/if}
 
         {#if status === SENDING}
-          <div class="p-3 fs-md d-flex align-items-center">
-            <p class="fs-lg">
+          <div class="p-3 fs-nm d-flex align-items-center">
+            <p class="fs-1">
               <Spinner color="black" type="border" class="m-3" />
             </p>
-            <p>
+            <p class="fs-lg">
               Sending the votes ...
             </p>
           </div>
         {/if}
 
         {#if status === FAILED}
-          <div class="p-3 fs-lg d-flex align-items-center">
-            <p class="fs-lg">
+          <div class="p-3 fs-md d-flex align-items-center">
+            <p class="fs-1">
               <Icon name="exclamation-diamond-fill" class="text-danger me-4"/>
             </p>
-            <p>
+            <p class="fs-lg">
               We could not submmit the votes. Please retry again latter 
             </p>
           </div>
         {/if}
 
         {#if status === SENT}
-          <p class="p-3 fs-lg word-break text-wrap d-flex align-items-center">
-            <Icon name="check-circle" class="text-success me-4"/>
-            <b>Sent all votes ! </b>
-          </p>
+          <div class="p-3 fs-md d-flex align-items-center">
+            <p class="fs-1">
+              <Icon name="check-circle" class="text-success me-4"/>
+            </p>
+            <p>
+              <b>Sent all votes ! </b>
+            <p>
+          </div>
         {/if}
       </ModalBody>
     {/if}

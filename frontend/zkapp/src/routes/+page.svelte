@@ -90,7 +90,7 @@
           
           {#if user && user.hasTasks}
             <TabPane tabId="tasks" tab="My tasks">
-              {#if !data?.assigned?.length}
+              {#if !data.assigned.length}
                 <EmptyItemsCard notice="You have no pending tasks" />
               {:else}
                 <TasksList data={data.assigned} />
