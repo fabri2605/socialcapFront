@@ -7,6 +7,7 @@ import { waitForTransaction } from "../services/mina-transactions.js";
 import { updateEntity, getEntity } from "../dbs/any-entity-helpers.js";
 import { getNullifierLeafs, updateNullifier } from "../dbs/nullifier-helpers.js";
 import { CommunityMembers } from "../dbs/members-helper.js";
+import { createVotesBatch } from "../dbs/batch-helpers.js";
 
 export async function getTask(params: any) {
   const uid = params.uid;
@@ -134,13 +135,22 @@ export async function submitTasksBatch(params: {
     // change the state of the Task
     let task = await prisma.task.update({
       where: { uid: votes[j].uid },
-      data: { state:  DONE, result: votes[j].result },    
+      data: { 
+        state:  DONE, 
+        result: votes[j].result 
+      },    
     })
    
     // chain the state of the claim ??? NOT Yet
-    
     tasks.push(task);
   }
+
+  // create and save the Batch for processing
+  let batch = await createVotesBatch({
+    senderAccountId: params.senderAccountId,
+    signedData: params.signedData
+  });
+  logger.info(`VotesBatch created uid=${batch.uid} sequence=${batch.sequence} size=${batch.size} state=${batch.state}`);
 
   return hasResult({
     tasks: tasks,

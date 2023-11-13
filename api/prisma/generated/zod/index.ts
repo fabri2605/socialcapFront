@@ -34,6 +34,8 @@ export const TaskScalarFieldEnumSchema = z.enum(['uid','claimUid','assigneeUid',
 
 export const ProposedScalarFieldEnumSchema = z.enum(['uid','role','personUid','communityUid','createdUTC']);
 
+export const BatchScalarFieldEnumSchema = z.enum(['uid','sequence','type','metadata','signerAccountId','signedData','signatureField','signatureScalar','commitment','size','state','submitedUTC','doneUTC']);
+
 export const SortOrderSchema = z.enum(['asc','desc']);
 
 export const QueryModeSchema = z.enum(['default','insensitive']);
@@ -355,3 +357,33 @@ export type Proposed = z.infer<typeof ProposedSchema>
 export const ProposedPartialSchema = ProposedSchema.partial()
 
 export type ProposedPartial = z.infer<typeof ProposedPartialSchema>
+
+/////////////////////////////////////////
+// BATCH SCHEMA
+/////////////////////////////////////////
+
+export const BatchSchema = z.object({
+  uid: z.string(),
+  sequence: z.number().int(),
+  type: z.string(),
+  metadata: z.string(),
+  signerAccountId: z.string(),
+  signedData: z.string(),
+  signatureField: z.string(),
+  signatureScalar: z.string(),
+  commitment: z.string(),
+  size: z.number().int(),
+  state: z.number().int(),
+  submitedUTC: z.coerce.date(),
+  doneUTC: z.coerce.date().nullish(),
+})
+
+export type Batch = z.infer<typeof BatchSchema>
+
+/////////////////////////////////////////
+// BATCH PARTIAL SCHEMA
+/////////////////////////////////////////
+
+export const BatchPartialSchema = BatchSchema.partial()
+
+export type BatchPartial = z.infer<typeof BatchPartialSchema>
