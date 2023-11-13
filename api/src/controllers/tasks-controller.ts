@@ -1,6 +1,6 @@
 import { PublicKey, Field } from "snarkyjs";
 import { NullifierProxy, UID } from "@socialcap/contracts";
-import { CLAIMED, WAITING, UNPAID, VOTING, ASSIGNED, DONE } from "@socialcap/contracts";
+import { CANCELED,ASSIGNED,DONE,IGNORED } from "@socialcap/contracts";
 import { fastify, prisma, logger } from "../global.js";
 import { hasError, hasResult, raiseError } from "../responses.js";
 import { waitForTransaction } from "../services/mina-transactions.js";
@@ -74,29 +74,84 @@ export async function getMyTasks(params: any) {
 }
 
 
-export async function submitTask(params: any) {
+/**
+ * Submits one particular Task
+ */
+export async function submitTask(params: {
+  uid: string,
+  senderAccountId: string,
+  claimUid: string,
+  extras: { addToQueue: boolean }
+  user: any,
+}) {
   const uid = params.uid;
+  let { addToQueue } = params.extras; // TRUE if Batch, FALSE otherwise
 
+  // change the state of the Task
   let task = await prisma.task.update({
     where: { uid: uid },
     data: { state:  DONE },    
   })
 
-  // we need to also update the Nullifier !
-  let key: Field = NullifierProxy.key(
-    PublicKey.fromBase58(params.senderAccountId),
-    UID.toField(params.claimUid)
-  )
-  let state: Field = Field(2);
-  await updateNullifier(key, state);  
+  /**
+   * We will do this latter because we will be doing Batch processing of the Votes 
+  */
+ if (! addToQueue) {
+    // we need to also update the Nullifier !
+    let key: Field = NullifierProxy.key(
+      PublicKey.fromBase58(params.senderAccountId),
+      UID.toField(params.claimUid)
+    )
+
+    let state: Field = Field(DONE);
+    await updateNullifier(key, state);  
+  }
 
   return hasResult({
     task: task,
-    transaction: { id: params.txn?.hash || "" }
+    transaction: { id:"" } // { id: params.txn?.hash || "" }
   })
 }
 
 
+/**
+ * Submits a batch of votes for many claims and tasks
+ */
+export async function submitTasksBatch(params: {
+  senderAccountId: string,
+  signedData: any,
+  extras?: { addToQueue: boolean }
+  user: any,
+}) {
+  let { senderAccountId, signedData } = params;
+  let { addToQueue } = params.extras || { addToQueue: true };
+
+  console.log(signedData);
+  let votes = JSON.parse(signedData.data || "[]") as any[];
+
+  let tasks = [];
+  for (let j=0; j < votes.length; j++) {
+    // change the state of the Task
+    let task = await prisma.task.update({
+      where: { uid: votes[j].uid },
+      data: { state:  DONE, result: votes[j].result },    
+    })
+   
+    // chain the state of the claim ??? NOT Yet
+    
+    tasks.push(task);
+  }
+
+  return hasResult({
+    tasks: tasks,
+    transaction: { id:"" } // { id: params.txn?.hash || "" }
+  })
+}
+
+
+/**
+ * Helpers
+ */
 export async function getNullifier(params: any) {
   let leafs = await getNullifierLeafs();
   return hasResult(leafs);

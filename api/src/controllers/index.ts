@@ -7,7 +7,7 @@ import { getAdminedCommunity } from "./communities-controller.js"
 import { getPlan, addPlan, updatePlan } from "./plans-controller.js";
 import { getClaim, getMyClaimables, getMyClaims, addClaim, updateClaim, 
   updateClaimState, submitClaim, getRunningClaims } from "./claims-controller.js";
-import { getTask, getMyTasks, getNullifier, submitTask } from "./tasks-controller.js";
+import { getTask, getMyTasks, getNullifier, submitTask, submitTasksBatch } from "./tasks-controller.js";
 import { getCredential, getMyCredentials } from "./credentials-controller.js";
 import { queryEmptySet } from "./empty-set.js"
 import { getMyHome } from "./home-controllers.js";
@@ -35,6 +35,7 @@ const mutationHandlers = {
   'update_claim_state':  { fn: updateClaimState, authorize: true },
   'submit_claim': { fn: submitClaim, authorize: true },
   'submit_task':  { fn: submitTask, authorize: true },
+  'submit_tasks_batch':  { fn: submitTasksBatch, authorize: true },
 }
 
 const queryHandlers = {
