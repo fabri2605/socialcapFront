@@ -234,31 +234,38 @@ model Proposed {
 //
 model Batch {
   // an unique Uid for this batch
-  uid             String   @id @unique
+  uid             String    @id @unique
   // order in which batch was received, used by Sequencer
-  sequence        Int      @default(autoincrement())
+  sequence        Int       @default(autoincrement())
   // type of the Batch: "NONE", "VOTES"
-  type            String   @default("NONE")
+  type            String    @default("NONE")
   // JSON string of this batch metadata 
-  metadata        String   @default("{}")
+  metadata        String    @default("{}")
   // the signer Public key who submitted this batch
-  signerAccountId String   @map("signer_account_id")
+  signerAccountId String    @map("signer_account_id")
   // JSON string of received signed data
-  signedData      String   @default("") @map("signed_data")
+  signedData      String    @default("") @map("signed_data")
   // Signature 
-  signatureField  String   @default("") @map("signed_signature")
-  signatureScalar String   @default("") @map("signed_scalar")
+  signatureField  String    @default("") @map("signed_signature")
+  signatureScalar String    @default("") @map("signed_scalar")
   // the commited Root of the batch MerkleTree (after being processed)
-  commitment      String   @default("")
+  commitment      String    @default("")
   // Total number of votes received in this batch
-  size            Int      @default(0)
+  size            Int       @default(0)
   // Processing state of the Batch
   // 9: "WAITING", 10: "DONE", 11: "IGNORED" 19: "REJECTED"
-  state           Int      @default(9)
+  state           Int       @default(9)
   // the submitted time
-  submitedUTC     DateTime @default(now()) @map("submited_utc")
+  submitedUTC     DateTime  @default(now()) @map("submited_utc")
   // the final processed time
   doneUTC         DateTime? @map("done_utc")
 
   @@map("batches")
+}
+
+model State {
+  id    Int    @id @unique
+  label String @default("")
+
+  @@map("states")
 }
