@@ -1,4 +1,4 @@
-import { Field } from "o1js";
+import { Field } from "snarkyjs";
 
 let crytptoLib: any; 
 if (typeof window === "undefined") {
