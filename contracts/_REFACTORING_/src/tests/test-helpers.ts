@@ -1,5 +1,8 @@
-import { Field, Mina, PrivateKey, PublicKey } from "o1js";
-import { MerkleMapUpdate } from "../merkle-updates.js";
+import { Field, Mina, PrivateKey, PublicKey, AccountUpdate, fetchAccount } from "snarkyjs";
+import { CommunitiesContract, MerkleMapUpdate } from "../CommunitiesContract.js";
+import { ElectorsContract } from "../ElectorsContract.js";
+import { ClaimingsContract } from "../ClaimingsContract.js";
+import { SocialcapContract } from "../SocialcapContract.js";
 
 let tstart = 0;
 
@@ -102,3 +105,5 @@ export function checkTransaction(pendingTx: any) {
     +`\nWaiting for transaction to be included...`
     );
 }
+
+

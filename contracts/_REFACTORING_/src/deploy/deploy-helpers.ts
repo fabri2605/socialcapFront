@@ -1,7 +1,15 @@
-import { Mina, PrivateKey, PublicKey, AccountUpdate, fetchAccount } from "o1js";
+import { Field, Mina, PrivateKey, PublicKey, AccountUpdate, fetchAccount, SmartContract } from "snarkyjs";
+import { CommunitiesContract, MerkleMapUpdate } from "../CommunitiesContract.js";
+import { ElectorsContract } from "../ElectorsContract.js";
+import { ClaimingsContract } from "../ClaimingsContract.js";
+import { SocialcapContract } from "../SocialcapContract.js";
 import { PlanVotingContract } from "../PlanVotingContract.js";
 
 const CONTRACTS: any = {
+  "Electors": ElectorsContract,
+  "Claimings": ClaimingsContract,
+  "Communities": CommunitiesContract,
+  "Socialcap": SocialcapContract,
   "PlanVoting": PlanVotingContract
 } ;
 
@@ -79,9 +87,9 @@ export async function deployContract(
 
   // this tx needs .sign(), because `deploy()` adds an account update 
   // that requires signature authorization
-  console.log("deployerKey=", deployerKey.toBase58());
-  await txn.sign([deployerKey, zkAppKey]).send();
-  // await txn.sign([deployerKey]).send();
+  console.log("deployerKey=", deployerKey);
+  //await txn.sign([deployerKey, zkAppKey]).send();
+  await txn.sign([deployerKey]).send();
   console.log("zkApp instance deployed !")
   
   // wait for account ...

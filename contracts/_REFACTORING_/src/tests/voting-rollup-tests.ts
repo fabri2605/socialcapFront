@@ -8,6 +8,8 @@ import { sendVote, addElectorsToNullifier, getNullifierProxy } from './voting-te
 import { startTest, getAccountsForTesting, getArgvs } from './test-helpers.js';
 import { deployContract, useContract } from '../deploy/deploy-helpers.js';
 
+console.log("\n-------------------------------------------------------------------------------------------------------------");
+
 startTest("VotingContract");
 
 let [netw, proofsEnabled] = getArgvs();
@@ -21,8 +23,8 @@ let {
 console.log("\nCompiling contract ...");
 await VotingContract.compile();
 
-// now deploy  ONE Claim
-let ADDR="B62qmAG58cwudEjwHBTQAfH8A6FE5t6VpHcCQJb2EC8WdQccwh3ge5e";
+// now open ONE Claim
+let ADDR="B62qpakD3CRKEWYqFjxxowMvrHswkretnDXBkcGg1PLgyNF2iVpF3Na";
 
 let zkClaim1 = await ClaimsVotingFactory.getInstance(
   PublicKey.fromBase58(ADDR)

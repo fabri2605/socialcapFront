@@ -19,7 +19,7 @@ class ProvableCommunity extends Struct({
   accountId: PublicKey,
   name: CircuitString,
   description: CircuitString,
-  image: CircuitString,
+  //image: CircuitString,
   createdUTC: Field,
   updatedUTC: Field,
   approvedUTC: Field,
@@ -46,7 +46,7 @@ class ProvableCommunity extends Struct({
     this.uid = UID.toField(json.uid);
     this.accountId = json.accountId && PublicKey.fromBase58(json.accountId) || this.accountId || PublicKey.empty();
     this.name = CircuitString.fromString(json.name || this.name || "");
-    this.image = CircuitString.fromString(json.image || this.image || "");
+    //this.image = CircuitString.fromString(json.image || this.image || "");
     this.description = CircuitString.fromString(json.description || this.description || "");
     this.state = CircuitString.fromString(json.state || this.state || "");
     this.adminUid = UID.toField(json.adminUid || this.adminUid.toString()); 
@@ -63,7 +63,7 @@ class ProvableCommunity extends Struct({
       accountId: (this.accountId || PublicKey.empty()).toBase58(),
       name: this.name.toString(),
       description: this.description.toString(),
-      image: this.image.toString(),
+      //image: this.image.toString(),
       state: this.state.toString(),
       approvedUTC: this.approvedUTC.toString(),
       createdUTC: this.createdUTC.toString(),
@@ -79,7 +79,7 @@ class ProvableCommunity extends Struct({
       .concat(this.name.toFields())
       .concat(this.description.toFields())
       .concat(this.state.toFields())
-      .concat(this.image.toFields()) 
+      //.concat(this.image.toFields()) 
       .concat(this.approvedUTC.toFields())
       .concat(this.createdUTC.toFields()) 
       .concat(this.updatedUTC.toFields())
