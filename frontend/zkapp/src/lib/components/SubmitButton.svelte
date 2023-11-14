@@ -1,7 +1,8 @@
 <Button 
   on:click
   type="button"
-  color={color} class="rounded-5 py-2 px-3">
+  color={color}
+  class="rounded-3 py-2 px-3">
   {label}
 </Button>
 

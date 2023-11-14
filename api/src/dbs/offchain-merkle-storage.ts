@@ -75,7 +75,7 @@ class OffchainMerkleStorage {
 
     // add to database ...
     const map = await prisma.merkleMap.create({
-      data: { name: name, root: 0, size: 0, height: 256 },
+      data: { id: 10, name: name, root: 0, size: 0, height: 256 },
     })
     if (! map) 
       return hasError.DatabaseEngine(`Could not create new Merkle Map with name='${name}'`)
@@ -86,6 +86,41 @@ class OffchainMerkleStorage {
     OffchainMerkleStorage.cache.set(map.id, instance);
     
     logger.info(`Created merkleMap '${name}' with id=${map.id}`);  
+    return hasResult(instance);
+  }
+
+  /**
+   * Resets an existent MerkleMap and initializes it.
+   * @param name - the MerkleMap name
+   * @returns - OffchainMerkleMap instance or error 
+   */
+  static async resetMerkleMap(
+    id: number
+  ): Promise<ResultOrError> {
+    if (!OffchainMerkleStorage.started)
+      return hasError.DatabaseEngine(`OffchainMerkleStorage not started`);
+
+    // not in cache, get from Db
+    const map = await prisma.merkleMap.findUnique({
+      where: { id: id }
+    }); 
+    if (!map) 
+      return hasError.NotFound(`Not Found MerkleMap with id=${id}`);
+
+    // delete all leafs from it 
+    const leafs = await prisma.merkleMapLeaf.findMany({ 
+      where: { mapId: map.id } 
+    });
+    for (let j=0; j < (leafs || []).length; j++) {
+      await prisma.merkleMapLeaf.delete({ where: { uid: leafs[j].uid } });
+    }
+
+    const instance = new OffchainMerkleMap(map.id, map.name);   
+    
+    // MUST add it to the cache 
+    OffchainMerkleStorage.cache.set(map.id, instance);
+    
+    logger.info(`Reseted merkleMap with id=${map.id}`);  
     return hasResult(instance);
   }
 

@@ -1,7 +1,8 @@
-<Navbar color="white" light expand="md" class="fixed-top navbar-expand-lg top-0 z-index-3 w-100 shadow-sm navbar-transparent align-items-center">
+<Navbar color="white" light expand="md"   class="fixed-top navbar-expand-lg top-0 z-index-3 w-100 border-bottom border-1 py-2 align-items-center"
+>
 
   <NavbarBrand class="w-auto ms-4" href="/">
-    <img alt="Socialcap logo" src="/img/socialcap/socialcap-logo.svg" />
+    <img alt="Socialcap logo" src="/img/socialcap/socialcap-logo-blue.svg" />
   </NavbarBrand>
   
   <NavbarToggler on:click={() => (isOpen = !isOpen)} />
@@ -14,10 +15,10 @@
           {#each items as item, j}
             {#if j<items.length-1}
               <BreadcrumbItem>
-                <a href={item.href}>{item.text}</a>
+                <a href={item.href} class="p-4 link-offset-2 link-offset-3-hover link-underline link-underline-opacity-0 link-underline-opacity-75-hover">{item.text}</a>
               </BreadcrumbItem>
             {:else}
-              <BreadcrumbItem active class="fs-6 text-dark">
+              <BreadcrumbItem active class="fs-2 text-black">
                 <b>{item.text}</b>
               </BreadcrumbItem>
             {/if}
@@ -32,7 +33,7 @@
       </NavItem>
 
       <NavItem class="me-4">
-        <CloseButton size="fs-2"/>
+        <CloseButton size="fs-1"/>
       </NavItem>
     </Nav>
 
@@ -44,7 +45,7 @@
   import { Breadcrumb, BreadcrumbItem } from "sveltestrap";
   import { Navbar, NavbarBrand, Nav, NavItem, Collapse, NavbarToggler } from 'sveltestrap';
   import { getCurrentUser } from "$lib/models/current-user";
-  import CloseButton from "./CloseButton.svelte";
+  import CloseButton from "./buttons/CloseButton.svelte";
   import Status from "./Status.svelte";
   
   export let items = []; // [{ href, text }]

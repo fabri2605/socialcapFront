@@ -1,10 +1,26 @@
 <script>
   import Status from "@components/Status.svelte";
   import { onMount } from "svelte";
+   import "nprogress/nprogress.css";
+    import NProgress from "nprogress";
+      import { navigating } from "$app/stores";
 
   onMount(async () => {
-    console.log("+layout.svelte onMount")
+    console.log("+layout.svelte onMount");
+    document.getElementById("loading").innerHTML = "";
+    console.log("+layout.svelte onMount cleaned");
   })
+
+   NProgress.configure({
+        // Full list: https://github.com/rstacruz/nprogress#configuration
+        minimum: 0.08,
+    });
+
+    $: {
+        if ($navigating) {
+            NProgress.start();
+        } else NProgress.done();
+    }
 </script>
 
 <svelte:head>
@@ -20,6 +36,10 @@
 </div>
 
 <style global>
+  /* @import "/css/mina-fonts.css"; */
+  /* @import '/css/bootstrap.css'; */
+  /* @import "/css/custom.css"; */
+  @import '../styles/globals.css';
   @import "/css/custom.min.css";
   @import "/css/patches.css";
 </style>

@@ -1,4 +1,4 @@
-import { Claim } from "./claim";
+import { Claim } from "./#claim";
 
 export { ClaimsCollection, olClaimablesMockup, olSubmitedClaimsMockup }
 

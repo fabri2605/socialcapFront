@@ -60,8 +60,8 @@ class OffchainMerkleMap {
   /** 
    * Sets (inserts or updates) a given 'uid' key with its data
    * @param uid: string - the leaf key to update or insert 
-   * @param data: any - the leaf data pack to insert/upload
-   * @param hash?: Field - optional hash of the leaf data, we will use this one if received
+   * @param hash: Field - optional hash of the leaf data, we will use this one if received
+   * @param data?: any - the leaf data pack to insert/upload
    * @returns MerkleMapUpdate in result or error 
    */
   async set(
@@ -140,6 +140,44 @@ class OffchainMerkleMap {
   }
 
   /**
+   * Appends a Leaf at the end of the map
+   * @param key Field used as key
+   * @param hash the hash
+   * @param data optional data object
+   * @returns 
+   */
+  async setLeafByKey(
+    key: Field, 
+    hash: Field, 
+    data?: any
+  ): Promise<OffchainMerkleMap> {
+
+    const count = await prisma.merkleMapLeaf.count({
+      where: { mapId: this.id }
+    });
+
+    this.memmap.set(key, hash);
+
+    // insert a leaf
+    let uid = key.toString();
+    const updatedLeaf = await prisma.merkleMapLeaf.upsert({
+      where: { uid: uid },
+      update: { 
+        hash: hash.toString()
+      },
+      create: { 
+        uid: uid, 
+        mapId: this.id, 
+        index: count+1, 
+        key: key.toString(), 
+        hash: hash.toString()
+      },
+    })
+
+    return this;
+  }
+
+  /**
    * Get the root of the memoized Merkle map
    * @returns - the MerkleMap root 
    */
@@ -152,10 +190,21 @@ class OffchainMerkleMap {
    * @param uid: string - the uid of the leaf to witness
    * @returns - the MerkleMapWitness or null 
    */
+  /** DO NOT USE, use getWitnessByUid or getWitnessByKey */
   getWitness(uid: string): MerkleMapWitness | null {
     const key = UID.toField(uid);
     return this.memmap.getWitness(key) || null;
   }
+
+  getWitnessByKey(key: Field): MerkleMapWitness {
+    return this.memmap.getWitness(key);
+  }
+
+  getWitnessByUid(uid: string): MerkleMapWitness {
+    const key = UID.toField(uid);
+    return this.memmap.getWitness(key);
+  }
+
 
   /** Get the the amount of leaf nodes. */
   size(): number {
