@@ -2,8 +2,8 @@
   <td class="p-2 pe-3">
     <span class="d-inline-block">
       <ClaimStateToggle 
-      uid={claim.uid} 
-      bind:state={claim.state} 
+        uid={claim.uid} 
+        bind:state={claim.state} 
       />
     </span>
     <b>{claim.applicant.fullName}</b>
