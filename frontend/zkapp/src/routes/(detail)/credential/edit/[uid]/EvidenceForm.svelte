@@ -93,6 +93,7 @@
 
         {#if field.type === "links"}
            <Tags 
+            addKeys={[13,9]}
             id={field.sid} 
             name={field.sid} 
             allowPaste={true}
@@ -108,6 +109,7 @@
 
         {#if field.type === "files"}
           <Tags 
+            addKeys={[13,9]}
             id={field.sid} 
             name={field.sid} 
             allowPaste={true}
@@ -123,6 +125,7 @@
 
         {#if field.type === "images"}
           <Tags 
+            addKeys={[13,9]}
             id={field.sid} 
             name={field.sid} 
             allowPaste={true}

@@ -180,7 +180,7 @@
    */
   async function saveDraftAndSubmit() {
     let updated = await updateTheDraft();
-    if (! updated) {
+    if (!updated) {
       alert("There has been some problem. Please retry again later.");
       return ; // saving the draft failed, we can not continue ...
     }
