@@ -34,11 +34,11 @@
       {/if}
 
       <div class="row p-0">
-          <div class="col-12 col-md-6">
-            <HomeCredentialsCard {data}/>
-          </div>  
           <div class="col-12 mt-3 col-md-6 mt-md-0">
             <HomeCommunitiesCard {data}/>
+          </div>  
+           <div class="col-12 col-md-6">
+            <HomeCredentialsCard {data}/>
           </div>  
         <!-- <div class="col-12 col-md-3 m-0 px-0">
           <div class="col-12 m-0 px-0">
