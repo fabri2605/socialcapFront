@@ -28,7 +28,7 @@ export const ALL_STATES = {
   8: "ACTIVE",
   9: "WAITING",
   10: "DONE",
-  11: "IGNORED", // will not do this 
+  11: "IN REVISION", // will not do this 
   12: "UNPAID", // payment transaction failed, reamins unpaid
   19: "REJECTED",   
   20: "APPROVED"

@@ -19,7 +19,7 @@
     8: "success", // ACTIVE",
     9: "warning", // WAITING",
     10: "primary", // DONE",
-    11: "secondary", // IGNORED", // will not do this 
+    11: "light", // IGNORED", // will not do this 
     12: "danger", // UNPAID
     19: "danger", // REJECTED",   
     20: "success", // APPROVED"
