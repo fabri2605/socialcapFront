@@ -54,7 +54,7 @@
 
     <div class="m-0 p-0 mt-4">
       <Alert color="warning" class="p-3 fs-md lh-md">
-        All submissions are due by <b>Friday, November 10th at 11:59 pm PST</b>.
+        All submissions are due by <b>{prettyDate(data.plan.endsUTC)} at 11:59 pm PST</b>.
         <br>
         In your <b>local time</b> this will be <b>{prettyDateToLocale(submissionDateUtc)}</b>, but please check it !
       </Alert>
