@@ -179,12 +179,8 @@
    * The new Claim deployment is payed by the SocialcapFeePayer account.
    */
   async function saveDraftAndSubmit() {
-    let updated = await updateTheDraft();
-    if (!updated) {
-      alert("There has been some problem. Please retry again later.");
-      return ; // saving the draft failed, we can not continue ...
-    }
 
+    data.claim.new = true;
     // wait for confirmation  
     openConfirmDlg = true;
   }
