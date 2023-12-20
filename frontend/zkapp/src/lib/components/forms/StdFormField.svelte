@@ -14,8 +14,8 @@
       +className
     }
     {placeholder}
-    {invalid}
-    {feedback}
+    invalid={invalid}
+    feedback={feedback}
     {readonly}
     bind:value={value}>
     {#if type === 'select' && options.length}
@@ -31,11 +31,12 @@
 <script>
   import { FormGroup, Label, Input, FormText } from "sveltestrap";
 
-  export let type, value, label; // this are required !!!
-  export let help = "", idn = null, options=[], readonly = null;
-  export let invalid = null, placeholder = null, feedback = null;
-  export { className as class };
+  export let 
+    type, value, label, // this are required !!!
+    help = "", idn = null, options=[], readonly = null,
+    invalid = false, placeholder = null, feedback = "";
 
+  export { className as class };
   let className;
 
   idn = idn || label.replace(/ /g,'-').toLowerCase();

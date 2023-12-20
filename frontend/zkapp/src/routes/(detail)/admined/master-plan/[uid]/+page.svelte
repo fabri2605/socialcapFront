@@ -29,14 +29,14 @@
           <StdFormField 
             label="Name" 
             type="text" 
-            invalid={!data.name.trim() && data.name.trim().length > 126} 
+            invalid={!data.name.trim().length || data.name.trim().length > 126} 
             feedback="We need a name for this Credentials. Must be shorter than 128 chars."
             bind:value={data.name} 
             />
           <StdFormField 
             label="Brief description" 
             type="textarea" 
-            invalid={!data.description.trim() && data.name.trim().length > 126} 
+            invalid={!data.description.trim().length || data.description.trim().length > 126}
             feedback="We need a description for this Credentials. Must be shorter than 128 chars."
             bind:value={data.description} 
             />
@@ -104,6 +104,8 @@
                 type="date" 
                 help="Date when claiming of this credential can start"
                 class=""
+                invalid={!data.startsUTC}
+                feedback={"Must provide an initial date"}
                 bind:value={data.startsUTC} 
               />
             </div>
@@ -113,6 +115,8 @@
                 type="date" 
                 help="Date when claiming of this credential ends"
                 class=""
+                invalid={!data.endsUTC}
+                feedback={"Must provide a final date"}
                 bind:value={data.endsUTC} 
               />
             </div>
@@ -291,6 +295,12 @@
         </Section>
       </TabPane>      
     </TabContent>
+
+    {#if !dataIsOk(data)}
+      <Alert color="warning">
+        Please complete all required fields: Name, Description, Start and End dates.
+      </Alert>
+    {/if}
   </Section>
 
   <Section class="section-lg">
@@ -310,7 +320,7 @@
 
 <script>
   import { onMount } from "svelte";
-  import { Button, Badge } from "sveltestrap";
+  import { Alert, Button, Badge } from "sveltestrap";
   import { TabContent, TabPane } from 'sveltestrap';  
   import { FormGroup, Label, Input, FormText } from "sveltestrap";
   import Section from "@components/Section.svelte";
@@ -321,6 +331,7 @@
   import MasterPlanAddButton from "@components/buttons/MasterPlanAddButton.svelte";
   import StdFormField from "@components/forms/StdFormField.svelte";
   import MasterPlanEvidence from "@components/forms/MasterPlanEvidence.svelte"
+  import { AppStatus } from "@utilities/app-status";
   import { getCurrentUser, isFirstTimeUser } from "$lib/models/current-user";
   import { ALL_STATES } from "@models/states";
   import { updatePlan } from "@apis/mutations";
@@ -349,7 +360,11 @@
   }
 
   function dataIsOk(data) {
-    return (data.name.trim() && data.description.trim());
+    return (
+      data.name.trim() 
+      && data.description.trim()
+      && data.startsUTC
+      && data.endsUTC)
   }
 
   async function updateIt() {
@@ -359,8 +374,8 @@
     }
 
     // fix some special fields
-    data.startsUTC = startsUTC+"T00:01:00.000Z";
-    data.endsUTC = endsUTC+"T23:59:00.000Z";
+    data.startsUTC = startsUTC ? startsUTC+"T00:01:00.000Z" : "";
+    data.endsUTC = endsUTC ? endsUTC+"T23:59:00.000Z" : "";
 
     loading = true;
     const updated = await updatePlan(data);
