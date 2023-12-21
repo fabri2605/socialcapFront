@@ -40,24 +40,25 @@
             <span class="fs-xs">Start Date</span>
             <br/><b class="fs-sm">{prettyDate(data.plan.startsUTC)}</b>
           </p>
-          <p class="px-4">
+          <p class="px-5">
             <span class="fs-xs">Ends Date</span>
             <br/><b class="fs-sm">{prettyDate(data.plan.endsUTC)}</b>
           </p>
-          <p class="px-5">
+          <p class="px-6">
             <span class="fs-xs">Credential Fee</span>
             <br/><b class="fs-sm">{data.plan.fee} MINA</b>
-          </p>
+            {#if data.plan.fee > 0}
+            <Alert color="info" class="fs-xs">
+        Minimum fee to operate {minFee} MINA</Alert>
+              {/if}
+          </p> 
         </div>
       </div>
     </div>
 
     <div class="m-0 p-0 mt-4">
       <Alert color="warning" class="p-3 fs-md lh-md">
-        All submissions are due by <b>{prettyDate(data.plan.endsUTC)} at 11:59 pm PST</b>.
-        <br>
-        In your <b>local time</b> this will be <b>{prettyDateToLocale(submissionDateUtc)}</b>, but please check it !
-      </Alert>
+        All submissions are due by <b>{prettyDate(data.plan.endsUTC)} at 11:59 pm PST</b>.</Alert>
     </div>
 
   </Section>
@@ -117,7 +118,7 @@
   import { isAllValid } from "./validations";
 	
   export let data; // this is the data for this MasterPlan and empty Claim
-
+  const minFee = 2; // Todo get from API
   let user = getCurrentUser();
   let loading = false;
   let openConfirmDlg = false;
