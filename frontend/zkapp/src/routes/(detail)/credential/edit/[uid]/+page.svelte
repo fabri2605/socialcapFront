@@ -44,21 +44,24 @@
             <span class="fs-xs">Ends Date</span>
             <br/><b class="fs-sm">{prettyDate(data.plan.endsUTC)}</b>
           </p>
-          <p class="px-6">
+          <!-- HIDE FEE UNTIL GET FIXED -->
+          <!-- <p class="px-6">
             <span class="fs-xs">Credential Fee</span>
             <br/><b class="fs-sm">{data.plan.fee} MINA</b>
             {#if data.plan.fee > 0}
             <Alert color="info" class="fs-xs">
         Minimum fee to operate {minFee} MINA</Alert>
               {/if}
-          </p> 
+          </p>  -->
         </div>
       </div>
     </div>
 
     <div class="m-0 p-0 mt-4">
       <Alert color="warning" class="p-3 fs-md lh-md">
-        All submissions are due by <b>{prettyDateFull(new Date(data.plan.endsUTC).toLocaleString())} at your local time</b>.</Alert>
+        All submissions are due by <b>{prettyDate(data.plan.endsUTC)} 23:59 UTC </b>
+          {#if (data.plan.endsUTC)}({prettyDateFull(new Date(data.plan.endsUTC).toLocaleString())} at your local time){/if}
+      </Alert>
     </div>
 
   </Section>
