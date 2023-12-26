@@ -71,7 +71,7 @@ export async function getMyClaims(params: any) {
 export async function getMyClaimables(params: any) {
   const userUid = params.user.uid;
 
-  // all commnunity Uids where is a a member
+  // all commnunity Uids where is a a member 
   const members = await prisma.members.findMany({
     where: { personUid: userUid }
   })
@@ -80,11 +80,12 @@ export async function getMyClaimables(params: any) {
     return hasResult([]); // no claimables as is not member in any Dao
 
   // now all the master plans in each of those communities
-  const plans = await prisma.plan.findMany({
-    where: { communityUid: { in: cuids } },
-    // TODO: we should also filter by state
-    orderBy: { name: 'asc' }
-  })
+  const currentDate = new Date();
+    const plans = await prisma.plan.findMany({
+      where: { communityUid: { in: cuids }, endsUTC: { gte: new Date(currentDate.toISOString())} },
+      // TODO: we should also filter by state
+      orderBy: { name: 'asc' }
+    })
   if (! plans)
     return hasResult([]); // no available master plan 
   
@@ -200,14 +201,22 @@ export async function submitClaim(params: {
     extras: any,
     user: any
   }) {
-  const claim = params.claim;
-  const uid = claim.uid;
+  let claim = params.claim;
+  const isNew = claim.new;
+  let uid;
+  if (isNew) {
+    uid = UID.uuid4(); // a new plan
+    claim.createdUTC = (new Date()).toISOString();
+    claim.updatedUTC = claim.createdUTC;
+  } else {
+    uid = claim.uid;
+  }
+
   let {transaction, waitForPayment, addToQueue} = params.extras ;
 
   let rs: any;
   claim.evidenceData = JSON.stringify(claim.evidenceData || "[]");
   claim.state = parseInt(claim.state || 1);
-
   // check if we need to add it to the ClaimsQueue for latter processing
   if (addToQueue) {
     // we dont need to wait for payment, so we mark it as CLAIMED right now

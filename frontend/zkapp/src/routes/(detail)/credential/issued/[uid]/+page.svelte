@@ -10,46 +10,15 @@
     <p>This is an already issued credential where that he/she can min on his/her own wallet.</p>
     <p>We only arrive here if the user already has an approved cerdential.</p>
   </Sidenote> -->
-
-  <Section class="section-sm d-flex justify-content-center">
-    <div class="bg-white header text-center border border-1 rounded-3 p-4 border-sc shadow-sc w-50 text-center align-center d-flex flex-column">
-      <div>
-        <img src={imageUrl} height="180px" crossorigin/>
-        <br/>
-        <span class="fw-bold fs-sm">{data.community}</span>
-        <h4 class="text-black mt-2">
-          <span>{data.type}</span>
-        </h4>
-        <p class="fs-6 text-secondary lh-base">{@html data.description}</p>
-      </div>
-      
-      <div class="mt-4">
-        <h3 class="d-inline-block">{data.alias}</h3>
-        <!-- <span>
-          | {data.stars} Stars 
-        </span> -->
-      </div>
-
-      <div class="mt-0 lh-lg fs-xs">
-        Issued: <Badge color="secondary">
-          {prettyDate(data.issuedUTC)}
-        </Badge> 
-        <br/>
-        Valid <Badge color="secondary">
-          {data.dueUTC ? prettyDate(data.dueUTC) : "Forever"}
-        </Badge> 
-      </div>
-      
-    </Section>
   <Section class="section-sm d-flex justify-content-center">
 
     <div class="bg-white header border border-1 rounded-3 p-4 border-sc shadow-sc w-auto text-center align-center d-flex flex-column">
       <div class="d-flex border p-4 rounded-2 border-2 border-gray gap-4">
         <!-- <img src={data.image} height="240px" crossorigin/> -->
-        <img src="/img/vars/BadgeGenerico.png" height="auto" crossorigin/>
+        <img src={imageUrl} height="180px" crossorigin/>
         <div class="d-flex flex-column text-start">
           
-          <span class="fw-bold fs-sm">{data.issuedBy}</span>
+          <span class="fw-bold fs-sm">{data.community}</span>
           <h4 class="text-black mt-2">
             <Badge class='border-2 border-primary border bg-white text-primary'>{data.type}</Badge>
           </h4>
@@ -79,7 +48,7 @@
 
             <p class=' mt-4 m-0 '>Issued</p>
             <Badge class='text-black bg-white border border-2 border-gray'>
-              {data.issuedUTC}
+              {prettyDate(data.issuedUTC)}
             </Badge> 
           </div>
           
@@ -88,7 +57,7 @@
             <p class=' mt-4 m-0'>Valid</p> 
 
             <Badge class='text-black bg-white border border-2 border-gray'>
-              {data.expiresUTC ? data.expiresUTC : "Forever"}
+              {data.dueUTC ? prettyDate(data.dueUTC) : "Forever"}
             </Badge> 
           </div>
         </div>
@@ -105,7 +74,10 @@
     </div>
   </Section>
 
-  <Section class="section-sm pb-4">
+  
+  <!-- DISABLE MINTING UNTIL WE HAVE A MINTING ISSUING COMPLETED 
+     
+    <Section class="section-sm pb-4">
     <div class="mt-3 mb-5 px-2 d-flex justify-content-center align-items-center">
       <div>
         Not minted yet ? &nbsp;
@@ -114,7 +86,7 @@
         </a>
       </div>
     </div>
-  </Section>
+  </Section> -->
 
   <!-- <Section form>
     <pre class="mt-5">

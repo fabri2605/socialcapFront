@@ -1,11 +1,5 @@
 <tr class="text-start">
   <td class="p-2 pe-3">
-    <span class="d-inline-block">
-      <ClaimStateToggle 
-        uid={claim.uid} 
-        bind:state={claim.state} 
-      />
-    </span>
     <b>{claim.applicant.fullName}</b>
     <br/>
     
@@ -33,10 +27,7 @@
 <script>
   import { goto } from "$app/navigation";
   import { Input } from "sveltestrap";
-  import Markdown from "svelte-exmarkdown";
-  import StateBadge from "@components/StateBadge.svelte";
-  import EvidenceFieldView from "@components/claims/EvidenceFieldView.svelte";
-  import ClaimStateToggle from "./ClaimStateToggle.svelte";
+
   import { getAPIConfig } from "$lib/globals"
 
   export let claim, columns=[];

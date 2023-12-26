@@ -5,7 +5,7 @@ import { getCurrentUser } from '@models/current-user';
 import { setApiClient } from '$lib/globals';
 import { API_CONFIG } from '@apis/config';
 import { CoreAPIClient } from '@apis/core-api-client';
-import { ASSIGNED } from '@models/states';
+import { ASSIGNED, ACTIVE } from '@models/states';
 import { getMyCommunities, getAllCommunities } from "@apis/queries";
 import { getMyClaimables, getMyClaims } from '@apis/queries';
 import { getTask, getMyTasks } from '@apis/queries';
@@ -38,6 +38,9 @@ export async function load({ params, route, url }) {
     rs.isAuthenticated = isAuthenticated;
     rs.assigned = (rs.assigned || []).filter((t) => t.state=== ASSIGNED),
     rs.stats = aStats;
+    // order claim by createdUTC desc
+    rs.claimed = rs.claimed.sort((a, b) => new Date(b.createdUTC) - new Date(a.createdUTC) );
+    rs.claimables = (rs.claimables || []).filter((t) => t.state === ACTIVE);
     console.log("main page data=", rs);
 
     return rs;

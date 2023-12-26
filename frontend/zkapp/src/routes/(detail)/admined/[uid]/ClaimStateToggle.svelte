@@ -1,20 +1,20 @@
 <Dropdown autoClose={true} size="sm">
   <DropdownToggle class="bg-light border-0" caret>
     {#if updating}
-      <Spinner size="sm" />
+      <Spinner  type="border" size="sm" class="m-1"/>
     {:else}
       <StateBadge state={state} />
     {/if}
   </DropdownToggle>
   <DropdownMenu>
     <DropdownItem on:click={() => changeState(DRAFT)}>
-      Draft
+      {ALL_STATES[DRAFT]}
     </DropdownItem>  
     <DropdownItem on:click={() => changeState(CLAIMED)}>
-      Claimed
+      {ALL_STATES[CLAIMED]}
     </DropdownItem>  
     <DropdownItem on:click={() => changeState(IGNORED)}>
-      Ignored
+      {ALL_STATES[IGNORED]}
     </DropdownItem>  
   </DropdownMenu>
 </Dropdown>    
@@ -25,6 +25,7 @@
   import { Dropdown, DropdownMenu, DropdownItem, DropdownToggle } from "sveltestrap";
   import { Spinner } from "sveltestrap";
   import StateBadge from "@components/StateBadge.svelte";
+  import { ALL_STATES } from "@models/states";
   import { changeClaimState } from "@apis/mutations";
 
   export let uid, state;
