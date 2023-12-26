@@ -58,7 +58,7 @@
 
     <div class="m-0 p-0 mt-4">
       <Alert color="warning" class="p-3 fs-md lh-md">
-        All submissions are due by <b>{prettyDate(data.plan.endsUTC)} at 11:59 pm PST</b>.</Alert>
+        All submissions are due by <b>{prettyDateFull(new Date(data.plan.endsUTC).toLocaleString())} at your local time</b>.</Alert>
     </div>
 
   </Section>
@@ -111,12 +111,12 @@
   import DetailPageHeader from "@components/DetailPageHeader.svelte";
   import { getCurrentUser, isFirstTimeUser } from "$lib/models/current-user";
   import StateBadge from "@components/badges/StateBadge.svelte";
-  import { prettyDate } from "@utilities/datetime";
+  import { prettyDate, prettyDateFull } from "@utilities/datetime";
   import { addClaim, updateClaim, updateProfile, submitClaim } from "@apis/mutations";
   import EvidenceForm from "./EvidenceForm.svelte";
   import ConfirmSubmitDialog from "./ConfirmSubmitDialog.svelte";
   import { isAllValid } from "./validations";
-	
+
   export let data; // this is the data for this MasterPlan and empty Claim
   const minFee = 2; // Todo get from API
   let user = getCurrentUser();
@@ -129,6 +129,8 @@
   // Due to an error during community creation, the MINA NAVIGATOR community ends date should be 2023-11-10 23:59 PST
   const MINA_NAVIGATOR_COMMUNITY_UID = "70ed0f69af174c399b1958c01dc191c0";
   const submissionDateUtc = data.plan.communityUid == MINA_NAVIGATOR_COMMUNITY_UID ? "2023-11-11T07:59:00.000Z" : data.plan.endsUTC;
+
+  console.log("DATE", data.plan.endsUTC)
 
   onMount(() => {
     user = getCurrentUser();
@@ -197,13 +199,13 @@
   function prettyDateToLocale(utcDateStr) {
     const utcDate = new Date(utcDateStr)
       const options = {
-      year: "numeric",
-      month: "numeric",
+      year: "long",
+      month: "long",
       day: "numeric",
       hour: "numeric",
-      minute: "numeric",
-      hour12: true, // Use 24-hour format
-      timeZoneName: "short"
+      minute: "none",
+      hour12: false, // Use 24-hour format
+      timeZoneName: "long"
     };
     return utcDate.toLocaleString();
   }
