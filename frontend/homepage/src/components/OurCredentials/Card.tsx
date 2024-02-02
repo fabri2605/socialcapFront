@@ -12,6 +12,7 @@ interface Props {
 }
 const Card = ({ card }: Props) => {
   // const showImage = useBreakpointValue([false, true]);
+  const isOdd = card.index % 2 === 0;
   return (
     <Stack
       key={card.index}
@@ -26,7 +27,7 @@ const Card = ({ card }: Props) => {
       padding={["1.5rem 1.5rem 1.5rem 1.5rem", "2rem 4rem 2rem 2rem"]}
       alignItems={"center"}
     >
-      <Stack gridArea={"1 / 2 / 2 / 3"}>
+      <Stack gridArea={isOdd ? "1 / 2 / 2 / 3" : ""}>
         <Text as={"h3"} marginBottom={"2rem"} wordBreak={"break-word"}>
           {card.title}
         </Text>

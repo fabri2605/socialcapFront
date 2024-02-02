@@ -37,7 +37,7 @@ const WhySocialcap: NextPage = () => {
         <SectionTitle>Why socialcap?</SectionTitle>
         <Container maxW="container.xl">
           <Stack
-            align={"center"}
+            align={"start"}
             borderRadius={16}
             backgroundColor={colors.smoke}
           >
@@ -47,14 +47,23 @@ const WhySocialcap: NextPage = () => {
               spacing={25}
             > */}
             <Section
+            imageOnLeft={true}
               imageUrl={"assets/why-socialcap/private.svg"}
               imageUrlMobile={"assets/why-socialcap/private-mobile.svg"}
               text={`At the heart of Socialcap is our community-based attestation
-                  protocol that enables easy self-validation and issuance of
-                  credentials using a transparent and repeatable process, while
-                  preserving privacy and confidentiality.`}
+              protocol that enables easy self-validation and issuance of
+              credentials using a transparent and repeatable process, while
+              preserving privacy and confidentiality.`}
             />
+            {/* </SimpleGrid> */}
+          </Stack>
+          <Stack
+            align={"center"}
+            borderRadius={16}
+            backgroundColor={colors.smoke}
+          >
             <Section
+              imageOnLeft={true}
               imageUrl="assets/why-socialcap/validators.svg"
               imageUrlMobile="assets/why-socialcap/validators-mobile.svg"
               text={`By using social proof, validators anonymity, random selection,
@@ -62,8 +71,15 @@ const WhySocialcap: NextPage = () => {
                protocol ensures that the validation process is fair,
                unbiased, and reliable.`}
             />
+          </Stack>
 
+          <Stack
+            align={"end"}
+            borderRadius={16}
+            backgroundColor={colors.smoke}
+          >
             <Section
+            imageOnLeft={true}
               imageUrl="assets/why-socialcap/community.svg"
               imageUrlMobile="assets/why-socialcap/community-mobile.svg"
               text={`Socialcap is designed to be community-driven, allowing each
@@ -72,9 +88,8 @@ const WhySocialcap: NextPage = () => {
               flexible and can be customized to fit a wide range of use
               cases.`}
             />
-            {/* </SimpleGrid> */}
           </Stack>
-
+          {/* FOOTER */}
           <Stack
             direction={["column", "row"]}
             mt={["50px", "50px"]}

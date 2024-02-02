@@ -31,7 +31,7 @@ const OurCredentials: NextPage = () => {
           maxW="container.xl"
           px={{ base: "1rem", md: "2rem" }}
         >
-          <Carousel gap={0}>
+          {/* <Carousel gap={0}> */}
 
             {cards.map((card) => (
               <Flex
@@ -45,7 +45,7 @@ const OurCredentials: NextPage = () => {
                 <Card card={card} />
               </Flex>
             ))}
-          </Carousel>
+          {/* </Carousel> */}
         </Container>
       </Flex>
     </section>

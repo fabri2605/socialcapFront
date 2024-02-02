@@ -10,9 +10,9 @@ import { CheckIcon } from "@chakra-ui/icons";
 import { useState, FormEvent, ChangeEvent } from "react";
 import { colors } from "@/theme/colors";
 import { createClient } from "@supabase/supabase-js";
-const SUPABASE_URL = process.env.NEXT_PUBLIC_SUPABASE_PROJECT;
+/* const SUPABASE_URL = process.env.NEXT_PUBLIC_SUPABASE_PROJECT;
 const SUPABASE_API = process.env.NEXT_PUBLIC_SUPABASE_API_KEY;
-const supabase = createClient(SUPABASE_URL!, SUPABASE_API!);
+const supabase = createClient(SUPABASE_URL!, SUPABASE_API!); */
 
 interface Props extends StackProps {}
 
@@ -36,7 +36,7 @@ export default function SubscribeForm({ ...props }: Props) {
           setError(false);
           setState("submitting");
 
-          if (email) {
+          /* if (email) {
             // check if email already exist on waitlist
             let { data: waitlist, error } = await supabase
               .from("waitlist")
@@ -63,7 +63,7 @@ export default function SubscribeForm({ ...props }: Props) {
                 setState("initial");
               }
             }
-          }
+          } */
         }}
       >
         <FormControl>

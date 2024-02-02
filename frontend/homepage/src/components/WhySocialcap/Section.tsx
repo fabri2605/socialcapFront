@@ -11,19 +11,21 @@ interface Props {
   imageUrl: string;
   imageUrlMobile: string;
   text: string;
+  imageOnLeft? : boolean;
 }
-const Section = ({ imageUrl, imageUrlMobile, text }: Props) => {
+const Section = ({ imageUrl, imageUrlMobile, text, imageOnLeft = false }: Props) => {
   const image = useBreakpointValue([imageUrlMobile, imageUrl]);
   return (
     <Stack
-      textAlign={"left"}
+      textAlign={imageOnLeft ? "left" : "right"}
       direction={["column", "column", "row"]}
       align={"center"}
       width={["full", "full", "700px"]}
       p={"32px"}
       gap={{base: "1.5rem", md: "2rem"}}
     >
-      <Image alt="private" boxSize={["full", "160px"]} src={image} />
+      {imageOnLeft && <Image alt="private" boxSize={["full", "160px"]} src={image} />}
+      
       <Text
         fontSize={["16px", "16px","19px"]}
         lineHeight={["24px", "24px",  "32px"]}
@@ -32,6 +34,8 @@ const Section = ({ imageUrl, imageUrlMobile, text }: Props) => {
       >
         {text}
       </Text>
+
+      {!imageOnLeft && <Image alt="private" boxSize={["full", "160px"]} src={image} />}
     </Stack>
   );
 };
