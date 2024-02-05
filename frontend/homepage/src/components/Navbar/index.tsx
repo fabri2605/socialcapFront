@@ -80,7 +80,7 @@ export default function WithSubnavigation() {
           bg={colors.brandBlue}
           borderRadius={"16px"}
           padding={"22px 32px"}
-          href={"#waitlist"}
+          href={"https://my.socialcap.app"}
           borderWidth={"3px"}
           borderColor={"white"}
           borderStyle={"solid"}
@@ -92,7 +92,7 @@ export default function WithSubnavigation() {
             borderStyle: "solid",
           }}
         >
-          Join Waitlist
+          Launch App
         </Button>
       </Flex>
 
@@ -287,7 +287,7 @@ const NAV_ITEMS: Array<NavItem> = [
     href: "#our-credentials",
   },
   {
-    label: "Why socialcap?",
+    label: "Why Socialcap?",
     href: "#why-socialcap",
   },
   {

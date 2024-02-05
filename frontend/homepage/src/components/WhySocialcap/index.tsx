@@ -34,7 +34,7 @@ const WhySocialcap: NextPage = () => {
   return (
     <section id="why-socialcap">
       <Flex position="relative" justifyContent="center" direction={"column"}>
-        <SectionTitle>Why socialcap?</SectionTitle>
+        <SectionTitle>Why Socialcap?</SectionTitle>
         <Container maxW="container.xl">
           <Stack
             align={"start"}

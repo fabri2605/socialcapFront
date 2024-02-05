@@ -15,26 +15,34 @@ import Waitlist from '@/components/Waitlist';
 import Footer from '@/components/Footer';
 import HowItWorks from '@/components/HowItWorks';
 import Communities from '@/components/Communities';
+import Aos from 'aos';
+import 'aos/dist/aos.css'; // You can also use <link> for styles
+
 
 const Home: NextPage = () => {
-   return (
+
+  useEffect(() => {
+    Aos.init()
+  }, [])
+
+  return (
     <>
       <Head>
         <title>Social Cap</title>
         <meta name="description" content="Credentials to power up your community" />
         <link rel="icon" href="/assets/favicon.ico" />
       </Head>
-        <Layout>
-          <Hero />
-          <OurCredentials />
-          <WhySocialcap />
-          <HowItWorks />
-          <Team />
-          {/* <Communities /> */}
-          <FAQ />
-          <Waitlist />
-          <Footer />
-        </Layout>
+      <Layout>
+        <Hero />
+        <OurCredentials />
+        <WhySocialcap />
+        <HowItWorks />
+        <Team />
+        {/* <Communities /> */}
+        <FAQ />
+        {/* <Waitlist /> */}
+        <Footer />
+      </Layout>
     </>
   );
 }

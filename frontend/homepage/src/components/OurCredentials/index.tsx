@@ -33,18 +33,18 @@ const OurCredentials: NextPage = () => {
         >
           {/* <Carousel gap={0}> */}
 
-            {cards.map((card) => (
-              <Flex
-                key={card.index}
-                justifyContent="space-between"
-                flexDirection="column"
-                overflow="hidden"
-                flex={1}
-                p={5}
-              >
-                <Card card={card} />
-              </Flex>
-            ))}
+          {cards.map((card) => (
+            <Flex
+              key={card.index}
+              justifyContent="space-between"
+              flexDirection="column"
+              overflow="hidden"
+              flex={1}
+              p={5}
+            >
+              <Card card={card} />
+            </Flex>
+          ))}
           {/* </Carousel> */}
         </Container>
       </Flex>
