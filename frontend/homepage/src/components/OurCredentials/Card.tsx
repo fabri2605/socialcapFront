@@ -20,6 +20,7 @@ const Card = ({ card }: Props) => {
       key={card.index}
       display={["column", "column", "grid"]}
       gridTemplateColumns={"1fr 1fr"}
+      gap={"3rem"}
       /* background={colors.brandBlue} */
       borderRadius={"1rem"}
       /* boxShadow={"0 0 32px 0 rgba(23, 88, 254, 0.1)"} */
@@ -54,6 +55,7 @@ const Card = ({ card }: Props) => {
           alt={"card"}
           src={card.image}
           objectFit={"cover"}
+          width={"110%"}
         />
       </Stack>
       {/* )} */}
