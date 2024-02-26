@@ -3,7 +3,7 @@ export const cards = [
     index: 1,
     title: "Bring strictly validated social proof",
     content:
-      "Forget about likes or blue checks, that can be easily faked, boted or bought. Our protocol strictly validates your claim with randomly selected anonymous true peers from your community, and creates an inmutable proof of certification, valid forever (or as long as the credential should be valid).",
+      "Forget about likes or blue checks, that can be easily faked, boted or bought. Our protocol *strictly validates your claim with randomly selected anonymous true peers from your community*, and creates *an immutable proof of certification, valid forever (or as long as the credential should be valid)*.",
     image: "/assets/credentials/c-2.svg"
   },
   {
@@ -17,7 +17,7 @@ export const cards = [
     index: 3,
     title: "Are more than badges",
     content:
-      "While similar to badges in flexibility, our credentials are more powerful because they undergo a strict and dependable community-based process to validate their authenticity. While also ensuring privacy and confidentiality of the evidence data using MINA Zero Knowledge proofs.",
+      "While similar to badges in flexibility, our credentials are more powerful because they undergo a strict and dependable community-based process to validate their authenticity. Are also ensuring confidentiality of the evidence data fortified by the unique MINA protocol Zero Knowledge privacy and proving capabilities.",
     image: "/assets/credentials/c-3.svg",
   },
   {
@@ -45,7 +45,7 @@ export const cards = [
     index: 7,
     title: "Build trust and reputation",
     content:
-      "Credentials establish trust and credibility within a community, verifying skills, expertise, and contributions and providing a way to establish a reputation. And our strict and dependable community-based process to validate their authenticity provides an unprecendent level of trust.",
+      "Credentials establish trust and credibility within a community, verifying skills, expertise, and contributions and providing a way to establish a reputation. And our strict and dependable community-based process to validate their authenticity provides an unprecedented level of trust.",
     image: "/assets/credentials/c-7.svg",
   },
 ];
