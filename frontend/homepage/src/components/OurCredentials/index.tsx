@@ -33,9 +33,9 @@ const OurCredentials: NextPage = () => {
         >
           {/* <Carousel gap={0}> */}
 
-          {cards.map((card) => (
+          {cards.map((card, i) => (
             <Flex
-              key={card.index}
+              key={i}
               justifyContent="space-between"
               flexDirection="column"
               overflow="hidden"

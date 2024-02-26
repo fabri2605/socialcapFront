@@ -1,6 +1,7 @@
 import styles from "./card.module.css";
 import { Stack, Text, Image, useBreakpointValue } from "@chakra-ui/react";
 import { colors } from "@/theme/colors";
+import React from "react";
 export interface CardType {
   index: number;
   title: string;
@@ -15,10 +16,12 @@ const Card = ({ card }: Props) => {
   // const showImage = useBreakpointValue([false, true]);
   const isOdd = card.index % 2 === 0;
 
+  // separe paragraphs on dots
   const paragraphs = card.content
     .split(".")
     .map((e) => e + ".")
     .slice(0, -1);
+
   return (
     <Stack
       data-aos={!isOdd ? "fade-left" : "fade-right"}
@@ -45,29 +48,30 @@ const Card = ({ card }: Props) => {
         >
           {card.title}
         </Text>
-        {paragraphs.map((p, index) => (
-          <>
-            {p.split("*").map((part, i) => (
-              <>
-                {i % 2 === 0 ? ( // Check if it's an even index to determine if it's between *
-                  <Text
-                    fontSize={["16px", "18px"]}
-                    fontWeight={i % 2 === 0 ? 800: 400}
-                    lineHeight={["24px", "28px"]}
-                    letterSpacing={"-0.4px"}
-                    wordBreak={"break-word"}
-                    color={"black"}
-                  >
-                    {part}
-                  </Text>
-                ) : (
-                  part // This part is between * and won't have styles applied
-                )}
-              </>
-            ))}
-            &nbsp;
-          </>
-        ))}
+        {paragraphs.map((p, index) => {
+          // here we are going to go bold the strings between asterisks
+          let splitted = p.split("*");
+          return (
+            <React.Fragment key={index}>
+              <Text
+                key={index + "text"}
+                fontSize={["16px", "18px"]}
+                fontWeight={400}
+                lineHeight={["24px", "28px"]}
+                letterSpacing={"-0.4px"}
+                wordBreak={"break-word"}
+                color={"black"}
+              >
+                {splitted.map((str, ind) => (
+                  ind % 2 === 0 ? <React.Fragment key={ind}>{str}</React.Fragment> : <b key={ind}>{str}</b>
+                ))}
+              </Text>
+              &nbsp;
+            </React.Fragment>
+          )
+        }
+        )
+        }
       </Stack>
       {/* {showImage && ( */}
       <Stack>

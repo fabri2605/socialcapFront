@@ -2,7 +2,7 @@
 
 Forget about likes or blue checks, that can be easily faked, boted or bought. 
 
-Our protocol <b>strictly validates your claim with randomly selected anonymous true peers from your community</b>, and creates <b>an immutable proof of certification, valid forever (or as long as the credential should be valid)</b>.
+Our protocol *strictly validates your claim with randomly selected anonymous true peers from your community*, and creates *an immutable proof of certification, valid forever (or as long as the credential should be valid)*.
 
 # Improve governance and transparency
 
